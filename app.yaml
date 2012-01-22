@@ -1,0 +1,19 @@
+application: timeintab
+version: 7
+runtime: python
+api_version: 1
+
+handlers:
+
+- url: /
+  static_files: sf/index.html
+  upload: sf/index.html
+
+- url: /sf/main.appcache
+  static_files: sf/main.appcache
+  mime_type: text/cache-manifest
+  upload: sf/main.appcache
+  expiration: "1s"
+
+- url: /sf
+  static_dir: sf

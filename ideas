@@ -1,0 +1,58 @@
+====new themes
+-http://www.freechristmaswallpapers.net/images/wallpapers/peaceful-christmas-village-800-458462.jpeg
+
+
+check name of time/clock in my ipod nano and in iphone
+add html5 clock in html description
+buy clock-tab.com
+
+==later
+failure to load font -> regularary retry
+cross browser
+"add to chrome" inline chrome popup
+buy clocktab.com
+-rename to clock tab?
+
+==ll
+fix seconds size
+restrict key to time-tab.com and localhost
+color picker
+add analog clock -- http://randomibis.com/coolclock/
+
+==lll
+if windows get really small => like favicon layout
+add calender overview
+sponsered themes -- rolex theme with a real rolex as time in the middle
+
+==themes
+steel, classy, simple
+'Dancing Script'
+'Gruppo'
+'Coda Caption'
+'Nothing You Could Do'
+'Syncopate'
+'Maven Pro'
+'Copse'
+'Cabin Sketch'
+'Redressed' -- old paper
+'Allerta Stencil'
+'Orbiton' -- digital
+'Limelight'
+'Michroma' --  steel alike
+'Ultra'  -- lobster alike
+'Black Ops' -- gaming
+'Nova Oval' -- pink/beach
+'Modern Antiqua'
+'Forum'
+'Stardos Stencil'
+
+==overhead features
+//{{{
+get exact time with ip of user
+-> if couple of minutes mismatch with time given by JS -> "you may want to adjust your system time"
+integrate timer tab
+-evtl. integrate inboxN
+-time tab extension
+ -make list of most visited web pages with shortcut for each of it
+  -for every web page in this list with an API use this API to make notification
+//}}}

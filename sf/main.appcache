@@ -1,0 +1,14 @@
+CACHE MANIFEST
+#rev 64
+
+CACHE:
+index.html
+_.js
+_.css
+
+NETWORK:
+http://www.google-analytics.com
+http://ajax.googleapis.com
+https://www.googleapis.com
+http://fonts.googleapis.com
+*
