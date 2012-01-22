@@ -1,0 +1,19 @@
+{
+  "name": "Clock",
+  "description": "Displays the current Time. Featuring \"Time Icon\" and customizable Themes. Made by the Creator of Timer Tab.",
+  "version": "1.6.4.2",
+  "offline_enabled": true,
+  "icons": {
+     "128": "128.png",
+     "48":  "48.png",
+     "16":  "16.png"
+  },
+  "app": {
+    "urls": [
+      "http://www.clocktab.com/"
+    ],
+    "launch": {
+      "web_url": "http://www.clocktab.com/"
+    }
+  }
+}
