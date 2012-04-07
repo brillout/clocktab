@@ -1,7 +1,8 @@
 {
   "name": "Clock",
   "description": "Simply the Time in the Tab Window and Tab Icon",
-  "version": "1.6.3",
+  "version": "1.6.4",
+  "offline_enabled": true,
   "icons": { "128": "128.png" },
   "app": {
     "urls": [
