@@ -1,0 +1,12 @@
+{
+  "version": "0.2",
+  "name": "Clock",
+  "description": "Simply the Time in the Tab Window and Tab Icon",
+  "developer": {
+    "name": "Romuald Brillout",
+    "url": "http://www.brillout.com"
+  },
+  "installs_allowed_from": [
+    "*"
+  ]
+}
