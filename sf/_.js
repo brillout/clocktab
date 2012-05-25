@@ -5,9 +5,9 @@ var DEFAULT_BG     = '#fff';
 var DEFAULT_FONT   = 'Josefin Slab';
 var DEFAULT_FCOL   = '#333';
 var FS_NAME        = "fs";
-var timeEl         = $('time');
-var dateEl         = $('date');
-var contentEl      = $('content');
+var timeEl         = document.getElementById('time');
+var dateEl         = document.getElementById('date');
+var contentEl      = document.getElementById('content');
 var MIN_WIDTH      = 450
 
 /* SIZE of time */
@@ -58,7 +58,7 @@ var getOpt;
       var ret   = theme && themes[theme] && themes[theme][id];
       if(ret) return ret;
     }
-    var el = $(id);
+    var el = document.getElementById(id);
     return el.type==='text'||el.nodeName==='SELECT'?el.value:!!el.checked;
   };
   //}}}
@@ -133,18 +133,18 @@ var getOpt;
     }
 
     setTimeout(function(){//gecko requires a timeout
-      $('description')  .style.opacity='0';
-      $('optionsToggle').style.opacity='0';
+      document.getElementById('description')  .style.opacity='0';
+      document.getElementById('optionsToggle').style.opacity='0';
     },200);
-    $('optionsToggle').onclick=function(){document.documentElement['classList']['add']('options');$('optionsToggle').style.opacity='1'};
-    document.body.onclick=function(ev) { var target=ml.getEventSource(ev); if(!ml.isChildOf(target,$('optionsToggle'))&&!ml.isChildOf(target,$('options'))){document.documentElement['classList']['remove']('options');$('optionsToggle').style.opacity=0}};
+    document.getElementById('optionsToggle').onclick=function(){document.documentElement['classList']['add']('options');document.getElementById('optionsToggle').style.opacity='1'};
+    document.body.onclick=function(ev) { var target=ml.getEventSource(ev); if(!ml.isChildOf(target,document.getElementById('optionsToggle'))&&!ml.isChildOf(target,document.getElementById('options'))){document.documentElement['classList']['remove']('options');document.getElementById('optionsToggle').style.opacity=0}};
 
-    $('theme').innerHTML='<option label="custom" value="">custom</option>';
+    document.getElementById('theme').innerHTML='<option label="custom" value="">custom</option>';
     for(var i in themes)
     {
       var fop=document.createElement('option');
       fop.innerHTML=i;
-      $('theme').appendChild(fop);
+      document.getElementById('theme').appendChild(fop);
     }
   })();
   //}}}
@@ -179,7 +179,7 @@ var getOpt;
           }
         })
       };
-      loader('Arvo',function(){$('options').style.fontFamily='Arvo'});
+      loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
       refreshFont();
     });
   /*
@@ -198,7 +198,7 @@ var getOpt;
           },100);
         }});
       };
-      setFont($('options'),'Arvo');
+      setFont(document.getElementById('options'),'Arvo');
       refreshFont();
     });
     //}}}
@@ -273,7 +273,7 @@ var getOpt;
       setSize();
     }
     //}}}
-    ml.fullscreenElement(bigger,unbigger,[$('time')],'f');
+    ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f');
   })();
   //}}}
 //}}}
@@ -370,17 +370,17 @@ spark();
   window['onfontsload']=function(resp)
   {
     var fonts=resp['items'];
-    var val = $('font').value;
-    $('font').innerHTML='';
+    var val = document.getElementById('font').value;
+    document.getElementById('font').innerHTML='';
     var max=300;//firefox crashes when selecting a from too many options
     for(var i in fonts)
     {
       if(ml.browser().usesGecko && !max--)break;
       var fop=document.createElement('option');
       fop.innerHTML=fonts[i]['family'];
-      $('font').appendChild(fop);
+      document.getElementById('font').appendChild(fop);
     }
-    $('font').value=val;
+    document.getElementById('font').value=val;
   };
   ml.loadScript('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 //}}}
