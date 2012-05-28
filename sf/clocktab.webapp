@@ -1,7 +1,7 @@
 {
-  "version": "0.2",
+  "version": "0.3",
   "name": "Clock",
-  "description": "Simply the Time in the Tab Window and Tab Icon",
+  "description": "Simply the Time",
   "developer": {
     "name": "Romuald Brillout",
     "url": "http://www.brillout.com"

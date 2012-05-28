@@ -1,6 +1,6 @@
+retry loading of scripts
+
 ====new themes
--add random option
- -change random name
 -http://2.bp.blogspot.com/-eJSMIQwXtwA/T3ayyH0WOpI/AAAAAAAABjI/nx5Snbob4sk/s1600/Village+Art+Wallpapers+3.jpg
  -http://i.imgur.com/ObUVk.jpg
 -http://fondos.portalgeek.org/wallpaper-original/wallpapers/ocean-gmail-theme-215.jpg
@@ -8,6 +8,9 @@
 -http://i.imgur.com/TCua3.jpg
  -original: http://good-wallpapers.com/pictures/6439/Golf%20With%20Sun.jpg
 
+add shadow to ocean+grey theme
+-ocean: text-shadow: 1px 1px 2px #666; 
+-grey:     text-shadow: 0 1px 1px #000;
 
 check name of time/clock in my ipod nano and in iphone
 add "html5 clock" in meta description tag

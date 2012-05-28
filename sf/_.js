@@ -1,9 +1,9 @@
 (function(){
 
 var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-var DEFAULT_BG     = '#fff';
+var DEFAULT_BG     = '#ffffff';
 var DEFAULT_FONT   = 'Josefin Slab';
-var DEFAULT_FCOL   = '#333';
+var DEFAULT_FCOL   = '#333333';
 var FS_NAME        = "fs";
 var timeEl         = document.getElementById('time');
 var dateEl         = document.getElementById('date');
@@ -48,27 +48,12 @@ window.addEventListener('resize',setSize,false);
 var getOpt;
 (function(){
 //{{{
- //generate options
-  getOpt=function(id)
-  //{{{
-  {
-    if(id!=='theme')
-    {
-      var theme = getOpt('theme');
-      var ret   = theme && themes[theme] && themes[theme][id];
-      if(ret) return ret;
-    }
-    var el = document.getElementById(id);
-    return el.type==='text'||el.nodeName==='SELECT'?el.value:!!el.checked;
-  };
-  //}}}
-
  var opts = [
    {id:'theme'             ,description:'theme'           ,default_:'lobster'                         },
    {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT,negDependency:'theme'},
    {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL,negDependency:'theme'},
    {id:'bg'                ,description:'background image',default_:DEFAULT_BG  ,negDependency:'theme'},
-   {id:'color_icon'        ,description:'icon color'      ,default_:'#c00'                            },
+   {id:'color_icon'        ,description:'icon color'      ,default_:'#cc0000'                         },
    {id:'show_seconds_title',description:'seconds in title',default_:false                             },
    {id:'show_seconds'      ,description:'seconds'         ,default_:false                             },
    {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                    },
@@ -79,34 +64,63 @@ var getOpt;
 
  var themes = {
    'simple':{
-      'bg':'#fff',
+      'bg':'#ffffff',
       'font':'Syncopate',
-      'color_font':'#333'},
+      'color_font':'#333333'},
    'steel':{
       'bg':'http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg',
       'font':'Syncopate',
-      'color_font':'#a00'},
+      'color_font':'#aa0000'},
+   'grey':{
+      'bg':'#3D3F42',
+      'font':'Lora',
+      'color_font':'#EBEBF1'},
+      /*TODO add text-shadow: 0 1px 1px #000; to grey theme*/
    'lobster':{
-      'bg':'#300',
+      'bg':'#330000',
       'font':'Lobster',
-      'color_font':'#333'},
+      'color_font':'#333333'},
    'digital':{
       'bg':'black',
       'font':'Orbitron',
-      'color_font':'#0f0'},
+      'color_font':'#00ff00'},
    'paper':{
       //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
       'bg':'http://i.imgur.com/x97za.jpg',
       'font':'Redressed',
-      'color_font':'#111'},
+      'color_font':'#111111'},
    'ocean':{
       'bg':'http://www.hotelclubposeidon.it/grafica/background.jpg',
       'font':'Michroma',
-      'color_font':'#aaa'},
+      'color_font':'#aaaaaa'},
    'classy':{
       'bg':'http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg',
       'font':'Nothing You Could Do',
-      'color_font':'#00a'}};
+      'color_font':'#0000aa'}};
+
+
+  var randomTheme = (function()
+  {
+    var random = Math.floor(Math.random()*ml.len(themes));
+    var counter=0;
+    for(var ret in themes) if(counter++===random) return ret;
+  })();
+
+  //generate options
+  getOpt=function(id)
+  //{{{
+  {
+    if(id!=='theme')
+    {
+      var theme = getOpt('theme');
+      if(theme==='random') theme=randomTheme;
+      var ret   = theme && themes[theme] && themes[theme][id];
+      if(ret) return ret;
+    }
+    var el = document.getElementById(id);
+    return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
+  };
+  //}}}
 
   //generate html options
   //{{{
@@ -116,30 +130,50 @@ var getOpt;
     for(var i=0;i<opts.length;i++)
     {
       var opt = opts[i];
-      opt.dom = document.createElement('span');
-      opt.dom.innerHTML=opt.description;
+      opt.dom = document.createElement('label');
+      opt.dom.setAttribute('class','opti');
+      opt.dom.appendChild(document.createElement('span')).innerHTML=opt.description;//+'&nbsp;';
+      //opt.dom.innerHTML=opt.description;
       opt.input = document.createElement(opt.id==='font'||opt.id==='theme'?'select':'input');
         opt.input.id   = opt.id;
         var isCheckbox = opt.default_===false || opt.default_===true;
         if(opt.input.nodeName==='INPUT')
         {
-          opt.input.type = isCheckbox?'checkbox':'text';
+          opt.input.type = isCheckbox?'checkbox':(opt.id==='font_size'?'text':'color');
           if(!isCheckbox) opt.input.style.width='35px';
         }
-        else opt.input.style.width=opt.id==='font'?'90px':'68px';
+        else opt.input.style.width=opt.id==='font'?'90px':'83px';
         if(isCheckbox) opt.dom.prependChild(opt.input);
         else           opt.dom. appendChild(opt.input);
+      if(opt.input.type.toLowerCase()!=='text') opt.dom['classList']['add']('pointerCursor');
       optionsEl.appendChild(opt.dom);
     }
 
+    var optionsEl = document.getElementById('options');
+    if(ml.browser().usesWebkit)
+    {
+      var initMoveFired=false;
+      window.onmousemove=function(ev) {
+         if(!initMoveFired++) return;
+         optionsEl.setAttribute('class','hoverEnabled');
+         delete window.onmousemove;
+      };
+    }
+    else optionsEl.setAttribute('class','hoverEnabled');
+    setTimeout(function(){
+      document.getElementById('options').style.opacity='';
+    },2000);
+    /*
+    //add option toggle
     setTimeout(function(){//gecko requires a timeout
-      document.getElementById('description')  .style.opacity='0';
       document.getElementById('optionsToggle').style.opacity='0';
     },200);
     document.getElementById('optionsToggle').onclick=function(){document.documentElement['classList']['add']('options');document.getElementById('optionsToggle').style.opacity='1'};
     document.body.onclick=function(ev) { var target=ml.getEventSource(ev); if(!ml.isChildOf(target,document.getElementById('optionsToggle'))&&!ml.isChildOf(target,document.getElementById('options'))){document.documentElement['classList']['remove']('options');document.getElementById('optionsToggle').style.opacity=0}};
+    */
 
-    document.getElementById('theme').innerHTML='<option label="custom" value="">custom</option>';
+    //populate theme option
+    document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
     for(var i in themes)
     {
       var fop=document.createElement('option');
@@ -273,7 +307,7 @@ var getOpt;
       setSize();
     }
     //}}}
-    ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f');
+    ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f',true);//mozRequestFullScreen broken for installed webapps
   })();
   //}}}
 //}}}
