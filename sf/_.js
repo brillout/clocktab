@@ -1,11 +1,10 @@
 (function(){
-
 var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
 var DEFAULT_BG     = '';
 var DEFAULT_FONT   = 'Josefin Slab';
 var DEFAULT_FCOL   = '#333333';
 var DEFAULT_SHADOW = '';
-var DEFAULT_THEME  = 'grey';
+var DEFAULT_THEME  = 'steel';
 var FS_NAME        = "fs";
 var timeEl         = document.getElementById('time');
 var dateEl         = document.getElementById('date');
@@ -73,8 +72,7 @@ var getOpt;
    'steel':{
       'bg':'http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg',
       'font':'Syncopate',
-      //'color_font':'#aa0000'},
-      'color_font':'#fafafa'},
+      'color_font':'#e9e9e9'},
    'grey':{
       'bg':'#3D3F42',
       'font':'Lora',
@@ -306,7 +304,6 @@ var getOpt;
   {
     if(ml.browser().usesGecko)
     {
-      //on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
       document.getElementById('time').style.cursor='default';
       return;
     }
@@ -442,3 +439,45 @@ spark();
   ml.loadScript('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 //}}}
 })();
+
+//mozApp specifics
+(function(){
+//{{{
+//on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
+/*
+if(ml.browser().usesGecko)
+{
+  document.documentElement.innerHTML='';
+  function alert(msg)
+  {
+    document.documentElement.innerHTML+=JSON.stringify(msg)+"<br>";
+  }
+  alert('alert working');
+  if(window['navigator']['mozApps'] && window['navigator']['mozApps']['getSelf'])
+  {
+    var keys=[];
+    for(var i in window['navigator']['mozApps']) keys.push(i);
+    alert(keys);
+    alert(window['navigator']['mozApps']);
+    window['navigator']['mozApps']['getSelf']()       ['onsuccess']=function(){alert(this['result'])};
+    window['navigator']['mozApps']['getInstalled']()  ['onsuccess']=function(){alert(this['result'])};
+    window['navigator']['mozApps']['mgmt']['getAll']()['onsuccess']=function(){alert(this['result'])};
+  }
+  else alert("not passed");
+  //on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
+  document.getElementById('time').style.cursor='default';
+  return;
+}
+*/
+if(ml.browser().usesGecko)
+{
+  document.getElementById('color_icon')        .parentElement.style.display='none';
+  document.getElementById('show_seconds_title').parentElement.style.display='none';
+  /* not working, done earlier
+  document.getElementById('time').onclick=undefined;
+  document.getElementById('time').style.cursor='default';
+  */
+}
+//}}}
+})();
+
