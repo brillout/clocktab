@@ -149,7 +149,7 @@ body
   position: fixed;
   top: 0;
   z-index: 2;
-  eopacity: 0;
+  opacity: 0;
 }
 
 #options.hoverEnabled:hover

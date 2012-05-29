@@ -1,7 +1,7 @@
 (function(){
 
 var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-var DEFAULT_BG     = '#ffffff';
+var DEFAULT_BG     = '';
 var DEFAULT_FONT   = 'Josefin Slab';
 var DEFAULT_FCOL   = '#333333';
 var DEFAULT_SHADOW = '';
@@ -51,19 +51,19 @@ var getOpt;
 (function(){
 //{{{
  var opts = [
-   {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                       },
-   {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT  ,negDependency:'theme'},
-   {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL  ,negDependency:'theme'},
-   {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW,negDependency:'theme'},
+   {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                             },
+   {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT        ,negDependency:'theme'},
+   {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
+   {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
    {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
-   {id:'bg'                ,description:'background image',default_:DEFAULT_BG    ,negDependency:'theme'},
+   {id:'bg'                ,description:'background'      ,default_:DEFAULT_BG          ,negDependency:'theme',placeholder:'url or color'},
    {id:'color_icon'        ,description:'icon color'      ,default_:'#cc0000'                           },
    {id:'show_seconds_title',description:'seconds in title',default_:false                               },
    {id:'show_seconds'      ,description:'seconds'         ,default_:false                               },
    {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
-   {id:'show_pm'           ,description:'am/pm'           ,default_:true ,dependency:'12_hour'          },
-   {id:'show_date'         ,description:'date'            ,default_:true                                },
-   {id:'show_week'         ,description:'week'            ,default_:false,dependency:'show_date'        }];
+   {id:'show_pm'           ,description:'am/pm'           ,default_:true                ,dependency:'12_hour'          },
+   {id:'show_date'         ,description:'date'            ,default_:true                                               },
+   {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }];
 
  var themes = {
    'simple':{
@@ -80,7 +80,6 @@ var getOpt;
       'font':'Lora',
       'font_shadow':'0 1px 1px #000',
       'color_font':'#EBEBF1'},
-      /*TODO add text-shadow: 0 1px 1px #000; to grey theme*/
    'lobster':{
       'bg':'#330000',
       'font':'Lobster',
@@ -99,7 +98,6 @@ var getOpt;
       'font':'Michroma',
       'font_shadow':'1px 1px 2px #888',
       'color_font':'#aaaaaa'},
-      //'color_font':'#444444'},
    'classy':{
       'bg':'http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg',
       'font':'Nothing You Could Do',
@@ -145,14 +143,21 @@ var getOpt;
         opt.input.id   = opt.id;
         var isCheckbox   = opt.default_===false || opt.default_===true;
         var isColorInput = opt.default_[0]==='#';
+        var isTextInput  = !isCheckbox && !isColorInput;
         if(opt.input.nodeName==='INPUT')
         {
+          if(isColorInput) opt.input.style.width = '35px';
+          if(isTextInput)
+          {
+            if(opt.placeholder || opt.default_) opt.input.size=(opt.placeholder || opt.default_).length*3/4;
+            else opt.input.style.width = '35px';
+          }
           opt.input.type = isCheckbox?'checkbox':(isColorInput?'color':'text');
-          if(!isCheckbox) opt.input.style.width='35px';
         }
         else opt.input.style.width=opt.id==='font'?'90px':'83px';
         if(isCheckbox) opt.dom.prependChild(opt.input);
         else           opt.dom. appendChild(opt.input);
+        if(opt.placeholder) opt.input.placeholder=opt.placeholder;
       if(isCheckbox || isColorInput) opt.dom['classList']['add']('pointerCursor');
       optionsEl.appendChild(opt.dom);
     }
@@ -299,6 +304,12 @@ var getOpt;
   //{{{
   (function()
   {
+    if(ml.browser().usesGecko)
+    {
+      //on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
+      document.getElementById('time').style.cursor='default';
+      return;
+    }
     function bigger()
     //{{{
     {
@@ -319,7 +330,7 @@ var getOpt;
       setSize();
     }
     //}}}
-    ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f',true);//mozRequestFullScreen broken for installed webapps
+    ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f');
   })();
   //}}}
 //}}}
