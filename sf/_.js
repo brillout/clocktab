@@ -3,6 +3,8 @@ var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.n
 var DEFAULT_BG     = '';
 var DEFAULT_FONT   = 'Josefin Slab';
 var DEFAULT_FCOL   = '#333333';
+//var DEFAULT_ICOL   = '#cc0000';
+var DEFAULT_ICOL   = '#007000';
 var DEFAULT_SHADOW = '';
 var DEFAULT_THEME  = 'steel';
 var FS_NAME        = "fs";
@@ -56,7 +58,7 @@ var getOpt;
    {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
    {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
    {id:'bg'                ,description:'background'      ,default_:DEFAULT_BG          ,negDependency:'theme',placeholder:'url or color'},
-   {id:'color_icon'        ,description:'icon color'      ,default_:'#cc0000'                           },
+   {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
    {id:'show_seconds_title',description:'seconds in title',default_:false                               },
    {id:'show_seconds'      ,description:'seconds'         ,default_:false                               },
    {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
