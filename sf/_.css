@@ -6,7 +6,7 @@ input[type='checkbox'] {
     height: 16px;
     width: 28px;
     position: relative;
-    vertical-align: top;
+    /*vertical-align: top;*/
     margin-right: 3px;
     -webkit-appearance: none;
     -webkit-border-radius: 3px;
@@ -36,27 +36,40 @@ input[type='checkbox']:checked:after {
     left: 1px;    
 }
 
-label {
-    display: block;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
 /*}}}*/
+
+label
+{
+  margin: 7px;
+  /*white-space: nowrap;*/
+  display: inline-block;
+}
+label > *
+{
+  margin: 2px;
+}
 
 label.pointerCursor,
 label.pointerCursor > *
 {
   cursor: pointer !important;
 }
-.opti
+
+/* vertical align options*/
+label:before
 {
-  display: inline-table;
+  content: " ";
+  height: 100%;
+  width: 0;
 }
-.opti > *
+label:before,
+label > *
 {
-  display: table-cell;
+  display: inline-block;
   vertical-align: middle;
 }
+
+
 /* color input playground: http://jsfiddle.net/BC7JD/2/ */
 input[type='color']
 {
@@ -92,9 +105,14 @@ body
 {
   background:rgba(200,200,200,0.7);
   width: 100%;
-  padding-top: 4px;
   padding: 0.8em 0;
+  text-shadow: none;
 }
+#options span
+{
+  color: #333;
+}
+/*
 #options *
 {
   margin: 0px 7px 4px;
@@ -105,6 +123,7 @@ body
 {
   margin: 3px;
 }
+*/
 
 #options.hoverEnabled:hover
 {
@@ -130,7 +149,7 @@ body
   position: fixed;
   top: 0;
   z-index: 2;
-  opacity: 0;
+  eopacity: 0;
 }
 
 #options.hoverEnabled:hover

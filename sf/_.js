@@ -4,6 +4,8 @@ var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.n
 var DEFAULT_BG     = '#ffffff';
 var DEFAULT_FONT   = 'Josefin Slab';
 var DEFAULT_FCOL   = '#333333';
+var DEFAULT_SHADOW = '';
+var DEFAULT_THEME  = 'grey';
 var FS_NAME        = "fs";
 var timeEl         = document.getElementById('time');
 var dateEl         = document.getElementById('date');
@@ -49,18 +51,19 @@ var getOpt;
 (function(){
 //{{{
  var opts = [
-   {id:'theme'             ,description:'theme'           ,default_:'lobster'                         },
-   {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT,negDependency:'theme'},
-   {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL,negDependency:'theme'},
-   {id:'bg'                ,description:'background image',default_:DEFAULT_BG  ,negDependency:'theme'},
-   {id:'color_icon'        ,description:'icon color'      ,default_:'#cc0000'                         },
-   {id:'show_seconds_title',description:'seconds in title',default_:false                             },
-   {id:'show_seconds'      ,description:'seconds'         ,default_:false                             },
-   {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                    },
-   {id:'show_pm'           ,description:'am/pm'           ,default_:true ,dependency:'12_hour'        },
-   {id:'show_date'         ,description:'date'            ,default_:true                              },
-   {id:'show_week'         ,description:'week'            ,default_:false,dependency:'show_date'      },
-   {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()              }];
+   {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                       },
+   {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT  ,negDependency:'theme'},
+   {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL  ,negDependency:'theme'},
+   {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW,negDependency:'theme'},
+   {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
+   {id:'bg'                ,description:'background image',default_:DEFAULT_BG    ,negDependency:'theme'},
+   {id:'color_icon'        ,description:'icon color'      ,default_:'#cc0000'                           },
+   {id:'show_seconds_title',description:'seconds in title',default_:false                               },
+   {id:'show_seconds'      ,description:'seconds'         ,default_:false                               },
+   {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
+   {id:'show_pm'           ,description:'am/pm'           ,default_:true ,dependency:'12_hour'          },
+   {id:'show_date'         ,description:'date'            ,default_:true                                },
+   {id:'show_week'         ,description:'week'            ,default_:false,dependency:'show_date'        }];
 
  var themes = {
    'simple':{
@@ -70,10 +73,12 @@ var getOpt;
    'steel':{
       'bg':'http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg',
       'font':'Syncopate',
-      'color_font':'#aa0000'},
+      //'color_font':'#aa0000'},
+      'color_font':'#fafafa'},
    'grey':{
       'bg':'#3D3F42',
       'font':'Lora',
+      'font_shadow':'0 1px 1px #000',
       'color_font':'#EBEBF1'},
       /*TODO add text-shadow: 0 1px 1px #000; to grey theme*/
    'lobster':{
@@ -92,7 +97,9 @@ var getOpt;
    'ocean':{
       'bg':'http://www.hotelclubposeidon.it/grafica/background.jpg',
       'font':'Michroma',
+      'font_shadow':'1px 1px 2px #888',
       'color_font':'#aaaaaa'},
+      //'color_font':'#444444'},
    'classy':{
       'bg':'http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg',
       'font':'Nothing You Could Do',
@@ -136,16 +143,17 @@ var getOpt;
       //opt.dom.innerHTML=opt.description;
       opt.input = document.createElement(opt.id==='font'||opt.id==='theme'?'select':'input');
         opt.input.id   = opt.id;
-        var isCheckbox = opt.default_===false || opt.default_===true;
+        var isCheckbox   = opt.default_===false || opt.default_===true;
+        var isColorInput = opt.default_[0]==='#';
         if(opt.input.nodeName==='INPUT')
         {
-          opt.input.type = isCheckbox?'checkbox':(opt.id==='font_size'?'text':'color');
+          opt.input.type = isCheckbox?'checkbox':(isColorInput?'color':'text');
           if(!isCheckbox) opt.input.style.width='35px';
         }
         else opt.input.style.width=opt.id==='font'?'90px':'83px';
         if(isCheckbox) opt.dom.prependChild(opt.input);
         else           opt.dom. appendChild(opt.input);
-      if(opt.input.type.toLowerCase()!=='text') opt.dom['classList']['add']('pointerCursor');
+      if(isCheckbox || isColorInput) opt.dom['classList']['add']('pointerCursor');
       optionsEl.appendChild(opt.dom);
     }
 
@@ -252,15 +260,18 @@ var getOpt;
       {
         var opt = opts[i];
         var toHide=opt.dependency && !getOpt(opt.dependency) || opt.negDependency && getOpt(opt.negDependency);
-          opt.dom.style.width     =toHide?'0px'   :'auto';
-          opt.dom.style.height    =toHide?'0px'   :'auto';
+          opt.dom.style.width     =toHide?'0px'   :'';
+          opt.dom.style.height    =toHide?'0px'   :'';
+          //opt.dom.style.width     =toHide?'0px'   :'auto';
+          //opt.dom.style.height    =toHide?'0px'   :'auto';
           opt.dom.style.visibility=toHide?'hidden':'visible';
           opt.dom.style.position  =toHide?'absolute':'';
           opt.dom.style.zIndex    =toHide?'-1':'';
       }
     }
-    function colorChangeListener(){document.documentElement.style.color=getOpt('color_font')}
-    function themeChangeListener(){colorChangeListener();refreshFont();bgChanger(getOpt('bg'));setOptVisibility()}
+    function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
+    function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
+    function themeChangeListener(){fontShadowListener();colorChangeListener();refreshFont();bgChanger(getOpt('bg'));setOptVisibility()}
 
     var bgChanger;
     for(var i=0;i<opts.length;i++)
@@ -272,10 +283,11 @@ var getOpt;
       else
       {
         var changeListener;
-        if(opt.id==='color_font') changeListener=colorChangeListener;
-        else if(opt.id==='theme') changeListener=themeChangeListener;
-        else if(opt.id==='font')  changeListener=refreshFont;
-        else                      changeListener=function(){domBeat(true);setOptVisibility()};
+        if(opt.id==='font_shadow') changeListener=fontShadowListener;
+        if(opt.id==='color_font')  changeListener=colorChangeListener;
+        else if(opt.id==='theme')  changeListener=themeChangeListener;
+        else if(opt.id==='font')   changeListener=refreshFont;
+        else                       changeListener=function(){domBeat(true);setOptVisibility()};
         ml.persistantInput(opt.id,changeListener,opt.default_,0,true);
       }
     }
