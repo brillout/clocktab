@@ -12,7 +12,7 @@ var FS_NAME        = "fs";
 var timeEl         = document.getElementById('time');
 var dateEl         = document.getElementById('date');
 var contentEl      = document.getElementById('content');
-var MIN_WIDTH      = 450
+var MIN_WIDTH      = 550
 
 /* SIZE of time */
 function setSize(){
