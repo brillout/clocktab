@@ -17,8 +17,12 @@ check name of time/clock in my ipod nano and in iphone
 add "html5 clock" in meta description tag
 
 ==later
-cross browser
-"add to chrome" inline chrome popup
+-cross browser
+-"add to chrome" inline chrome popup
+-cache themes
+ -http://updates.html5rocks.com/2012/04/Taking-an-Entire-Page-Offline-using-the-HTML5-FileSystem-API
+ -http://stackoverflow.com/questions/7306443/is-there-a-internal-url-for-the-file-api-directories-and-filesystem-on-chrome
+-use desktop images -- http://hacks.mozilla.org/2011/03/the-shortest-image-uploader-ever/
 
 ==ll
 fix seconds size
