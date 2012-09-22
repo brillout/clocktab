@@ -1,9 +1,14 @@
 {
   "name": "Clock",
   "description": "Simply the Time in the Tab Window and Tab Icon",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "offline_enabled": true,
-  "icons": { "128": "128.png" },
+  "icons": {
+     "256": "256.png",
+     "128": "256.png",
+     "32":  "256.png",
+     "16":  "256.png"
+  },
   "app": {
     "urls": [
       "http://www.clocktab.com/",
