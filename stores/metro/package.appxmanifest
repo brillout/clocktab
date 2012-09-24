@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+
+  <Identity Name="41460brillout.com.4757282C26910" Version="0.0.1.1" Publisher="CN=6A934077-5B05-4CD5-95BE-7E318564B3C1" />
+
+  <Properties>
+    <DisplayName>Clock</DisplayName>
+    <PublisherDisplayName>brillout.com</PublisherDisplayName>
+    <Logo>clock_50x50.png</Logo>
+  </Properties>
+
+  <Prerequisites>
+    <OSMinVersion>6.2</OSMinVersion>
+    <OSMaxVersionTested>6.2</OSMaxVersionTested>
+  </Prerequisites>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application 
+      Id="App"
+      StartPage="index.html">
+
+      <VisualElements
+        DisplayName="Clock"
+        Logo="clock_150x150.png"
+        SmallLogo="clock_30x30.png"
+        Description="Displays the current Time and Date"
+        ForegroundText="light"
+        BackgroundColor="#777777"
+      >
+        <DefaultTile ShortName="Clock" ShowName="allLogos" WideLogo="clock_310x150.png" />
+        <SplashScreen Image="clock_620x300.png"/>
+      </VisualElements>
+    </Application>
+  </Applications>
+
+</Package>
