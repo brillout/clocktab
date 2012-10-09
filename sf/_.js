@@ -284,7 +284,7 @@ var getOpt;
     {
       var opt = opts[i];
       if(opt.id==='bg'){
-        bgChanger=ml.htmlBackground(opt.input.id,opt.dom,opt.default_);
+        bgChanger=ml.htmlBackground(opt.input.id,opt.default_);
       }
       else
       {
