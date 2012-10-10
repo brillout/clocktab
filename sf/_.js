@@ -24,21 +24,21 @@ function setSize(){
   }
 
   //var WIDTH_PERCENT = 40
-  //var time_new_size = timeEl.setTextSize(window.innerWidth<MIN_WIDTH?window.innerWidth:Math.max(Math.floor(window.innerWidth/WIDTH_PERCENT),MIN_WIDTH),window.innerHeight,true);
+  //var time_new_size = ml.getSize(window.innerWidth<MIN_WIDTH?window.innerWidth:Math.max(Math.floor(window.innerWidth/WIDTH_PERCENT),MIN_WIDTH),window.innerHeight,true);
   var minW = getOpt('font_size');
   if(minW) minW=parseInt(minW,10);
   if(!minW) minW=MIN_WIDTH;
-  var time_new_size = timeEl.setTextSize(window.innerWidth<minW?window.innerWidth:minW,window.innerHeight,true);
+  var time_new_size = ml.getTextSize(timeEl,window.innerWidth<minW?window.innerWidth:minW,window.innerHeight);
   ml.assert(time_new_size.width && time_new_size.height);
   if(dateEl.innerHTML!="")
   {
-    var date_new_size = dateEl.setTextSize(time_new_size.width*0.95,window.innerHeight,true);
+    var date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
     var diff = time_new_size.height+date_new_size.height-window.innerHeight;
     if(diff>0)
     {
-      time_new_size = timeEl.setTextSize(window.innerWidth  ,window.innerHeight-date_new_size.height,true);
-      date_new_size = dateEl.setTextSize(time_new_size.width,window.innerHeight-time_new_size.height,true);
-      time_new_size = timeEl.setTextSize(window.innerWidth  ,window.innerHeight-date_new_size.height,true);
+      time_new_size = ml.getTextSize(timeEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+      date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
+      time_new_size = ml.getTextSize(timeEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
     }
     dateEl.style.fontSize = date_new_size.fontSize+'px';
   }
@@ -201,34 +201,40 @@ var getOpt;
   //{{{
     var bodyFontLoader;
     refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
-    ml.loadScript('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function()
-    {
-      function loader(fontName,callback)
-      {
-        var attempts=0;
-        (function do_()
+    (function loadFontApi(){
+      ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
+        console.log(0);
+        if(!window['WebFont']||!window['WebFont']['load']) {
+          console.log('false successfull');
+          setTimeout(loadFontApi,2000);
+          return;
+        }
+        function loader(fontName,callback){
+          var attempts=0;
+          (function do_(){
+          console.log(2);
+            window['WebFont']['load']({'google':{'families':[fontName]},
+                                       'active':callback,
+                                       'fontinactive':function(){setTimeout(do_,Math.max(Math.pow(2,attempts++)*1000,60000))}
+                                     });
+          })();
+        }
+        bodyFontLoader=function()
         {
-          window['WebFont']['load']({'google':{'families':[fontName]},
-                                     'active':callback,
-                                     'fontinactive':function(){setTimeout(do_,Math.pow(2,attempts++)*5*1000)}
-                                   });
-        })();
-      }
-      bodyFontLoader=function()
-      {
-        var fontName = getOpt('font');
-        loader(fontName,function()
-        {
-          if(fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
+          var fontName = getOpt('font');
+          loader(fontName,function()
           {
-            document.body.style.fontFamily=fontName;
-            setSize();
-          }
-        })
-      };
-      loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
-      refreshFont();
-    });
+            if(fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
+            {
+              document.body.style.fontFamily=fontName;
+              setSize();
+            }
+          })
+        };
+        loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
+        refreshFont();
+      });
+    })();
   /*
     var fontChanger;
     ml.loadScript('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function()
@@ -441,7 +447,7 @@ spark();
     }
     document.getElementById('font').value=val;
   };
-  ml.loadScript('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
+  ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 //}}}
 })();
 
