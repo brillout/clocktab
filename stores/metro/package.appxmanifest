@@ -6,7 +6,7 @@
   <Properties>
     <DisplayName>Clock</DisplayName>
     <PublisherDisplayName>brillout.com</PublisherDisplayName>
-    <Logo>clock_50x50.png</Logo>
+    <Logo>50x50.png</Logo>
   </Properties>
 
   <Prerequisites>
@@ -25,14 +25,14 @@
 
       <VisualElements
         DisplayName="Clock"
-        Logo="clock_150x150.png"
-        SmallLogo="clock_30x30.png"
+        Logo="150x150.png"
+        SmallLogo="30x30.png"
         Description="Displays the current Time and Date"
         ForegroundText="light"
         BackgroundColor="#777777"
       >
-        <DefaultTile ShortName="Clock" ShowName="allLogos" WideLogo="clock_310x150.png" />
-        <SplashScreen Image="clock_620x300.png"/>
+        <DefaultTile ShortName="Clock" ShowName="allLogos" WideLogo="310x150.png" />
+        <SplashScreen Image="620x300.png"/>
       </VisualElements>
     </Application>
   </Applications>

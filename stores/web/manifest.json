@@ -1,18 +1,17 @@
 {
   "name": "Clock",
-  "description": "Simply the Time in the Tab Window and Tab Icon",
-  "version": "1.6.5",
+  "description": 'Displays the current Time. Featuring custamizable Themes and "Time Tab Icon". Also displays the time in the Tab Icon. From the Creator of Timer Tab.',
+  "version": "1.6.5.1",
   "offline_enabled": true,
   "icons": {
-     "256": "256.png",
-     "128": "256.png",
-     "32":  "256.png",
-     "16":  "256.png"
+     "256": "TODO",
+     "128": "TODO",
+     "32":  "TODO",
+     "16":  "TODO"
   },
   "app": {
     "urls": [
-      "http://www.clocktab.com/",
-      "http://clocktab.com/"
+      "http://www.clocktab.com/"
     ],
     "launch": {
       "web_url": "http://www.clocktab.com/"

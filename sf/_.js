@@ -1,29 +1,6 @@
 window.onload = function(){
 
-//console todo move this to ml and replace code in tt/sf/_.js
-function replaceWebApp(newUrl) { 
-  if(window.parent!==window) return false;
-   document.body.innerHTML='';
-   var iframe_=document.createElement('iframe');
-   iframe_.src=newUrl;
-   iframe_.setAttribute('frameborder','0');
-   document.documentElement.style['overflow']=document.body.style['overflow']='hidden';
-   document.documentElement.style['margin']  =document.body.style['margin']  ='0';
-   document.documentElement.style['width']   =document.body.style['width']   =
-   document.documentElement.style['height']  =document.body.style['height']  =
-                    iframe_.style['height']  =      iframe_.style['width']   ='100%';
-   document.body.appendChild(iframe_);
-   return true;
-} 
-
-var IS_METRO_APP   = !!window['Windows'];
-//IS_METRO_APP=true;//console
-if(IS_METRO_APP) {
-  console.log(3);
-  if(replaceWebApp('/')) return;//console
-  //replaceWebApp('ms-appx-web:///index.html');
-}
-
+if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
 
 (function(){
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
@@ -82,15 +59,17 @@ if(IS_METRO_APP) {
      {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
      {id:'show_pm'           ,description:'am/pm'           ,default_:true                ,dependency:'12_hour'          },
      {id:'show_date'         ,description:'date'            ,default_:true                                               },
-     {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }];
+     {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }
+   ];
 
-   var themes = {
+   var themes = { 
      'simple':{
         'bg':'#ffffff',
         'font':'Syncopate',
         'color_font':'#333333'},
      'steel':{
-        'bg':'http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg',
+        //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
+        'bg':'http://i.imgur.com/9YKVj.jpg',
         'font':'Syncopate',
         'color_font':'#e9e9e9'},
      'grey':{
@@ -112,15 +91,17 @@ if(IS_METRO_APP) {
         'font':'Redressed',
         'color_font':'#111111'},
      'ocean':{
-        'bg':'http://www.hotelclubposeidon.it/grafica/background.jpg',
+        //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
+        'bg':'http://i.imgur.com/mOHYs.jpg',
         'font':'Michroma',
         'font_shadow':'1px 1px 2px #888',
         'color_font':'#aaaaaa'},
      'classy':{
-        'bg':'http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg',
+      // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
+        'bg':'http://i.imgur.com/0KS5T.jpg',
         'font':'Nothing You Could Do',
-        'color_font':'#0000aa'}};
-
+        'color_font':'#0000aa'}
+   }; 
 
     var randomTheme = (function()
     {
@@ -219,7 +200,7 @@ if(IS_METRO_APP) {
     //{{{
       var bodyFontLoader;
       refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
-      (function loadFontApi(){
+      setTimeout(function loadFontApi(){
         ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
           //onsole.log(0);
           if(!window['WebFont']||!window['WebFont']['load']) {
@@ -252,7 +233,7 @@ if(IS_METRO_APP) {
           loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
           refreshFont();
         });
-      })();
+      },0);
     //}}}
     })();
 
@@ -268,8 +249,6 @@ if(IS_METRO_APP) {
           var toHide=opt.dependency && !getOpt(opt.dependency) || opt.negDependency && getOpt(opt.negDependency);
             opt.dom.style.width     =toHide?'0px'   :'';
             opt.dom.style.height    =toHide?'0px'   :'';
-            //opt.dom.style.width     =toHide?'0px'   :'auto';
-            //opt.dom.style.height    =toHide?'0px'   :'auto';
             opt.dom.style.visibility=toHide?'hidden':'visible';
             opt.dom.style.position  =toHide?'absolute':'';
             opt.dom.style.zIndex    =toHide?'-1':'';
@@ -278,6 +257,7 @@ if(IS_METRO_APP) {
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
       function themeChangeListener(){fontShadowListener();colorChangeListener();refreshFont();bgChanger(getOpt('bg'));setOptVisibility()}
+      function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
 
       var bgChanger;
       for(var i=0;i<opts.length;i++)
@@ -289,12 +269,20 @@ if(IS_METRO_APP) {
         else
         {
           var changeListener;
-          if(opt.id==='font_shadow') changeListener=fontShadowListener;
-          if(opt.id==='color_font')  changeListener=colorChangeListener;
+          if(opt.id==='show_seconds')changeListener=function(val){
+            document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
+          else if(opt.id==='show_pm'||opt.id==='12_hour')
+            changeListener=function(){
+            document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
+            refreshStuff();
+            setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
+          }
+          else if(opt.id==='font_shadow') changeListener=fontShadowListener;
+          else if(opt.id==='color_font')  changeListener=colorChangeListener;
           else if(opt.id==='theme')  changeListener=themeChangeListener;
           else if(opt.id==='font')   changeListener=refreshFont;
-          else                       changeListener=function(){domBeat(true);setOptVisibility()};
-          ml.persistantInput(opt.id,changeListener,opt.default_,0,true);
+          else                       changeListener=refreshStuff;
+          ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
         }
       }
       themeChangeListener();
@@ -341,9 +329,6 @@ if(IS_METRO_APP) {
       {
         var refreshSize;
 
-        //console todo opt -> body class
-        // -getOpt('12_hour')&&getOpt('show_pm')?" "+(d.getHours()<12?"AM":"PM"):"";
-        // -docum.getOpt('show_seconds')
         document.body['classList'][d.getHours()<12?'remove':'add']('isPm');
 
         var seconds = d.getSecondsReadable();
@@ -388,7 +373,7 @@ if(IS_METRO_APP) {
 })();
 
 //load font list
-(function(){
+setTimeout(function(){
 //{{{
   window['onfontsload']=function(resp)
   {
@@ -407,7 +392,7 @@ if(IS_METRO_APP) {
   };
   ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 //}}}
-})();
+},0);
 
 if(ml.browser().usesGecko) {
   document.getElementById('color_icon')        .parentElement.style.display='none';
