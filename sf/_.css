@@ -1,3 +1,37 @@
+#char2:before { content: "M" }
+#char1:before { content: "A" }
+body.isPm #char1:before { content: "P" }
+
+body.noPeriod #char1,
+body.noPeriod #char2,
+body.noSeconds #digit1,
+body.noSeconds #digit2
+{
+  visibility: hidden;
+}
+
+#timeTable td { min-width: 100% }
+
+#digit1,
+#digit2,
+#char1,
+#char2{
+ font-size: 46%;
+ /*
+ line-height: .7em;
+ */
+ line-height: .9em;
+ vertical-align: top;
+}
+#char1,
+#char2{
+  padding-bottom: .2em;
+}
+#time {
+  padding-right: .2em;
+}
+
+
 /* checkbox styling
 {{{*/
 input[type='checkbox'] {
@@ -91,10 +125,7 @@ input[type='color']
 {
   opacity: 0.7;
 }
-#time
-{
-  cursor: pointer;
-}
+#timeTable,#timeTable * { cursor: pointer; }
 
 /* options */
 body
@@ -156,10 +187,9 @@ body
 {
   opacity: 1;
 }
-html
-{
-  overflow: hidden;
-}
+/* console
+html { overflow: hidden; }
+*/
 body
 {
   font-family: Helvetica, Arial;

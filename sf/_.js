@@ -17,10 +17,10 @@ function replaceWebApp(newUrl) {
 } 
 
 var IS_METRO_APP   = !!window['Windows'];
-IS_METRO_APP=true;//console
+//IS_METRO_APP=true;//console
 if(IS_METRO_APP) {
   console.log(3);
-  if(replaceWebApp('/')) return;
+  if(replaceWebApp('/')) return;//console
   //replaceWebApp('ms-appx-web:///index.html');
 }
 
@@ -36,26 +36,17 @@ if(IS_METRO_APP) {
   var DEFAULT_SHADOW = '';
   var DEFAULT_THEME  = 'steel';
   var FS_NAME        = "fs";
+  var MIN_WIDTH      = 550
   var timeEl         = document.getElementById('time');
+  var timeTableEl    = document.getElementById('timeTable');
+  var timeRowEl      = document.getElementById('timeRow');
   var dateEl         = document.getElementById('date');
   var contentEl      = document.getElementById('content');
-  var MIN_WIDTH      = 550
 
   /* SIZE of time */
   function setSize(){
   //{{{
-    if(document.documentElement['classList'].contains('big'))
-    {
-      setTextSize(timeEl,window.innerWidth,window.innerHeight);
-      return;
-    }
-
-    //var WIDTH_PERCENT = 40
-    //var time_new_size = ml.getSize(window.innerWidth<MIN_WIDTH?window.innerWidth:Math.max(Math.floor(window.innerWidth/WIDTH_PERCENT),MIN_WIDTH),window.innerHeight,true);
-    var minW = getOpt('font_size');
-    if(minW) minW=parseInt(minW,10);
-    if(!minW) minW=MIN_WIDTH;
-    var time_new_size = ml.getTextSize(timeEl,window.innerWidth<minW?window.innerWidth:minW,window.innerHeight);
+    var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
     ml.assert(time_new_size.width && time_new_size.height);
     if(dateEl.innerHTML!="")
     {
@@ -63,13 +54,13 @@ if(IS_METRO_APP) {
       var diff = time_new_size.height+date_new_size.height-window.innerHeight;
       if(diff>0)
       {
-        time_new_size = ml.getTextSize(timeEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+        time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
         date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
-        time_new_size = ml.getTextSize(timeEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+        time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
       }
       dateEl.style.fontSize = date_new_size.fontSize+'px';
     }
-    timeEl.style.fontSize = time_new_size.fontSize+'px';
+    timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
   //}}}
   }
   window.addEventListener('resize',setSize,false);
@@ -230,7 +221,7 @@ if(IS_METRO_APP) {
       refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
       (function loadFontApi(){
         ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
-          console.log(0);
+          //onsole.log(0);
           if(!window['WebFont']||!window['WebFont']['load']) {
             console.log('false successfull');
             setTimeout(loadFontApi,2000);
@@ -239,7 +230,7 @@ if(IS_METRO_APP) {
           function loader(fontName,callback){
             var attempts=0;
             (function do_(){
-            console.log(2);
+            //onsole.log(2);
               window['WebFont']['load']({'google':{'families':[fontName]},
                                          'active':callback,
                                          'fontinactive':function(){setTimeout(do_,Math.max(Math.pow(2,attempts++)*1000,60000))}
@@ -262,29 +253,6 @@ if(IS_METRO_APP) {
           refreshFont();
         });
       })();
-    /*
-      var fontChanger;
-      ml.loadScript('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function()
-      //{{{
-      {
-        fontChanger=function(el,fontName,callback)
-        {
-          window['WebFont']['load']({'google':{'families':[fontName]},'active':function()
-          {
-            setTimeout(function()
-            {
-              el.style.fontFamily=fontName;
-              if(callback)callback();
-            },100);
-          }});
-        };
-        setFont(document.getElementById('options'),'Arvo');
-        refreshFont();
-      });
-      //}}}
-      function setFont(){if(fontChanger) fontChanger.apply(null,arguments)};
-      refreshFont=function(){setFont(document.body,getOpt('font'),setSize)};
-    */
     //}}}
     })();
 
@@ -333,41 +301,7 @@ if(IS_METRO_APP) {
     })();
     //}}}
 
-    //fullscreen
-    //{{{
-    (function()
-    {
-      /*
-      if(ml.browser().usesGecko)
-      {
-        document.getElementById('time').style.cursor='default';
-        return;
-      }
-      function bigger()
-      //{{{
-      {
-        //document.body.webkitRequestFullScreen();
-        //timeEl.style.marginTop='0px';
-        //timeEl.style.marginTop=window.innerHeight/2-timeEl.getPosition().y
-        //                    -parseInt(timeEl.getStyle('height'))/2
-        //                    +'px';
-        document.documentElement['classList'].add('big');
-        setSize();
-      }
-      //}}}
-      function unbigger()
-      //{{{
-      {
-        //timeEl.style.marginTop='0px';
-        document.documentElement['classList'].remove('big');
-        setSize();
-      }
-      //}}}
-      ml.fullscreenElement(bigger,unbigger,[document.getElementById('time')],'f');
-      */
-      ml.fullscreenElement(timeEl,'f');
-    })();
-    //}}}
+    ml.fullscreenElement(timeTableEl,'f');
   //}}}
   })();
 
@@ -376,16 +310,14 @@ if(IS_METRO_APP) {
   var spark;
   (function(){
   //{{{
-    var content   =document.getElementById('content');
+    var content = document.getElementById('content');
+    var digit1  = document.getElementById('digit1');
+    var digit2  = document.getElementById('digit2');
 
     var lastMinutes,
         lastTitle,
-        lastColor,
-        lastTwelveClock,
         lastDay,
-        lastWeekOpt,
-        lastTime,
-        lastTimeWithoutSeconds;
+        lastTime;
     domBeat=function(force)
     //{{{
     {
@@ -409,21 +341,22 @@ if(IS_METRO_APP) {
       {
         var refreshSize;
 
-        //tmp code till seconds prob get a solution
-        var newTimeWithoutSeconds = d.getHoursReadable(getOpt('12_hour')) + ":" + d.getMinutesReadable() + (getOpt('12_hour')&&getOpt('show_pm')?" "+(d.getHours()<12?"AM":"PM"):"");
-        if(lastTimeWithoutSeconds===undefined || lastTimeWithoutSeconds!==newTimeWithoutSeconds || force)
-        {
-          refreshSize=true;
-          lastTimeWithoutSeconds=newTimeWithoutSeconds;
-        }
+        //console todo opt -> body class
+        // -getOpt('12_hour')&&getOpt('show_pm')?" "+(d.getHours()<12?"AM":"PM"):"";
+        // -docum.getOpt('show_seconds')
+        document.body['classList'][d.getHours()<12?'remove':'add']('isPm');
 
-        var newTime = d.getHoursReadable(getOpt('12_hour')) + ":" + d.getMinutesReadable() + (getOpt('show_seconds')?":"  + d.getSecondsReadable():"") + (getOpt('12_hour')&&getOpt('show_pm')?" "+(d.getHours()<12?"AM":"PM"):"");
-        //var newTime = "&nbsp; 01:37 PM &nbsp;";
+        var seconds = d.getSecondsReadable();
+        digit1.innerHTML=seconds[0];
+        digit2.innerHTML=seconds[1];
+
+        var newTime = d.getHoursReadable(getOpt('12_hour')) + ":" + d.getMinutesReadable();
+      //var newTime = "&nbsp; 01:37 PM &nbsp;";
         if(lastTime===undefined || lastTime!==newTime || force)
         {
           lastTime         = newTime;
           timeEl.innerHTML = newTime;
-          //refreshSize = true;
+          refreshSize = true;
         }
 
         var day = d.getDay();
@@ -440,14 +373,12 @@ if(IS_METRO_APP) {
     //}}}
 
     var sparked;
-    spark = function()
-    {
+    spark=function() {
       ml.assert(!sparked);
       sparked=true;
-      (function()
-      {
+      (function(){
         domBeat();
-        window.setTimeout(arguments.callee,300);
+        window.setTimeout(arguments.callee,1000);
       })();
     };
   //}}}
@@ -478,45 +409,9 @@ if(IS_METRO_APP) {
 //}}}
 })();
 
-//mozApp specifics
-(function(){
-//{{{
-//on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
-/*
-if(ml.browser().usesGecko)
-{
-  document.documentElement.innerHTML='';
-  function alert(msg)
-  {
-    document.documentElement.innerHTML+=JSON.stringify(msg)+"<br>";
-  }
-  alert('alert working');
-  if(window['navigator']['mozApps'] && window['navigator']['mozApps']['getSelf'])
-  {
-    var keys=[];
-    for(var i in window['navigator']['mozApps']) keys.push(i);
-    alert(keys);
-    alert(window['navigator']['mozApps']);
-    window['navigator']['mozApps']['getSelf']()       ['onsuccess']=function(){alert(this['result'])};
-    window['navigator']['mozApps']['getInstalled']()  ['onsuccess']=function(){alert(this['result'])};
-    window['navigator']['mozApps']['mgmt']['getAll']()['onsuccess']=function(){alert(this['result'])};
-  }
-  else alert("not passed");
-  //on disable feature for installed app: https://developer.mozilla.org/en/Apps/Apps_JavaScript_API
-  document.getElementById('time').style.cursor='default';
-  return;
-}
-*/
-if(ml.browser().usesGecko)
-{
+if(ml.browser().usesGecko) {
   document.getElementById('color_icon')        .parentElement.style.display='none';
   document.getElementById('show_seconds_title').parentElement.style.display='none';
-  /* not working, done earlier
-  document.getElementById('time').onclick=undefined;
-  document.getElementById('time').style.cursor='default';
-  */
 }
-//}}}
-})();
 
 };
