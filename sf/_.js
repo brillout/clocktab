@@ -55,7 +55,7 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
      {id:'bg'                ,description:'background'      ,default_:DEFAULT_BG          ,negDependency:'theme',placeholder:'url or color'},
      {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
      {id:'show_seconds_title',description:'seconds in title',default_:false                               },
-     {id:'show_seconds'      ,description:'seconds'         ,default_:false                               },
+     {id:'show_seconds'      ,description:'seconds'         ,default_:true                                },
      {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
      {id:'show_pm'           ,description:'am/pm'           ,default_:true                ,dependency:'12_hour'          },
      {id:'show_date'         ,description:'date'            ,default_:true                                               },
@@ -151,7 +151,7 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
               if(opt.placeholder || opt.default_) opt.input.size=(opt.placeholder || opt.default_).length*3/4;
               else opt.input.style.width = '35px';
             }
-            opt.input.type = isCheckbox?'checkbox':(isColorInput?'color':'text');
+            opt.input.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
           }
           else opt.input.style.width=opt.id==='font'?'90px':'83px';
           if(isCheckbox) opt.dom.insertBefore(opt.input,opt.dom.firstChild);
@@ -393,6 +393,8 @@ setTimeout(function(){
   ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 //}}}
 },0);
+
+setTimeout(function(){ml.loadAnalytics('UA-5263303-5')},0);
 
 if(ml.browser().usesGecko) {
   document.getElementById('color_icon')        .parentElement.style.display='none';

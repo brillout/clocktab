@@ -206,12 +206,6 @@ body
 {
   font-family: Helvetica, Arial;
 }
-html.big #top,
-html.big #date
-{
-  display: none;
-  height: 0px !important;
-}
 body,html
 {
 	text-align:center;
@@ -234,10 +228,6 @@ table td
 #content_padding
 {
   height: 20%;
-}
-html.big #content_padding
-{
-  height: 10%;
 }
 #content
 {
