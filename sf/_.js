@@ -1,6 +1,7 @@
 window.onload = function(){
 
-if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
+//console
+//if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
 
 (function(){
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
@@ -119,9 +120,15 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
         var theme = getOpt('theme');
         if(theme==='random') theme=randomTheme;
         var ret   = theme && themes[theme] && themes[theme][id];
+        if(id==='font') console.log('--'+ret);
         if(ret) return ret;
       }
       var el = document.getElementById(id);
+      if(id==='theme') {
+        //console.log(el);
+        //console.log(el.nodeName);
+        //console.log(el.value);
+      }
       return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
     };
     //}}}
