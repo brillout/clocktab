@@ -1,6 +1,6 @@
 {
   "name": "Clock",
-  "description": 'Displays the current Time. Featuring customizable Themes and "Time Icon". Made by the Creator of Timer Tab.',
+  "description": 'Displays the current Time. Featuring "Time Icon" and customizable Themes. Made by the Creator of Timer Tab.',
   "version": "1.6.4.1",
   "offline_enabled": true,
   "icons": {

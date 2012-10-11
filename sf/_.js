@@ -1,8 +1,97 @@
 window.onload = function(){
 
-//console
-if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
+if(!!window['Windows']){
+  (function(){ 
+      var REFRESH_TIME=60;
 
+      metroTile=function(bigText,smallText){
+        /*
+        var Noti = window['Windows']['UI']['Notifications'];
+
+        var wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
+        var tileTextAttributes = wideTile.getElementsByTagName("text");
+      //tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText+"\n <br> \A0 \00A0 &amp; &gt;"+smallText));
+        tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText+"\n \A0 \00A0 &amp; &gt;"+smallText));
+      //tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText));
+      //tileTextAttributes[1].appendChild(wideTile['createTextNode'](smallText));
+
+        //var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareBlock']);
+        //var tileAttributes = squareTile.getElementsByTagName("text");
+        //tileAttributes[0].appendChild(squareTile['createTextNode'](bigText));
+        //tileAttributes[1].appendChild(squareTile['createTextNode'](smallText));
+        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
+        var tileAttributes = squareTile.getElementsByTagName("image");
+        tileAttributes[0].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAMElEQVRYR+3QQREAAAgCQekfWm3BZ7kCzGb2Ky4OECBAgAABAgQIECBAgAABAm2BA4XeP+FCGziJAAAAAElFTkSuQmCC";
+
+        var node = wideTile.importNode(squareTile.getElementsByTagName("binding").item(0), true);
+        wideTile.getElementsByTagName("visual").item(0).appendChild(node);
+
+        var tileNotification = new Noti['TileNotification'](wideTile);
+        var expire_ = new Date(new Date().getTime()+1000*REFRESH_TIME);
+        tileNotification['expirationTime'] = expire_;
+        console.log(smallText,bigText);
+        Noti['TileUpdateManager']['createTileUpdaterForApplication']()['update'](tileNotification);
+        */
+
+
+            var c = document.getElementById('canvas');
+            var ctx = c.getContext("2d");
+            var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
+            grd.addColorStop(0, "red");
+            grd.addColorStop(1, "black");
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, 512, 512);
+
+
+            //Save blob to image
+            var blob = c.msToBlob();
+            var out = null;
+            var blobStream = null;
+            var outputStream = null;
+
+            Windows.Storage.ApplicationData.current.localFolder.createFileAsync("picture.png", Windows.Storage.CreationCollisionOption.replaceExisting)
+                .then(function (file) {
+                    return file.openAsync(Windows.Storage.FileAccessMode.readWrite);
+                })
+                .then(function (stream) {
+                    outputStream = stream;
+                    out = stream.getOutputStreamAt(0);
+                    blobStream = blob.msDetachStream();
+                    return Windows.Storage.Streams.RandomAccessStream.copyAsync(blobStream, out);
+                })
+                .then(function () {
+                    return out.flushAsync();
+                })
+                .done(function () {
+                    blobStream.close();
+                    out.close();
+                    outputStream.close();
+
+                    //Do tile update
+                    var notifications = Windows.UI.Notifications;
+                    var template = notifications.TileTemplateType.tileSquareImage;
+                    var tileXml = notifications.TileUpdateManager.getTemplateContent(template);
+
+                    var tileImageAttributes = tileXml.getElementsByTagName("image");
+                    tileImageAttributes[0].setAttribute("src", "ms-appdata:///local/picture.png");
+
+                    var tileNotification = new notifications.TileNotification(tileXml);
+                    notifications.TileUpdateManager.createTileUpdaterForApplication().update(tileNotification);
+                });
+      };
+      (function clock(){
+        var d = new Date();
+        var time = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
+        var date = d.getDayReadable()   + " - " + d.getMonthReadable() + " "+ d.getDateReadable();
+        metroTile(time,date);
+        setTimeout(clock,1000*REFRESH_TIME/20);
+      })();
+  })(); 
+
+  if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
+}
+
+var IS_METRO_APP   = /^ms/.test(location.href);
 (function(){
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
   var DEFAULT_BG     = '';
@@ -14,7 +103,7 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
   var DEFAULT_SHADOW = '';
   var DEFAULT_THEME  = 'steel';
   var FS_NAME        = "fs";
-  var MIN_WIDTH      = 550
+  var MIN_WIDTH      = IS_METRO_APP?500:550;
   var timeEl         = document.getElementById('time');
   var timeTableEl    = document.getElementById('timeTable');
   var timeRowEl      = document.getElementById('timeRow');
@@ -120,15 +209,9 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
         var theme = getOpt('theme');
         if(theme==='random') theme=randomTheme;
         var ret   = theme && themes[theme] && themes[theme][id];
-        if(id==='font') console.log('--'+ret);
         if(ret) return ret;
       }
       var el = document.getElementById(id);
-      if(id==='theme') {
-        //console.log(el);
-        //console.log(el.nodeName);
-        //console.log(el.value);
-      }
       return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
     };
     //}}}
@@ -197,7 +280,7 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
       {
         var fop=document.createElement('option');
         fop.innerHTML=i;
-        fop.value=i;
+        fop.value    =i;
         document.getElementById('theme').appendChild(fop);
       }
     })();
@@ -207,12 +290,12 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
     (function() {
     //{{{
       var bodyFontLoader;
-      refreshFont=function(){console.log(0);if(bodyFontLoader) bodyFontLoader()};
+      refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
       setTimeout(function loadFontApi(){
         ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
           //onsole.log(0);
           if(!window['WebFont']||!window['WebFont']['load']) {
-            console.log('false successfull');
+            //onsole.log('false successfull');
             setTimeout(loadFontApi,2000);
             return;
           }
@@ -353,8 +436,7 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
         }
 
         var day = d.getDay();
-        if(!lastDay || lastDay!==day || force)
-        {
+        if(!lastDay || lastDay!==day || force){
           lastDay=day;
           dateEl.innerHTML = getOpt('show_date')?(d.getDayReadable()   + " - " + d.getMonthReadable() + " "+ d.getDateReadable() + (getOpt('show_week')?" - Week " + d.getWeek():"")):"";
           //dateEl.innerHTML = "Thursday - January 01";
@@ -362,6 +444,8 @@ if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) retu
         }
         if(refreshSize) setSize();
       });
+
+      //metroTile&&metroTile(lastTime,lastDay);
     };
     //}}}
 
@@ -394,6 +478,7 @@ setTimeout(function(){
       if(ml.browser().usesGecko && !max--)break;
       var fop=document.createElement('option');
       fop.innerHTML=fonts[i]['family'];
+      fop.value    =fonts[i]['family'];
       document.getElementById('font').appendChild(fop);
     }
     document.getElementById('font').value=val;
@@ -404,7 +489,8 @@ setTimeout(function(){
 
 setTimeout(function(){ml.loadAnalytics('UA-5263303-5')},0);
 
-if(ml.browser().usesGecko) {
+if(IS_METRO_APP || ml.browser().usesGecko) {
+  //no way to detected if run in firefox or as stand alone web app => disable for both
   document.getElementById('color_icon')        .parentElement.style.display='none';
   document.getElementById('show_seconds_title').parentElement.style.display='none';
 }

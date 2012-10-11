@@ -16,6 +16,7 @@ body.noPeriod.noSeconds #digit2{
 }
 
 #timeTable td { min-width: 100% }
+#timeRow > table {width: 100%} /* for metro app */
 
 #digit1,
 #digit2,
@@ -199,9 +200,7 @@ body
 {
   opacity: 1;
 }
-/* console
 html { overflow: hidden; }
-*/
 body
 {
   font-family: Helvetica, Arial;
