@@ -1,13 +1,12 @@
 {
   "name": "Clock",
-  "description": 'Displays the current Time. Featuring custamizable Themes and "Time Tab Icon". Also displays the time in the Tab Icon. From the Creator of Timer Tab.',
-  "version": "1.6.5.1",
+  "description": 'Displays the current Time. Featuring customizable Themes and "Time Icon". Made by the Creator of Timer Tab.',
+  "version": "1.6.4.1",
   "offline_enabled": true,
   "icons": {
-     "256": "TODO",
-     "128": "TODO",
-     "32":  "TODO",
-     "16":  "TODO"
+     "128": "128.png",
+     "48":  "48.png",
+     "16":  "16.png"
   },
   "app": {
     "urls": [

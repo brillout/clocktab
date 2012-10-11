@@ -206,7 +206,7 @@ window.onload = function(){
     (function() {
     //{{{
       var bodyFontLoader;
-      refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
+      refreshFont=function(){console.log(0);if(bodyFontLoader) bodyFontLoader()};
       setTimeout(function loadFontApi(){
         ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
           //onsole.log(0);
