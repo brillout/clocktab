@@ -1,7 +1,7 @@
 window.onload = function(){
 
 //console
-//if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
+if(!!window['Windows']) { if(ml.replaceWebApp('ms-appx-web:///index.html')) return; }
 
 (function(){
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
@@ -197,6 +197,7 @@ window.onload = function(){
       {
         var fop=document.createElement('option');
         fop.innerHTML=i;
+        fop.value=i;
         document.getElementById('theme').appendChild(fop);
       }
     })();
