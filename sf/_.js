@@ -2,39 +2,37 @@ window.onload = function(){
 
 if(!!window['Windows']){
   (function(){ 
-      var REFRESH_TIME=60;
-
-      metroTile=function(bigText,smallText){
-        /*
+      metroTile=function(line1,line2,line3){
         var Noti = window['Windows']['UI']['Notifications'];
 
         var wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
         var tileTextAttributes = wideTile.getElementsByTagName("text");
-      //tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText+"\n <br> \A0 \00A0 &amp; &gt;"+smallText));
-        tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText+"\n \A0 \00A0 &amp; &gt;"+smallText));
-      //tileTextAttributes[0].appendChild(wideTile['createTextNode'](bigText));
-      //tileTextAttributes[1].appendChild(wideTile['createTextNode'](smallText));
+        tileTextAttributes[0].appendChild(wideTile['createTextNode'](line1+"\n"+line2+"\n"+line3));
 
-        //var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareBlock']);
-        //var tileAttributes = squareTile.getElementsByTagName("text");
-        //tileAttributes[0].appendChild(squareTile['createTextNode'](bigText));
-        //tileAttributes[1].appendChild(squareTile['createTextNode'](smallText));
+        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareBlock']);
+        var tileAttributes = squareTile.getElementsByTagName("text");
+        tileAttributes[0].appendChild(squareTile['createTextNode'](line1));
+        tileAttributes[1].appendChild(squareTile['createTextNode'](line2+' - '+line3));
+        /*
         var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
         var tileAttributes = squareTile.getElementsByTagName("image");
         tileAttributes[0].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAMElEQVRYR+3QQREAAAgCQekfWm3BZ7kCzGb2Ky4OECBAgAABAgQIECBAgAABAm2BA4XeP+FCGziJAAAAAElFTkSuQmCC";
+        */
 
         var node = wideTile.importNode(squareTile.getElementsByTagName("binding").item(0), true);
         wideTile.getElementsByTagName("visual").item(0).appendChild(node);
 
+        Noti['ScheduledTileNotification'](
+        /*
         var tileNotification = new Noti['TileNotification'](wideTile);
-        var expire_ = new Date(new Date().getTime()+1000*REFRESH_TIME);
-        tileNotification['expirationTime'] = expire_;
-        console.log(smallText,bigText);
-        Noti['TileUpdateManager']['createTileUpdaterForApplication']()['update'](tileNotification);
         */
+        var expire_ = new Date(new Date().getTime()+60000);
+        tileNotification['expirationTime'] = expire_;
+        Noti['TileUpdateManager']['createTileUpdaterForApplication']()['update'](tileNotification);
 
 
-            var c = document.getElementById('canvas');
+        /*
+            var c = document.createElement('canvas');
             var ctx = c.getContext("2d");
             var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
             grd.addColorStop(0, "red");
@@ -78,12 +76,14 @@ if(!!window['Windows']){
                     var tileNotification = new notifications.TileNotification(tileXml);
                     notifications.TileUpdateManager.createTileUpdaterForApplication().update(tileNotification);
                 });
+        */
       };
       (function clock(){
         var d = new Date();
         var time = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
-        var date = d.getDayReadable()   + " - " + d.getMonthReadable() + " "+ d.getDateReadable();
-        metroTile(time,date);
+        var day  = d.getDayReadable();
+        var date = d.getMonthReadable() + " "+ d.getDateReadable();
+        metroTile(time,day,date);
         setTimeout(clock,1000*REFRESH_TIME/20);
       })();
   })(); 
