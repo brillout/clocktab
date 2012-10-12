@@ -2,9 +2,10 @@ window.onload = function(){
 
 if(!!window['Windows']){
   (function(){ 
-      metroTile=function(line1,line2,line3){
-        var Noti = window['Windows']['UI']['Notifications'];
-
+    var tile={};
+    (function(){ 
+      var Noti = window['Windows']['UI']['Notifications'];
+      tile.create=function(line1,line2,line3){ 
         var wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
         var tileTextAttributes = wideTile.getElementsByTagName("text");
         tileTextAttributes[0].appendChild(wideTile['createTextNode'](line1+"\n"+line2+"\n"+line3));
@@ -22,71 +23,61 @@ if(!!window['Windows']){
         var node = wideTile.importNode(squareTile.getElementsByTagName("binding").item(0), true);
         wideTile.getElementsByTagName("visual").item(0).appendChild(node);
 
-        Noti['ScheduledTileNotification'](
-        /*
-        var tileNotification = new Noti['TileNotification'](wideTile);
-        */
-        var expire_ = new Date(new Date().getTime()+60000);
+        return wideTile;
+      }; 
+      tile.update=function(newTile,expire_,scheduled){ 
+        ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
+        var tileNotification = scheduled&&(new Noti['ScheduledTileNotification'](newTile,scheduled)) || (new Noti['TileNotification'](newTile));
         tileNotification['expirationTime'] = expire_;
-        Noti['TileUpdateManager']['createTileUpdaterForApplication']()['update'](tileNotification);
+        Noti['TileUpdateManager']['createTileUpdaterForApplication']()[scheduled?'addToSchedule':'update'](tileNotification);
+      }; 
+    })(); 
+    (function clock(){
+      return;
+      var d = new Date();
+      var time = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
+      var day  = d.getDayReadable();
+      var date = d.getMonthReadable() + " "+ d.getDateReadable();
+      var expire_ = new Date(new Date().getTime()+60000);
+      tile.update(tile.create(time,day,date),expire_);
+      setTimeout(clock,1000*60);
+    })();
+    (function(){
+      var lastScheduledTile = parseInt(localStorage['lastTile'],10) || -1;
+    //var lastScheduledTile = -1;//console
+      var time;
+    //for(var i=0;i<4096;i++) {
+      var base = new Date().setSeconds(0);
+      for(var i=0;i<16;i++) {//console
+        time = +(base)+i*60000;
 
-
-        /*
-            var c = document.createElement('canvas');
-            var ctx = c.getContext("2d");
-            var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
-            grd.addColorStop(0, "red");
-            grd.addColorStop(1, "black");
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, 0, 512, 512);
-
-
-            //Save blob to image
-            var blob = c.msToBlob();
-            var out = null;
-            var blobStream = null;
-            var outputStream = null;
-
-            Windows.Storage.ApplicationData.current.localFolder.createFileAsync("picture.png", Windows.Storage.CreationCollisionOption.replaceExisting)
-                .then(function (file) {
-                    return file.openAsync(Windows.Storage.FileAccessMode.readWrite);
-                })
-                .then(function (stream) {
-                    outputStream = stream;
-                    out = stream.getOutputStreamAt(0);
-                    blobStream = blob.msDetachStream();
-                    return Windows.Storage.Streams.RandomAccessStream.copyAsync(blobStream, out);
-                })
-                .then(function () {
-                    return out.flushAsync();
-                })
-                .done(function () {
-                    blobStream.close();
-                    out.close();
-                    outputStream.close();
-
-                    //Do tile update
-                    var notifications = Windows.UI.Notifications;
-                    var template = notifications.TileTemplateType.tileSquareImage;
-                    var tileXml = notifications.TileUpdateManager.getTemplateContent(template);
-
-                    var tileImageAttributes = tileXml.getElementsByTagName("image");
-                    tileImageAttributes[0].setAttribute("src", "ms-appdata:///local/picture.png");
-
-                    var tileNotification = new notifications.TileNotification(tileXml);
-                    notifications.TileUpdateManager.createTileUpdaterForApplication().update(tileNotification);
-                });
-        */
-      };
-      (function clock(){
-        var d = new Date();
-        var time = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
-        var day  = d.getDayReadable();
-        var date = d.getMonthReadable() + " "+ d.getDateReadable();
-        metroTile(time,day,date);
-        setTimeout(clock,1000*REFRESH_TIME/20);
-      })();
+        if(time>lastScheduledTile){
+          var d = new Date(time);
+          var line1 = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
+          var line3 = d.getDayReadable();
+          var line2 = d.getMonthReadable() + " "+ d.getDateReadable();
+          tile.update(tile.create(line1,line2,line3),new Date(time+60000),i>0&&d);
+        }
+      }
+      localStorage['lastTile'] = time;
+    })();
   })(); 
+
+  console.log(0);
+  console.log(Object.keys(window));
+  if(window['backgroundTaskInstance']){//=> this js is called as background task
+    console.log(1);
+    window['close']();
+    return;
+  }else{
+    var builder = new window['Windows']['ApplicationModel']['Background']['BackgroundTaskBuilder']();
+    builder['name'] = "Maintenance background task";
+    builder['taskEntryPoint'] = "sf\\_.js";
+    //Run every 2 minutes if the device is on AC power
+    var trigger = new window['Windows']['ApplicationModel']['Background']['MaintenanceTrigger'](15, false);
+    builder['setTrigger'](trigger);
+    var task = builder['register']();
+  }
 
   if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
 }
