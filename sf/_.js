@@ -1,19 +1,29 @@
+var IS_BACKGROUND_TASK=typeof window === "undefined";
+if(IS_BACKGROUND_TASK) var window={};
 window.onload = function(){
 
-if(!!window['Windows']){
+//var winObj = window['Windows'];
+var winObj = typeof Windows !== "undefined" && Windows;
+if(winObj){
   (function(){ 
     var tile={};
     (function(){ 
-      var Noti = window['Windows']['UI']['Notifications'];
-      tile.create=function(line1,line2,line3){ 
-        var wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
-        var tileTextAttributes = wideTile.getElementsByTagName("text");
-        tileTextAttributes[0].appendChild(wideTile['createTextNode'](line1+"\n"+line2+"\n"+line3));
+      var Noti = winObj['UI']['Notifications'];
+      tile.create=function(type,line1,line2,line3){ 
+      //ml.assert(type==='big' || type==='bigCenter');
+        var wideTile;
+        if(type==='big'){
+          wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
+        } else if(type==='bigCenter'){
+          wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideSmallImageAndText01']); 
+        }
+        var text = wideTile.getElementsByTagName("text");
+        text[0].appendChild(wideTile['createTextNode'](line1+"\n"+line2+"\n"+line3));
 
-        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareBlock']);
-        var tileAttributes = squareTile.getElementsByTagName("text");
-        tileAttributes[0].appendChild(squareTile['createTextNode'](line1));
-        tileAttributes[1].appendChild(squareTile['createTextNode'](line2+' - '+line3));
+        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareText02']);
+        var text = squareTile.getElementsByTagName("text");
+        text[0].appendChild(squareTile['createTextNode'](line1));
+        text[1].appendChild(squareTile['createTextNode'](line2+"\n"+line3));
         /*
         var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
         var tileAttributes = squareTile.getElementsByTagName("image");
@@ -26,55 +36,51 @@ if(!!window['Windows']){
         return wideTile;
       }; 
       tile.update=function(newTile,expire_,scheduled){ 
-        ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
+      //ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
         var tileNotification = scheduled&&(new Noti['ScheduledTileNotification'](newTile,scheduled)) || (new Noti['TileNotification'](newTile));
         tileNotification['expirationTime'] = expire_;
         Noti['TileUpdateManager']['createTileUpdaterForApplication']()[scheduled?'addToSchedule':'update'](tileNotification);
       }; 
     })(); 
-    (function clock(){
-      return;
-      var d = new Date();
-      var time = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
-      var day  = d.getDayReadable();
-      var date = d.getMonthReadable() + " "+ d.getDateReadable();
-      var expire_ = new Date(new Date().getTime()+60000);
-      tile.update(tile.create(time,day,date),expire_);
-      setTimeout(clock,1000*60);
-    })();
     (function(){
-      var lastScheduledTile = parseInt(localStorage['lastTile'],10) || -1;
+      var storage = winObj['Storage']['ApplicationData']['current']['localSettings']['values'];
+      var lastScheduledTile = parseInt(storage['lastTile'],10) || -1;
     //var lastScheduledTile = -1;//console
       var time;
-    //for(var i=0;i<4096;i++) {
       var base = new Date().setSeconds(0);
       for(var i=0;i<16;i++) {//console
         time = +(base)+i*60000;
 
         if(time>lastScheduledTile){
           var d = new Date(time);
-          var line1 = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
-          var line3 = d.getDayReadable();
-          var line2 = d.getMonthReadable() + " "+ d.getDateReadable();
-          tile.update(tile.create(line1,line2,line3),new Date(time+60000),i>0&&d);
+          if(IS_BACKGROUND_TASK) {
+            //console;
+            var line1 = '1';
+            var line3 = '2';
+            var line2 = '3';
+          }
+          else{
+            var line1 = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
+            var line3 = d.getDayReadable();
+            var line2 = d.getMonthReadable() + " "+ d.getDateReadable();
+          }
+          tile.update(tile.create('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
         }
       }
-      localStorage['lastTile'] = time;
+      storage['lastTile'] = time;
     })();
   })(); 
 
-  console.log(0);
-  console.log(Object.keys(window));
-  if(window['backgroundTaskInstance']){//=> this js is called as background task
-    console.log(1);
-    window['close']();
+  if(IS_BACKGROUND_TASK){//=> this js is called as background task
+    console.log('bgtask');
+    close();
     return;
   }else{
-    var builder = new window['Windows']['ApplicationModel']['Background']['BackgroundTaskBuilder']();
+    var builder = new winObj['ApplicationModel']['Background']['BackgroundTaskBuilder']();
     builder['name'] = "Maintenance background task";
     builder['taskEntryPoint'] = "sf\\_.js";
     //Run every 2 minutes if the device is on AC power
-    var trigger = new window['Windows']['ApplicationModel']['Background']['MaintenanceTrigger'](15, false);
+    var trigger = new winObj['ApplicationModel']['Background']['MaintenanceTrigger'](15, false);
     builder['setTrigger'](trigger);
     var task = builder['register']();
   }
@@ -487,3 +493,4 @@ if(IS_METRO_APP || ml.browser().usesGecko) {
 }
 
 };
+if(IS_BACKGROUND_TASK) window.onload();

@@ -31,7 +31,9 @@
         ForegroundText="light"
         BackgroundColor="#777777"
       >
+        <!--
         <LockScreen Notification="badgeAndTileText" BadgeLogo="24x24.png" />
+        -->
         <DefaultTile ShortName="Clock" ShowName="allLogos" WideLogo="310x150.png" />
         <SplashScreen Image="620x300.png"/>
       </VisualElements>
@@ -39,7 +41,10 @@
       <Extensions>
         <Extension Category="windows.backgroundTasks" StartPage="sf\_.js">
           <BackgroundTasks>
+            <!--
             <Task Type="timer" />
+            -->
+            <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
       </Extensions>
