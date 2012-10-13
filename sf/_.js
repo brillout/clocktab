@@ -44,25 +44,17 @@ if(winObj){
     (function(){
       var storage = winObj['Storage']['ApplicationData']['current']['localSettings']['values'];
       var lastScheduledTile = parseInt(storage['lastTile'],10) || -1;
-    //var lastScheduledTile = -1;//console
       var time;
       var base = new Date().setSeconds(0);
-      for(var i=0;i<16;i++) {//console
+      for(var i=0;i<60;i++) {
         time = +(base)+i*60000;
 
         if(time>lastScheduledTile){
           var d = new Date(time);
-          if(IS_BACKGROUND_TASK) {
-            //console;
-            var line1 = '1';
-            var line3 = '2';
-            var line2 = '3';
-          }
-          else{
-            var line1 = d.getHoursReadable(true) + ":" +d.getMinutesReadable()+' '+(d.getHours()<12?'AM':'PM');
-            var line3 = d.getDayReadable();
-            var line2 = d.getMonthReadable() + " "+ d.getDateReadable();
-          }
+        //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
+          var line1 = ml.date.readable.getTime('time12_pretty',d,0,2);
+          var line2 = ml.date.readable.getDay(d);
+          var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
           tile.update(tile.create('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
         }
       }
@@ -71,7 +63,6 @@ if(winObj){
   })(); 
 
   if(IS_BACKGROUND_TASK){//=> this js is called as background task
-    console.log('bgtask');
     close();
     return;
   }else{
@@ -194,7 +185,8 @@ var IS_METRO_APP   = /^ms/.test(location.href);
 
     var randomTheme = (function()
     {
-      var random = Math.floor(Math.random()*ml.len(themes));
+    //var random = Math.floor(Math.random()*ml.len(themes));
+      var random = Math.floor(Math.random()*Object.keys(themes).length);
       var counter=0;
       for(var ret in themes) if(counter++===random) return ret;
     })();
@@ -401,14 +393,14 @@ var IS_METRO_APP   = /^ms/.test(location.href);
     {
       var d= new Date();
 
-      var title = d.getHoursReadable(getOpt('12_hour')) + ":" + d.getMinutesReadable() + (getOpt('show_seconds_title')?":"+d.getSecondsReadable():"");
+      var title = ml.date.readable.getHours(d,getOpt('12_hour')) + ":" + ml.date.readable.getMinutes(d) + (getOpt('show_seconds_title')?":"+ml.date.readable.getSeconds(d):"");
       if(lastTitle===undefined || lastTitle!==title || force)
       {
         lastTitle      = title;
         document.title = title;
       }
 
-      var minutes = (new Date).getMinutesReadable();
+      var minutes = ml.date.readable.getMinutes(new Date);
       if(!lastMinutes || lastMinutes!==minutes || force)
       {
         lastMinutes=minutes;
@@ -421,11 +413,11 @@ var IS_METRO_APP   = /^ms/.test(location.href);
 
         document.body['classList'][d.getHours()<12?'remove':'add']('isPm');
 
-        var seconds = d.getSecondsReadable();
+        var seconds = ml.date.readable.getSeconds(d);
         digit1.innerHTML=seconds[0];
         digit2.innerHTML=seconds[1];
 
-        var newTime = d.getHoursReadable(getOpt('12_hour')) + ":" + d.getMinutesReadable();
+        var newTime = ml.date.readable.getHours(d,getOpt('12_hour')) + ":" + ml.date.readable.getMinutes(d);
       //var newTime = "&nbsp; 01:37 PM &nbsp;";
         if(lastTime===undefined || lastTime!==newTime || force)
         {
@@ -437,7 +429,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         var day = d.getDay();
         if(!lastDay || lastDay!==day || force){
           lastDay=day;
-          dateEl.innerHTML = getOpt('show_date')?(d.getDayReadable()   + " - " + d.getMonthReadable() + " "+ d.getDateReadable() + (getOpt('show_week')?" - Week " + d.getWeek():"")):"";
+          dateEl.innerHTML = getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + d.getWeek():"")):"";
           //dateEl.innerHTML = "Thursday - January 01";
           refreshSize = true;
         }
