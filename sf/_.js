@@ -99,9 +99,9 @@ var IS_METRO_APP   = /^ms/.test(location.href);
 
   /* SIZE of time */
   var timeout;
-  function setSize(){
+  function setSize(noTimeout){
   //{{{
-    window.clearTimeout(timeout);setTimeout(function(){
+    window.clearTimeout(timeout);timeout=setTimeout(function(){
       var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
       ml.assert(time_new_size.width && time_new_size.height);
       if(dateEl.innerHTML!="")
@@ -117,10 +117,10 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         dateEl.style.fontSize = date_new_size.fontSize+'px';
       }
       timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
-    },2000);
+    },timeout===undefined||noTimeout?0:300);
   //}}}
   }
-  window.addEventListener('resize',setSize,false);
+  window.addEventListener('resize',function(){setSize()},false);
 
   /* OPTIONS */
   var getOpt;
@@ -308,7 +308,13 @@ var IS_METRO_APP   = /^ms/.test(location.href);
               if(fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
               {
                 document.body.style.fontFamily=fontName;
-                setSize();
+                setSize(true);
+                //console
+                setTimeout(function(){setSize()},300);//fix for metro
+                setTimeout(function(){setSize()},1000);//fix for metro
+                setTimeout(function(){setSize()},5000);//fix for metro
+                setTimeout(function(){setSize()},10000);//fix for metro
+                setTimeout(function(){setSize()},60000);//fix for metro
               }
             })
           };
@@ -407,8 +413,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         ml.changeIcon(ml.timeIcon(undefined,getOpt('color_icon'),getOpt('12_hour')));
       }
 
-      ml.reqFrame(function()
-      {
+      ml.reqFrame(function(){
         var refreshSize;
 
         document.body['classList'][d.getHours()<12?'remove':'add']('isPm');
