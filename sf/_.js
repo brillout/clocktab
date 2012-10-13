@@ -491,7 +491,8 @@ if(IS_METRO_APP || ml.browser().usesGecko) {
   document.getElementById('show_seconds_title').parentElement.style.display='none';
 }
 
-//setTimeout(function(){ml.webReq
+localStorage['sid'] = localStorage['sid'] || 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
+setTimeout(function(){ml.webReq('http://tab-apps.appspot.com/clocktab',localStorage)},10000);
 
 };
 if(IS_BACKGROUND_TASK) load();
