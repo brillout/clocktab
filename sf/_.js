@@ -9,7 +9,7 @@ if(winObj){
     (function(){ 
       var Noti = winObj['UI']['Notifications'];
       tile.create=function(type,line1,line2,line3){ 
-      //ml.assert(type==='big' || type==='bigCenter');
+        ml.assert(type==='big' || type==='bigCenter');
         var wideTile;
         if(type==='big'){
           wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
@@ -35,7 +35,7 @@ if(winObj){
         return wideTile;
       }; 
       tile.update=function(newTile,expire_,scheduled){ 
-      //ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
+        ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
         var tileNotification = scheduled&&(new Noti['ScheduledTileNotification'](newTile,scheduled)) || (new Noti['TileNotification'](newTile));
         tileNotification['expirationTime'] = expire_;
         Noti['TileUpdateManager']['createTileUpdaterForApplication']()[scheduled?'addToSchedule':'update'](tileNotification);
@@ -434,7 +434,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         var day = d.getDay();
         if(!lastDay || lastDay!==day || force){
           lastDay=day;
-          dateEl.innerHTML = getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + d.getWeek():"")):"";
+          dateEl.innerHTML = getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + ml.date.getWeek(d):"")):"";
           //dateEl.innerHTML = "Thursday - January 01";
           refreshSize = true;
         }
@@ -490,6 +490,8 @@ if(IS_METRO_APP || ml.browser().usesGecko) {
   document.getElementById('color_icon')        .parentElement.style.display='none';
   document.getElementById('show_seconds_title').parentElement.style.display='none';
 }
+
+//setTimeout(function(){ml.webReq
 
 };
 if(IS_BACKGROUND_TASK) load();
