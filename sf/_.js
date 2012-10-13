@@ -1,6 +1,5 @@
 var IS_BACKGROUND_TASK=typeof window === "undefined";
-if(IS_BACKGROUND_TASK) var window={};
-window.onload = function(){
+function load(){
 
 //var winObj = window['Windows'];
 var winObj = typeof Windows !== "undefined" && Windows;
@@ -108,23 +107,26 @@ var IS_METRO_APP   = /^ms/.test(location.href);
   var contentEl      = document.getElementById('content');
 
   /* SIZE of time */
+  var timeout;
   function setSize(){
   //{{{
-    var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
-    ml.assert(time_new_size.width && time_new_size.height);
-    if(dateEl.innerHTML!="")
-    {
-      var date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
-      var diff = time_new_size.height+date_new_size.height-window.innerHeight;
-      if(diff>0)
+    window.clearTimeout(timeout);setTimeout(function(){
+      var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
+      ml.assert(time_new_size.width && time_new_size.height);
+      if(dateEl.innerHTML!="")
       {
-        time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
-        date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
-        time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+        var date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
+        var diff = time_new_size.height+date_new_size.height-window.innerHeight;
+        if(diff>0)
+        {
+          time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+          date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
+          time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
+        }
+        dateEl.style.fontSize = date_new_size.fontSize+'px';
       }
-      dateEl.style.fontSize = date_new_size.fontSize+'px';
-    }
-    timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
+      timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
+    },2000);
   //}}}
   }
   window.addEventListener('resize',setSize,false);
@@ -493,4 +495,5 @@ if(IS_METRO_APP || ml.browser().usesGecko) {
 }
 
 };
-if(IS_BACKGROUND_TASK) window.onload();
+if(IS_BACKGROUND_TASK) load();
+else window.onload=load;
