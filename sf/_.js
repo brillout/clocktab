@@ -90,7 +90,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
   var DEFAULT_SHADOW = '';
   var DEFAULT_THEME  = 'steel';
   var FS_NAME        = "fs";
-  var MIN_WIDTH      = IS_METRO_APP?500:550;
+  var MIN_WIDTH      = 520;
   var timeEl         = document.getElementById('time');
   var timeTableEl    = document.getElementById('timeTable');
   var timeRowEl      = document.getElementById('timeRow');
@@ -309,12 +309,13 @@ var IS_METRO_APP   = /^ms/.test(location.href);
               {
                 document.body.style.fontFamily=fontName;
                 setSize(true);
-                //console
+                /*
                 setTimeout(function(){setSize()},300);//fix for metro
                 setTimeout(function(){setSize()},1000);//fix for metro
                 setTimeout(function(){setSize()},5000);//fix for metro
                 setTimeout(function(){setSize()},10000);//fix for metro
                 setTimeout(function(){setSize()},60000);//fix for metro
+                */
               }
             })
           };
@@ -495,8 +496,7 @@ setTimeout(function(){
   localStorage['sid'] = localStorage['sid']
     || 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
   ml.webReq('http://tab-apps.appspot.com/clocktab',JSON.stringify(localStorage))
-//ml.webReq('/bla',JSON.stringify(localStorage))
-},0);//console
+},10000);
 
 };
 if(IS_BACKGROUND_TASK) load();
