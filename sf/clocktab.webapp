@@ -1,7 +1,12 @@
 {
-  "version": "0.3",
+  "version": "0.3.1",
   "name": "Clock",
-  "description": "Simply the Time",
+  "description": 'Displays the current Time. Featuring customizable Themes. Made by the Creator of Timer Tab.',
+  "launch_path": "/",
+  "appcache_path": "/sf/main.appcache",
+  "icons": {
+    "256": "http://brillcdn.appspot.com/sf/clocktab_icon_256.png"
+  },
   "developer": {
     "name": "Romuald Brillout",
     "url": "http://www.brillout.com"

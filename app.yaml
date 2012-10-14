@@ -3,6 +3,8 @@ version: 9
 runtime: python
 api_version: 1
 
+default_expiration: "1s"
+
 handlers:
 
 - url: /
@@ -13,13 +15,11 @@ handlers:
   static_files: sf/main.appcache
   mime_type: text/cache-manifest
   upload: sf/main.appcache
-  expiration: "1s"
 
 - url: /sf/clocktab.webapp
   static_files: sf/clocktab.webapp
   mime_type: application/x-web-app-manifest+json
   upload: sf/clocktab.webapp
-  expiration: "1s"
 
 - url: /sf
   static_dir: sf

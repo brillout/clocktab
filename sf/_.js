@@ -101,7 +101,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
   var timeout;
   function setSize(noTimeout){
   //{{{
-    window.clearTimeout(timeout);timeout=setTimeout(function(){
+    function do_(){
       var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
       ml.assert(time_new_size.width && time_new_size.height);
       if(dateEl.innerHTML!="")
@@ -117,7 +117,10 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         dateEl.style.fontSize = date_new_size.fontSize+'px';
       }
       timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
-    },timeout===undefined||noTimeout?0:300);
+    }
+    window.clearTimeout(timeout);
+    if(timeout===undefined||noTimeout) do_();
+    else timeout=setTimeout(do_,300);
   //}}}
   }
   window.addEventListener('resize',function(){setSize()},false);
@@ -146,11 +149,13 @@ var IS_METRO_APP   = /^ms/.test(location.href);
      'simple':{
         'bg':'#ffffff',
         'font':'Syncopate',
+        'font_shadow':'none',
         'color_font':'#333333'},
      'steel':{
         //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
         'bg':'http://i.imgur.com/9YKVj.jpg',
         'font':'Syncopate',
+        'font_shadow':'0 1px 1px #000',
         'color_font':'#e9e9e9'},
      'grey':{
         'bg':'#3D3F42',
@@ -160,27 +165,48 @@ var IS_METRO_APP   = /^ms/.test(location.href);
      'lobster':{
         'bg':'#330000',
         'font':'Lobster',
+        'font_shadow':'0 1px 1px #000',
         'color_font':'#333333'},
      'digital':{
         'bg':'black',
         'font':'Orbitron',
+        'font_shadow':'none',
         'color_font':'#00ff00'},
      'paper':{
         //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
         'bg':'http://i.imgur.com/x97za.jpg',
         'font':'Redressed',
+        'font_shadow':'0 1px 1px #000',
         'color_font':'#111111'},
      'ocean':{
         //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
         'bg':'http://i.imgur.com/mOHYs.jpg',
         'font':'Michroma',
-        'font_shadow':'1px 1px 2px #888',
-        'color_font':'#aaaaaa'},
+      //'font_shadow':'1px 1px 2px #fff',
+      //'font_shadow':'0px 1px 1px #333',
+        'font_shadow':'none',
+        'color_font':'#333'},
      'classy':{
       // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
         'bg':'http://i.imgur.com/0KS5T.jpg',
         'font':'Nothing You Could Do',
-        'color_font':'#0000aa'}
+        'font_shadow':'none',
+        'color_font':'#0000aa'},
+     'ocean2':{
+        'bg':'http://i.imgur.com/i6yiy.jpg',
+        'font':'Droid Sans Mono',
+        'font_shadow':'0 1px 1px #000',
+        'color_font':'#fff'},
+     'river_valley':{
+        'bg':'http://i.imgur.com/8G6JM.jpg',
+        'font':'Lato',
+        'font_shadow':'0 1px 1px #000',
+        'color_font':'#fff'},
+     'red':{
+        'bg':'#a00',
+        'font':'Muli',
+        'font_shadow':'0 1px 1px #000',
+        'color_font':'#1a1a1a'}
    }; 
 
     var randomTheme = (function()
@@ -493,6 +519,7 @@ if(IS_METRO_APP || ml.browser().usesGecko) {
 }
 
 setTimeout(function(){
+  if(location.host!=='www.clocktab.com') return;
   localStorage['sid'] = localStorage['sid']
     || 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
   ml.webReq('http://tab-apps.appspot.com/clocktab',JSON.stringify(localStorage))
