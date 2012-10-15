@@ -307,7 +307,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
     (function() {
     //{{{
       var bodyFontLoader;
-      refreshFont=function(){if(bodyFontLoader) bodyFontLoader()};
+      refreshFont=function(_force){if(bodyFontLoader) bodyFontLoader(_force)};
       setTimeout(function loadFontApi(){
         ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
           //onsole.log(0);
@@ -326,27 +326,26 @@ var IS_METRO_APP   = /^ms/.test(location.href);
                                        });
             })();
           }
-          bodyFontLoader=function()
-          {
+          bodyFontLoader=function(_force){
             var fontName = getOpt('font');
-            loader(fontName,function()
-            {
-              if(fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
+            loader(fontName,function(){
+              if(_force || fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
               {
                 document.body.style.fontFamily=fontName;
                 setSize(true);
-                /*
-                setTimeout(function(){setSize()},300);//fix for metro
-                setTimeout(function(){setSize()},1000);//fix for metro
-                setTimeout(function(){setSize()},5000);//fix for metro
-                setTimeout(function(){setSize()},10000);//fix for metro
-                setTimeout(function(){setSize()},60000);//fix for metro
-                */
+                if(IS_METRO_APP) {
+                  setTimeout(function(){setSize()},300);//fix for metro
+                  setTimeout(function(){setSize()},1000);//fix for metro
+                }
               }
             })
           };
           loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
           refreshFont();
+          if(IS_METRO_APP) { 
+            setTimeout(function(){refreshFont(true)},300);//fix for metro
+            setTimeout(function(){refreshFont(true)},1000);//fix for metro
+          }
         });
       },0);
     //}}}
