@@ -333,7 +333,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
               {
                 document.body.style.fontFamily=fontName;
                 setSize(true);
-                if(IS_METRO_APP) {
+                if(IS_METRO_APP){
                   setTimeout(function(){setSize()},300);//fix for metro
                   setTimeout(function(){setSize()},1000);//fix for metro
                 }
@@ -342,7 +342,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
           };
           loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
           refreshFont();
-          if(IS_METRO_APP) { 
+          if(IS_METRO_APP){
             setTimeout(function(){refreshFont(true)},300);//fix for metro
             setTimeout(function(){refreshFont(true)},1000);//fix for metro
           }
@@ -445,8 +445,12 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         document.body['classList'][d.getHours()<12?'remove':'add']('isPm');
 
         var seconds = ml.date.readable.getSeconds(d);
+
         digit1.innerHTML=seconds[0];
         digit2.innerHTML=seconds[1];
+        //screenshot
+        //digit1.innerHTML=0;
+        //digit2.innerHTML=0;
 
         var newTime = ml.date.readable.getHours(d,getOpt('12_hour')) + ":" + ml.date.readable.getMinutes(d);
       //var newTime = "&nbsp; 01:37 PM &nbsp;";
@@ -454,6 +458,8 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         {
           lastTime         = newTime;
           timeEl.innerHTML = newTime;
+          //screenshot
+          //timeEl.innerHTML = '01:37';
           refreshSize = true;
         }
 
@@ -461,6 +467,7 @@ var IS_METRO_APP   = /^ms/.test(location.href);
         if(!lastDay || lastDay!==day || force){
           lastDay=day;
           dateEl.innerHTML = getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + ml.date.getWeek(d):"")):"";
+          //screenshot
           //dateEl.innerHTML = "Thursday - January 01";
           refreshSize = true;
         }
