@@ -1,7 +1,39 @@
-var IS_BACKGROUND_TASK=typeof window === "undefined";
 function load(){
 
-//var winObj = window['Windows'];
+if(ml.metro){ 
+  (function(){
+    var lastScheduledTile = parseInt(ml.metro.storage['lastTile'],10) || -1;
+    var time;
+    var base = new Date().setSeconds(0);
+    for(var i=0;i<60;i++) {
+      time = +(base)+i*60000;
+
+      if(time>lastScheduledTile){
+        var d = new Date(time);
+      //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
+        var line1 = ml.date.readable.getTime('time12_pretty',d,0,2);
+        var line2 = ml.date.readable.getDay(d);
+        var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
+        ml.metro.tile.update(ml.metro.tile.createText('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
+      }
+    }
+    ml.metro.storage['lastTile'] = time;
+  })();
+
+  if(ml.metro.IS_BG_TASK){close();return;}
+  else ml.metro.maintenanceTrigger("sf\\_.js",15);
+
+  if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
+} 
+/*
+//{{{
+old code -- to del
+
+
+var IS_BACKGROUND_TASK=typeof window === "undefined";
+
+if(IS_BACKGROUND_TASK) load();
+
 var winObj = typeof Windows !== "undefined" && Windows;
 if(winObj){
   (function(){ 
@@ -23,11 +55,9 @@ if(winObj){
         var text = squareTile.getElementsByTagName("text");
         text[0].appendChild(squareTile['createTextNode'](line1));
         text[1].appendChild(squareTile['createTextNode'](line2+"\n"+line3));
-        /*
-        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
-        var tileAttributes = squareTile.getElementsByTagName("image");
-        tileAttributes[0].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAMElEQVRYR+3QQREAAAgCQekfWm3BZ7kCzGb2Ky4OECBAgAABAgQIECBAgAABAm2BA4XeP+FCGziJAAAAAElFTkSuQmCC";
-        */
+        //var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
+        //var tileAttributes = squareTile.getElementsByTagName("image");
+        //tileAttributes[0].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAMElEQVRYR+3QQREAAAgCQekfWm3BZ7kCzGb2Ky4OECBAgAABAgQIECBAgAABAm2BA4XeP+FCGziJAAAAAElFTkSuQmCC";
 
         var node = wideTile.importNode(squareTile.getElementsByTagName("binding").item(0), true);
         wideTile.getElementsByTagName("visual").item(0).appendChild(node);
@@ -77,6 +107,8 @@ if(winObj){
 
   if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
 }
+//}}}
+*/
 
 var IS_METRO_APP   = /^ms/.test(location.href);
 (function(){
@@ -532,5 +564,5 @@ setTimeout(function(){
 },10000);
 
 };
-if(IS_BACKGROUND_TASK) load();
+if(ml.metro.IS_BG_TASK) load();
 else window.onload=load;
