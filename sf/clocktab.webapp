@@ -1,11 +1,11 @@
 {
   "version": "0.3.1",
   "name": "Clock",
-  "description": 'Displays the current Time. Featuring customizable Themes. Made by the Creator of Timer Tab.',
+  "description": "Displays the current Time. Featuring customizable Themes. Made by the Creator of Timer Tab.",
   "launch_path": "/",
   "appcache_path": "/sf/main.appcache",
   "icons": {
-    "256": "http://brillcdn.appspot.com/sf/clocktab_icon_256.png"
+    "256": "/sf/256.png"
   },
   "developer": {
     "name": "Romuald Brillout",
