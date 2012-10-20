@@ -11,6 +11,10 @@ handlers:
   static_files: sf/index.html
   upload: sf/index.html
 
+- url: /privacy
+  static_files: sf/privacy.html
+  upload: sf/privacy.html
+
 - url: /sf/main.appcache
   static_files: sf/main.appcache
   mime_type: text/cache-manifest
