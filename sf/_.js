@@ -11,7 +11,7 @@ if(ml.metro){
       if(time>lastScheduledTile){
         var d = new Date(time);
       //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-        var line1 = ml.date.readable.getTime('time12_pretty',d,0,2);
+        var line1 = ml.date.readable.getTime('time12_pretty',d);
         var line2 = ml.date.readable.getDay(d);
         var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
         ml.metro.tile.update(ml.metro.tile.createText('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
@@ -82,7 +82,7 @@ if(winObj){
         if(time>lastScheduledTile){
           var d = new Date(time);
         //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-          var line1 = ml.date.readable.getTime('time12_pretty',d,0,2);
+          var line1 = ml.date.readable.getTime('time12_pretty',d);
           var line2 = ml.date.readable.getDay(d);
           var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
           tile.update(tile.create('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
