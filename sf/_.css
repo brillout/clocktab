@@ -232,3 +232,9 @@ table td
   text-align: center;
   white-space: nowrap;
 }
+
+/*erase win 8 default css*/
+body{
+  background: transparent!important;
+  color: inherit!important;
+}

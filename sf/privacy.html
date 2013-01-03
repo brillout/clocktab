@@ -1,12 +1,24 @@
+<!DOCTYPE html>
 <html>
-<body style='margin: 4% 20%;text-align:justify'>
+<body style='margin: 4% 10%;text-align:justify'>
 <!--specific terms: Clock ++, http://www.clocktab.com-->
 
+<!--
 <p>The following privacy policy is licensed under the <a
 href="http://creativecommons.org/licenses/by-sa/3.0/">Creative
 Commons</a>.</p> 
+-->
 
-<h1>Privacy Policy</h1>
+<div data-win-control="WinJS.UI.SettingsFlyout"
+    id="privacyPolicy"
+    data-win-options="{settingsCommandId:'privacyPolicy', width:'narrow'}">
+
+    <div class="win-ui-dark win-header">
+        <button id='backbtn' type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+        <script>if(!window.WinJS) setTimeout(function(){document.getElementById('backbtn').style.display='none'},0)</script>
+        <h1 class="win-label">Privacy Policy</h1>
+    </div>
+    <div class="win-content">
 
 <h3>Website Visitors</h3>
 <p>Like most website operators, Clock ++ collects
@@ -134,6 +146,9 @@ such change.</p>
 <p>
 Thanks for reading our privacy policy.
 </p>
+
+    </div>
+</div>
 
 </body>
 </html>

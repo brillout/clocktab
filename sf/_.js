@@ -11,7 +11,7 @@ if(ml.metro){
       if(time>lastScheduledTile){
         var d = new Date(time);
       //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-        var line1 = ml.date.readable.getTime('time12_pretty',d);
+        var line1 = ml.date.readable.getTime(d,'time12_pretty');
         var line2 = ml.date.readable.getDay(d);
         var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
         ml.metro.tile.update(ml.metro.tile.createText('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
@@ -21,7 +21,14 @@ if(ml.metro){
   })();
 
   if(ml.metro.IS_BG_TASK){close();return;}
-  else ml.metro.maintenanceTrigger("sf\\_.js",15);
+
+  ml.metro.maintenanceTrigger("sf\\_.js",15);
+
+  WinJS.Application.onsettings = function (e) {
+    e.detail.applicationcommands = { "privacyPolicy": { title: "Privacy Policy", href: "sf/privacy.html" } };
+    WinJS.UI.SettingsFlyout.populateSettings(e);
+  };
+  WinJS.Application.start();
 
   if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
 } 
@@ -82,7 +89,7 @@ if(winObj){
         if(time>lastScheduledTile){
           var d = new Date(time);
         //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-          var line1 = ml.date.readable.getTime('time12_pretty',d);
+          var line1 = ml.date.readable.getTime(d,'time12_pretty');
           var line2 = ml.date.readable.getDay(d);
           var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
           tile.update(tile.create('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
@@ -564,5 +571,5 @@ setTimeout(function(){
 },10000);
 
 };
-if(ml.metro.IS_BG_TASK) load();
+if(ml.metro&&ml.metro.IS_BG_TASK) load();
 else window.onload=load;
