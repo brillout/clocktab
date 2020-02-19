@@ -3,7 +3,7 @@
     "dev": "serve src/",
     "deploy": "yarn prod:build && push-dir --dir=dist/ --branch=gh-pages",
     "prod": "yarn prod:build && yarn prod:serve",
-    "prod:build": "parcel build src/index.html",
+    "prod:build": "parcel build src/index.html --public-url '.'",
     "prod:serve": "serve dist/"
   },
   "dependencies": {
