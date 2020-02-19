@@ -4054,3 +4054,5 @@ function countCharacters(n) //doesn't consider line breaks, e.g. <br> and <p>
 //}}}
 }}}
 */
+
+window['ml'] = ml;
