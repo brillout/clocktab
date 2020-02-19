@@ -236,6 +236,9 @@ function load(){
             return;
           }
           function loader(fontName,callback){
+            if( !fontName ){
+              return;
+            }
             var attempts=0;
             (function do_(){
               window['WebFont']['load']({'google':{'families':[fontName]},
@@ -408,6 +411,10 @@ setTimeout(function(){
 //{{{
   window['onfontsload']=function(resp)
   {
+    if( resp.error ) {
+      console.error(resp.error.message);
+      return;
+    }
     var fonts=resp['items'];
     var val = document.getElementById('font').value;
     document.getElementById('font').innerHTML='';
