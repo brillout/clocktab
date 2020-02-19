@@ -4,7 +4,7 @@
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
     "prod:build": "rm -rf dist/ && parcel build src/index.html --public-url '.'",
-    "prod:deploy": "echo 'www.clocktab.com' > dist/CNAME && push-dir --dir=dist/ --branch=gh-pages",
+    "prod:deploy": "echo 'www.clocktab.com' > dist/CNAME && push-dir --dir=dist/ --branch=gh-pages --cleanup",
     "prod:serve": "serve dist/"
   },
   "dependencies": {
