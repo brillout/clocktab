@@ -1,123 +1,5 @@
 function load(){
 
-if(ml.metro){ 
-  (function(){
-    var lastScheduledTile = parseInt(ml.metro.storage['lastTile'],10) || -1;
-    var time;
-    var base = new Date().setSeconds(0);
-    for(var i=0;i<60;i++) {
-      time = +(base)+i*60000;
-
-      if(time>lastScheduledTile){
-        var d = new Date(time);
-      //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-        var line1 = ml.date.readable.getTime(d,'time12_pretty');
-        var line2 = ml.date.readable.getDay(d);
-        var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
-        ml.metro.tile.update(ml.metro.tile.createText('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
-      }
-    }
-    ml.metro.storage['lastTile'] = time;
-  })();
-
-  if(ml.metro.IS_BG_TASK){close();return;}
-
-  ml.metro.maintenanceTrigger("sf\\_.js",15);
-
-  WinJS.Application.onsettings = function (e) {
-    e.detail.applicationcommands = { "privacyPolicy": { title: "Privacy Policy", href: "sf/privacy.html" } };
-    WinJS.UI.SettingsFlyout.populateSettings(e);
-  };
-  WinJS.Application.start();
-
-  if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
-} 
-/*
-//{{{
-old code -- to del
-
-
-var IS_BACKGROUND_TASK=typeof window === "undefined";
-
-if(IS_BACKGROUND_TASK) load();
-
-var winObj = typeof Windows !== "undefined" && Windows;
-if(winObj){
-  (function(){ 
-    var tile={};
-    (function(){ 
-      var Noti = winObj['UI']['Notifications'];
-      tile.create=function(type,line1,line2,line3){ 
-        ml.assert(type==='big' || type==='bigCenter');
-        var wideTile;
-        if(type==='big'){
-          wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideText03']); 
-        } else if(type==='bigCenter'){
-          wideTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileWideSmallImageAndText01']); 
-        }
-        var text = wideTile.getElementsByTagName("text");
-        text[0].appendChild(wideTile['createTextNode'](line1+"\n"+line2+"\n"+line3));
-
-        var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareText02']);
-        var text = squareTile.getElementsByTagName("text");
-        text[0].appendChild(squareTile['createTextNode'](line1));
-        text[1].appendChild(squareTile['createTextNode'](line2+"\n"+line3));
-        //var squareTile = Noti['TileUpdateManager']['getTemplateContent'](Noti['TileTemplateType']['tileSquareImage']);
-        //var tileAttributes = squareTile.getElementsByTagName("image");
-        //tileAttributes[0].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAMElEQVRYR+3QQREAAAgCQekfWm3BZ7kCzGb2Ky4OECBAgAABAgQIECBAgAABAm2BA4XeP+FCGziJAAAAAElFTkSuQmCC";
-
-        var node = wideTile.importNode(squareTile.getElementsByTagName("binding").item(0), true);
-        wideTile.getElementsByTagName("visual").item(0).appendChild(node);
-
-        return wideTile;
-      }; 
-      tile.update=function(newTile,expire_,scheduled){ 
-        ml.assert(newTile&&expire_&&expire_.constructor===Date&&(!scheduled||scheduled.constructor===Date));
-        var tileNotification = scheduled&&(new Noti['ScheduledTileNotification'](newTile,scheduled)) || (new Noti['TileNotification'](newTile));
-        tileNotification['expirationTime'] = expire_;
-        Noti['TileUpdateManager']['createTileUpdaterForApplication']()[scheduled?'addToSchedule':'update'](tileNotification);
-      }; 
-    })(); 
-    (function(){
-      var storage = winObj['Storage']['ApplicationData']['current']['localSettings']['values'];
-      var lastScheduledTile = parseInt(storage['lastTile'],10) || -1;
-      var time;
-      var base = new Date().setSeconds(0);
-      for(var i=0;i<60;i++) {
-        time = +(base)+i*60000;
-
-        if(time>lastScheduledTile){
-          var d = new Date(time);
-        //var line1 = ml.date.readable.getHours(d,true) + ":" +ml.date.readable.getMinutes(d)+' '+(d.getHours()<12?'AM':'PM');
-          var line1 = ml.date.readable.getTime(d,'time12_pretty');
-          var line2 = ml.date.readable.getDay(d);
-          var line3 = ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d);
-          tile.update(tile.create('bigCenter',line1,line2,line3),new Date(time+60000),i>0&&d);
-        }
-      }
-      storage['lastTile'] = time;
-    })();
-  })(); 
-
-  if(IS_BACKGROUND_TASK){//=> this js is called as background task
-    close();
-    return;
-  }else{
-    var builder = new winObj['ApplicationModel']['Background']['BackgroundTaskBuilder']();
-    builder['name'] = "Maintenance background task";
-    builder['taskEntryPoint'] = "sf\\_.js";
-    //Run every 2 minutes if the device is on AC power
-    var trigger = new winObj['ApplicationModel']['Background']['MaintenanceTrigger'](15, false);
-    builder['setTrigger'](trigger);
-    var task = builder['register']();
-  }
-
-  if(ml.replaceWebApp('ms-appx-web:///index.html')) return;
-}
-//}}}
-*/
-
-var IS_METRO_APP   = /^ms/.test(location.href);
 (function(){
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
   var DEFAULT_BG     = '';
@@ -372,19 +254,11 @@ var IS_METRO_APP   = /^ms/.test(location.href);
               {
                 document.body.style.fontFamily=fontName;
                 setSize(true);
-                if(IS_METRO_APP){
-                  setTimeout(function(){setSize()},300);//fix for metro
-                  setTimeout(function(){setSize()},1000);//fix for metro
-                }
               }
             })
           };
           loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
           refreshFont();
-          if(IS_METRO_APP){
-            setTimeout(function(){refreshFont(true)},300);//fix for metro
-            setTimeout(function(){refreshFont(true)},1000);//fix for metro
-          }
         });
       },0);
     //}}}
@@ -556,12 +430,6 @@ setTimeout(function(){
 },0);
 
 setTimeout(function(){ml.loadAnalytics('UA-5263303-5')},0);
-
-if(IS_METRO_APP || ml.browser().usesGecko) {
-  //no way to detected if run in firefox or as stand alone web app => disable for both
-  document.getElementById('color_icon')        .parentElement.style.display='none';
-  document.getElementById('show_seconds_title').parentElement.style.display='none';
-}
 
 setTimeout(function(){
   if(location.host!=='www.clocktab.com') return;

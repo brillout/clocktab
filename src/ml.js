@@ -2984,9 +2984,6 @@ ml.loadAnalytics=function(id) {
   }; 
 })();
 
-//disable application cache for gecko/firefox
-//not working if this script is defered
-//if (window.navigator.product == "Gecko") document.documentElement.removeAttribute("manifest");
 })(); //warning: don't forget ; after function definition, critical before (function(){})();
 
 
