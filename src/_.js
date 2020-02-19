@@ -230,19 +230,16 @@ function load(){
       var bodyFontLoader;
       refreshFont=function(_force){if(bodyFontLoader) bodyFontLoader(_force)};
       setTimeout(function loadFontApi(){
-        ml.loadASAP('https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
-          //onsole.log(0);
+        ml.loadASAP('https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',function(){
           if(!window['WebFont']||!window['WebFont']['load']) {
-            //onsole.log('false successfull');
             setTimeout(loadFontApi,2000);
             return;
           }
           function loader(fontName,callback){
             var attempts=0;
             (function do_(){
-            //onsole.log(2);
               window['WebFont']['load']({'google':{'families':[fontName]},
-                                         'active':callback,
+                                         'fontactive':callback,
                                          'fontinactive':function(){setTimeout(do_,Math.max(Math.pow(2,attempts++)*1000,60000))}
                                        });
             })();
