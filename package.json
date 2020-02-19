@@ -1,12 +1,14 @@
 {
   "scripts": {
     "dev": "serve src/",
+    "deploy": "yarn prod:build && push-dir --dir=dist/ --branch=gh-pages",
     "prod": "yarn prod:build && yarn prod:serve",
     "prod:build": "parcel build src/index.html",
     "prod:serve": "serve dist/"
   },
   "dependencies": {
     "parcel": "^1.12.4",
+    "push-dir": "^0.4.1",
     "serve": "^11.3.0"
   }
 }
