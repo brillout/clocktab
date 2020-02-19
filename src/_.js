@@ -74,7 +74,7 @@ function load(){
         'color_font':'#333333'},
      'steel':{
         //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-        'bg':'http://i.imgur.com/9YKVj.jpg',
+        'bg':'https://i.imgur.com/9YKVj.jpg',
         'font':'Syncopate',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#e9e9e9'},
@@ -95,13 +95,13 @@ function load(){
         'color_font':'#00ff00'},
      'paper':{
         //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
-        'bg':'http://i.imgur.com/x97za.jpg',
+        'bg':'https://i.imgur.com/x97za.jpg',
         'font':'Redressed',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#111111'},
      'ocean':{
         //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
-        'bg':'http://i.imgur.com/mOHYs.jpg',
+        'bg':'https://i.imgur.com/mOHYs.jpg',
         'font':'Michroma',
       //'font_shadow':'1px 1px 2px #fff',
       //'font_shadow':'0px 1px 1px #333',
@@ -109,17 +109,17 @@ function load(){
         'color_font':'#333'},
      'classy':{
       // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
-        'bg':'http://i.imgur.com/0KS5T.jpg',
+        'bg':'https://i.imgur.com/0KS5T.jpg',
         'font':'Nothing You Could Do',
         'font_shadow':'none',
         'color_font':'#0000aa'},
      'ocean2':{
-        'bg':'http://i.imgur.com/i6yiy.jpg',
+        'bg':'https://i.imgur.com/i6yiy.jpg',
         'font':'Droid Sans Mono',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'river_valley':{
-        'bg':'http://i.imgur.com/8G6JM.jpg',
+        'bg':'https://i.imgur.com/8G6JM.jpg',
         'font':'Lato',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
@@ -230,7 +230,7 @@ function load(){
       var bodyFontLoader;
       refreshFont=function(_force){if(bodyFontLoader) bodyFontLoader(_force)};
       setTimeout(function loadFontApi(){
-        ml.loadASAP('http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
+        ml.loadASAP('https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js',function(){
           //onsole.log(0);
           if(!window['WebFont']||!window['WebFont']['load']) {
             //onsole.log('false successfull');

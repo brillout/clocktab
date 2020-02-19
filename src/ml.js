@@ -620,20 +620,20 @@ ml.showBrowserHint=function(name,additionalText)
     if(browser==='Chrome')
     {
       browser='Google Chrome';
-      instruction+="'http://www.google.com/chrome/'>www.google.com/chrome</a>";
+      instruction+="'https://www.google.com/chrome/'>www.google.com/chrome</a>";
     }
     else if(browser==='Firefox')
     {
-      instruction+="'http://www.mozilla.com/firefox/'>www.mozilla.com/firefox</a>";
+      instruction+="'https://www.mozilla.com/firefox/'>www.mozilla.com/firefox</a>";
     }
     else if(browser==='Safari')
     {
-      instruction+="'http://www.apple.com/safari/download/'>www.apple.com/safari/download</a>";
+      instruction+="'https://www.apple.com/safari/download/'>www.apple.com/safari/download</a>";
     }
     else if(browser==='Explorer')
     {
       browser='Internet Explorer';
-      instruction="in order to use "+name+" install the Google Chrome Frame plug-in at <a target='_blank' href='http://code.google.com/chrome/chromeframe/'>http://code.google.com/chrome/chromeframe</a>";
+      instruction="in order to use "+name+" install the Google Chrome Frame plug-in at <a target='_blank' href='https://code.google.com/chrome/chromeframe/'>https://code.google.com/chrome/chromeframe</a>";
     }
     else
       instruction=null;
@@ -2196,7 +2196,7 @@ ml.htmlBackground=function(inputName,default_)
 //http://vistawallpapers.files.wordpress.com/2007/03/vista-wallpapers-69.jpg
 {
   //TODO: replace with http://i.imgur.com/cvyOo.gif
-  var LOAD_IMG_URL = 'http://i.imgur.com/zqG5F.gif';
+  var LOAD_IMG_URL = 'https://i.imgur.com/zqG5F.gif';
   ml.assert(!arguments.callee.neverCalled);arguments.callee.neverCalled=true;
 
   var BG_EL=document.documentElement;
