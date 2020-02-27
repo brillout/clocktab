@@ -3,8 +3,11 @@
     "dev": "serve src/",
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
-    "prod:build": "rm -rf dist/ && parcel build src/index.html --public-url '.'",
-    "prod:deploy": "echo 'www.clocktab.com' > dist/CNAME && push-dir --dir=dist/ --branch=gh-pages --cleanup",
+    "prod:build": "yarn prod:build:clean && yarn prod:build:parcel && yarn prod:build:static",
+    "prod:build:clean": "rm -rf dist/",
+    "prod:build:parcel": "parcel build src/index.html --public-url '.'",
+    "prod:build:static": "mkdir -p dist/ && cp static/* dist/",
+    "prod:deploy": "push-dir --dir=dist/ --branch=gh-pages --cleanup",
     "prod:serve": "serve dist/"
   },
   "dependencies": {
