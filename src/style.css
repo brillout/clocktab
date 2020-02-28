@@ -15,6 +15,7 @@ body.noPeriod.noSeconds #digit2{
   display: none;
 }
 
+#timeTable { margin: auto }
 #timeTable td { min-width: 100% }
 #timeRow > table {width: 100%} /* for metro app */
 
@@ -237,4 +238,42 @@ table td
 body{
   background: transparent!important;
   color: inherit!important;
+}
+
+
+
+/* advertisement */
+@media (max-width:727px) {
+  .ad_desktop {
+    display: none !important;
+  }
+  #ad, .ad_mobile {
+    width: 320px;
+    height: 50px;
+  }
+}
+@media (min-width:728px){
+  .ad_mobile {
+    display: none !important;
+  }
+  #ad, .ad_desktop {
+    width: 728px;
+    height: 90px;
+  }
+}
+.ad_desktop, .ad_mobile {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+.ad_desktop {
+  margin-left: -364px;
+}
+.ad_mobile {
+  margin-left: -160px;
+}
+.ad_content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
