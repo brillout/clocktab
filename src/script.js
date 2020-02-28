@@ -257,7 +257,11 @@ function load(){
               }
             })
           };
-          loader('Arvo',function(){document.getElementById('options').style.fontFamily='Arvo'});
+          const arvoFont = 'Arvo';
+          loader(arvoFont,function(){
+            document.getElementById('options').style.fontFamily = arvoFont;
+            document.getElementById('ad_remover').style.fontFamily = arvoFont;
+          });
           refreshFont();
         });
       },0);
