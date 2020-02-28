@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "serve src/",
+    "dev": "serve src/ --listen 3000",
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
     "prod:build": "yarn prod:build:clean && yarn prod:build:parcel && yarn prod:build:static",
