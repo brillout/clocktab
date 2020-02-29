@@ -2301,14 +2301,13 @@ ml.setBodyBackground = function(inputName,default_)
 ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
 //{{{
 {
-  //*
+  /*
   const DEBUG = 1;
   /*/
   const DEBUG = 0;
   //*/
 
   scaleEl = scaleEl || document.documentElement;
-  scaleEl = document.documentElement;
 
   const el = zoomEl;
 
@@ -2344,13 +2343,20 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
     function zoomIn()
     {
       function boxSize(el){
-        function getI(prop){return parseInt(ml.element.getStyle(el,prop),10)||0}
-        var h=getI('height');
-        var w=getI('width');
+        function getSize(prop){return parseInt(ml.element.getStyle(el,prop),10)||0}
+        var h=getSize('height');
+        var w=getSize('width');
         //gecko's computed values ignores box-sizing:border-box
         var isBorderBox = !ml.browser().usesGecko && ['-webkit-','-moz-','-ms-','-o',''].reduce(function(p1,p2){return ml.element.getStyle(el,p1+'box-sizing')||ml.element.getStyle(el,p2+'box-sizing')})==='border-box';
         function getTotal(d){return d.map(function(di){
-          return (isBorderBox?0:(getI('padding-'+di)+getI('border-'+di)))+getI('margin-'+di)
+          const paddingSize = getSize('padding-'+di);
+          const borderSize = getSize('border-'+di);
+          //*
+          const marginSize = 0;
+          /*/
+          const marginSize = getSize('margin-'+di);
+          //*/
+          return (isBorderBox?0:(paddingSize+borderSize))+marginSize;
         }).reduce(function(i1,i2){return i1+i2}) }
         h+=getTotal(['top','bottom']);
         w+=getTotal(['left','right']);
@@ -2375,7 +2381,7 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
       var winHeight = window.innerHeight;
       var viewWidth  = elWidth;
       var viewHeight = elHeight+botPad;
-      DEBUG && console.log('zoom', {elWidth, elHeight, botPad});
+      DEBUG && console.log('zoom', {elWidth, elHeight, botPad, el});
 
       var scale = Math.min(winHeight/viewHeight,winWidth/viewWidth);
       var offset_to_middle = [winWidth-2*(elPos.x+viewWidth/2),winHeight-2*(elPos.y+viewHeight/2)];
