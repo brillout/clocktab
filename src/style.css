@@ -170,21 +170,11 @@ body
 }
 */
 
-#options.hoverEnabled:hover
-{
-  -webkit-transition: opacity .5s linear;
-     -moz-transition: opacity .5s linear;
-      -ms-transition: opacity .5s linear;
-       -o-transition: opacity .5s linear;
-          transition: opacity .5s linear;
+#options.hoverEnabled:hover {
+  transition: opacity .5s linear;
 }
-#options
-{
-  -webkit-transition: opacity 2s ease-in-out;
-     -moz-transition: opacity 2s ease-in-out;
-      -ms-transition: opacity 2s ease-in-out;
-       -o-transition: opacity 2s ease-in-out;
-          transition: opacity 2s ease-in-out;
+#options {
+  transition: opacity 2s ease-in-out;
 }
 
 
@@ -298,4 +288,13 @@ body{
   text-decoration: none;
   color: #333;
   text-shadow: none;
+}
+
+
+body {
+  opacity: 1;
+  transition: opacity .5s linear;
+}
+body.hideApp {
+  opacity: 0;
 }

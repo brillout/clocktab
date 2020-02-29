@@ -3,15 +3,9 @@
 
 export default loadClock;
 
-function loadClock() {
-  /*
-  await installClock();
-  await loadFont();
-  */
-
-
-  let resolve;
-  const promise = new Promise(r => resolve =r);
+async function loadClock() {
+  let resolveAwaitClockFont;
+  const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
 
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
   var DEFAULT_BG     = '';
@@ -236,18 +230,27 @@ function loadClock() {
     })();
     //}}}
 
-    var refreshFont;
+    var loadClockFont;
     (function() {
     //{{{
       var bodyFontLoader;
-      refreshFont=function(_force){if(bodyFontLoader) bodyFontLoader(_force)};
+      loadClockFont=function(_force){
+        let resolve;
+        const promise = new Promise(r => resolve = r);
+        if(bodyFontLoader) {
+          bodyFontLoader(_force, () => {resolve()});
+        } else {
+          resolve();
+        }
+        return promise;
+      };
       setTimeout(function loadFontApi(){
         ml.loadASAP('https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',function(){
           if(!window['WebFont']||!window['WebFont']['load']) {
             setTimeout(loadFontApi,2000);
             return;
           }
-          function loader(fontName,callback){
+          function fontLoader(fontName,callback){
             if( !fontName ){
               return;
             }
@@ -259,22 +262,22 @@ function loadClock() {
                                        });
             })();
           }
-          bodyFontLoader=function(_force){
+          bodyFontLoader=function(_force, callback){
             var fontName = getOpt('font');
-            loader(fontName,function(){
-              if(_force || fontName===getOpt('font') && document.body.style.fontFamily!==fontName)
-              {
+            fontLoader(fontName,function(){
+              if( _force || fontName===getOpt('font') && document.body.style.fontFamily!==fontName ){
                 document.body.style.fontFamily=fontName;
                 setSize(true);
               }
+              callback();
             })
           };
           const arvoFont = 'Arvo';
-          loader(arvoFont,function(){
+          fontLoader(arvoFont,function(){
             document.getElementById('options').style.fontFamily = arvoFont;
             document.getElementById('ad_remover').style.fontFamily = arvoFont;
           });
-          refreshFont();
+          loadClockFont().then(() => {resolveAwaitClockFont()});
         });
       },0);
     //}}}
@@ -299,7 +302,7 @@ function loadClock() {
       }
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
-      function themeChangeListener(){fontShadowListener();colorChangeListener();refreshFont();bgChanger(getOpt('bg'));setOptVisibility()}
+      function themeChangeListener(){fontShadowListener();colorChangeListener();loadClockFont();bgChanger(getOpt('bg'));setOptVisibility()}
       function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
 
       var bgChanger;
@@ -323,7 +326,7 @@ function loadClock() {
           else if(opt.id==='font_shadow') changeListener=fontShadowListener;
           else if(opt.id==='color_font')  changeListener=colorChangeListener;
           else if(opt.id==='theme')  changeListener=themeChangeListener;
-          else if(opt.id==='font')   changeListener=refreshFont;
+          else if(opt.id==='font')   changeListener=loadClockFont;
           else                       changeListener=refreshStuff;
           ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
         }
@@ -420,4 +423,10 @@ function loadClock() {
   })();
 
   spark();
+
+  await Promise.race([awaitClockFont, sleep(0.4)]);
 };
+
+function sleep(seconds) {
+  return new Promise(resolve => setTimeout(resolve, seconds*1000));
+}

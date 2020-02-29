@@ -8,6 +8,9 @@ import autoReloadPage from './autoReloadPage';
 
 window.onload = async () => {
   await loadClock();
+  console.log('finished waiting loading clock');
+
+  document.body.classList.remove('hideApp');
 
   loadAnalytics();
 
