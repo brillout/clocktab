@@ -266,12 +266,6 @@ body{
   bottom: 0;
   left: 50%;
 }
-.ad_desktop {
-  margin-left: -364px;
-}
-.ad_mobile {
-  margin-left: -160px;
-}
 .ad_content {
   position: absolute;
   width: 100%;
@@ -296,6 +290,9 @@ body{
   border: 1px solid rgba(200,200,200,0.7);
   border-bottom-width: 0;
   box-sizing: content-box !important;
+
+  position: relative;
+  overflow: hidden;
 }
 #ad_remover {
   text-decoration: none;
