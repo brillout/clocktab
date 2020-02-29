@@ -4,8 +4,15 @@
 export default loadClock;
 
 function loadClock() {
+  /*
+  await installClock();
+  await loadFont();
+  */
 
-(function(){
+
+  let resolve;
+  const promise = new Promise(r => resolve =r);
+
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
   var DEFAULT_BG     = '';
   var DEFAULT_FONT   = 'Josefin Slab';
@@ -413,39 +420,4 @@ function loadClock() {
   })();
 
   spark();
-})();
-
-//load font list
-setTimeout(function(){
-//{{{
-  window['onfontsload']=function(resp)
-  {
-    if( resp.error ) {
-      console.error(resp.error.message);
-      return;
-    }
-    var fonts=resp['items'];
-    var val = document.getElementById('font').value;
-    document.getElementById('font').innerHTML='';
-    var max=300;//firefox crashes when selecting a from too many options
-    for(var i in fonts)
-    {
-      if(ml.browser().usesGecko && !max--)break;
-      var fop=document.createElement('option');
-      fop.innerHTML=fonts[i]['family'];
-      fop.value    =fonts[i]['family'];
-      document.getElementById('font').appendChild(fop);
-    }
-    document.getElementById('font').value=val;
-  };
-  ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
-//}}}
-},0);
-
-setTimeout(function(){
-  if(location.host!=='www.clocktab.com') return;
-  localStorage['sid'] = localStorage['sid']
-    || 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
-},10000);
-
 };
