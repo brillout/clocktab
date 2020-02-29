@@ -310,7 +310,7 @@ async function loadClock() {
       {
         var opt = opts[i];
         if(opt.id==='bg'){
-          bgChanger=ml.htmlBackground(opt.input.id,opt.default_);
+          bgChanger=ml.setBodyBackground(opt.input.id,opt.default_);
         }
         else
         {

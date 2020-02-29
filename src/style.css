@@ -215,21 +215,13 @@ table td
   padding:0;
 }
 
-#content
-{
+#content {
   margin: auto;
   height: 100%;
   vertical-align: middle;
   text-align: center;
   white-space: nowrap;
 }
-
-/*erase win 8 default css*/
-body{
-  background: transparent!important;
-  color: inherit!important;
-}
-
 
 
 /* advertisement */

@@ -2184,7 +2184,7 @@ ml.optionInput=function(id,default_,listener,opts){
 //
 }
 
-ml.htmlBackground=function(inputName,default_)
+ml.setBodyBackground = function(inputName,default_)
 //{{{
 //tricky bg images to test:
 //-http://static.panoramio.com/photos/original/3719338.jpg
@@ -2195,11 +2195,14 @@ ml.htmlBackground=function(inputName,default_)
 //http://www.gowallpaper.net/wp-content/uploads/2011/04/Windows-7-3d-wide-wallpaper-1280x800.jpg
 //http://vistawallpapers.files.wordpress.com/2007/03/vista-wallpapers-69.jpg
 {
-  //TODO: replace with http://i.imgur.com/cvyOo.gif
+  /*
+  var LOAD_IMG_URL = 'http://i.imgur.com/cvyOo.gif';
+  /*/
   var LOAD_IMG_URL = 'https://i.imgur.com/zqG5F.gif';
+  //*/
   ml.assert(!arguments.callee.neverCalled);arguments.callee.neverCalled=true;
 
-  var BG_EL=document.documentElement;
+  var BG_EL=document.body;
   var LOAD_IMG = 'url('+LOAD_IMG_URL+')';
 
   //following 2 styles used for auto sized background for loading gif
@@ -2211,10 +2214,6 @@ ml.htmlBackground=function(inputName,default_)
   //make sure size is at least size of window
   BG_EL.style['min-height']='100%';
   BG_EL.style['min-width']='100%';
-  if(ml.metro){
-    document.body.style['background']='transparent';
-    document.body.style['backgroundColor']='transparent';
-  }
 
   var setBg;
   (function(){
