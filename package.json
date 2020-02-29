@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "parcel": "^1.12.4",
-    "push-dir": "^0.4.1"
+    "push-dir": "^0.4.1",
+    "serve": "^11.3.0"
   }
 }
