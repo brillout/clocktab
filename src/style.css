@@ -283,10 +283,29 @@ table td
 }
 
 
-body {
+html {
   opacity: 1;
-  transition: opacity .5s linear;
+  transition: opacity 0.5s linear;
 }
-body.hideApp {
+html.hideApp,
+html.hideApp * {
+  visibility: hidden !important;
+}
+/*
+html,
+html * {
+  visibility: hidden !important;
+}
+*/
+html.hideApp {
   opacity: 0;
+}
+
+html {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  min-height: 100%;
+  min-width: 100%;
+  background-image: url("https://i.imgur.com/zqG5F.gif");
 }

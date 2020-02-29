@@ -10,7 +10,7 @@ window.onload = async () => {
   await loadClock();
   console.log('finished waiting loading clock');
 
-  document.body.classList.remove('hideApp');
+  document.documentElement.classList.remove('hideApp');
 
   loadAnalytics();
 

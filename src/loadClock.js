@@ -335,7 +335,7 @@ async function loadClock() {
     })();
     //}}}
 
-    ml.fullscreenElement(timeTableEl,'f');
+    ml.fullscreenElement({scaleEl: document.getElementById('content'),zoomEl: timeTableEl, keybinding: 'f'});
   //}}}
   })();
 

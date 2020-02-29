@@ -2298,9 +2298,20 @@ ml.setBodyBackground = function(inputName,default_)
 };
 //}}}
 
-ml.fullscreenElement=function(el,keybinding,bottomElements)
+ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
 //{{{
 {
+  //*
+  const DEBUG = 1;
+  /*/
+  const DEBUG = 0;
+  //*/
+
+  scaleEl = scaleEl || document.documentElement;
+  scaleEl = document.documentElement;
+
+  const el = zoomEl;
+
   function fullscreenZoomableElement(el)
   //{{{
   //TODO
@@ -2321,9 +2332,9 @@ ml.fullscreenElement=function(el,keybinding,bottomElements)
     for(var i=0;i<omPrefixes.length;i++)
     {
       var pre=omPrefixes[i];
-      if(document.documentElement.style[pre+'ransition']==='' && document.documentElement.style[pre+'ransform']==='') {
-        document.documentElement.style[pre+'ransition']=prefixes[i]+'transform '+(TRANSITION_DURATION/1000)+'s ease-in-out';
-        if(document.documentElement.style[pre+'ransition']) rightPre=pre;
+      if(scaleEl.style[pre+'ransition']==='' && scaleEl.style[pre+'ransform']==='') {
+        scaleEl.style[pre+'ransition']=prefixes[i]+'transform '+(TRANSITION_DURATION/1000)+'s ease-in-out';
+        if(scaleEl.style[pre+'ransition']) rightPre=pre;
       }
     }
     if(!rightPre) return false;
@@ -2346,8 +2357,8 @@ ml.fullscreenElement=function(el,keybinding,bottomElements)
         return {height:h,width:w};
       }
 
-      overflow_orginial = document.documentElement.style['overflow'];
-      document.documentElement.style['overflow']='hidden';
+      overflow_orginial = scaleEl.style['overflow'];
+      scaleEl.style['overflow']='hidden';
 
       var sizes = boxSize(el);
       var elWidth   = sizes.width;
@@ -2364,18 +2375,21 @@ ml.fullscreenElement=function(el,keybinding,bottomElements)
       var winHeight = window.innerHeight;
       var viewWidth  = elWidth;
       var viewHeight = elHeight+botPad;
+      DEBUG && console.log('zoom', {elWidth, elHeight, botPad});
 
       var scale = Math.min(winHeight/viewHeight,winWidth/viewWidth);
       var offset_to_middle = [winWidth-2*(elPos.x+viewWidth/2),winHeight-2*(elPos.y+viewHeight/2)];
       var scale_offset = scale/2; //divide by 2 because scale crops top overflow
 
+      DEBUG && console.log('zoom', {scale_offset, offset_to_middle});
       var translation = scale_offset*offset_to_middle[0]+'px,'+scale_offset*offset_to_middle[1]+'px';
-      document.documentElement.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
+      DEBUG && console.log('zoom', {translation, scale});
+      scaleEl.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
       zoomed=true;
 
       /*
-      overflow_orginial = document.documentElement.style['overflow'];
-      document.documentElement.style['overflow']='hidden';
+      overflow_orginial = scaleEl.style['overflow'];
+      scaleEl.style['overflow']='hidden';
       var elWidth   = parseInt(ml.element.getStyle(el,'width')       ,10);
       var elHeight  = parseInt(ml.element.getStyle(el,'height')      ,10);
       var botPad    = bottomElements.map(function(el){return parseInt(ml.element.getStyle(el,'height'),10)||0}).reduce(function(i1,i2){return i1+i2});
@@ -2398,15 +2412,15 @@ ml.fullscreenElement=function(el,keybinding,bottomElements)
       var scale = Math.min(winHeight/elHeight,winWidth/elWidth);
       var diff  = Math.min(winHeight-scale*elHeight,scale*botPad);
       var translation = scale*(winWidth/2-(elPos.x+elWidth/2))+'px,'+(scale*(winHeight/2-(elPos.y+elHeight/2))-diff)+'px';
-      document.documentElement.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
+      scaleEl.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
       zoomed=true;
       */
     }
     function zoomOut()
     {
-      document.documentElement.style[rightPre+'ransform']='';
+      scaleEl.style[rightPre+'ransform']='';
       //timeout makes transition of zoom counter smoother
-      setTimeout(function(){if(!zoomed) document.documentElement.style['overflow']=overflow_orginial},TRANSITION_DURATION+1);
+      setTimeout(function(){if(!zoomed) scaleEl.style['overflow']=overflow_orginial},TRANSITION_DURATION+1);
       zoomed=false;
     }
     return [zoomIn,zoomOut];
@@ -2433,8 +2447,8 @@ ml.fullscreenElement=function(el,keybinding,bottomElements)
     // http://www.thecssninja.com/javascript/fullscreen
       if(isFullscreen())
       {
-        if(document.documentElement['webkitRequestFullScreen']) document.documentElement['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']);
-        if(document.documentElement['mozRequestFullScreen'])    document.documentElement['mozRequestFullScreen']();
+        if(scaleEl['webkitRequestFullScreen']) scaleEl['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']);
+        if(scaleEl['mozRequestFullScreen'])    scaleEl['mozRequestFullScreen']();
       }
       else
       {
