@@ -1,3 +1,7 @@
+const ml = {};
+
+export default ml;
+
 //closure compiler behavior
 //-var p=Date.prototype;p.neverCalled=function..;// --> neverCalled isn't removed
 //-window.neverCalled=function..;// --> neverCalled isn't removed
@@ -2650,5 +2654,3 @@ ml.loadAnalytics=function(id) {
 })();
 
 })(); //warning: don't forget ; after function definition, critical before (function(){})();
-
-window['ml'] = ml;

@@ -1,3 +1,5 @@
+import ml from './ml';
+
 export default loadAd;
 
 function loadAd() {

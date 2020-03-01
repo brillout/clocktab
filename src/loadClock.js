@@ -1,6 +1,8 @@
 // This code is over a decade old.
 // I'm more than happy to accept a PR to modernize all this :-)
 
+import ml from './ml';
+
 export default loadClock;
 
 async function loadClock() {

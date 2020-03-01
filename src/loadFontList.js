@@ -1,3 +1,5 @@
+import ml from './ml';
+
 export default loadFontList;
 
 function loadFontList() {
