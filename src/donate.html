@@ -2,12 +2,46 @@
 <html>
 <head>
 <title>Donate - Clock Tab</title>
-<link rel='stylesheet' type='text/css' href='donate.css'/>
+<style>
+body {
+  color: #444;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+  max-width: 880px;
+  margin: auto;
+  padding: 10px;
+}
+html {
+  font-size: 1.05em;
+}
+h2 {
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: -.03rem;
+  line-height: 2rem;
+  margin: 2.8rem 0 1.4rem;
+}
+img {
+  border: 2px solid #696969;
+  border-radius: 5px;
+  width: 228px;
+  height: 316px;
+  margin-left: 20px;
+  margin-top: -4px;
+}
+</style>
 </head>
 
 <body>
+
+<h2>
+Hello,
+</h2>
+
+<img style="float: right" src="romuald_alps.png"/>
+
 <p>
-Hi, I'm Romuald, the creator of Clock Tab.
+I'm Romuald, the creator of Clock Tab.
 </p>
 
 <p>
@@ -16,16 +50,15 @@ For the longest time, I refused to put ads on Clock Tab. I don't like ads.
 
 <p>
 But I want to improve Clock Tab.
-Much more (and well polished ones!) themes, better theme customization, better page load speed, and so on and so forth.
-Ads and donations will allow me to maintain and dedicate time to improve Clock Tab.
+More themes (and well polished ones!), improved theme customization, faster load speed, and many more ideas.
+Ads and donations allow me to maintain and dedicate more time for Clock Tab.
 </p>
 
 <p>
-If you don't like ads, you can donate to remove ads on Clock Tab.
+If you don't like ads, you can donate and I will then give you a hidden code to remove ads.
 Any amount you are capable of donating is welcome.
-Even it's only 0,01$,
-your gesture is worth to me as much as the money.
-I will then give you a hidden code to remove ads.
+Even it's only 0,01$!
+Your gesture is worth to me as much as the money.
 </p>
 
 <p>
@@ -38,17 +71,22 @@ To donate, email me at <a id="contact"></a>.
   email+='com';
   const contactEl = document.getElementById('contact');
   contactEl.innerHTML = email;
-  contactEl.setAttribute('href', 'mailto:'+email);
+  const href = (
+    'mailto:'+email+
+    '?subject='+encodeURIComponent("I'd like to donate")+
+    '&body='+encodeURIComponent("Hi Romuald, I would like to donate :-)")
+  );
+  contactEl.setAttribute('href', href);
 </script>
-</p>
-
-<p>
-I'm looking forward for a bright Clock Tab future :-).
 </p>
 
 </p>
 If you have any whishes regarding Clock Tab, let me know in your email!
 <p>
+
+<p>
+I'm looking forward for a bright Clock Tab future :-).
+</p>
 
 <p>
 Yours sincerely,
