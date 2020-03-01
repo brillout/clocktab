@@ -1,3 +1,9 @@
+/*
+<p>
+P.S. Clock Tab is open source (<a href="https://github.com/brillout/clocktab">github.com/brillout/clocktab</a>)! Also check my other open source work at <a href="https://github.com/brillout">github.com/brillout</a> which inclues many programming tools and Clock Tab's big brother <a href="http://www.timer-tab.com/">Timer Tab</a>.
+</p>
+*/
+
 // This code is over a decade old.
 // I'm more than happy to accept a PR to modernize all this :-)
 
