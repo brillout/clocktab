@@ -1454,17 +1454,19 @@ ml.deleteCookies=function()
   };
 })();
 
-/* use loadASAP instead
+//* use loadASAP instead
 ml.loadScript=function(url,onload)
 //{{{
 {
-  var script= document.createElement('script');
-  script.src= url;
-  if(onload) script.onload = onload;
-  //script.type= 'text/javascript';
-  document.getElementsByTagName('head')[0].appendChild(script);
+  const scriptEl = document.createElement('script');
+  scriptEl.src= url;
+  scriptEl.async = true;
+  if(onload) scriptEl.onload = onload;
+  document.getElementsByTagName('head')[0].appendChild(scriptEl);
+  return scriptEl;
 };
 //}}}
+/*
 ml.loadCss=function(url)
 //{{{
 {

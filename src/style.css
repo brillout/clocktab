@@ -287,20 +287,6 @@ html {
   opacity: 1;
   transition: opacity 0.5s linear;
 }
-html.hideApp,
-html.hideApp * {
-  visibility: hidden !important;
-}
-/*
-html,
-html * {
-  visibility: hidden !important;
-}
-*/
-html.hideApp {
-  opacity: 0;
-}
-
 html {
   background-repeat: no-repeat;
   background-position: center center;
