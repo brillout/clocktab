@@ -36,6 +36,7 @@ function loadGoogleTag() {
     googletag.pubads().disableInitialLoad();
     //googletag.pubads().enableSingleRequest();
     googletag.enableServices();
+    console.log("load progress", "ad enabled - 1");
   });
 }
 
@@ -62,6 +63,7 @@ function refreshBids() {
       googletag.cmd.push(function() {
           apstag.setDisplayBids();
           googletag.pubads().refresh();
+          console.log("load progress", "ad refreshed - 1");
       });
     }
   );
@@ -95,6 +97,7 @@ function loadApsTag() {
       googletag.cmd.push(function() {
         apstag.setDisplayBids();
         googletag.pubads().refresh();
+        console.log("load progress", "ad refreshed - 2");
       });
     }
   );

@@ -8,7 +8,7 @@ import autoReloadPage from './autoReloadPage';
 
 window.onload = async () => {
   await loadClock();
-  console.log('finished waiting loading clock');
+  console.log("load progress", "clock loading done");
 
   document.documentElement.classList.remove('hideApp');
 

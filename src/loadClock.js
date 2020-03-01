@@ -279,7 +279,10 @@ async function loadClock() {
             document.getElementById('options').style.fontFamily = arvoFont;
             document.getElementById('ad_remover').style.fontFamily = arvoFont;
           });
-          loadClockFont().then(() => {resolveAwaitClockFont()});
+          loadClockFont().then(() => {
+            console.log("load progress", "clock font loaded");
+            resolveAwaitClockFont();
+          });
         });
       },0);
     //}}}

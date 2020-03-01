@@ -9,7 +9,7 @@
     "prod:deploy": "push-dir --dir=dist/ --branch=gh-pages --cleanup",
     "prod:serve": "serve dist/ --listen 3000",
     "parcel:dev": "parcel serve src/index.html --port 3000",
-    "parcel:prod": "parcel build src/index.html"
+    "parcel:prod": "parcel build src/index.html src/donate.html"
   },
   "dependencies": {
     "parcel": "^1.12.4",
