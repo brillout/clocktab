@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "yarn parcel:dev",
+    "dev:donate": "yarn serve src/ --port 3000",
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
     "prod:build": "yarn prod:build:clean && yarn parcel:prod && yarn prod:build:static",
