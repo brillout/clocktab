@@ -19,7 +19,7 @@ async function loadClock() {
   var DEFAULT_SHADOW = '';
   var DEFAULT_THEME  = 'steel';
   var FS_NAME        = "fs";
-  var MIN_WIDTH      = 520;
+  var MIN_WIDTH      = 580;
   var timeEl         = document.getElementById('time');
   var timeTableEl    = document.getElementById('timeTable');
   var timeRowEl      = document.getElementById('timeRow');
