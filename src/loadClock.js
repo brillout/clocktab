@@ -22,7 +22,7 @@ async function loadClock() {
   var DEFAULT_BG_COLOR = '#ffffff';
   var DEFAULT_BG_IMAGE = '';
   var DEFAULT_FONT     = 'Josefin Slab';
-  var DEFAULT_FCOL     = '#333333';
+  var DEFAULT_FCOL     = '#a70000';
 //var DEFAULT_ICOL     = '#cc0000';
 //var DEFAULT_ICOL     = '#007000';
   var DEFAULT_ICOL     = '#545454';
