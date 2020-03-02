@@ -19,4 +19,6 @@ window.onload = async () => {
 
   // To avoid memory leak
   autoReloadPage();
+
+  loadFontList();
 };

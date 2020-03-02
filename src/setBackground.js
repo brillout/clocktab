@@ -19,7 +19,7 @@ const LOAD_IMG_URL = 'https://i.imgur.com/zqG5F.gif';
 
 const LOAD_IMG = 'url('+LOAD_IMG_URL+')';
 
-//*/
+/*/
 const DEBUG = true;
 /*/
 const DEBUG = false;
@@ -92,9 +92,7 @@ function setImage(val) {
 
   var imgEl=document.createElement('img');
   var loaded;
-    console.log('lll1');
   imgEl.onload=function() {
-    console.log('lll');
     loaded=true;
     const w=this.width;
     const h=this.height;
@@ -107,8 +105,6 @@ function setImage(val) {
   };
   imgEl.onerror=function(err) {
     alert('The image URL "'+val+'" is invalid. It is the URL of an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
-    console.log(err);
-    console.log(err.message);
     setCss();
   };
 
@@ -119,7 +115,6 @@ function setImage(val) {
   }, 50);
 
   imgEl.src=val;
-    console.log('l22');
 
   return true;
 }
