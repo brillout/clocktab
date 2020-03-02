@@ -17,22 +17,23 @@ async function loadClock() {
   let resolveAwaitClockFont;
   const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
 
-  var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-  var DEFAULT_BG     = '#ffffff';
-  var DEFAULT_FONT   = 'Josefin Slab';
-  var DEFAULT_FCOL   = '#333333';
-  //var DEFAULT_ICOL   = '#cc0000';
-  //var DEFAULT_ICOL   = '#007000';
-  var DEFAULT_ICOL   = '#545454';
-  var DEFAULT_SHADOW = '';
-  var DEFAULT_THEME  = 'steel';
-  var FS_NAME        = "fs";
-  var MIN_WIDTH      = 580;
-  var timeEl         = document.getElementById('time');
-  var timeTableEl    = document.getElementById('timeTable');
-  var timeRowEl      = document.getElementById('timeRow');
-  var dateEl         = document.getElementById('date');
-  var contentEl      = document.getElementById('content');
+  var DEFAULT_12HOUR   = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
+  var DEFAULT_BG_COLOR = '#ffffff';
+  var DEFAULT_BG_IMG   = '';
+  var DEFAULT_FONT     = 'Josefin Slab';
+  var DEFAULT_FCOL     = '#333333';
+//var DEFAULT_ICOL     = '#cc0000';
+//var DEFAULT_ICOL     = '#007000';
+  var DEFAULT_ICOL     = '#545454';
+  var DEFAULT_SHADOW   = '';
+  var DEFAULT_THEME    = 'steel';
+  var FS_NAME          = "fs";
+  var MIN_WIDTH        = 580;
+  var timeEl           = document.getElementById('time');
+  var timeTableEl      = document.getElementById('timeTable');
+  var timeRowEl        = document.getElementById('timeRow');
+  var dateEl           = document.getElementById('date');
+  var contentEl        = document.getElementById('content');
 
   /* SIZE of time */
   var timeout;
@@ -72,7 +73,7 @@ async function loadClock() {
      {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
      {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
      {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
-     {id:'bg'                ,description:'background'      ,default_:DEFAULT_BG          ,negDependency:'theme',placeholder:'url or color'},
+     {id:'bg_color'          ,description:'background color',default_:DEFAULT_BG_COLOR    ,negDependency:'theme',placeholder:'url or color'},
      {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
      {id:'show_seconds_title',description:'seconds in title',default_:false                               },
      {id:'show_seconds'      ,description:'seconds'         ,default_:true                                },
@@ -84,40 +85,40 @@ async function loadClock() {
 
    var themes = { 
      'simple':{
-        'bg':'#ffffff',
+        'bg_color':'#ffffff',
         'font':'Syncopate',
         'font_shadow':'none',
         'color_font':'#333333'},
      'steel':{
         //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-        'bg':'https://i.imgur.com/9YKVj.jpg',
+        'bg_color':'https://i.imgur.com/9YKVj.jpg',
         'font':'Syncopate',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#e9e9e9'},
      'grey':{
-        'bg':'#3D3F42',
+        'bg_color':'#3D3F42',
         'font':'Lora',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#EBEBF1'},
      'lobster':{
-        'bg':'#330000',
+        'bg_color':'#330000',
         'font':'Lobster',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#333333'},
      'digital':{
-        'bg':'black',
+        'bg_color':'black',
         'font':'Orbitron',
         'font_shadow':'none',
         'color_font':'#00ff00'},
      'paper':{
         //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
-        'bg':'https://i.imgur.com/x97za.jpg',
+        'bg_color':'https://i.imgur.com/x97za.jpg',
         'font':'Redressed',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#111111'},
      'ocean':{
         //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
-        'bg':'https://i.imgur.com/mOHYs.jpg',
+        'bg_color':'https://i.imgur.com/mOHYs.jpg',
         'font':'Michroma',
       //'font_shadow':'1px 1px 2px #fff',
       //'font_shadow':'0px 1px 1px #333',
@@ -125,22 +126,22 @@ async function loadClock() {
         'color_font':'#333'},
      'classy':{
       // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
-        'bg':'https://i.imgur.com/0KS5T.jpg',
+        'bg_color':'https://i.imgur.com/0KS5T.jpg',
         'font':'Nothing You Could Do',
         'font_shadow':'none',
         'color_font':'#0000aa'},
      'ocean2':{
-        'bg':'https://i.imgur.com/i6yiy.jpg',
+        'bg_color':'https://i.imgur.com/i6yiy.jpg',
         'font':'Droid Sans Mono',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'river_valley':{
-        'bg':'https://i.imgur.com/8G6JM.jpg',
+        'bg_color':'https://i.imgur.com/8G6JM.jpg',
         'font':'Lato',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'red':{
-        'bg':'#a00',
+        'bg_color':'#a00',
         'font':'Muli',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#1a1a1a'}
@@ -316,7 +317,7 @@ async function loadClock() {
             opt.dom.style.zIndex    =toHide?'-1':'';
         }
       }
-      function bgChangeListener(){ setBackground(getOpt('bg')) }
+      function bgChangeListener(){ setBackground(getOpt('bg_color')) }
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
       function themeChangeListener(){fontShadowListener();colorChangeListener();loadClockFont();bgChangeListener();setOptVisibility()}
@@ -338,7 +339,7 @@ async function loadClock() {
         else if(opt.id==='color_font')  changeListener=colorChangeListener;
         else if(opt.id==='theme')  changeListener=themeChangeListener;
         else if(opt.id==='font')   changeListener=loadClockFont;
-        else if(opt.id==='bg')   changeListener=bgChangeListener;
+        else if(opt.id==='bg_color')   changeListener=bgChangeListener;
         else                       changeListener=refreshStuff;
         ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
       }

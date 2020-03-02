@@ -2115,7 +2115,7 @@ ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
   }
 };
 //}}}
-// todo replace persistentInput
+// todo replace persistantInput
 /*
 ml.optionInput=function(optionId,default_,listener,opts){
   //possibleValues,keyUpDelay,noFirstListenerCall,storageObject
