@@ -143,45 +143,44 @@ input[type='color']
 }
 #timeTable,#timeTable * { cursor: pointer; }
 
-/* options */
+/* header */
 body
 {
   font-size: .9em;
 }
-#options
+#header
 {
   background: rgba(226, 226, 226, 0.8);
   width: 100%;
   padding: 0.8em 0;
   text-shadow: none;
 }
-#options span
-{
+#header span, a {
   color: #333;
 }
 /*
-#options *
+#header *
 {
   margin: 0px 7px 4px;
   display: inline-block;
   color: #333!important;
 }
-#options * *
+#header * *
 {
   margin: 3px;
 }
 */
 
-#options.hoverEnabled:hover {
+#header.hoverEnabled:hover {
   transition: opacity .5s linear;
 }
-#options {
+#header {
   transition: opacity 2s ease-in-out;
 }
 
 
 /* STRUCTURE */
-#options
+#header
 {
   position: fixed;
   top: 0;
@@ -189,7 +188,7 @@ body
   opacity: 0;
 }
 
-#options.hoverEnabled:hover
+#header.hoverEnabled:hover
 {
   opacity: 1;
 }
@@ -296,4 +295,11 @@ html {
   min-height: 100%;
   min-width: 100%;
   background-image: url("https://i.imgur.com/zqG5F.gif");
+}
+
+#header_links {
+  margin: 6px;
+}
+#header_links a {
+  padding: 0 20px;
 }

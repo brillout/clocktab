@@ -222,6 +222,7 @@ async function loadClock() {
     (function()
     {
       const optionsEl = document.getElementById('options');
+      const headerEl = document.getElementById('header');
       for(var i=0;i<opts.length;i++) {
         var opt = opts[i];
         opt.dom = document.createElement('label');
@@ -256,18 +257,18 @@ async function loadClock() {
         var initMoveFired=false;
         window.onmousemove=function(ev) {
            if(!initMoveFired++) return;
-           optionsEl.setAttribute('class','hoverEnabled');
+           headerEl.setAttribute('class','hoverEnabled');
            delete window.onmousemove;
         };
       }
-      else optionsEl.setAttribute('class','hoverEnabled');
+      else headerEl.setAttribute('class','hoverEnabled');
       if( hasBeenAutoReloaded() ){
-        optionsEl.style.transition = 'none';
-        optionsEl.style.opacity='0';
-        delete optionsEl.style.transition;
+        headerEl.style.transition = 'none';
+        headerEl.style.opacity='0';
+        delete headerEl.style.transition;
       }
       setTimeout(function(){
-        optionsEl.style.opacity='';
+        headerEl.style.opacity='';
       },2000);
       /*
       //add option toggle
@@ -334,7 +335,7 @@ async function loadClock() {
           };
           const arvoFont = 'Arvo';
           fontLoader(arvoFont,function(){
-            document.getElementById('options').style.fontFamily = arvoFont;
+            document.getElementById('header').style.fontFamily = arvoFont;
             document.getElementById('ad_remover').style.fontFamily = arvoFont;
           });
           loadClockFont().then(() => {
