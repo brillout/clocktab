@@ -69,7 +69,7 @@ async function loadClock() {
   //{{{
    var opts = [
      {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                             },
-     {id:'font'              ,description:'font'            ,default_:DEFAULT_FONT        ,negDependency:'theme'},
+     {id:'clock_font'        ,description:'font'            ,default_:DEFAULT_FONT        ,negDependency:'theme'},
      {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
      {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
      {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
@@ -88,46 +88,46 @@ async function loadClock() {
      'simple':{
         'bg_color':'#ffffff',
         'bg_image': '',
-        'font':'Syncopate',
+        'clock_font':'Syncopate',
         'font_shadow':'none',
         'color_font':'#333333'},
      'steel':{
         'bg_color':'',
         //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
         'bg_image':'https://i.imgur.com/9YKVj.jpg',
-        'font':'Syncopate',
+        'clock_font':'Syncopate',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#e9e9e9'},
      'grey':{
         'bg_color':'#3D3F42',
         'bg_image': '',
-        'font':'Lora',
+        'clock_font':'Lora',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#EBEBF1'},
      'lobster':{
         'bg_color':'#330000',
         'bg_image': '',
-        'font':'Lobster',
+        'clock_font':'Lobster',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#333333'},
      'digital':{
         'bg_color':'black',
         'bg_image': '',
-        'font':'Orbitron',
+        'clock_font':'Orbitron',
         'font_shadow':'none',
         'color_font':'#00ff00'},
      'paper':{
         //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
         'bg_color':'',
         'bg_image':'https://i.imgur.com/x97za.jpg',
-        'font':'Redressed',
+        'clock_font':'Redressed',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#111111'},
      'ocean':{
         //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
         'bg_color':'',
         'bg_image':'https://i.imgur.com/mOHYs.jpg',
-        'font':'Michroma',
+        'clock_font':'Michroma',
       //'font_shadow':'1px 1px 2px #fff',
       //'font_shadow':'0px 1px 1px #333',
         'font_shadow':'none',
@@ -136,25 +136,25 @@ async function loadClock() {
       // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
         'bg_color':'',
         'bg_image':'https://i.imgur.com/0KS5T.jpg',
-        'font':'Nothing You Could Do',
+        'clock_font':'Nothing You Could Do',
         'font_shadow':'none',
         'color_font':'#0000aa'},
      'ocean2':{
         'bg_color':'',
         'bg_image':'https://i.imgur.com/i6yiy.jpg',
-        'font':'Droid Sans Mono',
+        'clock_font':'Droid Sans Mono',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'river_valley':{
         'bg_color':'',
         'bg_image':'https://i.imgur.com/8G6JM.jpg',
-        'font':'Lato',
+        'clock_font':'Lato',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'red':{
         'bg_color':'#a00',
         'bg_image': '',
-        'font':'Muli',
+        'clock_font':'Muli',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#1a1a1a'}
    }; 
@@ -200,7 +200,7 @@ async function loadClock() {
         opt.dom.setAttribute('class','opti');
         opt.dom.appendChild(document.createElement('span')).innerHTML=opt.description;//+'&nbsp;';
         //opt.dom.innerHTML=opt.description;
-        opt.input = document.createElement(opt.id==='font'||opt.id==='theme'?'select':'input');
+        opt.input = document.createElement(opt.id==='clock_font'||opt.id==='theme'?'select':'input');
           opt.input.id   = opt.id;
           var isCheckbox   = opt.default_===false || opt.default_===true;
           var isColorInput = opt.default_[0]==='#';
@@ -215,7 +215,7 @@ async function loadClock() {
             }
             opt.input.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
           }
-          else opt.input.style.width=opt.id==='font'?'90px':'83px';
+          else opt.input.style.width=opt.id==='clock_font'?'90px':'83px';
           if(isCheckbox) opt.dom.insertBefore(opt.input,opt.dom.firstChild);
           else           opt.dom. appendChild(opt.input);
           if(opt.placeholder) opt.input.placeholder=opt.placeholder;
@@ -295,9 +295,9 @@ async function loadClock() {
             })();
           }
           bodyFontLoader=function(_force, callback){
-            var fontName = getOpt('font');
+            var fontName = getOpt('clock_font');
             fontLoader(fontName,function(){
-              if( _force || fontName===getOpt('font') && document.body.style.fontFamily!==fontName ){
+              if( _force || fontName===getOpt('clock_font') && document.body.style.fontFamily!==fontName ){
                 document.body.style.fontFamily=fontName;
                 setSize(true);
               }
@@ -367,7 +367,7 @@ async function loadClock() {
         else if(opt.id==='font_shadow') changeListener=fontShadowListener;
         else if(opt.id==='color_font')  changeListener=colorChangeListener;
         else if(opt.id==='theme')  changeListener=themeChangeListener;
-        else if(opt.id==='font')   changeListener=loadClockFont;
+        else if(opt.id==='clock_font')   changeListener=loadClockFont;
         else if(opt.id==='bg_color')   changeListener=bg_listener;
         else if(opt.id==='bg_image')   changeListener=bg_listener;
         else                       changeListener=refreshStuff;
