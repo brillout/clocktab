@@ -9,6 +9,7 @@ P.S. Clock Tab is open source (<a href="https://github.com/brillout/clocktab">gi
 
 import ml from './ml';
 import {hasBeenAutoReloaded} from './autoReloadPage';
+import setBackground from './setBackground';
 
 export default loadClock;
 
@@ -17,7 +18,7 @@ async function loadClock() {
   const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
 
   var DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-  var DEFAULT_BG     = '';
+  var DEFAULT_BG     = '#ffffff';
   var DEFAULT_FONT   = 'Josefin Slab';
   var DEFAULT_FCOL   = '#333333';
   //var DEFAULT_ICOL   = '#cc0000';
@@ -315,36 +316,31 @@ async function loadClock() {
             opt.dom.style.zIndex    =toHide?'-1':'';
         }
       }
+      function bgChangeListener(){ setBackground(getOpt('bg')) }
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
-      function themeChangeListener(){fontShadowListener();colorChangeListener();loadClockFont();bgChanger(getOpt('bg'));setOptVisibility()}
+      function themeChangeListener(){fontShadowListener();colorChangeListener();loadClockFont();bgChangeListener();setOptVisibility()}
       function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
 
-      var bgChanger;
       for(var i=0;i<opts.length;i++)
       {
         var opt = opts[i];
-        if(opt.id==='bg'){
-          bgChanger=ml.setBodyBackground(opt.input.id,opt.default_);
+        var changeListener;
+        if(opt.id==='show_seconds')changeListener=function(val){
+          document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
+        else if(opt.id==='show_pm'||opt.id==='12_hour')
+          changeListener=function(){
+          document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
+          refreshStuff();
+          setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
         }
-        else
-        {
-          var changeListener;
-          if(opt.id==='show_seconds')changeListener=function(val){
-            document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
-          else if(opt.id==='show_pm'||opt.id==='12_hour')
-            changeListener=function(){
-            document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
-            refreshStuff();
-            setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
-          }
-          else if(opt.id==='font_shadow') changeListener=fontShadowListener;
-          else if(opt.id==='color_font')  changeListener=colorChangeListener;
-          else if(opt.id==='theme')  changeListener=themeChangeListener;
-          else if(opt.id==='font')   changeListener=loadClockFont;
-          else                       changeListener=refreshStuff;
-          ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
-        }
+        else if(opt.id==='font_shadow') changeListener=fontShadowListener;
+        else if(opt.id==='color_font')  changeListener=colorChangeListener;
+        else if(opt.id==='theme')  changeListener=themeChangeListener;
+        else if(opt.id==='font')   changeListener=loadClockFont;
+        else if(opt.id==='bg')   changeListener=bgChangeListener;
+        else                       changeListener=refreshStuff;
+        ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
       }
       themeChangeListener();
     })();

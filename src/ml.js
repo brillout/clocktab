@@ -2087,6 +2087,7 @@ ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
     if(binaryInput) val=!!val;
     ml.assert(binaryInput === (inputEl.type==='checkbox'));
     if(inputEl.nodeName==='SELECT' && inputEl.childNodes.length===0) inputEl.innerHTML='<option>'+val+'</option>';
+    console.log('vv', id, default_, val);
     inputEl[binaryInput?'checked':'value']=val;
     if(listener && !noFirstListenerCall) listener(val);
 
@@ -2115,7 +2116,8 @@ ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
 };
 //}}}
 // todo replace persistentInput
-ml.optionInput=function(id,default_,listener,opts){
+/*
+ml.optionInput=function(optionId,default_,listener,opts){
   //possibleValues,keyUpDelay,noFirstListenerCall,storageObject
   ml.assert(default_!==undefined);
 
@@ -2133,7 +2135,7 @@ ml.optionInput=function(id,default_,listener,opts){
     isTextInput   =true;
 
   var el = document.createElement(isListInput?'select':'input');
-  el.id=id;
+  el.id=optionId;
   return  el;
 //
 ////{{{
@@ -2195,120 +2197,7 @@ ml.optionInput=function(id,default_,listener,opts){
 ////}}}
 //
 }
-
-ml.setBodyBackground = function(inputName,default_)
-//{{{
-//tricky bg images to test:
-//-http://static.panoramio.com/photos/original/3719338.jpg
-//-cover test: http://cdn.techpp.com/wp-content/uploads/2008/10/gmail_logo.jpg
-//black floor: http://img.wallpaperstock.net:81/black-floor-wallpapers_6854_1680x1050.jpg
-//http://lh6.googleusercontent.com/-AAQe-KJXX-w/TcRrpukjk6I/AAAAAAAACwE/-7gmjOI-ctQ/IMG_2649mod.jpg
-//http://www.a-better-tomorrow.com/blog/wp-content/wallpaper_abt1.jpg
-//http://www.gowallpaper.net/wp-content/uploads/2011/04/Windows-7-3d-wide-wallpaper-1280x800.jpg
-//http://vistawallpapers.files.wordpress.com/2007/03/vista-wallpapers-69.jpg
-{
-  /*
-  var LOAD_IMG_URL = 'http://i.imgur.com/cvyOo.gif';
-  /*/
-  var LOAD_IMG_URL = 'https://i.imgur.com/zqG5F.gif';
-  //*/
-//ml.assert(!arguments.callee.neverCalled);arguments.callee.neverCalled=true;
-
-  var BG_EL=document.body;
-  var LOAD_IMG = 'url('+LOAD_IMG_URL+')';
-
-  //following 2 styles used for auto sized background for loading gif
-  BG_EL.style['backgroundRepeat'] = 'no-repeat';
-  BG_EL.style['backgroundPosition'] = 'center';
-  //fixed because no way found to set BG_EL's size to scroll size of window
-  //-http://stackoverflow.com/questions/7540418/css-setting-an-elements-size-to-the-scroll-size-of-the-page
-  BG_EL.style['backgroundAttachment'] = 'fixed';
-  //make sure size is at least size of window
-  BG_EL.style['min-height']='100%';
-  BG_EL.style['min-width']='100%';
-
-  var setBg;
-  (function(){
-  //{{{
-    var color;
-    var img;
-    function setCss()
-    {
-      BG_EL.style.backgroundColor=color; //style.background='' => Opera discareds fixed and cover style
-      BG_EL.style.backgroundImage=img;
-      BG_EL.style['backgroundSize'] = img===LOAD_IMG?'auto':'cover';
-    }
-
-    setBg=function(newUrl)
-    {
-      //to test: resize image to screen.width and screen.height using canvas and webworkers
-      //window.screen.width;
-      //window.screen.height;
-      if(newUrl.indexOf('.')!==-1 || /^data:image/.test(newUrl))
-      {
-        var imgEl=document.createElement('img');
-        var loaded;
-        imgEl.onload=function() {
-          var w=this.width;
-          var h=this.height;
-          if(w*h>4000000) alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of maximal 4 000 000 pixels -- e.g. 2500*1600 pixels -- are allowed.');
-          else if(img==='url("'+newUrl+'")') setCss();
-          loaded=true;
-        };
-        imgEl.onerror=function()
-        {
-          if(img===LOAD_IMG && img==='url("'+newUrl+'")')
-          {
-            img='none';
-            setCss();
-          }
-        };
-        window.setTimeout(function()
-        {
-          if(!loaded && img==='url("'+newUrl+'")')
-          {
-            color='';
-            img=LOAD_IMG;
-            setCss();
-            color='';
-            img='url("'+newUrl+'")';
-          }
-        },50);
-        color='';
-        img='url("'+newUrl+'")';
-        imgEl.src=newUrl;
-      }
-      else
-      {
-        if(newUrl==='')
-        {
-          color='';
-          img='none';
-        }
-        else if(newUrl.indexOf('gradient')!==-1)
-        {
-          color='';
-          img=newUrl;
-        }
-        else
-        {
-          color=newUrl;
-          img='none';
-        }
-        setCss();
-      }
-    }
-  //}}}
-  })();
-
-  ml.optionInput(inputName,default_||'',setBg);
-  return setBg;
-
-  //// not needed when backgroundAttachment == fixed
-  //BG_EL.style['minHeight']            = '100%';
-  //BG_EL.style['minWidth ']            = '100%';
-};
-//}}}
+*/
 
 ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
 //{{{
