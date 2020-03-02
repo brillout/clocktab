@@ -19,7 +19,7 @@ async function loadClock() {
 
   var DEFAULT_12HOUR   = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
   var DEFAULT_BG_COLOR = '#ffffff';
-  var DEFAULT_BG_IMG   = '';
+  var DEFAULT_BG_IMAGE = '';
   var DEFAULT_FONT     = 'Josefin Slab';
   var DEFAULT_FCOL     = '#333333';
 //var DEFAULT_ICOL     = '#cc0000';
@@ -73,7 +73,8 @@ async function loadClock() {
      {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
      {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
      {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
-     {id:'bg_color'          ,description:'background color',default_:DEFAULT_BG_COLOR    ,negDependency:'theme',placeholder:'url or color'},
+     {id:'bg_color'          ,description:'background color',default_:DEFAULT_BG_COLOR    ,negDependency:'theme'},
+     {id:'bg_image'          ,description:'background image',default_:DEFAULT_BG_IMAGE    ,negDependency:'theme',placeholder:'image url'},
      {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
      {id:'show_seconds_title',description:'seconds in title',default_:false                               },
      {id:'show_seconds'      ,description:'seconds'         ,default_:true                                },
@@ -86,39 +87,46 @@ async function loadClock() {
    var themes = { 
      'simple':{
         'bg_color':'#ffffff',
+        'bg_image': '',
         'font':'Syncopate',
         'font_shadow':'none',
         'color_font':'#333333'},
      'steel':{
+        'bg_color':'',
         //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-        'bg_color':'https://i.imgur.com/9YKVj.jpg',
+        'bg_image':'https://i.imgur.com/9YKVj.jpg',
         'font':'Syncopate',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#e9e9e9'},
      'grey':{
         'bg_color':'#3D3F42',
+        'bg_image': '',
         'font':'Lora',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#EBEBF1'},
      'lobster':{
         'bg_color':'#330000',
+        'bg_image': '',
         'font':'Lobster',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#333333'},
      'digital':{
         'bg_color':'black',
+        'bg_image': '',
         'font':'Orbitron',
         'font_shadow':'none',
         'color_font':'#00ff00'},
      'paper':{
         //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
-        'bg_color':'https://i.imgur.com/x97za.jpg',
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/x97za.jpg',
         'font':'Redressed',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#111111'},
      'ocean':{
         //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
-        'bg_color':'https://i.imgur.com/mOHYs.jpg',
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/mOHYs.jpg',
         'font':'Michroma',
       //'font_shadow':'1px 1px 2px #fff',
       //'font_shadow':'0px 1px 1px #333',
@@ -126,22 +134,26 @@ async function loadClock() {
         'color_font':'#333'},
      'classy':{
       // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
-        'bg_color':'https://i.imgur.com/0KS5T.jpg',
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/0KS5T.jpg',
         'font':'Nothing You Could Do',
         'font_shadow':'none',
         'color_font':'#0000aa'},
      'ocean2':{
-        'bg_color':'https://i.imgur.com/i6yiy.jpg',
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/i6yiy.jpg',
         'font':'Droid Sans Mono',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'river_valley':{
-        'bg_color':'https://i.imgur.com/8G6JM.jpg',
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/8G6JM.jpg',
         'font':'Lato',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#fff'},
      'red':{
         'bg_color':'#a00',
+        'bg_image': '',
         'font':'Muli',
         'font_shadow':'0 1px 1px #000',
         'color_font':'#1a1a1a'}
@@ -159,15 +171,21 @@ async function loadClock() {
     getOpt=function(id)
     //{{{
     {
-      if(id!=='theme')
-      {
+      if( id!=='theme' ){
         var theme = getOpt('theme');
         if(theme==='random') theme=randomTheme;
-        var ret   = theme && themes[theme] && themes[theme][id];
-        if(ret) return ret;
+        if( theme && themes[theme] && (id in themes[theme])) {
+          return themes[theme][id];
+        }
       }
       var el = document.getElementById(id);
-      return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
+
+    // return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
+
+      if( el.type==='checkbox' ){
+        return !!el.checked;
+      }
+      return el.value;
     };
     //}}}
 
@@ -302,8 +320,7 @@ async function loadClock() {
 
     //refresh options onchange
     //{{{
-    (function()
-    {
+    (function(){
       function setOptVisibility()
       {
         for(var i=0;i<opts.length;i++)
@@ -317,10 +334,22 @@ async function loadClock() {
             opt.dom.style.zIndex    =toHide?'-1':'';
         }
       }
-      function bgChangeListener(){ setBackground(getOpt('bg_color')) }
+      function bg_listener() {
+        const bg_image_val = getOpt('bg_image');
+        const bg_color_val = getOpt('bg_color');
+        console.log(bg_image_val, bg_color_val);
+        setBackground(bg_image_val || bg_color_val);
+      }
+      function bg_image_listener(){ setBackground(getOpt('bg_image')) }
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
-      function themeChangeListener(){fontShadowListener();colorChangeListener();loadClockFont();bgChangeListener();setOptVisibility()}
+      function themeChangeListener(){
+        fontShadowListener();
+        colorChangeListener();
+        loadClockFont();
+        bg_listener();
+        setOptVisibility();
+      }
       function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
 
       for(var i=0;i<opts.length;i++)
@@ -339,7 +368,8 @@ async function loadClock() {
         else if(opt.id==='color_font')  changeListener=colorChangeListener;
         else if(opt.id==='theme')  changeListener=themeChangeListener;
         else if(opt.id==='font')   changeListener=loadClockFont;
-        else if(opt.id==='bg_color')   changeListener=bgChangeListener;
+        else if(opt.id==='bg_color')   changeListener=bg_listener;
+        else if(opt.id==='bg_image')   changeListener=bg_listener;
         else                       changeListener=refreshStuff;
         ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
       }

@@ -2087,7 +2087,6 @@ ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
     if(binaryInput) val=!!val;
     ml.assert(binaryInput === (inputEl.type==='checkbox'));
     if(inputEl.nodeName==='SELECT' && inputEl.childNodes.length===0) inputEl.innerHTML='<option>'+val+'</option>';
-    console.log('vv', id, default_, val);
     inputEl[binaryInput?'checked':'value']=val;
     if(listener && !noFirstListenerCall) listener(val);
 

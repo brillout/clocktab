@@ -121,9 +121,11 @@ label > *
 /* color input playground: http://jsfiddle.net/BC7JD/2/ */
 input[type='color']
 {
-  padding:0px;
+  padding: 0px;
   height: 16px;
-  border: 0px;
+  outline: 0;
+  border: 1px solid #888;
+  border-radius: 3px;
 }
 
 
@@ -148,7 +150,7 @@ body
 }
 #options
 {
-  background:rgba(200,200,200,0.7);
+  background: rgba(226, 226, 226, 0.8);
   width: 100%;
   padding: 0.8em 0;
   text-shadow: none;

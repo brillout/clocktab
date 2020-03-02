@@ -19,18 +19,25 @@ const LOAD_IMG_URL = 'https://i.imgur.com/zqG5F.gif';
 
 const LOAD_IMG = 'url('+LOAD_IMG_URL+')';
 
+//*/
+const DEBUG = true;
+/*/
+const DEBUG = false;
+//*/
+
 //to test: resize image to screen.width and screen.height using canvas and webworkers
 //window.screen.width;
 //window.screen.height;
 
 function setCss({color='white', img='none'}={}) {
-  console.log('set-background', color, img, BG_EL);
+  DEBUG && console.log('set-background', {color, img});
   BG_EL.style.backgroundColor=color; //style.background='' => Opera discareds fixed and cover style
   BG_EL.style.backgroundImage=img;
   BG_EL.style['backgroundSize'] = img===LOAD_IMG?'auto':'cover';
 }
 
 function setBackground(val) {
+  DEBUG && console.log('set-background', {val});
   init();
   if( !val ) { setCss(); return; }
   if( setImage(val) ) return;
@@ -78,38 +85,41 @@ function init() {
 
 function setImage(val) {
   const isURI = val.indexOf('.')!==-1 || /^data:image/.test(val);
+  DEBUG && console.log('set-background', {isURI});
   if( !isURI ){
     return false;
   }
 
   var imgEl=document.createElement('img');
   var loaded;
+    console.log('lll1');
   imgEl.onload=function() {
-    var w=this.width;
-    var h=this.height;
+    console.log('lll');
+    loaded=true;
+    const w=this.width;
+    const h=this.height;
     if(w*h>4000000) {
       alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of maximal 4 000 000 pixels -- e.g. 2500*1600 pixels -- are allowed.');
-    }
-    else if(img==='url("'+val+'")') {
-      img='url("'+val+'")';
-      setCss({img});
-    }
-    loaded=true;
-  };
-  imgEl.onerror=function() {
-    if(img===LOAD_IMG && img==='url("'+val+'")') {
-      img='none';
       setCss();
+      return;
     }
+    setCss({img: 'url("'+val+'")'});
+  };
+  imgEl.onerror=function(err) {
+    alert('The image URL "'+val+'" is invalid. It is the URL of an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
+    console.log(err);
+    console.log(err.message);
+    setCss();
   };
 
   window.setTimeout(function() {
-    if(!loaded && img==='url("'+val+'")') {
+    if( !loaded ){
       setCss({img: LOAD_IMG});
     }
   }, 50);
 
   imgEl.src=val;
+    console.log('l22');
 
   return true;
 }
