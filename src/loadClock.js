@@ -10,6 +10,7 @@ P.S. Clock Tab is open source (<a href="https://github.com/brillout/clocktab">gi
 import ml from './ml';
 import {hasBeenAutoReloaded} from './autoReloadPage';
 import setBackground from './setBackground';
+import loadFontList from './loadFontList';
 
 export default loadClock;
 
@@ -156,7 +157,35 @@ async function loadClock() {
         'bg_image': '',
         'clock_font':'Muli',
         'font_shadow':'0 1px 1px #000',
-        'color_font':'#1a1a1a'}
+        'color_font':'#1a1a1a'},
+     'sin_city':{
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/R60yCtG.jpg',
+        'clock_font':'Knewave',
+        'color_font':'#e71010'},
+     'van_gogh':{
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/WfHm7XM.jpg',
+        'clock_font':'Akronim',
+        'color_font':'#b63232'},
+     'mars_terraformed':{
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/9Ocmfvt.png',
+        'font_shadow':'0 1px 1px #000',
+        'clock_font':'Allerta Stencil',
+        'color_font':'#6d0000'},
+     'neo':{
+        'bg_color':'black',
+        'bg_image':'',
+        'font_shadow':'',
+        'clock_font':'Allerta Stencil',
+        'color_font':'#6d0000'},
+     'purple':{
+        'bg_color':'#0e0e0e',
+        'bg_image':'',
+        'font_shadow':'',
+        'clock_font':'Text Me One',
+        'color_font':'#6d30be'},
    }; 
 
     var randomTheme = (function()
@@ -167,10 +196,10 @@ async function loadClock() {
       for(var ret in themes) if(counter++===random) return ret;
     })();
 
-    //generate options
-    getOpt=function(id)
-    //{{{
-    {
+    function isCustomTheme() {
+      return getOpt('theme')==='';
+    }
+    getOpt=function(id) {
       if( id!=='theme' ){
         var theme = getOpt('theme');
         if(theme==='random') theme=randomTheme;
@@ -187,7 +216,6 @@ async function loadClock() {
       }
       return el.value;
     };
-    //}}}
 
     //generate html options
     //{{{
@@ -342,12 +370,16 @@ async function loadClock() {
       function bg_image_listener(){ setBackground(getOpt('bg_image')) }
       function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
       function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
-      function themeChangeListener(){
+      function theme_change_listener(){
         fontShadowListener();
         colorChangeListener();
         loadClockFont();
         bg_listener();
         setOptVisibility();
+        if( isCustomTheme() ) {
+          const fonts = Object.values(themes).map(t => t.clock_font);
+          loadFontList(fonts);
+        }
       }
       function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
 
@@ -365,14 +397,14 @@ async function loadClock() {
         }
         else if(opt.id==='font_shadow') changeListener=fontShadowListener;
         else if(opt.id==='color_font')  changeListener=colorChangeListener;
-        else if(opt.id==='theme')  changeListener=themeChangeListener;
+        else if(opt.id==='theme')  changeListener=theme_change_listener;
         else if(opt.id==='clock_font')   changeListener=loadClockFont;
         else if(opt.id==='bg_color')   changeListener=bg_listener;
         else if(opt.id==='bg_image')   changeListener=bg_listener;
         else                       changeListener=refreshStuff;
         ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
       }
-      themeChangeListener();
+      theme_change_listener();
     })();
     //}}}
 
