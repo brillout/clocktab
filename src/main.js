@@ -7,8 +7,9 @@ import loadFontList from './loadFontList';
 import autoReloadPage from './autoReloadPage';
 
 window.onload = async () => {
+  console.log("load progress", "onload done - execution begin");
   await loadClock();
-  console.log("load progress", "clock loading done");
+  console.log("load progress", "clock execution done");
 
   document.documentElement.classList.remove('hideApp');
 

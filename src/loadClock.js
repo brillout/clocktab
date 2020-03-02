@@ -8,6 +8,7 @@ P.S. Clock Tab is open source (<a href="https://github.com/brillout/clocktab">gi
 // I'm more than happy to accept a PR to modernize all this :-)
 
 import ml from './ml';
+import {hasBeenAutoReloaded} from './autoReloadPage';
 
 export default loadClock;
 
@@ -172,9 +173,8 @@ async function loadClock() {
     //{{{
     (function()
     {
-      var optionsEl = document.getElementById('options');
-      for(var i=0;i<opts.length;i++)
-      {
+      const optionsEl = document.getElementById('options');
+      for(var i=0;i<opts.length;i++) {
         var opt = opts[i];
         opt.dom = document.createElement('label');
         opt.dom.setAttribute('class','opti');
@@ -203,7 +203,6 @@ async function loadClock() {
         optionsEl.appendChild(opt.dom);
       }
 
-      var optionsEl = document.getElementById('options');
       if(ml.browser().usesWebkit)
       {
         var initMoveFired=false;
@@ -214,8 +213,13 @@ async function loadClock() {
         };
       }
       else optionsEl.setAttribute('class','hoverEnabled');
+      if( hasBeenAutoReloaded() ){
+        optionsEl.style.transition = 'none';
+        optionsEl.style.opacity='0';
+        delete optionsEl.style.transition;
+      }
       setTimeout(function(){
-        document.getElementById('options').style.opacity='';
+        optionsEl.style.opacity='';
       },2000);
       /*
       //add option toggle
