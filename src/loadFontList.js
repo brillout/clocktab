@@ -21,6 +21,8 @@ function loadFontList() {
       document.getElementById('clock_font').appendChild(fop);
     }
     document.getElementById('clock_font').value=val;
+    console.log('load-progress - font-list - done');
   };
+  console.log('load-progress - font-list - start');
   ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 }

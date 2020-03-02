@@ -310,7 +310,7 @@ async function loadClock() {
             document.getElementById('ad_remover').style.fontFamily = arvoFont;
           });
           loadClockFont().then(() => {
-            console.log("load progress", "clock font loaded");
+            console.log("load-progress", "clock font loaded");
             resolveAwaitClockFont();
           });
         });
@@ -337,7 +337,6 @@ async function loadClock() {
       function bg_listener() {
         const bg_image_val = getOpt('bg_image');
         const bg_color_val = getOpt('bg_color');
-        console.log(bg_image_val, bg_color_val);
         setBackground(bg_image_val || bg_color_val);
       }
       function bg_image_listener(){ setBackground(getOpt('bg_image')) }

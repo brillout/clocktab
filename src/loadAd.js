@@ -3,7 +3,7 @@ import ml from './ml';
 export default loadAd;
 
 function loadAd() {
-  console.log('loading ad');
+  console.log('load-progress - start loading ad');
 
   loadAdsByGoogle();
   loadGoogleTag();
@@ -36,7 +36,7 @@ function loadGoogleTag() {
     googletag.pubads().disableInitialLoad();
     //googletag.pubads().enableSingleRequest();
     googletag.enableServices();
-    console.log("load progress", "ad enabled - 1");
+    console.log("load-progress", "ad enabled - 1");
   });
 }
 
@@ -63,7 +63,7 @@ function refreshBids() {
       googletag.cmd.push(function() {
           apstag.setDisplayBids();
           googletag.pubads().refresh();
-          console.log("load progress", "ad refreshed - 1");
+          console.log("load-progress", "ad refreshed - 1");
       });
     }
   );
@@ -97,7 +97,7 @@ function loadApsTag() {
       googletag.cmd.push(function() {
         apstag.setDisplayBids();
         googletag.pubads().refresh();
-        console.log("load progress", "ad refreshed - 2");
+        console.log("load-progress", "ad refreshed - 2");
       });
     }
   );
