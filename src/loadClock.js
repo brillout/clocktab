@@ -186,6 +186,12 @@ async function loadClock() {
         'font_shadow':'',
         'clock_font':'Text Me One',
         'color_font':'#6d30be'},
+     'naturo':{
+        'bg_color':'',
+        'bg_image':'https://i.imgur.com/iyyms5e.jpg',
+        'font_shadow':'',
+        'clock_font':'Knewave',
+        'color_font':'#ffdf00'},
    }; 
 
     var randomTheme = (function()

@@ -96,8 +96,8 @@ function setImage(val) {
     loaded=true;
     const w=this.width;
     const h=this.height;
-    if(w*h>4000000) {
-      alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of maximal 4 000 000 pixels -- e.g. 2500*1600 pixels -- are allowed.');
+    if(w*h>8000000) {
+      alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of up to 8 000 000 pixels are allowed. (For example, any image bellow 5000*1600 is fine.)');
       setCss();
       return;
     }
