@@ -1,9 +1,15 @@
 import ml from './ml';
+import removeAd from './removeAd';
 
 export default loadAd;
 
 function loadAd() {
   console.log('load-progress - start loading ad');
+
+  if( removeAd() ){
+    console.log('load-progress - ad removed');
+    return;
+  }
 
   loadAdsByGoogle();
   loadGoogleTag();

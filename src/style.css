@@ -303,3 +303,7 @@ html {
 #header_links a {
   padding: 0 20px;
 }
+
+html:not(.show_ad) .ad_wrapper_row {
+  display: none;
+}
