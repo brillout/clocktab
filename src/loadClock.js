@@ -186,7 +186,7 @@ async function loadClock() {
         'font_shadow':'',
         'clock_font':'Text Me One',
         'color_font':'#6d30be'},
-     'naturo':{
+     'naruto':{
         'bg_color':'',
         'bg_image':'https://i.imgur.com/iyyms5e.jpg',
         'font_shadow':'',
