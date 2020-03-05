@@ -1,5 +1,3 @@
-#Ads.txt clocktab.com
-
 33across.com, 0010b00002SlIKjAAN, DIRECT, bbea06d9c4d2853c
 33across.com, 0013300001r0t9mAAA, RESELLER
 33across.com, 0014000001aXjnGAAS, RESELLER, bbea06d9c4d2853c
@@ -170,6 +168,8 @@ appnexus.com, 10451, RESELLER
 appnexus.com, 10478, RESELLER, f5ab79cb980f11d1
 appnexus.com, 10490, RESELLER, f5ab79cb980f11d1
 appnexus.com, 1117, RESELLER
+appnexus.com, 11610, RESELLER, f5ab79cb980f11d1
+appnexus.com, 1314, RESELLER
 appnexus.com, 1356, RESELLER
 appnexus.com, 1356, RESELLER, f5ab79cb980f11d1
 appnexus.com, 1360, RESELLER
@@ -548,6 +548,7 @@ google.com, pub-0500301286325546, RESELLER
 google.com, pub-0624565343472487, RESELLER, f08c47fec0942fa0
 google.com, pub-0627101520158699, RESELLER, f08c47fec0942fa0
 google.com, pub-0978064532142215, RESELLER, f08c47fec0942fa0
+google.com, pub-1018291046422176, RESELLER, f08c47fec0942fa0
 google.com, pub-1142323411777001, DIRECT, f08c47fec0942fa0
 google.com, pub-1232265399417302, RESELLER, f08c47fec0942fa0
 google.com, pub-1313834454494130, RESELLER, f08c47fec0942fa0
@@ -635,6 +636,7 @@ google.com, pub-7709686429433048, RESELLER
 google.com, pub-7774251886246218, RESELLER
 google.com, pub-7958959566206860, DIRECT, f08c47fec0942fa0
 google.com, pub-8044415469269497, RESELLER
+google.com, pub-8113799588685394, RESELLER, f08c47fec0942fa0
 google.com, pub-8172268348509349, RESELLER, f08c47fec0942fa0
 google.com, pub-8241049497608997, RESELLER, f08c47fec0942fa0
 google.com, pub-8278416939377896, DIRECT, f08c47fec0942fa0
@@ -689,6 +691,7 @@ improvedigital.com, 1239, RESELLER
 improvedigital.com, 1241, DIRECT
 improvedigital.com, 1250, RESELLER
 improvedigital.com, 1556, RESELLER
+improvedigital.com, 1602, DIRECT
 improvedigital.com, 185, RESELLER
 improvedigital.com, 335, RESELLER
 Improvedigital.com, 410, RESELLER
@@ -802,6 +805,7 @@ loopme.com, 5679, RESELLER
 loopme.com, 5679, RESELLER, 6c8d5f95897a5a3b
 loopme.com, s-2411, RESELLER
 loopme.com, s-2411, RESELLER, 6c8d5f95897a5a3b
+madopi.com, 222858, DIRECT
 marketplace.mediashakers.com, 51415, RESELLER
 media.net, 8CU14PV87, DIRECT
 media.net, 8CUKY1173, DIRECT
@@ -911,6 +915,7 @@ openx.com, 540858363, DIRECT, 6a698e2ec38604c6
 openx.com, 540858363, RESELLER, 6a698e2ec38604c6
 openx.com, 540860183, DIRECT, 6a698e2ec38604c6
 openx.com, 540860183, RESELLER, 6a698e2ec38604c6
+openx.com, 540952727, DIRECT, 6a698e2ec38604c6
 openx.com, 83499, RESELLER
 openx.com, 83499, RESELLER, 6a698e2ec38604c6
 otm-r.com, 23, RESELLER
@@ -1010,6 +1015,7 @@ pubmatic.com, 158136, RESELLER, 5d62403b186f2ace
 pubmatic.com, 158236, RESELLER, 5d62403b186f2ace
 pubmatic.com, 158615, RESELLER, 5d62403b186f2ace
 pubmatic.com, 158648, RESELLER, 5d62403b186f2ace
+pubmatic.com, 159110, RESELLER, 5d62403b186f2ace
 pubmatic.com, 30666, RESELLER, 5d62403b186f2ace
 Pubmatic.com, 39374, RESELLER
 pubmatic.com, 50758, RESELLER, 5d62403b186f2ace
@@ -1130,6 +1136,7 @@ rubiconproject.com, 20736, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 21070, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 21150, DIRECT, 0bfd66d529a55807
 rubiconproject.com, 21150, RESELLER, 0bfd66d529a55807
+rubiconproject.com, 22014, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 8861, RESELLER, 0bfd66d529a55807
 seedtag.com, 6838-6991-01, RESELLER
 sfx.freewheel.tv, 1025, RESELLER
@@ -1355,6 +1362,7 @@ tremorhub.com, q017o-78mlk, RESELLER, 1a4e959a1b50034a
 tremorhub.com, s2t3y-r3ofd, RESELLER, 1a4e959a1b50034a
 tremorhub.com, v7cmh-l7r0s, RESELLER, 1a4e959a1b50034a
 tremorhub.com, z87wm, RESELLER, 1a4e959a1b50034a
+triplelift.com, 4338, DIRECT, 6c33edb13117fd86
 truex.com, 224, RESELLER
 ucfunnel.com, par-488A3E6BD8D997D0ED8B3BD34D8BA4B, RESELLER
 undertone.com, 3861, DIRECT
@@ -1374,11 +1382,13 @@ vindicosuite.com, 6621, RESELLER
 viralize.com, 176, RESELLER
 Viralize.com, 2963, RESELLER
 viralize.com, 339, RESELLER
+waardex.com, 109612, DIRECT
 waardex.com, 66431, RESELLER
 wibbitz.com, 8376404994, DIRECT
 x.fidelity-media.com, 7256, RESELLER
 xad.com, 958, RESELLER, 81cbf0a75a5e0e9a
 xendiz.com, 126, RESELLER
+yahoo.com, 55029, RESELLER, e1a5b5b6e3255540
 yieldlab.net, 6378054, DIRECT
 yieldlab.net, 6378054, RESELLER
 yldbt.com, 5b522cc167f6b300b89dc6d3, DIRECT, cd184cb30abaabb5
