@@ -51,44 +51,48 @@ For the longest time, I refused to put ads on Clock Tab. I don't like ads.
 
 <p>
 But I want to improve Clock Tab.
-More themes (and well polished ones!), improved theme customization, faster load speed, and many more ideas.
-Ads and donations allow me to maintain and dedicate more time for Clock Tab.
+More themes, improved theme customization, faster load speed, and many more ideas!
+Ads and donations allow me to maintain and dedicate time for Clock Tab.
 </p>
 
 <p>
-If you don't like ads, you can donate and I will give you a hidden code to remove ads.
-Any amount you are capable of donating is welcome.
-
-<p>
-If you can't donate, it's fine and I will give you a hidden code anyways :-).
+I will give you a hidden code to remove ads if you donate.
+Any amount you are capable of donating is welcome. The PayPal email is:
 </p>
-
-<p>
-To donate, email me at <a id="contact"></a>.
+<p style="padding-left: 20px">
+<b id='paypal-email'></b>
+</p>
 <script>
-  var email = 'clocktab';
-  email+='@';
-  email+='brillout';
-  email+='.';
-  email+='com';
-  const contactEl = document.getElementById('contact');
-  contactEl.innerHTML = email;
-  const href = (
-    'mailto:'+email+
-    '?subject='+encodeURIComponent("I'd like to donate")+
-    '&body='+encodeURIComponent("Hi Romuald, I would like to donate :-)")
-  );
+  var clock_tab_email = 'clocktab';
+  clock_tab_email+='@';
+  clock_tab_email+='brillout';
+  clock_tab_email+='.';
+  clock_tab_email+='com';
+  const paypalEl = document.getElementById('paypal-email');
+  paypalEl.innerHTML = clock_tab_email;
+</script>
+</p>
+
+<p>
+You will receive an automatic email containing the ad removal code instantly after your PayPal wire.
+</p>
+
+<p>
+You can PayPal me only 0.01$ if you are short on money, it's totally fine :-).
+</p>
+
+<p>
+You have a wish regarding Clock Tab? Contact me at <a id="clocktab-contact"></a>!
+<script>
+  const contactEl = document.getElementById('clocktab-contact');
+  contactEl.innerHTML = clock_tab_email;
+  const href = 'mailto:'+clock_tab_email;
   contactEl.setAttribute('href', href);
 </script>
-I usually respond within 1-2 hours (while I'm awake:)).
 </p>
 
-</p>
-If you have any whishes regarding Clock Tab, let me know in your email!
 <p>
-
-<p>
-I'm looking forward for a bright Clock Tab future :-).
+I'm looking forward for a bright Clock Tab future.
 </p>
 
 <p>
