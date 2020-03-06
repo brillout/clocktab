@@ -56,12 +56,12 @@
 /* function */
 
 @media (min-width:728px){
-  .ad_desktop {
+  .ad_mobile {
     display: none !important;
   }
 }
 @media (max-width:727px) {
-  .ad_mobile {
+  .ad_desktop {
     display: none !important;
   }
 }
