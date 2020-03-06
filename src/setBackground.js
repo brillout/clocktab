@@ -104,7 +104,7 @@ function setImage(val) {
     setCss({img: 'url("'+val+'")'});
   };
   imgEl.onerror=function(err) {
-    alert('The image URL "'+val+'" is invalid. It is the URL of an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
+    alert('Image '+val+' could not be loaded. Do you have an internet connection? Is the image online? Does the URL point to an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
     setCss();
   };
 
