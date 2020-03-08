@@ -16,6 +16,8 @@ window.onload = async () => {
 
   loadAd();
 
+  /*
   // To avoid memory leak
   autoReloadPage();
+  */
 };
