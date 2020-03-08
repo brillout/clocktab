@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime';
 
 import loadAd from './loadAd';
 import loadClock from './loadClock';
