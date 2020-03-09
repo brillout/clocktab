@@ -3,6 +3,19 @@ import removeAd from './removeAd';
 
 export default loadAd;
 
+const AD_SLOTS = [
+  {
+    slotID: 'div-gpt-ad-1582657330353-0',
+    slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_desktop',
+    slotSize: [728, 90],
+  },
+  {
+    slotID: 'div-gpt-ad-1582659017480-0',
+    slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_mobile',
+    slotSize: [320, 50],
+  },
+];
+
 function loadAd() {
   console.log('load-progress - start loading ad');
 
@@ -15,11 +28,12 @@ function loadAd() {
   loadGoogleTag();
   loadApsTag();
 
-  googletag.cmd.push(function() { googletag.display('div-gpt-ad-1582657330353-0'); });
-  googletag.cmd.push(function() { googletag.display('div-gpt-ad-1582659017480-0'); });
+  AD_SLOTS.forEach(({slotID}) => {
+    googletag.cmd.push(function() { googletag.display(slotID); });
+  });
 
   setInterval(function () {
-    refreshBids();
+    refreshBids({timeout: 2e3});
   }, 90000);
 }
 function loadAdsByGoogle() {
@@ -33,43 +47,41 @@ function loadGoogleTag() {
 
   window.googletag = window.googletag || {cmd: []};
   googletag.cmd.push(function() {
-    googletag.defineSlot('/21735472908/CLOCKTAB_leaderboard_ATF_desktop', [728, 90], 'div-gpt-ad-1582657330353-0')
-    .addService(googletag.pubads());
-
-    googletag.defineSlot('/21735472908/CLOCKTAB_leaderboard_ATF_mobile', [320, 50], 'div-gpt-ad-1582659017480-0')
-    .addService(googletag.pubads());
+    AD_SLOTS.forEach(({slotID, slotName, slotSize}) => {
+      googletag
+      .defineSlot(slotName, slotSize, slotID)
+      .addService(googletag.pubads());
+    });
 
     googletag.pubads().disableInitialLoad();
     //googletag.pubads().enableSingleRequest();
     googletag.enableServices();
+
     console.log("load-progress", "ad enabled - 1");
   });
 }
 
-function refreshBids() {
+function refreshBids(args) {
   apstag.fetchBids(
     {
-      slots: [
-        {
-          slotID: 'div-gpt-ad-1582657330353-0',
-          slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_desktop',
-          sizes: [[728, 90]]
-        },
-        {
-          slotID: 'div-gpt-ad-1582659017480-0',
-          slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_mobile',
-          sizes: [[320, 50]]
-        }
-      ],
-      timeout: 2e3
+      slots: AD_SLOTS.map(({slotID, slotName, slotSize}) => {
+        return {
+          slotID,
+          slotName,
+          sizes: [slotSize],
+        };
+      }),
+      ...args
     },
     function(bids) {
-      // set apstag targeting on googletag 
-      //then refresh all DFP
+      // set apstag bids, then trigger the first request to DFP
+
+      // set apstag targeting on googletag then refresh all DFP
+
       googletag.cmd.push(function() {
           apstag.setDisplayBids();
           googletag.pubads().refresh();
-          console.log("load-progress", "ad refreshed - 1");
+          console.log("load-progress", "ad refreshed");
       });
     }
   );
@@ -84,27 +96,7 @@ function loadApsTag() {
      bidTimeout: 2e3
   });
 
-  apstag.fetchBids(
-    {
-      slots: [
-      {
-           slotID: 'div-gpt-ad-1582657330353-0',
-           slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_desktop',
-           sizes: [[728, 90]]
-      },
-      {
-           slotID: 'div-gpt-ad-1582659017480-0',
-           slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_mobile',
-           sizes: [[320, 50]]
-      }]
-    },
-    function(bids) {
-      // set apstag bids, then trigger the first request to DFP
-      googletag.cmd.push(function() {
-        apstag.setDisplayBids();
-        googletag.pubads().refresh();
-        console.log("load-progress", "ad refreshed - 2");
-      });
-    }
-  );
+  refreshBids();
 }
+
+
