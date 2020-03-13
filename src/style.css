@@ -205,10 +205,6 @@ body,html
 	margin: 0;
 	padding: 0;
 }
-html,body
-{
-  height: 100%;
-}
 table
 {
   border-spacing: 0;
@@ -220,7 +216,7 @@ table td
 
 #content {
   margin: auto;
-  height: 100%;
+  height: 100vh;
   vertical-align: middle;
   text-align: center;
   white-space: nowrap;

@@ -37,18 +37,17 @@ async function loadClock() {
     function do_(){
       var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
       ml.assert(time_new_size.width && time_new_size.height);
-      if(dateEl.innerHTML!="")
-      {
-        var date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
+      let date_new_size;
+      if(dateEl.innerHTML!="") {
+        date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
         var diff = time_new_size.height+date_new_size.height-window.innerHeight;
-        if(diff>0)
-        {
+        if(diff>0) {
           time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
           date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
           time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
         }
-        dateEl.style.fontSize = date_new_size.fontSize+'px';
       }
+      dateEl.style.fontSize = date_new_size.fontSize+'px';
       timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
     }
     window.clearTimeout(timeout);
