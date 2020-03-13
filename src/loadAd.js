@@ -1,4 +1,4 @@
-import loadAd from 'tab-utils/loadAd';
+import load_ad from 'tab-utils/load_ad';
 
 export default () => {
   const AD_SLOTS = [
@@ -14,5 +14,5 @@ export default () => {
     },
   ];
 
-  loadAd(AD_SLOTS);
+  load_ad(AD_SLOTS);
 };
