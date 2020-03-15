@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "yarn parcel:dev",
-    "dev:donate": "yarn serve src/ --listen 3000",
+    "dev:static": "yarn serve src/ --listen 3000",
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
     "prod:build": "yarn prod:build:clean && yarn parcel:prod && yarn prod:build:static",
@@ -10,7 +10,7 @@
     "prod:deploy": "push-dir --dir=dist/ --branch=gh-pages --cleanup",
     "prod:serve": "serve dist/ --listen 3000",
     "parcel:dev": "parcel serve src/index.html --port 3000",
-    "parcel:prod": "parcel build src/index.html src/donate.html"
+    "parcel:prod": "parcel build src/*.html"
   },
   "dependencies": {
     "parcel": "^1.12.4",
