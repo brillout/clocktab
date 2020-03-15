@@ -2,7 +2,7 @@
 @media (max-width:727px) {
   :root {
     --ad-width: 320px;
-    --ad-height: 50px
+    --ad-height: 50px;
   }
 }
 @media (min-width:728px){

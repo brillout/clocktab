@@ -1,7 +1,25 @@
-/*
 #more_panel {
-  background-color: #dedede !important;
+  --bg-color-1: rgba(255,255,255,.55);
+  --bg-color-2: rgba(0,0,0,.065);
+  --bg-blur: 5px;
 }
+
 #more_panel:before {
+ pointer-events: none;
+ background-color:  var(--bg-color-2);
+ content: '';
+ display: block;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ position: absolute;
 }
-*/
+#more_panel {
+ background-color: var(--bg-color-1) !important;
+ position: relative;
+ backdrop-filter: blur(var(--bg-blur)) !important;
+}
+#more_panel * {
+ color: #373a4a !important;
+}
