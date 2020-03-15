@@ -1,4 +1,5 @@
 @import './css/ad_layout.css';
+@import './css/more_panel.css';
 
 #char2:before { content: "M" }
 #char1:before { content: "A" }
@@ -146,54 +147,19 @@ input[type='color']
 #timeTable,#timeTable * { cursor: pointer; }
 
 /* header */
-body
-{
+body {
   font-size: .9em;
 }
-#header
-{
-  background: rgba(226, 226, 226, 0.8);
-  width: 100%;
+#header {
   padding: 0.8em 0;
   text-shadow: none;
 }
 #header span, a {
-  color: #333;
-}
-/*
-#header *
-{
-  margin: 0px 7px 4px;
-  display: inline-block;
-  color: #333!important;
-}
-#header * *
-{
-  margin: 3px;
-}
-*/
-
-#header.hoverEnabled:hover {
-  transition: opacity .5s linear;
-}
-#header {
-  transition: opacity 2s ease-in-out;
+  color: #aaa;
 }
 
 
 /* STRUCTURE */
-#header
-{
-  position: fixed;
-  top: 0;
-  z-index: 2;
-  opacity: 0;
-}
-
-#header.hoverEnabled:hover
-{
-  opacity: 1;
-}
 html { overflow: hidden; }
 body
 {

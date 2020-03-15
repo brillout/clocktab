@@ -251,16 +251,7 @@ async function loadClock() {
         optionsEl.appendChild(opt.dom);
       }
 
-      if(ml.browser().usesWebkit)
-      {
-        var initMoveFired=false;
-        window.onmousemove=function(ev) {
-           if(!initMoveFired++) return;
-           headerEl.setAttribute('class','hoverEnabled');
-           delete window.onmousemove;
-        };
-      }
-      else headerEl.setAttribute('class','hoverEnabled');
+      /* TODO
       if( hasBeenAutoReloaded() ){
         headerEl.style.transition = 'none';
         headerEl.style.opacity='0';
@@ -269,6 +260,7 @@ async function loadClock() {
       setTimeout(function(){
         headerEl.style.opacity='';
       },2000);
+      */
       /*
       //add option toggle
       setTimeout(function(){//gecko requires a timeout
