@@ -224,10 +224,13 @@ html {
   background-image: url("https://i.imgur.com/zqG5F.gif");
 }
 
-#header_links {
-  margin: 6px;
+.header_links {
+  margin: 20px;
 }
-#header_links a {
+.header_links a {
   padding: 0 20px;
 }
 
+#footer {
+  font-size: 0.87em;
+}

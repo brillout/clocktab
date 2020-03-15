@@ -21,7 +21,6 @@
 
 #more_panel {
   width: 100vw;
-  padding-bottom: 40px;
 }
 
 
@@ -64,8 +63,8 @@
   position: absolute;
 }
 #more_panel_jumper_wrapper {
-  --height: 200px;
-  height: 200px;
+  --height: 150px;
+  height: var(--height);
   width: 100%;
   top: calc(-1 * var(--height));
 }
