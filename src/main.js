@@ -16,7 +16,7 @@ window.onload = async () => {
 
   loadAnalytics();
 
-  loadAd();
+  setTimeout(() => loadAd(), 500);
 
   /*
   // To avoid memory leak
