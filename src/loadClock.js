@@ -28,7 +28,6 @@ async function loadClock() {
   var timeTableEl      = document.getElementById('timeTable');
   var timeRowEl        = document.getElementById('timeRow');
   var dateEl           = document.getElementById('date');
-  var contentEl        = document.getElementById('content');
 
   /* SIZE of time */
   var timeout;
@@ -400,7 +399,7 @@ async function loadClock() {
     })();
     //}}}
 
-    ml.fullscreenElement({scaleEl: contentEl,zoomEl: timeTableEl, keybinding: 'f'});
+    ml.fullscreenElement({scaleEl: document.body, zoomEl: timeTableEl, keybinding: 'f'});
   //}}}
   })();
 
@@ -409,7 +408,6 @@ async function loadClock() {
   var spark;
   (function(){
   //{{{
-    var content = document.getElementById('content');
     var digit1  = document.getElementById('digit1');
     var digit2  = document.getElementById('digit2');
 

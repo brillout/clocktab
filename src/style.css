@@ -18,7 +18,31 @@ body.noPeriod.noSeconds #digit2{
   display: none;
 }
 
-#timeTable { margin: auto }
+#layout_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#layout_container > #layout_clock {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#layout_container > #layout_ad {
+  flex-shrink: 0;
+}
+#layout_container > #layout_equilibrator {
+  flex-shrink: 1;
+}
+#layout_container > #layout_ad,
+#layout_container > #layout_equilibrator {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+#timeTable {
+  margin: auto;
+  white-space: nowrap;
+}
 #timeTable td { min-width: 100% }
 #timeRow > table {width: 100%} /* for metro app */
 
@@ -92,7 +116,7 @@ input[type='checkbox']:checked:after {
 label
 {
   margin: 7px;
-  /*white-space: nowrap;*/
+  white-space: nowrap;
   display: inline-block;
 }
 label > *
@@ -180,13 +204,6 @@ table td
   padding:0;
 }
 
-#content {
-  margin: auto;
-  height: 100vh;
-  vertical-align: middle;
-  text-align: center;
-  white-space: nowrap;
-}
 
 
 
