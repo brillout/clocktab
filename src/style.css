@@ -18,6 +18,10 @@ body.noPeriod.noSeconds #digit2{
   display: none;
 }
 
+#top_content {
+  height: 100vh;
+  overflow: hidden !important;
+}
 #layout_container {
   height: 100vh;
   display: flex;

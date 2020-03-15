@@ -399,7 +399,7 @@ async function loadClock() {
     })();
     //}}}
 
-    ml.fullscreenElement({scaleEl: document.body, zoomEl: timeTableEl, keybinding: 'f'});
+    ml.fullscreenElement({scaleEl: document.querySelector('#layout_container'), zoomEl: timeTableEl, keybinding: 'f'});
   //}}}
   })();
 

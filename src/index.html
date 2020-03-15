@@ -23,29 +23,31 @@
 </head>
 
 <body class="pretty_scroll_area">
-  <div id='layout_container'>
+  <div id="top_content">
+    <div id='layout_container'>
 
-    <div id="layout_ad">
-      <div style="width: 200px; height: 100px; border: 1px solid red;"></div>
+      <div id="layout_ad">
+        <div style="width: 200px; height: 100px; border: 1px solid red;"></div>
+      </div>
+
+      <div id="layout_clock">
+        <table id='timeTable'>
+          <tr><td id='timeRow'>
+            <table>
+            <tr>
+              <td id='time'></td>
+              <td><table><tr><td id='char1' ></td></tr><tr><td id='digit1'></td></tr></table></td>
+              <td><table><tr><td id='char2' ></td></tr><tr><td id='digit2'></td></tr></table></td>
+            </tr>
+            </table>
+          </td></tr>
+          <tr><td id='date'></td></tr>
+        </table>
+      </div>
+
+      <div id="layout_equilibrator"></div>
+
     </div>
-
-    <div id="layout_clock">
-      <table id='timeTable'>
-        <tr><td id='timeRow'>
-          <table>
-          <tr>
-            <td id='time'></td>
-            <td><table><tr><td id='char1' ></td></tr><tr><td id='digit1'></td></tr></table></td>
-            <td><table><tr><td id='char2' ></td></tr><tr><td id='digit2'></td></tr></table></td>
-          </tr>
-          </table>
-        </td></tr>
-        <tr><td id='date'></td></tr>
-      </table>
-    </div>
-
-    <div id="layout_equilibrator"></div>
-
   </div>
 
     <!--
