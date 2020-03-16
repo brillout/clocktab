@@ -44,7 +44,6 @@
   align-item: center;
 }
 
-
 /* ensure that ad doesn't creep out */
 .ad-content-wrapper {
   position: relative;
@@ -58,8 +57,6 @@
   bottom: 0;
   left: 0;
 }
-
-
 
 
 /* function */
@@ -81,7 +78,6 @@ html:not(.show_ad) #secondary-ad {
     display: none !important;
   }
 }
-
 
 
 /* style */
@@ -109,4 +105,3 @@ html:not(.show_ad) #secondary-ad {
   color: #333;
   text-shadow: none;
 }
-
