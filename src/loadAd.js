@@ -12,6 +12,16 @@ export default () => {
       slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_mobile',
       slotSize: [320, 50],
     },
+    {
+      slotID: 'div-gpt-ad-1584320827791-0',
+      slotName: '/21735472908/CLOCKTAB_leaderboard_BTF_desktop',
+      slotSize: [728, 90],
+    },
+    {
+      slotID: 'div-gpt-ad-1584321019356-0',
+      slotName: '/21735472908/CLOCKTAB_leaderboard_BTF_mobile',
+      slotSize: [320, 50],
+    },
   ];
 
   load_ad(AD_SLOTS, {useOneTag: true});
