@@ -315,20 +315,18 @@ async function loadClock() {
           }
           bodyFontLoader=function(_force, callback){
             var fontName = getOpt('clock_font');
+            const clock_el = document.getElementById('timeTable');
             fontLoader(fontName,function(){
-              if( _force || fontName===getOpt('clock_font') && document.body.style.fontFamily!==fontName ){
-                document.body.style.fontFamily=fontName;
+              if( _force || fontName===getOpt('clock_font') && clock_el.style.fontFamily!==fontName ){
+                clock_el.style.fontFamily=fontName;
                 setSize(true);
               }
               callback();
             })
           };
-          const arvoFont = 'Arvo';
-          fontLoader(arvoFont,function(){
-            document.getElementById('header').style.fontFamily = arvoFont;
-            /* TODO
-            document.getElementById('ad_remover').style.fontFamily = arvoFont;
-            */
+          const menuFont = 'Lato';
+          fontLoader(menuFont,function(){
+            document.body.style.fontFamily = menuFont;
           });
           loadClockFont().then(() => {
             console.log("load-progress", "clock font loaded");

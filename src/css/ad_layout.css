@@ -22,7 +22,7 @@
   margin: auto;
 }
 
-#primary_ad {
+#primary-ad {
   transition: margin-top 0.7s ease-out;
   margin: auto;
   margin-top: calc( -1 * ( var(--ad-height) + var(--ad-remover-height) ) );
@@ -63,7 +63,7 @@
 
 /* function */
 
-html.show_ad #primary_ad {
+html.show_ad #primary-ad {
   margin-top: 0px;
 }
 html:not(.show_ad) #secondary-ad {
