@@ -326,7 +326,9 @@ async function loadClock() {
           const arvoFont = 'Arvo';
           fontLoader(arvoFont,function(){
             document.getElementById('header').style.fontFamily = arvoFont;
+            /* TODO
             document.getElementById('ad_remover').style.fontFamily = arvoFont;
+            */
           });
           loadClockFont().then(() => {
             console.log("load-progress", "clock font loaded");
