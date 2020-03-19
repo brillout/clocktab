@@ -33,6 +33,10 @@
   height: calc( var(--ad-height) + var(--ad-remover-height) );
   overflow: hidden;
 }
+#primary-ad,
+#secondary-ad {
+  text-align: center;
+}
 
 /* ad remover layout */
 .ad_remover {
