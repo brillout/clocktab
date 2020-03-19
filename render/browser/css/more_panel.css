@@ -3,6 +3,7 @@
   --panel_bg_2: rgba(0,0,0,.065);
   --panel-bg-blur: 5px;
   --panel-color: #373a4a;
+  --panel-color-2: #3f424f;
 }
 
 #more_panel {
@@ -49,11 +50,14 @@
   /*
   */
 }
-.glass-background * {
+.glass-background {
   color: var(--panel-color);
 }
+.glass-background .big-text {
+  color: var(--panel-color-2);
+}
 
-#more_panel * {
+#more_panel {
   color: var(--panel-color);
 }
 

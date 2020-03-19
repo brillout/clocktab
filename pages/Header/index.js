@@ -26,6 +26,7 @@ function Logo() {
        marginRight: 45,
        textDecoration: 'none',
      }}
+     className="big-text"
     >
       <img
        height={39}
