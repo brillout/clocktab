@@ -31,11 +31,9 @@
 }
 html { overflow: hidden; }
 
-/*
 #timeTable {
-	text-align: center;
+  text-align: center;
 }
-*/
 table {
   border-spacing: 0;
 }

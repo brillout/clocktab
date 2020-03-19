@@ -1,14 +1,12 @@
-body {
-  color: #444;
+#top_content {
+  font-size: 1.05em;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+  color: #444;
   max-width: 880px;
   margin: auto;
   padding: 0 40px;
   padding-top: 50px;
   padding-bottom: 120px;
-}
-html {
-  font-size: 1.05em;
 }
 h2 {
   font-size: 1.4rem;
