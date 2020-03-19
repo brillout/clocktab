@@ -1,3 +1,7 @@
+#timeTable *:not(input):not(a) {
+	user-select: none;
+}
+
 /* checkbox styling */
 input[type='checkbox'] {
     background: #292A2D;
@@ -73,11 +77,6 @@ input[type='color']
   border-radius: 3px;
 }
 
-
-#timeTable *:not(input):not(a) {
-	user-select: none;
-	cursor: default;
-}
 
 #date {
   opacity: 0.7;
