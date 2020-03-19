@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import '../pages/clock/js/main.js';
-
 export default domRender;
 
 async function domRender({page, initialProps, CONTAINER_ID}) {
@@ -15,4 +13,6 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
     ReactDOM.render(element, container);
   }
   */
+
+  page.onPageLoad();
 }

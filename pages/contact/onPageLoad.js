@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Contact - Clock Tab</title>
-<link rel='stylesheet' type='text/css' href='css/content_page.css'/>
-</head>
+export default onPageLoad;
 
-<body>
-
-<h1>Contact</h1>
-
-<a id="clocktab-contact"></a>
-<script>
+function onPageLoad() {
   let clock_tab_email = 'clocktab';
   clock_tab_email+='@';
   clock_tab_email+='brillout';
@@ -20,8 +10,5 @@
   contactEl.innerHTML = clock_tab_email;
   const href = 'mailto:'+clock_tab_email;
   contactEl.setAttribute('href', href);
-</script>
-
-</body>
-</html>
+}
 
