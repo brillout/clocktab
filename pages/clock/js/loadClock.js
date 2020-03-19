@@ -502,21 +502,22 @@ function activate_screen_buttons() {
   manual_scroll.onclick = do_scroll;
   manual_fullscreen.onclick = do_fullscreen;
 
-  activate_auto_scroll({do_scroll});
+  const stop_auto_scroll = activate_auto_scroll({do_scroll});
 
   return;
 
-  function do_scroll() {
-    scrollToElement(clock_view);
+  async function do_scroll() {
+    stop_auto_scroll();
+    await scrollToElement(clock_view);
   }
-  function do_fullscreen() {
-    do_scroll();
+  async function do_fullscreen() {
+    await do_scroll();
     document.documentElement.requestFullscreen();
   }
 }
 function activate_auto_scroll({do_scroll}) {
   //*/
-  const AUTO_DURATION = 3;
+  const AUTO_DURATION = 6;
   /*/
   const AUTO_DURATION = 9;
   //*/
@@ -524,10 +525,10 @@ function activate_auto_scroll({do_scroll}) {
   const auto_scroll = document.querySelector('#auto-scroll');
   const disable_prop = 'data-disable-auto-scroll';
 
-  addScrollListener(scrollListener);
+  addScrollListener(scrollListener, {onlyUserScroll: true});
   start_auto_scroll();
 
-  return;
+  return stop_auto_scroll;
 
   var counter;
   var repeater;
