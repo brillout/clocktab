@@ -26,6 +26,7 @@ async function loadClock() {
   var MIN_WIDTH        = 580;
   var timeEl           = document.getElementById('time');
   var timeTableEl      = document.getElementById('timeTable');
+  const clockEl = timeTableEl;
   var timeRowEl        = document.getElementById('timeRow');
   var dateEl           = document.getElementById('date');
 
@@ -359,8 +360,8 @@ async function loadClock() {
         setBackground(bg_image_val || bg_color_val);
       }
       function bg_image_listener(){ setBackground(getOpt('bg_image')) }
-      function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
-      function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
+      function colorChangeListener(){clockEl.style.color        =getOpt('color_font' )}
+      function fontShadowListener (){clockEl.style['textShadow']=getOpt('font_shadow')}
       function theme_change_listener(){
         fontShadowListener();
         colorChangeListener();
