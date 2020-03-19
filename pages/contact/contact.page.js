@@ -4,7 +4,7 @@ import ContactView from './ContactView.js';
 import onPageLoad from './onPageLoad.js';
 
 export default {
-  route: '/',
+  route: '/contact',
   view: ContactView,
 
   title: 'Contact - Clock Tab',

@@ -1,6 +1,11 @@
 export default onPageLoad;
 
-function onPageLoad() {
+function onPageLoad(loadCommon) {
+  setEmail();
+  loadCommon();
+}
+
+function setEmail() {
   let clock_tab_email = 'clocktab';
   clock_tab_email+='@';
   clock_tab_email+='brillout';
@@ -11,4 +16,3 @@ function onPageLoad() {
   const href = 'mailto:'+clock_tab_email;
   contactEl.setAttribute('href', href);
 }
-

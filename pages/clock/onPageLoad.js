@@ -1,18 +1,14 @@
-import more_panel from 'tab-utils/more_panel';
 
 import loadAd from './js/loadAd';
 import loadClock from './js/loadClock';
-import loadAnalytics from './js/loadAnalytics';
 import autoReloadPage from './js/autoReloadPage';
 
-async function onPageLoad (){
+export default onPageLoad;
+
+async function onPageLoad (loadCommon){
   await loadClock();
 
-  more_panel();
-
-  document.documentElement.classList.remove('hideApp');
-
-  loadAnalytics();
+  loadCommon();
 
   loadAd();
 //setTimeout(() => loadAd(), 500);
