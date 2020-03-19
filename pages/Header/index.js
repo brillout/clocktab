@@ -1,5 +1,5 @@
 import React from 'react';
-import logoUrl from './logo.png';
+import logoUrl from './logo.svg';
 import './header.css';
 
 export default Header;
@@ -24,12 +24,18 @@ function Logo() {
      style={{
        whiteSpace: 'nowrap',
        marginRight: 45,
+       textDecoration: 'none',
      }}
     >
       <img
        height={39}
        src={logoUrl}
-       style={{verticalAlign: 'middle', display: 'inline-block'}}
+       style={{
+        verticalAlign: 'middle',
+        display: 'inline-block',
+        position: 'relative',
+        top: -2,
+      }}
       />
       <b style={{verticalAlign: 'middle', paddingLeft: 10, fontSize: '1.55em'}}>Clock Tab</b>
     </a>
@@ -40,10 +46,11 @@ function Container({children}) {
   return (
     <div
       style={{
-        height: 60,
-        marginBottom: 32,
+        paddingTop: 10,
+        paddingBottom: 10,
         textAlign: 'center',
       }}
+      className='glass-background'
     >
       {children}
     </div>

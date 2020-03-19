@@ -2,6 +2,7 @@
   --panel_bg_1: rgba(255,255,255,.55);
   --panel_bg_2: rgba(0,0,0,.065);
   --panel-bg-blur: 5px;
+  --panel-color: #373a4a;
 }
 
 #more_panel {
@@ -30,6 +31,9 @@
   position: relative;
 }
 .glass-background:after {
+  position: absolute;
+}
+.glass-background:after {
   pointer-events: none;
   background-color:  var(--panel_bg_2);
   content: '';
@@ -38,17 +42,19 @@
   left: 0;
   width: 100%;
   height: 100%;
-  position: absolute;
 }
 .glass-background {
   background-color: var(--panel_bg_1);
-  /*
   backdrop-filter: blur(var(--panel-bg-blur));
+  /*
   */
+}
+.glass-background * {
+  color: var(--panel-color);
 }
 
 #more_panel * {
-  color: #373a4a !important;
+  color: var(--panel-color);
 }
 
 
@@ -117,9 +123,6 @@
   font-size: .9em;
   padding: 0.8em 0;
   text-shadow: none;
-}
-#header span, a {
-  color: #aaa;
 }
 
 .header_links {

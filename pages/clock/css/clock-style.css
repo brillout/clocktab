@@ -74,10 +74,7 @@ input[type='color']
 }
 
 
-*:not(input):not(a)
-{
-	-moz-user-select: -moz-none;
-	-webkit-user-select: none;
+#timeTable *:not(input):not(a) {
 	user-select: none;
 	cursor: default;
 }
