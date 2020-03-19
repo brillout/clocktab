@@ -1,9 +1,11 @@
 import React from 'react';
+import Header from '../Header';
 
 export default ClockView;
 
 function ClockView() {
-  return (
+  return <>
+    <Header/>
     <div id='layout_container'>
 
       <div id="layout_ad">
@@ -40,5 +42,5 @@ function ClockView() {
       <div id="layout_equilibrator"></div>
 
     </div>
-  );
+  </>;
 }

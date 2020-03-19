@@ -4,8 +4,9 @@
   color: #444;
   max-width: 880px;
   margin: auto;
+
+  box-sizing: border-box;
   padding: 0 40px;
-  padding-top: 50px;
   padding-bottom: 120px;
 }
 h2 {
