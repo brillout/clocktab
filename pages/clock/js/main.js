@@ -5,17 +5,16 @@ import 'tab-utils/more_panel';
 
 import loadAd from './loadAd';
 */
-/*
 import loadClock from './loadClock';
+/*
 import loadAnalytics from './loadAnalytics';
 import autoReloadPage from './autoReloadPage';
 */
 
 window.onload = async () => {
-  console.log('euiwqhi1111');
-  /*
   await loadClock();
 
+  /*
   document.documentElement.classList.remove('hideApp');
 
   loadAnalytics();
