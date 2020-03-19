@@ -525,7 +525,7 @@ function activate_auto_scroll({do_scroll}) {
   const auto_scroll = document.querySelector('#auto-scroll');
   const disable_prop = 'data-disable-auto-scroll';
 
-  addScrollListener(scrollListener, {onlyUserScroll: true});
+  addScrollListener(scrollListener, {onlyUserScroll: true, fireInitialScroll: false});
   start_auto_scroll();
 
   return stop_auto_scroll;
@@ -565,16 +565,11 @@ function activate_auto_scroll({do_scroll}) {
     auto_scroll.setAttribute('data-counter', counter);
   }
 
-  var not_first_scroll;
   function scrollListener(scrollPos) {
     if( document.fullscreenElement ){
       document.exitFullscreen();
     }
 
-    if( !not_first_scroll ) {
-      not_first_scroll = true;
-      return;
-    }
     if( scrollPos===0 ){
       start_auto_scroll();
     } else {
