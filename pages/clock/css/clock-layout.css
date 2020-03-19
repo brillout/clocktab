@@ -76,3 +76,4 @@ body:not(.noPeriod)  #time,
 body:not(.noSeconds) #time{
   padding-right: .2em;
 }
+

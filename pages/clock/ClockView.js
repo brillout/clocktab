@@ -6,7 +6,7 @@ export default ClockView;
 function ClockView() {
   return <>
     <Header/>
-    <div id='layout_container'>
+    <div id='layout_container' className="pretty_scroll_area__hide_scroll_element">
 
       <div id="layout_ad">
       <div>
@@ -40,6 +40,12 @@ function ClockView() {
       </div>
 
       <div id="layout_equilibrator"></div>
+
+      <div id="screen-buttons-wrapper">
+        <div className="screen-button glass-background" id="manual-scroll">Scroll</div>
+        <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
+        <div className="screen-button glass-background" id="auto-scroll"></div>
+      </div>
 
     </div>
   </>;

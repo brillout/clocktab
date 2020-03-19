@@ -5,6 +5,8 @@ import ml from './ml';
 import {hasBeenAutoReloaded} from './autoReloadPage';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
+import {scrollToElement, addScrollListener, removeScrollListener} from 'tab-utils/pretty_scroll_area';
+import assert from '@brillout/assert';
 
 export default loadClock;
 
@@ -29,6 +31,8 @@ async function loadClock() {
   const clockEl = timeTableEl;
   var timeRowEl        = document.getElementById('timeRow');
   var dateEl           = document.getElementById('date');
+
+  activate_screen_buttons();
 
   /* SIZE of time */
   var timeout;
@@ -330,7 +334,6 @@ async function loadClock() {
             document.body.style.fontFamily = menuFont;
           });
           loadClockFont().then(() => {
-            console.log("load-progress", "clock font loaded");
             resolveAwaitClockFont();
           });
         });
@@ -491,6 +494,94 @@ async function loadClock() {
   await Promise.race([awaitClockFont, sleep(0.4)]);
 };
 
+function activate_screen_buttons() {
+  const manual_scroll = document.querySelector('#manual-scroll');
+  const manual_fullscreen = document.querySelector('#manual-fullscreen');
+  const clock_view = document.querySelector('#layout_container');
+
+  manual_scroll.onclick = do_scroll;
+  manual_fullscreen.onclick = do_fullscreen;
+
+  activate_auto_scroll({do_scroll});
+
+  return;
+
+  function do_scroll() {
+    scrollToElement(clock_view);
+  }
+  function do_fullscreen() {
+    do_scroll();
+    document.documentElement.requestFullscreen();
+  }
+}
+function activate_auto_scroll({do_scroll}) {
+  //*/
+  const AUTO_DURATION = 3;
+  /*/
+  const AUTO_DURATION = 9;
+  //*/
+
+  const auto_scroll = document.querySelector('#auto-scroll');
+  const disable_prop = 'data-disable-auto-scroll';
+
+  addScrollListener(scrollListener);
+  start_auto_scroll();
+
+  return;
+
+  var counter;
+  var repeater;
+  function start_auto_scroll() {
+    auto_scroll.removeAttribute(disable_prop);
+    if( repeater ) return;
+    counter = AUTO_DURATION;
+    inOneSec();
+    assert.internal(repeater);
+  }
+  function stop_auto_scroll() {
+    auto_scroll.setAttribute(disable_prop, 'true');
+    if( repeater ) {
+      window.clearTimeout(repeater);
+      repeater = null;
+    }
+  }
+
+  function inOneSec() {
+    assert.internal(0<counter && counter<=AUTO_DURATION);
+    --counter;
+    updateDom();
+    if( counter===0 ){
+      do_scroll();
+      stop_auto_scroll();
+      assert.internal(repeater===null);
+    } else {
+      repeater = window.setTimeout(inOneSec, 1000);
+    }
+  }
+
+  function updateDom() {
+ // auto_scroll.setAttribute('data-counter', (counter<10?'0':'')+counter);
+    auto_scroll.setAttribute('data-counter', counter);
+  }
+
+  var not_first_scroll;
+  function scrollListener(scrollPos) {
+    if( document.fullscreenElement ){
+      document.exitFullscreen();
+    }
+
+    if( !not_first_scroll ) {
+      not_first_scroll = true;
+      return;
+    }
+    if( scrollPos===0 ){
+      start_auto_scroll();
+    } else {
+      stop_auto_scroll();
+    }
+  }
+}
+
 function sleep(seconds) {
-  return new Promise(resolve => setTimeout(resolve, seconds*1000));
+  return new Promise(resolve => window.setTimeout(resolve, seconds*1000));
 }

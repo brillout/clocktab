@@ -1,0 +1,36 @@
+#layout_container {
+  position: relative;
+}
+#layout_container > #screen-buttons-wrapper {
+  position: absolute;
+}
+#screen-buttons-wrapper {
+  white-space: nowrap;
+  top: 30px;
+  right: 50px;
+}
+.screen-button {
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+#manual-fullscreen,
+#manual-scroll {
+  cursor: pointer;
+}
+
+.screen-button {
+  opacity: 100;
+  transition: opacity 0.7s ease-out;
+}
+.hide_scroll .screen-button,
+#auto-scroll.screen-button[data-counter='0'],
+#auto-scroll.screen-button[data-disable-auto-scroll] {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s ease-in;
+}
+
+#auto-scroll:before {
+  content: 'Auto-scroll in ' attr(data-counter);
+}
