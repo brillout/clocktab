@@ -7,7 +7,7 @@ export default {
 
   title: 'Clock Tab',
 
-  renderToDom: false,
+  renderToDom: true,
   renderToHtml: true,
 };
 

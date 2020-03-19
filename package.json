@@ -22,6 +22,7 @@
     "@goldpage/react": "^0.5.5",
     "@goldpage/serverless": "^0.5.5",
     "goldpage": "^0.5.5",
+    "hyperx": "^2.5.4",
     "parcel": "^1.12.4",
     "push-dir": "^0.4.1",
     "react": "^16.13.0",
