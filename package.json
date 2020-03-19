@@ -1,5 +1,11 @@
 {
   "scripts": {
+    "dev": "goldpage dev",
+    "build": "goldpage build",
+    "prod": "npm run build && npm run start",
+    "start": "export NODE_ENV='production' && node ./.build/nodejs/server"
+  },
+  "scriptsOld": {
     "dev": "yarn parcel:dev",
     "dev:static": "yarn serve src/ --listen 3000",
     "prod": "yarn prod:build && yarn prod:serve",
@@ -13,8 +19,13 @@
     "parcel:prod": "parcel build src/*.html"
   },
   "dependencies": {
+    "@goldpage/react": "^0.5.5",
+    "@goldpage/serverless": "^0.5.5",
+    "goldpage": "^0.5.5",
     "parcel": "^1.12.4",
     "push-dir": "^0.4.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "serve": "^11.3.0",
     "tab-utils": "^0.0.4"
   }

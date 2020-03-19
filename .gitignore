@@ -1,10 +1,8 @@
 # Installed modules
 /node_modules/
 
-# Parcel build
-/dist/
-# Parcel cache
-/.cache/
+# Goldpage build
+.build/
 
 # Yarn/Npm debug info
 npm-debug.log*
