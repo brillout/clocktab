@@ -1,0 +1,8 @@
+html {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  min-height: 100%;
+  min-width: 100%;
+  background-image: url("https://i.imgur.com/zqG5F.gif");
+}

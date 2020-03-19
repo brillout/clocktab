@@ -1,0 +1,74 @@
+/* Overall Layout */
+#top_content {
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+#layout_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#layout_container > #layout_clock {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#layout_container > #layout_ad {
+  flex-shrink: 0;
+}
+#layout_container > #layout_equilibrator {
+  flex-shrink: 1;
+}
+#layout_container > #layout_ad,
+#layout_container > #layout_equilibrator {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+#timeTable {
+  margin: auto;
+  white-space: nowrap;
+}
+html { overflow: hidden; }
+
+/*
+#timeTable {
+	text-align: center;
+}
+*/
+table {
+  border-spacing: 0;
+}
+table td {
+  padding:0;
+}
+#timeTable td { min-width: 100% }
+#timeRow > table {width: 100%} /* for metro app */
+
+
+/* Clock Text Layout */
+#digit1,
+#digit2,
+#char1,
+#char2{
+ font-size: 46%;
+ /*
+ line-height: .7em;
+ */
+ line-height: .9em;
+ vertical-align: top;
+}
+#digit1,
+#digit2{
+  padding-bottom: .2em;
+}
+#char1,
+#char2{
+  /*side padding to make sure that width of char's cell > width of digit's cell*/
+  padding-left: .05em;
+  padding-right: .05em;
+}
+body:not(.noPeriod)  #time,
+body:not(.noSeconds) #time{
+  padding-right: .2em;
+}

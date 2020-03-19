@@ -1,4 +1,4 @@
-import './css/style.css';
+import './css/clock.css';
 import ClockView from './ClockView';
 
 import onPageLoad from './onPageLoad';

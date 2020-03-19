@@ -1,4 +1,4 @@
-import './css/more_panel';
+import './css/common.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import more_panel from 'tab-utils/more_panel';

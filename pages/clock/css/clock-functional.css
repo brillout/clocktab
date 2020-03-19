@@ -1,0 +1,19 @@
+/* functional */
+
+#char2:before { content: "M" }
+#char1:before { content: "A" }
+body.isPm #char1:before { content: "P" }
+
+body.noPeriod #char1,
+body.noPeriod #char2,
+body.noSeconds #digit1,
+body.noSeconds #digit2{
+  visibility: hidden;
+}
+body.noPeriod.noSeconds #char1,
+body.noPeriod.noSeconds #char2,
+body.noPeriod.noSeconds #digit1,
+body.noPeriod.noSeconds #digit2{
+  display: none;
+}
+

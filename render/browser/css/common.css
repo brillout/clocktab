@@ -1,0 +1,9 @@
+@import './more_panel.css';
+
+html {
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+body {
+  margin: 0;
+}
