@@ -1,5 +1,4 @@
 @import './ad_layout.css';
-@import './more_panel.css';
 
 #char2:before { content: "M" }
 #char1:before { content: "A" }
