@@ -121,18 +121,13 @@ function Link({href, children}) {
 };
 
 /*
-      <div id="header">
-        <div id='options'></div>
-        <div className='header_links'>
-          <a href='https://www.timer-tab.com' target="_blank">Timer Tab</a>
-          <a href='donate' target="_blank">Remove Ad</a>
-        </div>
-        <div id='footer' className='header_links'>
-          <a href='https://github.com/brillout/clocktab' target="_blank">Source Code</a>
-          <a href='donate' target="_blank">Donate</a>
-          <a rel='author' href='https://brillout.com' target="_blank">Author</a>
-          <a href='contact' target="_blank">Contact</a>
-          <a href='privacy-policy' target="_blank">Privacy Policy</a>
-        </div>
+      <div>
+        <a href='https://www.timer-tab.com' target="_blank">Timer Tab</a>
+        <a href='donate' target="_blank">Remove Ad</a>
+        <a href='https://github.com/brillout/clocktab' target="_blank">Source Code</a>
+        <a href='donate' target="_blank">Donate</a>
+        <a rel='author' href='https://brillout.com' target="_blank">Author</a>
+        <a href='contact' target="_blank">Contact</a>
+        <a href='privacy-policy' target="_blank">Privacy Policy</a>
       </div>
       */

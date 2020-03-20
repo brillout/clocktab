@@ -2,7 +2,6 @@
 // I'm more than happy to accept a PR to modernize all this :-)
 
 import ml from './ml';
-import {hasBeenAutoReloaded} from './autoReloadPage';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
 import {scrollToElement, addScrollListener, removeScrollListener} from 'tab-utils/pretty_scroll_area';
@@ -225,7 +224,6 @@ async function loadClock() {
     (function()
     {
       const optionsEl = document.getElementById('options');
-      const headerEl = document.getElementById('header');
       for(var i=0;i<opts.length;i++) {
         var opt = opts[i];
         opt.dom = document.createElement('label');
@@ -255,16 +253,6 @@ async function loadClock() {
         optionsEl.appendChild(opt.dom);
       }
 
-      /* TODO
-      if( hasBeenAutoReloaded() ){
-        headerEl.style.transition = 'none';
-        headerEl.style.opacity='0';
-        delete headerEl.style.transition;
-      }
-      setTimeout(function(){
-        headerEl.style.opacity='';
-      },2000);
-      */
       /*
       //add option toggle
       setTimeout(function(){//gecko requires a timeout

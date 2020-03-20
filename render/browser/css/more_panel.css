@@ -28,7 +28,7 @@
 
 
 
-#.glass-background {
+.glass-background {
   position: relative;
 }
 .glass-background:after {
@@ -117,25 +117,3 @@
 
 
 
-
-
-
-
-
-/* header */
-#header {
-  font-size: .9em;
-  padding: 0.8em 0;
-  text-shadow: none;
-}
-
-.header_links {
-  margin: 20px;
-}
-.header_links a {
-  padding: 0 20px;
-}
-
-#footer {
-  font-size: 0.87em;
-}
