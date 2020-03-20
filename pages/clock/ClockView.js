@@ -47,7 +47,7 @@ function ClockView() {
 
     <div id="screen-buttons-wrapper">
       <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
-      <div className="screen-button glass-background" id="manual-scroll">Scroll</div>
+      <div className="screen-button glass-background" id="manual-scroll">Center</div>
       <div className="screen-button glass-background" id="auto-scroll"></div>
     </div>
   </>;
