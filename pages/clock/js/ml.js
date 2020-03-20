@@ -168,12 +168,17 @@ ml.date={};
   //{{{
   {
     var ret=that.getHours();
-    if(twelveClock)
-    {
+
+    if(twelveClock) {
       ret %= 12;
       if(ret==0) ret=12;
     }
-    return ml.date.appendZero(ret);
+
+    if( !twelveClock ){
+      ret = ml.date.appendZero(ret);
+    }
+
+    return ret;
   };
   //}}}
   ml.date.readable.getMinutes= function(that)
