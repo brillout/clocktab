@@ -2200,7 +2200,7 @@ ml.optionInput=function(optionId,default_,listener,opts){
 }
 */
 
-ml.fullscreenElement=function({containerEl, scaleEl, zoomEl, keybinding, bottomElements})
+ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomElements})
 //{{{
 {
   /*
@@ -2364,6 +2364,8 @@ ml.fullscreenElement=function({containerEl, scaleEl, zoomEl, keybinding, bottomE
 
   var fsFcts = fullscreenZoomableElement(el);
   if(!fsFcts) return;
+
+
   var fullscreen_toggle;
   var hashListener;
   //{{{
@@ -2374,25 +2376,22 @@ ml.fullscreenElement=function({containerEl, scaleEl, zoomEl, keybinding, bottomE
     function isFullscreen(){return location.hash==='#'+FULLSCREEN_HASH}
     el.unfullscreen=function(){if(isFullscreen()) location.hash=''};
 
-    /* too disruptive
-    function dom_fullscreen_toggle()
-    //{{{
-    {
-    // http://updates.html5rocks.com/2011/10/Let-Your-Content-Do-the-Talking-Fullscreen-API?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+html5rocks+%28HTML5Rocks%29&utm_content=Google+Reader
-    // http://www.thecssninja.com/javascript/fullscreen
-      if(isFullscreen())
-      {
-        if(scaleEl['webkitRequestFullScreen']) scaleEl['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']);
-        if(scaleEl['mozRequestFullScreen'])    scaleEl['mozRequestFullScreen']();
-      }
-      else
-      {
-        if(document['webkitCancelFullScreen']) document['webkitCancelFullScreen']();
-        if(document['mozCancelFullScreen'])    document['mozCancelFullScreen']();
-      }
-    }
-    //}}}
-    */
+ // too disruptive
+ // function dom_fullscreen_toggle()
+ // {
+ // // http://updates.html5rocks.com/2011/10/Let-Your-Content-Do-the-Talking-Fullscreen-API?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+html5rocks+%28HTML5Rocks%29&utm_content=Google+Reader
+ // // http://www.thecssninja.com/javascript/fullscreen
+ //   if(isFullscreen())
+ //   {
+ //     if(scaleEl['webkitRequestFullScreen']) scaleEl['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']);
+ //     if(scaleEl['mozRequestFullScreen'])    scaleEl['mozRequestFullScreen']();
+ //   }
+ //   else
+ //   {
+ //     if(document['webkitCancelFullScreen']) document['webkitCancelFullScreen']();
+ //     if(document['mozCancelFullScreen'])    document['mozCancelFullScreen']();
+ //   }
+ // }
 
     fullscreen_toggle=function()
     //{{{

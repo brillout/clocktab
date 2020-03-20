@@ -406,7 +406,7 @@ async function loadClock() {
     const containerEl = document.querySelector('#zoom-container');
     const scaleEl = document.querySelector('#layout_container');
     const zoomEl = timeTableEl;
-    ml.fullscreenElement({containerEl, scaleEl, zoomEl, keybinding: 'f'});
+    ml.zoomable_element({containerEl, scaleEl, zoomEl, keybinding: 'f'});
   //}}}
   })();
 
