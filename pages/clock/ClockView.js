@@ -70,8 +70,8 @@ function ClockView() {
           </div>
         </div>
         <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
-        <div id='options'></div>
       </div>
+      <div id='options'></div>
     </div>
   </>;
 }
