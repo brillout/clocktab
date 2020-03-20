@@ -1,2 +1,1 @@
-export {default as ContentView} from './ContentView';
-export * from './ContentView';
+export {default} from './ContentView';
