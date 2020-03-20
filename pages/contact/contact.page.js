@@ -1,5 +1,4 @@
 import React from 'react';
-import '../content_page.css';
 import ContactView from './ContactView.js';
 import onPageLoad from './onPageLoad.js';
 

@@ -17,5 +17,9 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   }
   */
 
-  page.onPageLoad(loadCommon);
+  if( !page.onPageLoad ){
+    loadCommon();
+  } else {
+    page.onPageLoad(loadCommon);
+  }
 }

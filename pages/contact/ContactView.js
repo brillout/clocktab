@@ -1,14 +1,13 @@
 import React from 'react';
-import Header from '../Header';
-import Footer from '../Footer';
+import ContentView from '../ContentView';
 
 export default ContactView;
 
 function ContactView() {
-  return <>
-    <Header/>
-    <h1>Contact</h1>
-    <a id="clocktab-contact"></a>
-    <Footer/>
-  </>;
+  return (
+    <ContentView>
+      <h1>Contact</h1>
+      <a id="clocktab-contact"></a>
+    </ContentView>
+  )
 }
