@@ -32,7 +32,7 @@ input[type='checkbox']:checked {
 }
 input[type='checkbox']:checked:after {
     background: #5BA4D5;
-    left: 1px;    
+    left: 1px;
 }
 
 label
