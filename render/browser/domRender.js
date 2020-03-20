@@ -1,4 +1,4 @@
-import loadCommon './js/common.js';
+import loadCommon from './js/common.js';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';
