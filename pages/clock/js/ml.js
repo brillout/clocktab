@@ -113,7 +113,7 @@ ml.date={};
   //Date.prototype.getWeek = function (dowOffset) {
   /*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
 
-    dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
+    var dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
     var newYear = new Date(that.getFullYear(),0,1);
     var day = newYear.getDay() - dowOffset; //the day of week the year begins on
     day = (day >= 0 ? day : day + 7);
