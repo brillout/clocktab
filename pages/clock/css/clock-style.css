@@ -83,3 +83,11 @@ input[type='color']
 }
 #timeTable,#timeTable * { cursor: pointer; }
 
+
+
+.footer-header {
+  color: #576479;
+}
+#header-container {
+  text-align: center;
+}

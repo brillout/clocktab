@@ -1,10 +1,17 @@
 /* Style */
 
+:root {
+  --max-content-width: 800px;
+  --content-side-padding: 20px;
+}
+
 .footer_container {
-  margin-top: 90px;
   font-size: 0.95rem;
-  color: #888;
   line-height: 1.3rem;
+  margin: auto;
+  max-width: var(--max-content-width);
+  padding-left: var(--content-side-padding);
+  padding-right: var(--content-side-padding);
 }
 
 

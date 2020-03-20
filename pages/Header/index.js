@@ -6,13 +6,15 @@ export default Header;
 
 function Header() {
   return (
-    <Container>
-      <Logo/>
-      <Link txt={'World Clock'} href={'/time-converter'} />
-      <Link txt={'Timer'} href={'/timer-tab'} />
-      <Link txt={'Pomodoro'} href={'/pomodoro-timer'} />
-      <Link txt={'New Year'} href={'/new-year-countdown'} />
-    </Container>
+    <div id='header-container' className='glass-background'>
+      <div id="header-content">
+        <Logo/>
+        <Link txt={'World Clock'} href={'/time-converter'} />
+        <Link txt={'Timer'} href={'/timer-tab'} />
+        <Link txt={'Pomodoro'} href={'/pomodoro-timer'} />
+        <Link txt={'New Year'} href={'/new-year-countdown'} />
+      </div>
+    </div>
   );
 }
 
@@ -35,17 +37,6 @@ function Logo() {
       />
       <b style={{verticalAlign: 'middle', paddingLeft: 10, fontSize: '1.55em'}}>Clock Tab</b>
     </a>
-  );
-}
-
-function Container({children}) {
-  return (
-    <div
-      id='header-container'
-      className='glass-background'
-    >
-      {children}
-    </div>
   );
 }
 

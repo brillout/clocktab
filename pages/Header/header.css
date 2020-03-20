@@ -1,7 +1,6 @@
 #header-container {
   --header-link-margin: 15px;
   padding: 10px 0;
-  text-align: center;
 }
 
 .header-link {

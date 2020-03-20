@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Header';
+import Footer from '../Footer';
 
 export default ClockView;
 
@@ -71,7 +72,8 @@ function ClockView() {
         </div>
         <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
       </div>
-      <div id='options'></div>
+      <div id='options-container'></div>
+      <Footer/>
     </div>
   </>;
 }

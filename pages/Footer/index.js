@@ -94,10 +94,10 @@ function Section({children}) {
 function Header({children}) {
   return (
     <h4
+      className="footer-header"
       style={{
         marginBottom: 7,
         fontWeight: '300',
-        color: '#999',
       }}
     >
       {children}

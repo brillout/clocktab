@@ -223,7 +223,7 @@ async function loadClock() {
     //{{{
     (function()
     {
-      const optionsEl = document.getElementById('options');
+      const optionsEl = document.getElementById('options-container');
       for(var i=0;i<opts.length;i++) {
         var opt = opts[i];
         opt.dom = document.createElement('label');
@@ -252,15 +252,6 @@ async function loadClock() {
         if(isCheckbox || isColorInput) opt.dom['classList']['add']('pointerCursor');
         optionsEl.appendChild(opt.dom);
       }
-
-      /*
-      //add option toggle
-      setTimeout(function(){//gecko requires a timeout
-        document.getElementById('optionsToggle').style.opacity='0';
-      },200);
-      document.getElementById('optionsToggle').onclick=function(){document.documentElement['classList']['add']('options');document.getElementById('optionsToggle').style.opacity='1'};
-      document.body.onclick=function(ev) { var target=ml.getEventSource(ev); if(!ml.isChildOf(target,document.getElementById('optionsToggle'))&&!ml.isChildOf(target,document.getElementById('options'))){document.documentElement['classList']['remove']('options');document.getElementById('optionsToggle').style.opacity=0}};
-      */
 
       //populate theme option
       document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';

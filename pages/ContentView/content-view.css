@@ -1,13 +1,27 @@
+/* layuout */
+#header-content,
+#page-content {
+  margin: auto;
+  max-width: var(--max-content-width);
+  padding-left: var(--content-side-padding);
+  padding-right: var(--content-side-padding);
+}
+#page-content {
+  padding-bottom: 120px;
+}
+.footer_container {
+  margin-top: 90px;
+}
+h2 {
+  margin: 2.8rem 0 1.4rem;
+}
+
+
+/* style */
 #page-content {
   font-size: 1.05em;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   color: #444;
-  max-width: 880px;
-  margin: auto;
-
-  box-sizing: border-box;
-  padding: 0 40px;
-  padding-bottom: 120px;
 }
 h2 {
   font-size: 1.4rem;
@@ -15,5 +29,10 @@ h2 {
   font-weight: bold;
   letter-spacing: -.03rem;
   line-height: 2rem;
-  margin: 2.8rem 0 1.4rem;
+}
+.footer_container {
+  color: #888;
+}
+.footer-header {
+  color: #999;
 }
