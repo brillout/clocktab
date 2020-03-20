@@ -1,8 +1,8 @@
-import './css/common.css';
+import loadCommon './js/common.js';
+/*
 import React from 'react';
 import ReactDOM from 'react-dom';
-import more_panel from 'tab-utils/more_panel';
-import loadAnalytics from './js/loadAnalytics';
+*/
 
 export default domRender;
 
@@ -18,12 +18,4 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   */
 
   page.onPageLoad(loadCommon);
-}
-
-function loadCommon() {
-  more_panel();
-
-  document.documentElement.classList.remove('hideApp');
-
-  loadAnalytics();
 }
