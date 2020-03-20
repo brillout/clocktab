@@ -2219,7 +2219,6 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
   //-listen to counter changing position (happens when using arrow keys to change countdown)
   //-fallback in case no transition&transform
   {
-    if(ml.isTouchDevice()) return false;//buggy on iPad
 
     var TRANSITION_DURATION = 600;
     var prefixes=['-webkit-','-moz-','-ms-','-o-',''];
@@ -2427,11 +2426,6 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
   //}}}
 //window['$']=ml.getElementByIdStatic;
 })();
-
-ml.isTouchDevice=function(){ 
-  //source: http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
-  return !!('ontouchstart' in window);
-}; 
 
 ml.replaceWebApp=function(newUrl) { 
   if(window.parent!==window) return false;
