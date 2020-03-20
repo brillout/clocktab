@@ -24,5 +24,5 @@ export default () => {
     },
   ];
 
-  load_ad(AD_SLOTS, {useOneTag: true});
+  load_ad(AD_SLOTS);
 };
