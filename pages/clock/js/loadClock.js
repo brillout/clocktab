@@ -403,9 +403,10 @@ async function loadClock() {
     })();
     //}}}
 
+    const containerEl = document.querySelector('#zoom-container');
     const scaleEl = document.querySelector('#layout_container');
     const zoomEl = timeTableEl;
-    ml.fullscreenElement({scaleEl, zoomEl, keybinding: 'f'});
+    ml.fullscreenElement({containerEl, scaleEl, zoomEl, keybinding: 'f'});
   //}}}
   })();
 
@@ -499,7 +500,7 @@ async function loadClock() {
 function activate_screen_buttons() {
   const manual_scroll = document.querySelector('#manual-scroll');
   const manual_fullscreen = document.querySelector('#manual-fullscreen');
-  const clock_view = document.querySelector('#layout_container');
+  const clock_view = document.querySelector('#zoom-container');
 
   manual_scroll.onclick = do_scroll;
   manual_fullscreen.onclick = do_fullscreen;

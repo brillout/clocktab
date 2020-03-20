@@ -1,3 +1,5 @@
+import assert from '@brillout/assert';
+
 const ml = {};
 
 export default ml;
@@ -2198,7 +2200,7 @@ ml.optionInput=function(optionId,default_,listener,opts){
 }
 */
 
-ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
+ml.fullscreenElement=function({containerEl, scaleEl, zoomEl, keybinding, bottomElements})
 //{{{
 {
   /*
@@ -2209,7 +2211,9 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
 
   scaleEl = scaleEl || document.documentElement;
 
-  DEBUG && console.log('zoom', {zoomEl, scaleEl});
+  DEBUG && console.log('zoom', {zoomEl, scaleEl, containerEl});
+
+  assert(containerEl && scaleEl && zoomEl);
 
   const el = zoomEl;
 
@@ -2240,7 +2244,7 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
     if(!rightPre) return false;
 
     var zoomed;
-    var overflow_orginial;
+    var container_original_props;
     function zoomIn()
     {
       function boxSize(el){
@@ -2264,8 +2268,18 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
         return {height:h,width:w};
       }
 
-      overflow_orginial = scaleEl.style['overflow'];
-      scaleEl.style['overflow']='hidden';
+      // Contain overflowing of zooming element
+      container_original_props = {
+        overflow: containerEl.style.overflow,
+        width: containerEl.style.width,
+        height: containerEl.style.height,
+      };
+      const container_width = ml.element.getStyle(containerEl, 'width');
+      const container_height = ml.element.getStyle(containerEl, 'height');
+      container_original_props = containerEl.style['overflow'];
+      containerEl.style.width = container_width;
+      containerEl.style.height = container_height;
+      containerEl.style.overflow = 'hidden';
 
       var sizes = boxSize(el);
       var elWidth   = sizes.width;
@@ -2331,7 +2345,17 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
     {
       scaleEl.style[rightPre+'ransform']='';
       //timeout makes transition of zoom counter smoother
-      setTimeout(function(){if(!zoomed) scaleEl.style['overflow']=overflow_orginial},TRANSITION_DURATION+1);
+      setTimeout(function(){
+        if(!zoomed) {
+          containerEl.style.overflow = container_original_props.overflow;
+          containerEl.style.width = 'auto';
+          containerEl.style.height = 'auto';
+          /*
+          containerEl.style.width = container_original_props.width;
+          containerEl.style.height = container_original_props.height;
+          */
+        }
+      }, TRANSITION_DURATION+1);
       zoomed=false;
     }
     return [zoomIn,zoomOut];
