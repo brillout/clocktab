@@ -14,7 +14,7 @@ async function htmlRender({page, initialProps}) {
     head: [
     ],
     body: [
-      '<div id="top_content">'+html+'</div>',
+      html,
     ]
   };
 }

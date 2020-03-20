@@ -5,6 +5,7 @@ export default ClockView;
 
 function ClockView() {
   return <>
+    <div id="top_content">
     <Header/>
 
     <div id="zoom-container" className="pretty_scroll_area__hide_scroll_element">
@@ -49,6 +50,27 @@ function ClockView() {
       <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
       <div className="screen-button glass-background" id="manual-scroll">Center</div>
       <div className="screen-button glass-background" id="auto-scroll"></div>
+    </div>
+    </div>
+
+    <div id="more_panel">
+      <div id="more_panel_background" className='glass-background'></div>
+      <div id="more_panel_jumper_wrapper">
+        <div id="more_panel_jumper" className='glass-background'></div>
+      </div>
+      <div id='secondary-ad'>
+        <div className='ad-content-wrapper'>
+          <div id="CLOCKTAB_leaderboard_BTF_desktop" className="ad_desktop">
+            <div id='div-gpt-ad-1584320827791-0'>
+            </div>
+          </div>
+          <div id="CLOCKTAB_leaderboard_BTF_mobile" className="ad_mobile">
+            <div id='div-gpt-ad-1584321019356-0'>
+            </div>
+          </div>
+        </div>
+        <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
+      </div>
     </div>
   </>;
 }
