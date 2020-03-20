@@ -1,18 +1,23 @@
-#layout_container {
+#top_content {
   position: relative;
 }
-#layout_container > #screen-buttons-wrapper {
+#top_content > #screen-buttons-wrapper {
   position: absolute;
 }
 #screen-buttons-wrapper {
   white-space: nowrap;
-  top: 30px;
+  top: 100px;
   right: 50px;
 }
 .screen-button {
-  border-radius: 10px;
   margin-top: 10px;
   padding: 10px;
+}
+.screen-button,
+/* make sure that glass-background get rounded as well */
+.screen-button:before,
+.screen-button:after {
+  border-radius: 10px;
 }
 #manual-fullscreen,
 #manual-scroll {

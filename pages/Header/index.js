@@ -8,10 +8,10 @@ function Header() {
   return (
     <Container>
       <Logo/>
-      <MenuItem><a href="/time-converter">World Clock</a></MenuItem>
-      <MenuItem><a href="/timer">Timer</a></MenuItem>
-      <MenuItem><a href="/pomodoro">Pomodoro</a></MenuItem>
-      <MenuItem><a href="/new-year-countdown">New Year</a></MenuItem>
+      <Link txt={'World Clock'} href={'/time-converter'} />
+      <Link txt={'Timer'} href={'/timer-tab'} />
+      <Link txt={'Pomodoro'} href={'/pomodoro-timer'} />
+      <Link txt={'New Year'} href={'/new-year-countdown'} />
     </Container>
   );
 }
@@ -19,13 +19,8 @@ function Header() {
 function Logo() {
   return (
     <a
-     id="logo"
+     id="header-logo"
      href='/'
-     style={{
-       whiteSpace: 'nowrap',
-       marginRight: 45,
-       textDecoration: 'none',
-     }}
      className="big-text"
     >
       <img
@@ -46,11 +41,7 @@ function Logo() {
 function Container({children}) {
   return (
     <div
-      style={{
-        paddingTop: 10,
-        paddingBottom: 10,
-        textAlign: 'center',
-      }}
+      id='header-container'
       className='glass-background'
     >
       {children}
@@ -58,10 +49,8 @@ function Container({children}) {
   );
 }
 
-function MenuItem({children}) {
+function Link({href, txt}) {
   return (
-    <div style={{marginLeft: 15, display: 'inline-block'}}>
-      {children}
-    </div>
+    <a className='header-link' href={href}>{txt}</a>
   );
 }

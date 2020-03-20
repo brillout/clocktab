@@ -1,0 +1,29 @@
+#header-container {
+  --header-link-margin: 15px;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.header-link {
+  margin-left: var(--header-link-margin);
+}
+
+a#header-logo {
+  text-decoration: none;
+  white-space: nowrap;
+  margin-right: 45px;
+}
+@media (max-width:700px) {
+  a#header-logo {
+    margin-right: var(--header-link-margin);
+  }
+}
+@media (max-width:600px) {
+  #header-container {
+    padding: 20px 0;
+  }
+  a#header-logo {
+    display: block;
+    padding-bottom: 7px;
+  }
+}
