@@ -403,7 +403,9 @@ async function loadClock() {
     })();
     //}}}
 
-    ml.fullscreenElement({scaleEl: document.querySelector('#layout_container'), zoomEl: timeTableEl, keybinding: 'f'});
+    const scaleEl = document.querySelector('#layout_container');
+    const zoomEl = timeTableEl;
+    ml.fullscreenElement({scaleEl, zoomEl, keybinding: 'f'});
   //}}}
   })();
 

@@ -2209,6 +2209,8 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
 
   scaleEl = scaleEl || document.documentElement;
 
+  DEBUG && console.log('zoom', {zoomEl, scaleEl});
+
   const el = zoomEl;
 
   function fullscreenZoomableElement(el)
@@ -2270,6 +2272,10 @@ ml.fullscreenElement=function({scaleEl, zoomEl, keybinding, bottomElements})
       var elHeight  = sizes.height;
       var botPad    = !bottomElements?0:bottomElements.map(function(el){return boxSize(el).height}).reduce(function(i1,i2){return i1+i2});
       var elPos     = ml.element.getPosition(el);
+
+      // make elPos relative to scaleEl
+      elPos.x -= ml.element.getPosition(scaleEl).x
+      elPos.y -= ml.element.getPosition(scaleEl).y;
 
       //crop top padding
       var elPadTop  = parseInt(ml.element.getStyle(el,'padding-top'),10);
