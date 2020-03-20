@@ -514,8 +514,12 @@ function activate_screen_buttons() {
     await scrollToElement(clock_view);
   }
   async function do_fullscreen() {
-    await do_scroll();
     document.documentElement.requestFullscreen();
+    // When tab goes to fullscreen, scroll is changed; ensure with `requestAnimationFrame` that
+    // scrolling happens *after* the tab goes fullscreen.
+    requestAnimationFrame(async () => {
+      await do_scroll();
+    });
   }
 }
 function activate_auto_scroll({do_scroll}) {
