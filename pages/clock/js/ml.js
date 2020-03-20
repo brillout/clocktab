@@ -2365,7 +2365,19 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   var fsFcts = fullscreenZoomableElement(el);
   if(!fsFcts) return;
 
+  let is_zoomed = false;
+  fsFcts[0]();
+  fsFcts[1]();
+  el.addEventListener('click', () => {
+    if( is_zoomed ) {
+      fsFcts[1]();
+    } else {
+      fsFcts[0]();
+    }
+    is_zoomed = !is_zoomed;
+  }, {passive: true});
 
+  /*
   var fullscreen_toggle;
   var hashListener;
   //{{{
@@ -2441,6 +2453,7 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   ml.addHashListener(hashListener);
   window.addEventListener('resize',function() { setTimeout(hashListener,1); },false);
   return hashListener;
+  */
 };
 //}}}
 
