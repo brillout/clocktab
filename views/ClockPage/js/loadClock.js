@@ -308,10 +308,6 @@ async function loadClock() {
               callback();
             })
           };
-          const menuFont = 'Lato';
-          fontLoader(menuFont,function(){
-            document.body.style.fontFamily = menuFont;
-          });
           loadClockFont().then(() => {
             resolveAwaitClockFont();
           });
