@@ -17,10 +17,10 @@ function ClockView() {
           <div id="primary-ad">
             <div className='ad-content-wrapper'>
               <div id="CLOCKTAB_leaderboard_ATF_desktop" className="ad_desktop">
-                <div id='div-gpt-ad-1582657330353-0'></div>
+                <div id='div-gpt-ad-1584752619085-0'></div>
               </div>
               <div id="CLOCKTAB_leaderboard_ATF_mobile" className="ad_mobile">
-                <div id='div-gpt-ad-1582659017480-0'></div>
+                <div id='div-gpt-ad-1584752804386-0'></div>
               </div>
             </div>
             <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
@@ -62,11 +62,11 @@ function ClockView() {
       <div id='secondary-ad'>
         <div className='ad-content-wrapper'>
           <div id="CLOCKTAB_leaderboard_BTF_desktop" className="ad_desktop">
-            <div id='div-gpt-ad-1584320827791-0'>
+            <div id='div-gpt-ad-1584752895476-0'>
             </div>
           </div>
           <div id="CLOCKTAB_leaderboard_BTF_mobile" className="ad_mobile">
-            <div id='div-gpt-ad-1584321019356-0'>
+            <div id='div-gpt-ad-1584752944641-0'>
             </div>
           </div>
         </div>
