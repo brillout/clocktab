@@ -1,4 +1,4 @@
-import ml from '../../../pages/clock/js/ml';
+import ml from '../../../views/clock/js/ml';
 
 export default loadAnalytics;
 
