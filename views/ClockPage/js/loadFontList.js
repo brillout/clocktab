@@ -1,4 +1,4 @@
-import ml from './ml';
+import ml from '../../ml';
 
 export default loadFontList;
 

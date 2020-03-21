@@ -1,7 +1,7 @@
 // This code is over a decade old.
 // I'm more than happy to accept a PR to modernize all this :-)
 
-import ml from './ml';
+import ml from '../../ml';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
 import {scrollToElement, addScrollListener, removeScrollListener} from 'tab-utils/pretty_scroll_area';

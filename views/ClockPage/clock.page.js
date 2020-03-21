@@ -1,8 +1,6 @@
 import './css/clock.css';
 import ClockView from './ClockView';
-
 import onPageLoad from './onPageLoad';
-
 
 export default {
   route: '/',
