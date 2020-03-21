@@ -6,7 +6,7 @@
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
 }
-.footer_container {
+#footer_container {
   margin-top: 70px;
 }
 h2 {
@@ -30,7 +30,7 @@ h2 {
   letter-spacing: -.03rem;
   line-height: 2rem;
 }
-.footer_container {
+#footer_container {
   color: #888;
 }
 .footer-section-title {

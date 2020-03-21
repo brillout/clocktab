@@ -4,8 +4,17 @@
   --max-content-width: 800px;
   --content-side-padding: 20px;
 }
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato'), local('Lato Regular'), local('Lato-Regular'),
+  url('./Lato-Regular.ttf') format('truetype');
+}
+#footer_container,
+#header-container {
+  font-family: Lato, "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
 
-.footer_container {
+#footer_container {
   font-size: 0.95rem;
   line-height: 1.3rem;
   margin: auto;
@@ -17,7 +26,7 @@
 
 
 /* Responsive Layout */
-.footer_container {
+#footer_container {
   display: grid;
   width: 100%;
   justify-content: space-between;
@@ -42,7 +51,7 @@
   grid-row: 1;
 }
 @media (max-width: 699px){
-  .footer_container {
+  #footer_container {
     justify-content: space-around;
     display: grid;
     grid-row-gap: 8px;

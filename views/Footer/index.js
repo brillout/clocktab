@@ -81,7 +81,7 @@ function Footer() {
 
 function Container({children}) {
   return (
-    <div className="footer_container">
+    <div id="footer_container">
       {children}
     </div>
   );
