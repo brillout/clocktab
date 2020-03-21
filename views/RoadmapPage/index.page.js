@@ -18,9 +18,9 @@ function PageView() {
 function getPageConfig() {
   return {
     route: '/roadmap',
-    view: PageView,
-
     title: 'Roadmap - Clock Tab',
+
+    view: PageView,
 
     renderToDom: true,
     renderToHtml: true,

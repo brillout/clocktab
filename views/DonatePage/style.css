@@ -1,0 +1,11 @@
+img#rom-face {
+  float: right;
+  margin-left: 20px;
+  margin-bottom: 20px;
+
+  width: 228px;
+  height: 316px;
+
+  border: 2px solid #696969;
+  border-radius: 5px;
+}

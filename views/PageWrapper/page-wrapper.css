@@ -6,9 +6,6 @@
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
 }
-#page-wrapper {
-  padding-bottom: 120px;
-}
 .footer_container {
   margin-top: 90px;
 }
