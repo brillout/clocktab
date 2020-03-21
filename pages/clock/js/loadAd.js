@@ -3,22 +3,22 @@ import load_ad from 'tab-utils/load_ad';
 export default () => {
   const AD_SLOTS = [
     {
-      slotID: 'div-gpt-ad-1582657330353-0',
+      slotID: 'div-gpt-ad-1584752619085-0',
       slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_desktop',
       slotSize: [728, 90],
     },
     {
-      slotID: 'div-gpt-ad-1582659017480-0',
+      slotID: 'div-gpt-ad-1584752804386-0',
       slotName: '/21735472908/CLOCKTAB_leaderboard_ATF_mobile',
       slotSize: [320, 50],
     },
     {
-      slotID: 'div-gpt-ad-1584320827791-0',
+      slotID: 'div-gpt-ad-1584752895476-0',
       slotName: '/21735472908/CLOCKTAB_leaderboard_BTF_desktop',
       slotSize: [728, 90],
     },
     {
-      slotID: 'div-gpt-ad-1584321019356-0',
+      slotID: 'div-gpt-ad-1584752944641-0',
       slotName: '/21735472908/CLOCKTAB_leaderboard_BTF_mobile',
       slotSize: [320, 50],
     },
