@@ -14,6 +14,7 @@
 .header-link {
   padding: 0 14px;
   text-decoration: none;
+  padding-top: 1px;
 }
 
 a#header-logo {
@@ -46,4 +47,6 @@ a#header-logo {
   vertical-align: middle;
   padding-left: 10px;
   font-size: 1.55em;
+  position: relative;
+  top: 2px;
 }
