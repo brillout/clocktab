@@ -9,3 +9,6 @@ img#rom-face {
   border: 2px solid #696969;
   border-radius: 5px;
 }
+#page-wrapper {
+  max-width: 900px !important;
+}
