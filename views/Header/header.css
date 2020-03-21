@@ -1,9 +1,6 @@
-#header-container {
-  --header-link-margin: 15px;
-}
-
 #header-content  {
   display: flex;
+  flex-wrap: wrap;
 }
 #header-content > * {
   height: 60px;
@@ -24,19 +21,9 @@ a#header-logo {
 }
 @media (max-width:700px) {
   a#header-logo {
-    margin-right: var(--header-link-margin);
+    margin-right: 15px;
   }
 }
-@media (max-width:600px) {
-  #header-container {
-    padding: 20px 0;
-  }
-  a#header-logo {
-    display: block;
-    padding-bottom: 7px;
-  }
-}
-
 
 #header-logo > img {
   height: 39px;
