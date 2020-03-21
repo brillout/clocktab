@@ -12,6 +12,7 @@
   max-width: var(--max-content-width);
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
+  padding-bottom: 20px;
 }
 
 
