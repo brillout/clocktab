@@ -21,7 +21,6 @@ h1 {
 #page-wrapper {
   font-size: 1.05em;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
-  color: #444;
 }
 h2 {
   font-size: 1.4rem;
@@ -35,4 +34,11 @@ h2 {
 }
 .footer-section-title {
   color: #999;
+}
+
+#page-wrapper {
+  color: #444;
+}
+h2 {
+  color: #555;
 }
