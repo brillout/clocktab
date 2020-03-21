@@ -91,3 +91,6 @@ input[type='color']
 #header-container {
   text-align: center;
 }
+#header-container > #header-content {
+  display: inline-flex;
+}

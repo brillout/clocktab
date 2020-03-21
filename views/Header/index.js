@@ -25,17 +25,8 @@ function Logo() {
      href='/'
      className="big-text"
     >
-      <img
-       height={39}
-       src={logoUrl}
-       style={{
-        verticalAlign: 'middle',
-        display: 'inline-block',
-        position: 'relative',
-        top: -2,
-      }}
-      />
-      <b style={{verticalAlign: 'middle', paddingLeft: 10, fontSize: '1.55em'}}>Clock Tab</b>
+      <img src={logoUrl} />
+      <b>Clock Tab</b>
     </a>
   );
 }

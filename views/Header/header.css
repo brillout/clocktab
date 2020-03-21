@@ -1,16 +1,25 @@
 #header-container {
   --header-link-margin: 15px;
-  padding: 10px 0;
+}
+
+#header-content  {
+  display: flex;
+}
+#header-content > * {
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .header-link {
-  margin-left: var(--header-link-margin);
+  padding: 0 14px;
+  text-decoration: none;
 }
 
 a#header-logo {
+  margin-right: 30px;
   text-decoration: none;
   white-space: nowrap;
-  margin-right: 45px;
 }
 @media (max-width:700px) {
   a#header-logo {
@@ -25,4 +34,16 @@ a#header-logo {
     display: block;
     padding-bottom: 7px;
   }
+}
+
+
+#header-logo > img {
+  height: 39px;
+  vertical-align: middle;
+  display: inline-block;
+}
+#header-logo > b {
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 1.55em;
 }
