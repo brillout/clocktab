@@ -5,7 +5,7 @@ import logoUrl from '../Header/logo.svg';
 export {getPageConfig};
 
 function getPageConfig(View, titleMain, {route, onPageLoad}={}) {
-  route = route || titleMain.toLowerCase().split(' ').join('-');
+  route = route || '/'+titleMain.toLowerCase().split(' ').join('-');
   const title = titleMain + ' - Clock Tab';
 
   const view = () => (
