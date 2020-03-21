@@ -1,12 +1,12 @@
 /* layuout */
 #header-content,
-#page-content {
+#page-wrapper {
   margin: auto;
   max-width: var(--max-content-width);
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
 }
-#page-content {
+#page-wrapper {
   padding-bottom: 120px;
 }
 .footer_container {
@@ -18,7 +18,7 @@ h2 {
 
 
 /* style */
-#page-content {
+#page-wrapper {
   font-size: 1.05em;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   color: #444;

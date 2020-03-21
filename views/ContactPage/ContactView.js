@@ -1,13 +1,13 @@
 import React from 'react';
-import ContentView from '../ContentView';
+import PageWrapper from '../PageWrapper';
 
 export default ContactView;
 
 function ContactView() {
   return (
-    <ContentView>
+    <PageWrapper>
       <h1>Contact</h1>
       <a id="clocktab-contact"></a>
-    </ContentView>
+    </PageWrapper>
   )
 }

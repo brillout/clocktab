@@ -1,15 +1,15 @@
-import './content-view.css';
+import './page-wrapper.css';
 
 import React from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
 
-export default ContentView;
+export default PageWrapper;
 
-function ContentView({children}) {
+function PageWrapper({children}) {
   return <>
     <Header/>
-    <div id="page-content">
+    <div id="page-wrapper">
       {children}
     </div>
     <Footer/>
