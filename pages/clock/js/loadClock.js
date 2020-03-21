@@ -49,8 +49,8 @@ async function loadClock() {
           date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
           time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
         }
+        dateEl.style.fontSize = date_new_size.fontSize+'px';
       }
-      dateEl.style.fontSize = date_new_size.fontSize+'px';
       timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
     }
     window.clearTimeout(timeout);
