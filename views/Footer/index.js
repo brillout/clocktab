@@ -54,7 +54,7 @@ function Footer() {
 
         <Link href="/conduct">Code of Conduct</Link>
         <Link href="/terms">Terms of Service</Link>
-        <Link href="/privacy">Privacy Policy</Link>
+        <Link href="/privacy-policy">Privacy Policy</Link>
         {/*
         Terms of Service (Disclaimer? https://e-bot7.de/en/disclaimer/)
         Privacy (Policy)
