@@ -38,25 +38,30 @@ For the longest time, I refused to put ads on Clock Tab. I don't like ads.
 <p>
 But I want to improve Clock Tab.
 More themes, improved theme customization, faster load speed, and many more ideas!
-Ads and donations allow me to maintain and dedicate time for Clock Tab.
+Ads and donations allow me to maintain and improve Clock Tab.
 </p>
 
 <p>
-I will give you a hidden code to remove ads if you donate.
-Any amount you are capable of donating is welcome. The PayPal email is:
+If you donate, I will give you a hidden code to remove ads.
+To donate, make a PayPal wire to my PayPal email:
 </p>
 <p style="padding-left: 20px">
 <b id='paypal-email'></b>
 </p>
 <script>
-  var clock_tab_email = 'clocktab';
-  clock_tab_email+='@';
-  clock_tab_email+='brillout';
-  clock_tab_email+='.';
-  clock_tab_email+='com';
+  var paypal_email = 'paypal';
+  paypal_email+='@';
+  paypal_email+='brillout';
+  paypal_email+='.';
+  paypal_email+='com';
   const paypalEl = document.getElementById('paypal-email');
-  paypalEl.innerHTML = clock_tab_email;
+  paypalEl.innerHTML = paypal_email;
 </script>
+</p>
+
+<p>
+Any amount you are capable of donating is welcome.
+You can PayPal me only 0.01$ if you are short on money, it's totally fine.
 </p>
 
 <p>
@@ -64,21 +69,7 @@ You will receive an automatic email containing the ad removal code instantly aft
 </p>
 
 <p>
-You can PayPal me only 0.01$ if you are short on money, it's totally fine :-).
-</p>
-
-<p>
-You have a wish regarding Clock Tab? Contact me at <a id="clocktab-contact"></a>!
-<script>
-  const contactEl = document.getElementById('clocktab-contact');
-  contactEl.innerHTML = clock_tab_email;
-  const href = 'mailto:'+clock_tab_email;
-  contactEl.setAttribute('href', href);
-</script>
-</p>
-
-<p>
-I'm looking forward for a bright Clock Tab future.
+I'm looking forward to a bright Clock Tab future :-).
 </p>
 
 <p>
@@ -86,8 +77,24 @@ Yours sincerely,
 </p>
 
 <p>
-Romuald
+Romuald<br/>
+<a id='contact-email' target='_blank'></a>
 </p>
+<script>
+  var email = 'clocktab';
+  email+='@';
+  email+='brillout';
+  email+='.';
+  email+='com';
+
+  const contact_email = document.getElementById('contact-email');
+
+  contact_email.innerHTML = email;
+  contact_email.setAttribute(
+    'href',
+    'mailto:'+email
+  );
+</script>
 
 </body>
 </html>
