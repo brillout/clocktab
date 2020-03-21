@@ -73,10 +73,12 @@
   position: absolute;
 }
 #more_panel_jumper_wrapper {
-  --height: 150px;
-  height: var(--height);
+  --height: 65px;
+  --height-hover-padding: 0px;
+
+  height: calc(var(--height) + var(--height-hover-padding));
   width: 100%;
-  top: calc(-1 * var(--height));
+  top: calc(-1 * (var(--height) + var(--height-hover-padding)));
 }
 #more_panel_jumper {
   position: absolute;
@@ -85,7 +87,7 @@
 
   content: "";
   display: block;
-  height: 65px;
+  height: var(--height);
   width: var(--width);
   bottom: 0;
   left: calc(100vw / 2 - var(--width) / 2);
