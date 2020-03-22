@@ -2374,13 +2374,21 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   fsFcts[0]();
   fsFcts[1]();
   el.addEventListener('click', () => {
+    is_zoomed = !is_zoomed;
+    set_zoom(is_zoomed);
+  }, {passive: true});
+
+  window.addEventListener('resize', function() { set_zoom(is_zoomed); }, {passive: true});
+
+  function set_zoom(is_zoomed) {
     if( is_zoomed ) {
       fsFcts[1]();
     } else {
       fsFcts[0]();
     }
-    is_zoomed = !is_zoomed;
-  }, {passive: true});
+  }
+
+  return;
 
   /*
   var fullscreen_toggle;
