@@ -5,8 +5,20 @@ export default RoadmapView;
 function RoadmapView() {
   return <>
     <ul>
-      <li>[Background] Option to set  YouTube live stream as background.</li>
-      <li>[Clock] Option to move position of Clock, e.g. in the top left corner.</li>
+      <li>Make Clock Tab more robust. (Less bugs, more resilient, and please <a href="/bug-repair">report any bug</a> you may find!)</li>
+      <li>Make Clock Tab work offline.</li>
+      <li>Remove memory leak. (Clock Tab can sometimes consumes a lot of CPU and RAM.)</li>
+      <li>Detect and adapt to browser dark theme mode.</li>
+      <li>Improve theme customization.</li>
+      <li>More themes.</li>
+      <li>Beautufil analog clock.</li>
+      <li>Option to move position of Clock, e.g. in the top left corner.</li>
+      <li>Option to set  YouTube live stream as background.</li>
+      <li>Make Clock Tab load faster.</li>
     </ul>
+
+    <p>
+    You have a suggestion? Then <a href="/feature-suggestion">suggest a feature</a>.
+    </p>
   </>;
 }
