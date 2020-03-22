@@ -8,9 +8,9 @@ function DonateView() {
   return <>
     <img id="rom-face" src={romuald_alps} />
 
-    <h2>
+    <h1>
     Hello,
-    </h2>
+    </h1>
 
     <p>
     I'm Romuald, the creator of Clock Tab.

@@ -8,9 +8,6 @@ email+='brillout.com';
 
 function ConductView() {
   return <>
-
-<h1>Code of Conduct</h1>
-
 <h2>Our Pledge</h2>
 
 <p>

@@ -10,9 +10,6 @@ projectEmail+='brillout.com';
 
 function TermsView() {
   return <>
-
-<h1>Terms of Service</h1>
-
 <h2>1. Acceptance of Terms</h2>
 
 <p>

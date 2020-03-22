@@ -4,7 +4,6 @@ import Bowser from "bowser";
 
 export default getPageConfig(
   () => <>
-    <h1>Bug Repair</h1>
     <p>
     Your Clock Tab does not work? Click <a id='repair-link' data-subject="Bug Repair" className="contact-address" target="_blank">here</a>.
     </p>

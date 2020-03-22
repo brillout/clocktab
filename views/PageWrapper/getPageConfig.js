@@ -4,12 +4,13 @@ import logoUrl from '../Header/logo.svg';
 
 export {getPageConfig};
 
-function getPageConfig(View, titleMain, {route, onPageLoad}={}) {
-  route = route || '/'+titleMain.toLowerCase().split(' ').join('-');
-  const title = titleMain + ' - Clock Tab';
+function getPageConfig(View, header, {route, onPageLoad, noHeader}={}) {
+  route = route || '/'+header.toLowerCase().split(' ').join('-');
+  const title = header + ' - Clock Tab';
 
   const view = () => (
     <PageWrapper>
+      {!noHeader && <h1>{header}</h1>}
       <View />
     </PageWrapper>
   );

@@ -4,8 +4,6 @@ export default PrivacyPolicyView;
 
 function PrivacyPolicyView() {
   return <>
-    <h1>Privacy Policy</h1>
-
     <h2>Cookies</h2>
 
     <p>
