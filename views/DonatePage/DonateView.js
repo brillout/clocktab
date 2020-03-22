@@ -53,7 +53,7 @@ function DonateView() {
 
     <p>
     Romuald<br/>
-    <a id='contact-email' target='_blank'></a>
+    <a target='_blank' className="contact-address"></a>
     </p>
   </>;
 }

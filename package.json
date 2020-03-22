@@ -22,6 +22,7 @@
     "@brillout/assert": "^0.1.1",
     "@goldpage/react": "^0.5.5",
     "@goldpage/serverless": "^0.5.5",
+    "bowser": "^2.9.0",
     "goldpage": "^0.5.5",
     "parcel": "^1.12.4",
     "push-dir": "^0.4.1",
