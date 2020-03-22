@@ -10,6 +10,8 @@ async function htmlRender({page, initialProps}) {
     )
   );
 
+  return html;
+  /*
   return {
     head: [
     ],
@@ -17,4 +19,5 @@ async function htmlRender({page, initialProps}) {
       html,
     ]
   };
+  */
 }

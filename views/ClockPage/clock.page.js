@@ -8,6 +8,10 @@ export default {
 
   title: 'Clock Tab',
 
+  head: [
+    '<meta name="keywords" content="time, clock, tab">',
+    "<meta name='description' content='Displays the current Time. Featuring \"Time Icon\" and customizable Themes. Made by the Creator of Timer Tab.'>",
+  ],
   onPageLoad,
 
   renderToDom: true,
