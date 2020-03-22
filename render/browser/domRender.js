@@ -20,6 +20,10 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   if( !page.onPageLoad ){
     loadCommon();
   } else {
-    page.onPageLoad(loadCommon);
+    let loadCommon_called = false;
+    page.onPageLoad(() => {loadCommon_called = true; loadCommon();});
+    if( !loadCommon_called ){
+      loadCommon();
+    }
   }
 }
