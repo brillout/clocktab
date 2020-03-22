@@ -2371,26 +2371,25 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   };
   //}}}
 
-  var fsFcts = fullscreenZoomableElement(el);
-  if(!fsFcts) return;
+  const zoom_fcts = fullscreenZoomableElement(el);;
+  if(!zoom_fcts) return;
+  const [zoom_in, zoom_out] = zoom_fcts;
 
   let is_zoomed = false;
-  fsFcts[0]();
-  fsFcts[1]();
-  el.addEventListener('click', () => {
-    is_zoomed = !is_zoomed;
-    set_zoom(is_zoomed);
-  }, {passive: true});
-
-  window.addEventListener('resize', function() { set_zoom(is_zoomed); }, {passive: true});
-
-  function set_zoom(is_zoomed) {
+  function set_zoom() {
     if( is_zoomed ) {
-      fsFcts[1]();
+      zoom_in();
     } else {
-      fsFcts[0]();
+      zoom_out();
     }
   }
+
+  el.addEventListener('click', () => {
+    is_zoomed = !is_zoomed;
+    set_zoom();
+  }, {passive: true});
+
+  window.addEventListener('resize', function() { set_zoom(); }, {passive: true});
 
   return;
 
