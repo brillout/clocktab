@@ -2282,8 +2282,10 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
       const container_width = ml.element.getStyle(containerEl, 'width');
       const container_height = ml.element.getStyle(containerEl, 'height');
       container_original_props = containerEl.style['overflow'];
+      /*
       containerEl.style.width = container_width;
       containerEl.style.height = container_height;
+      */
       containerEl.style.overflow = 'hidden';
 
       var sizes = boxSize(el);
@@ -2352,9 +2354,11 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
       //timeout makes transition of zoom counter smoother
       setTimeout(function(){
         if(!zoomed) {
+          /*
           containerEl.style.overflow = container_original_props.overflow;
           containerEl.style.width = 'auto';
           containerEl.style.height = 'auto';
+          */
           /*
           containerEl.style.width = container_original_props.width;
           containerEl.style.height = container_original_props.height;
