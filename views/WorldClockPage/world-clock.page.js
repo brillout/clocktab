@@ -21,6 +21,7 @@ export default getPageConfig(
     ],
     onPageLoad: () => {
       window['ttzc'] = new worldclock.WorldClock(lstrings);
-    }
+    },
+    route: '/world-clock-2',
   },
 );

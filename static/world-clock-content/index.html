@@ -1,0 +1,147 @@
+<html>
+<head>
+    <title>World Clock</title>
+    <meta name="description" content="World Clock. Featuring timezone converter." />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google" content="notranslate" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" type='text/css' rel='stylesheet' >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" type='text/css' rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="assets/css/style.css" type='text/css' rel='stylesheet' >
+
+    <script src="assets/js/lists.js" type="text/javascript"></script>
+    <script src="assets/js/date.js" type="text/javascript"></script>
+    <script src="assets/js/worldclock.js"           type="text/javascript"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">World Clock</h1>
+    <div class='text-center'>
+      Change the time to convert timezones!
+    </div>
+    <div id="clock_holder" class="row justify-content-center">
+        <div id="clock0"
+            style="display:none;"
+            class="mt-4 mt-md-5 col-lg-3 col-md-6 px-md-4">
+            <div class="row flex-row-reverse">
+                <div class="col-md-12 col-6 pl-1 pr-2 px-md-3" style="position:relative;">
+                    <div id="time0i" onclick="document.getElementById('time0').focus();"
+                      class="text-color-light"
+                      style="top:10px; font-variant:small-caps; right:22px; width:auto;
+                          font-size:1em; text-align:right; float:right; z-index:1; position:absolute;"></div>
+                    <input id="time0" type="text"/>
+                </div>
+                <div class="mt-md-2 col-md-12 col-6 pl-2 pr-1 px-md-3" style="position:relative;">
+                    <select id="c0"></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="clock1"
+            class="mt-4 mt-md-5 col-lg-3 col-md-6 px-md-4">
+            <div class="row flex-row-reverse">
+                <div class="col-md-12 col-6 pl-1 pr-2 px-md-3" style="position:relative;">
+                    <div id="time1i" onclick="document.getElementById('time1').focus();"
+                      class="text-color-light"
+                      style="top:10px; font-variant:small-caps; right:22px; width:auto;
+                          font-size:1em; text-align:right; float:right; z-index:1; position:absolute;"></div>
+                    <input id="time1" type="text"/>
+                </div>
+                <div class="mt-md-2 col-md-12 col-6 pl-2 pr-1 px-md-3" style="position:relative;">
+                    <select id="c1"></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="clock2"
+            class="mt-4 mt-md-5 col-lg-3 col-md-6 px-md-4">
+            <div class="row flex-row-reverse">
+                <div class="col-md-12 col-6 pl-1 pr-2 px-md-3" style="position:relative;">
+                    <div id="time2i" onclick="document.getElementById('time2').focus();"
+                      class="text-color-light"
+                      style="top:10px; font-variant:small-caps; right:22px; width:auto;
+                          font-size:1em; text-align:right; float:right; z-index:1; position:absolute;"></div>
+                    <input id="time2" type="text"/>
+                </div>
+                <div class="mt-md-2 col-md-12 col-6 pl-2 pr-1 px-md-3" style="position:relative;">
+                    <select id="c2"></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="clock3"
+            class="mt-4 mt-md-5 col-lg-3 col-md-6 px-md-4">
+            <div class="row flex-row-reverse">
+                <div class="col-md-12 col-6 pl-1 pr-2 px-md-3" style="position:relative;">
+                    <div id="time3i" onclick="document.getElementById('time3').focus();"
+                      class="text-color-light"
+                      style="top:10px; font-variant:small-caps; right:22px; width:auto;
+                          font-size:1em; text-align:right; float:right; z-index:1; position:absolute;"></div>
+                    <input id="time3" type="text"/>
+                </div>
+                <div class="mt-md-2 col-md-12 col-6 pl-2 pr-1 px-md-3" style="position:relative;">
+                    <select id="c3"></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="clock4"
+            class="mt-4 mt-md-5 col-lg-3 col-md-6 px-md-4">
+            <div class="row flex-row-reverse">
+                <!-- Time input -->
+                <!-- We want smaller padding on narrow screens, and more padding (px-md-3) on larger screens. -->
+                <div class="col-md-12 col-6 pl-1 pr-2 px-md-3" style="position:relative;">
+                    <div id="time4i" onclick="document.getElementById('time4').focus();"
+                      class="text-color-light"
+                      style="top:10px; font-variant:small-caps; right:22px; width:auto;
+                          font-size:1em; text-align:right; float:right; z-index:1; position:absolute;"></div>
+                    <input id="time4" type="text"/>
+                </div>
+                <!-- Context input -->
+                <div class="mt-md-2 col-md-12 col-6 pl-2 pr-1 px-md-3" style="position:relative;">
+                    <select id="c4"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="mt-5" style="margin:0 auto; margin-top:20px;">
+        <tr>
+            <td id="12" style="border-radius:3px; padding-right:1px;">
+                <a style="cursor:pointer; text-decoration:none;" onclick="ttzc.swap24h(this);">12</a>
+            </td>
+            <td style="width:5px;"></td>
+            <td id="24" style="border-radius:3px; padding-left:2px;">
+                <a style="cursor:pointer; text-decoration:none;" onclick="ttzc.swap24h(this);">24</a>
+            </td>
+        </tr>
+    </table>
+
+    <table style="margin:0 auto; margin-top:20px;">
+        <tr>
+            <td class="num_clocks">Clocks &nbsp;</td>
+            <td><input id="num_clocks" class="num_clocks" type="number" pattern="\d*" value="0" min="1" max="20" /></td>
+        </tr>
+    </table>
+
+    <div id="warning" style="margin:20px auto 0 auto; text-align:center; font-size:13px;">
+    </div>
+
+</div>
+
+<script>
+    ttzc = new worldclock.WorldClock(lstrings);
+</script>
+
+</body>
+</html>

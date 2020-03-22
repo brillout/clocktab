@@ -1025,34 +1025,34 @@
   dependencies:
     "@brillout/format-text" "^0.1.3"
 
-"@brillout/autoload@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/autoload/-/autoload-0.5.5.tgz#85733fecf56e6d89d3b7800d9d779c06bd99a4ed"
-  integrity sha512-YQo9mPVXl+jLZKwBdVqeudH59mOihxcI9zfmCTYnHgVg9ry8NiuRjjzis7LJJZS8MBPwsg0tBpe3MoqO3sFV9Q==
+"@brillout/autoload@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/autoload/-/autoload-0.5.6.tgz#a33c5cbcb70ba9f494a413f18a44d6bea187c2d8"
+  integrity sha512-WbtyV/nbcqk7JWWOqTB/aNZtqJRf5kmh4HL1imxr2VjrMOovdfp5i0U448/s5qyYPt1SR52eA3ajsT1YsI5g+A==
   dependencies:
     "@brillout/project-files" "^0.4.2"
     find-up "^4.0.0"
     reassert "^1.1.12"
 
-"@brillout/browser-config@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/browser-config/-/browser-config-0.5.5.tgz#0a1c5a985043a10b918baa9dafacb93dd02448dd"
-  integrity sha512-zsSCkMKku4h2BfQMFiYxugaD60/bnD5SQMe665i8GJH0SRvJ2H3iAPrTs6/L92Yw4/D6pEfx+yqIGnPDyOGO+w==
+"@brillout/browser-config@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/browser-config/-/browser-config-0.5.6.tgz#d79cb8ff54c2c9d63010376fce8bdf40564e51f6"
+  integrity sha512-GnQ6C8FVNC/6ZWTiBPCijtixm5UU1Jtkphtim9zDgrdDqCttr/Jk8uacv5wclqKDqN5kNYkJWKyjx0xyHDVpDQ==
 
-"@brillout/cli-theme@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/cli-theme/-/cli-theme-0.5.5.tgz#a24ce2b20d3b3b00a3d3e2d655823758125dd7a4"
-  integrity sha512-SyWn3/frp7dJUGxASrqu5qxe1PCCsP7h93qqqfIdXwL5qKvqWzjugaVHn+0XpWHryHwLpkUCODOIirxWdeWnJA==
+"@brillout/cli-theme@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/cli-theme/-/cli-theme-0.5.6.tgz#1ba76cbd7da2eb4b5fc9f15488ef0aedbdf1e0bf"
+  integrity sha512-V+0kr3icCoY6NHG6PzbPBRVFgYrismXGqSOUyiUlwEdr6g2eOfMjT85QB6XilV+RBDUUjqanum71t+F3BHrH9g==
   dependencies:
     "@brillout/relative-to-homedir" "^0.1.0"
     chalk "^2.4.2"
     ora "3.4.0"
     reassert "^1.1.12"
 
-"@brillout/file-sets@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/file-sets/-/file-sets-0.5.5.tgz#77061ca3ba5919cbc4be00cd4b69aa49e29beb69"
-  integrity sha512-woOiRZVaomba0VdtW4nbS0jyIzMJiAKsgsQlHscjzcMXYpH26Wt9FG4OJ1Ju15Eqxm4fSNMA9tSsNL0L70rQXQ==
+"@brillout/file-sets@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/file-sets/-/file-sets-0.5.6.tgz#6f27fce64c730c5c1eeae4ec2a3903958261c524"
+  integrity sha512-QJndbWXMH3G3JDmx96HS1U0LZ6ew+Fq72L2xibQWjDCsR3gpJdZeMHT6AbphVrYbzG/57nL+6dEmQhNmkUQxWg==
   dependencies:
     mkdirp "^0.5.1"
     reassert "^1.1.12"
@@ -1113,20 +1113,20 @@
   dependencies:
     "@brillout/format-text" "^0.1.3"
 
-"@brillout/reconfig@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/reconfig/-/reconfig-0.5.5.tgz#1710b41999dc66be8e84929fdaa32a208b4add7c"
-  integrity sha512-vTcGq+hlgGX1RrIXxEWdMOsRx40oIYtnB4VxVQ4iSrI1rEAgKVXy1tp3c9tF91tBwPDlKCUWVRa4t88bPw7HtA==
+"@brillout/reconfig@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/reconfig/-/reconfig-0.5.6.tgz#a52ab47420a0af31e794835730e9b93e409279b1"
+  integrity sha512-zBTOT54EE6SkH5WXa3W4PTkpgOoxYi1uGYPPM9ZYBrbDYyoQCUHLeHBOwdBW5OM3LOT4AErvEqRATYuNlDFIsg==
 
 "@brillout/relative-to-homedir@^0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@brillout/relative-to-homedir/-/relative-to-homedir-0.1.0.tgz#57e1d64423688787d29f3066ba374175574c1048"
   integrity sha512-aN5b6YSKlpH3Age7ELDrCp5L/VxWN16dAQ+PliT+mRaLcSMxh8l9lrdMsThrdFn8TQbB6k/LSo+FdmQBlaavnA==
 
-"@brillout/repage@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/repage/-/repage-0.5.5.tgz#d9b99b6ea321ce0e08daa04fd4e7a17db8511d7a"
-  integrity sha512-A3jdECirOlpd68nhu8Ehv12ypKo9Q+LbK8qicFZDfVv+tt0e3F4la9Wzv/YlJ7riAOuEMF3YftLVo1oyVG0Rqw==
+"@brillout/repage@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/repage/-/repage-0.5.6.tgz#cbe3d44f69d279dd788f1ee08fb0397201db2766"
+  integrity sha512-WCjSGZ9pnEgESYohnUAv8Fdp/bAnG4POnAMdMDeZ0gec6+8dhX3OS9DJ6JhWyY6lojQO8oR/FfJZZgy1VINUIg==
   dependencies:
     "@brillout/html" "^0.3.1"
     "@brillout/parse-url" "^0.2.1"
@@ -1147,125 +1147,125 @@
   dependencies:
     "@brillout/reassert" "^0.1.1"
 
-"@brillout/webpack-config-mod@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@brillout/webpack-config-mod/-/webpack-config-mod-0.5.5.tgz#5c54b725c15524030ab717376909e4dedbcae674"
-  integrity sha512-SIiALhn/K2bQ5sIH1v5neaOMul6d01ZxlRs82ZC4R3dEIci5Com7Ec0UgE02hJ7wQTY2+zHtUwWs3b7AqXWskg==
+"@brillout/webpack-config-mod@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@brillout/webpack-config-mod/-/webpack-config-mod-0.5.6.tgz#77218c0ad296a80cf783a831e46b9c3f841f7704"
+  integrity sha512-QJGdPkptaRJbrAAQa5qXuyO6dZrSA9VnO9A2VGcmp54RmelRkDfp/380BOr0WlFXuHlmgWYw9XSzvo8QnR0cBA==
   dependencies:
     lodash.escaperegexp "^4.1.2"
     reassert "^1.1.12"
 
-"@goldpage/browser@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/browser/-/browser-0.5.5.tgz#71584a82af314204c3bc2c24959ff788a980444b"
-  integrity sha512-ftBQJdsQzVRSgVBkDpdaM04Fi4z1ooSlFE5VbNc/QayhdNiL60ZXLPYV1qsx1YjKSdqzrNyd2eJRwWHtgrEgmQ==
+"@goldpage/browser@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/browser/-/browser-0.5.6.tgz#9a097ede3054a3526df4af64bce08dbcc1ca0858"
+  integrity sha512-fCjAwHT6elTScZ2vGQxbnnoOKZuZAOVHoV9P5zCzCF6c4dxKUQFrkuxev+5Y+StZYW75tk8PJ40vKVpEIdJa7Q==
   dependencies:
-    "@brillout/browser-config" "0.5.5"
-    "@brillout/reconfig" "0.5.5"
-    "@brillout/repage" "0.5.5"
+    "@brillout/browser-config" "0.5.6"
+    "@brillout/reconfig" "0.5.6"
+    "@brillout/repage" "0.5.6"
 
-"@goldpage/core@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/core/-/core-0.5.5.tgz#7a94b9b10d5bfcb7dad252e41e345027ff705248"
-  integrity sha512-stnxNYgSPZZmJkppECYQ7/Yf4svNsRsNHb3zNw6O2jMOtKF8WakKogjP4KCApI0667R70bp7YD4Agytdlshp4w==
+"@goldpage/core@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/core/-/core-0.5.6.tgz#f3cf4179e62aa5a36103a05589508d8e55d5e145"
+  integrity sha512-FSPqBhZjOxP3yFn9uzk94t9AgPhVj+eCNIM1gVpZqSUi8lp02+xhZUvssKEMowwZndRGhNz7qBYVfoHkH3vF3A==
   dependencies:
-    "@brillout/browser-config" "0.5.5"
+    "@brillout/browser-config" "0.5.6"
     "@brillout/reassert" "^0.1.1"
-    "@brillout/reconfig" "0.5.5"
-    "@brillout/repage" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
+    "@brillout/repage" "0.5.6"
     reassert "^1.1.12"
 
-"@goldpage/hapi@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/hapi/-/hapi-0.5.5.tgz#7aa8bba5d69ca04f308f9045a1fc6a689cfb43db"
-  integrity sha512-hkIko61xW+DNwfZDKkqcUZb7hly6JYMs85JfDYqRBaThZgysgjW2xJKIyTs25fHy4Usfv9DOBUQZzpkCrptqjw==
+"@goldpage/hapi@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/hapi/-/hapi-0.5.6.tgz#4dfcdfcd5eed948eca51c04992ed00c6f9ada629"
+  integrity sha512-m4yDyJVurfNefgTEmxWjzyvzu76ixUeBrjztb0z+WV4Hqvm4/kOvd2UQf1KQo7Ni0fskQ5/BX85ZQ6hITn9Qjg==
   dependencies:
     "@brillout/reassert" "^0.1.0"
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
     "@universal-adapter/hapi" "^0.4.2"
 
-"@goldpage/html@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/html/-/html-0.5.5.tgz#94cdee2a6ff7a69d27a095b3d3aacb4cae156945"
-  integrity sha512-7WEDh2Hspzpmlw9vchbSv3MZVFZ5afUO5rxB0+uj9yFxxCvvThlIJ8dJ8ne7qJw3YDxzeA0sKXPaqaYYH/+Xug==
+"@goldpage/html@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/html/-/html-0.5.6.tgz#7e4d0877e952a89d6f00a7dd6a40496bbeaa43b0"
+  integrity sha512-3xsGtxIHbdsVysQen3Mpr5Ntgiurysitklun6qNFFLC8F3gcksFqusAm/l1rXFnAxVCRBJhssG6I8u4rcYFprA==
   dependencies:
-    "@brillout/browser-config" "0.5.5"
+    "@brillout/browser-config" "0.5.6"
     "@brillout/html" "^0.3.1"
     "@brillout/reassert" "0.0.1"
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
     devalue "^2.0.0"
 
-"@goldpage/path-to-regexp@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/path-to-regexp/-/path-to-regexp-0.5.5.tgz#eff1111b898cea94c62dc27d7a8dd1cc1155e001"
-  integrity sha512-9kCedutvJuARrtAPNtLsSCnPAZm0q54tPZFdpnWlmZEupZ//E1G0Cc6JlTrfBndMM1Tu0JXgzvDnu6kq+J4Zow==
+"@goldpage/path-to-regexp@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/path-to-regexp/-/path-to-regexp-0.5.6.tgz#5f6c1299342cb57705050b7138caaaf19b5351d9"
+  integrity sha512-lmNt452e2pdbI528Rxrz06+rwae9nhMEneSYOVLaXP2QI+HTF2UkRkbEjagYfeu+v3HLnDoD40AnGs6gxkEGzw==
   dependencies:
     "@brillout/path-to-regexp" "^0.1.2"
     "@brillout/reassert" "^0.1.1"
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
 
-"@goldpage/react@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/react/-/react-0.5.5.tgz#9b991552a60b8ed6d99d42b9bcf0abac6b6dbb89"
-  integrity sha512-vV8JwxFCpJq33TZO+E1oKakWuyrXapfUD750YhTt4Lt6cBZbXb7hZbh0efyVRXLymv4YtDMepO+XtX500xbiDg==
+"@goldpage/react@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/react/-/react-0.5.6.tgz#df6cae34b93d56c9e5177c3ed34d73db79e89260"
+  integrity sha512-eqxHuE2fSDiJruYKKb8CSOFM4rxcNWWIBnBrJ09cuj5c3zvRpZir4wuH5Mkyf4Fl4l3XmFf3mIN73LH7UEme2g==
   dependencies:
-    "@goldpage/html" "0.5.5"
-    "@goldpage/render-react" "0.5.5"
-    "@goldpage/webpack-react" "0.5.5"
+    "@goldpage/html" "0.5.6"
+    "@goldpage/render-react" "0.5.6"
+    "@goldpage/webpack-react" "0.5.6"
 
-"@goldpage/render-react@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/render-react/-/render-react-0.5.5.tgz#ffa159f9848106de44734ce07d3fac03e576a789"
-  integrity sha512-l3NmqMY8ku23/wxF40PouOMELC43kQjoyH1v8CMtbJG6qb+/oRXFtHBVzbupfv3k7hBqavbuUU7NY3u+uwkKZA==
+"@goldpage/render-react@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/render-react/-/render-react-0.5.6.tgz#fc2b66e629a469e6678bde1499bd80772546903c"
+  integrity sha512-rUQ8pe0Q+rvkIeruVoPavu6n1pm9B47UWKDlqL/5AKkndxeXPQKNfU64z3b+wtqRh03GLMRN49by+JoJw7tHpg==
   dependencies:
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
 
-"@goldpage/server-universal-middleware@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/server-universal-middleware/-/server-universal-middleware-0.5.5.tgz#f54d1906c4837c2a71320538ce7c75f75265d6d0"
-  integrity sha512-tj6M8HJ7mDzI1E9fDFFpGGB4dVlbOti1y3tmyXUzxHoeV0ezmDxoGe5HJN3/7p8TvKg3UtxSRWB6s5/toKlJOQ==
+"@goldpage/server-universal-middleware@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/server-universal-middleware/-/server-universal-middleware-0.5.6.tgz#35ea722cd7dcfb4519c2919e8b4df99962051a66"
+  integrity sha512-2K8oy1DhQIWZEkyQNQ/1SrAxFH/LZbYSZmpm/b2YBbxdw7h04pJsrm5vO9XJfGWk/Bp+wqGH00HVxfpa1KDPDg==
   dependencies:
     "@brillout/parse-url" "^0.2.1"
-    "@brillout/reconfig" "0.5.5"
-    "@brillout/repage" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
+    "@brillout/repage" "0.5.6"
     fs-extra "^7.0.1"
     mimos "^4.0.0"
     reassert "^1.1.12"
 
-"@goldpage/server@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/server/-/server-0.5.5.tgz#2c5c0b4c594293ed6f7ec53094e8b9004f0c944b"
-  integrity sha512-4xBW9YDiz6DWJ+1/JFO/KVrOqhMYJM55ImiwXr+DJnxOIb+fwTxlS+t3VoL42hO5RqRGRoJboKWSz6Oxs7sm5A==
+"@goldpage/server@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/server/-/server-0.5.6.tgz#56d84f5e930f5db2d89092890d85c5e52423d146"
+  integrity sha512-lc/Tftdc9qf53J5dz7Gfb96iwqT9S8y6jtv1e+MIz9xkvX4SN5Wera84h+CFbPXSm6i9mThn+55gxpbuQfs3pg==
   dependencies:
-    "@brillout/reconfig" "0.5.5"
-    "@goldpage/hapi" "0.5.5"
-    goldpage "0.5.5"
+    "@brillout/reconfig" "0.5.6"
+    "@goldpage/hapi" "0.5.6"
+    goldpage "0.5.6"
     hapi "^18.1.0"
 
-"@goldpage/serverless@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/serverless/-/serverless-0.5.5.tgz#a529e2388dc7fdfa50dcf1ce4d89e3eff9d8cc4b"
-  integrity sha512-0/pEeftySeINGvVrFWCuPlB0YQ1wncSRZiLLyTSWACXkxhXS+aRULsNQ12JCCwaFgJeHI9+7oewL3PDSgO4+MQ==
+"@goldpage/serverless@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/serverless/-/serverless-0.5.6.tgz#5f936eb83e7f158df16e2a84bd14ac52f3d99214"
+  integrity sha512-lTsDGEmuOoG2iQya1zNKOl3V5L2KKpEUsvdlwb9qTzvRqp/rQVuhzHL782R/ReXL6Ot2jO/gT2mihJ1HqKavBA==
   dependencies:
-    "@brillout/reconfig" "0.5.5"
-    "@goldpage/server" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
+    "@goldpage/server" "0.5.6"
 
-"@goldpage/webpack-react@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/webpack-react/-/webpack-react-0.5.5.tgz#cf7ddea641a7e1feabda1db84fcd5cffcfd5921b"
-  integrity sha512-tcsvazOYnUKb+2bN/UVtc1APW9BvK1/bVIOVQm4RHNeJh0E8ksEFmnP7ZPUh4gasdAlwpjjuQ1AAy9Q12w9kEg==
+"@goldpage/webpack-react@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/webpack-react/-/webpack-react-0.5.6.tgz#be5c743045b2feb68df1c91dcd5c17f07f5157ad"
+  integrity sha512-DYBF2mOGT+NIy0cm7Us4zTq+9hvEP3557oLKFh0ehQoSkrNB9lsU3sAc7OzDV6aYQqkxLDShLkD4aiRBN/xXqA==
   dependencies:
     "@babel/preset-react" "^7.0.0"
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
 
-"@goldpage/webpack@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@goldpage/webpack/-/webpack-0.5.5.tgz#99a7f957bdff334cebf8e185787d18912cb64a76"
-  integrity sha512-w22QOuKHV1kacnP0sCOgLHM4W7SdA9iFbOZVsVKdEwS9KyxU5YiJtx2UESvaOuf4KBSmPycnX1LWPQSTWTb9gQ==
+"@goldpage/webpack@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@goldpage/webpack/-/webpack-0.5.6.tgz#16364d08de03b799d5428ee5a7752f6246a0d6b7"
+  integrity sha512-DnLEtgFDHQxn10UR32/mobwJq4kU7LhVXCsGQCsAb4JDqrhXK3dtQ/fb4aDh/raKEBco9+plgRcnHaKdJ4KclA==
   dependencies:
-    "@brillout/reconfig" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
     reassert "^1.1.12"
-    webpack-ssr "0.5.5"
+    webpack-ssr "0.5.6"
 
 "@iarna/toml@^2.2.0":
   version "2.2.3"
@@ -1326,12 +1326,12 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@rebuild/build@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@rebuild/build/-/build-0.5.5.tgz#1651d5c589c9fb22cae754e9e19fe6ced1f52fc2"
-  integrity sha512-x82D4N97QF+h3rHluK5orfqsVTk0x2taf3sLLrjLCwH3hS7B3HLRyXv8F7H5mbVaoFtW73vp//d0JZrfgfuVdA==
+"@rebuild/build@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@rebuild/build/-/build-0.5.6.tgz#43ac11e1de95e588ca7e087dc74d3b0049a99bc2"
+  integrity sha512-S1ALYfNes+1KuSEUz55BHzKfyz6BtlHT8imNE+jOujxTcK7lKBF+qRDJ1vAZIqnhNi/NWXDmr0aDvNHupb3dHA==
   dependencies:
-    "@brillout/cli-theme" "0.5.5"
+    "@brillout/cli-theme" "0.5.6"
     "@brillout/format-text" "^0.1.0"
     "@brillout/require-gold" "^0.1.1"
     bluebird "^3.5.4"
@@ -1341,10 +1341,10 @@
     reassert "^1.1.12"
     webpack "^4.36.1"
 
-"@rebuild/config@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@rebuild/config/-/config-0.5.5.tgz#7d2df761b97a9ec9646bd872c676cb2be28bcdb4"
-  integrity sha512-N6i0fngHwgDdtF8WecJOwVsBKDEgMO3uCrSx7kikJq6b0BPmKemGoa8fZtqenF96IKchtG73AUUtPtevZZjwCg==
+"@rebuild/config@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@rebuild/config/-/config-0.5.6.tgz#1dc8f1a9744feab017d7e035a386ff6336d83886"
+  integrity sha512-W1uVzyrJ7pBMAGYvKAImvxeHLvsbZqXpCrUErugfVb4GRI8QmjebF5oMvHoj9KK+l6SWs/TOl0NsCXcBRd8c3w==
   dependencies:
     "@babel/core" "^7.4.3"
     "@babel/plugin-proposal-object-rest-spread" "^7.4.3"
@@ -1366,24 +1366,24 @@
     validate-npm-package-name "^3.0.0"
     webpack "^4.36.1"
 
-"@rebuild/iso@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@rebuild/iso/-/iso-0.5.5.tgz#6e4f8d79daa9092b5f6366f6e524af38e8c38d67"
-  integrity sha512-fV+B7Hu4mRKcmSO77L7GmTN144WxGAceDGkYBpIfEXrLQoR+zCCurvnhD1yfWr5nOv/Hmle9SWfW9WLYpJ9m9A==
+"@rebuild/iso@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@rebuild/iso/-/iso-0.5.6.tgz#f443e5d7546f99ea94b2ffcf4fa04b0dcf51a578"
+  integrity sha512-H3UUEgjVVDxESCNruTFnWR8xyz5O7wRQrbmgmEJ8Psn602PKFXv1zoVs5ekBI86Xa0VwptV8ngVJLa98q/cbLQ==
   dependencies:
-    "@rebuild/build" "0.5.5"
-    "@rebuild/serve" "0.5.5"
+    "@rebuild/build" "0.5.6"
+    "@rebuild/serve" "0.5.6"
     chalk "^2.4.2"
     deep-equal "^1.0.1"
     reassert "^1.1.12"
 
-"@rebuild/serve@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/@rebuild/serve/-/serve-0.5.5.tgz#2be8939840403f90841f9dfab04688416ea30377"
-  integrity sha512-dA46D/IO3v91yyARLEexBiKe9ljOxFZKTNs44kGPqvQW7ea+MWDXERoai3I4L4asT+XrZMfgFjOyCwKuTyV0Hw==
+"@rebuild/serve@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@rebuild/serve/-/serve-0.5.6.tgz#fc21f4923436bcda07c9fe7871de9542c7e645d8"
+  integrity sha512-M7Q0jGGK4eiRE1lgJQpRJ37ybV1tTLBQ5t7ebZxh3w3jSAaNTrNFwrSaERn5+E0tn5N4IZr8V75m9eLw/zmDpQ==
   dependencies:
-    "@brillout/cli-theme" "0.5.5"
-    "@rebuild/build" "0.5.5"
+    "@brillout/cli-theme" "0.5.6"
+    "@rebuild/build" "0.5.6"
     chokidar "^2.1.5"
     parent-module "^1.0.1"
     reassert "^1.1.12"
@@ -3633,21 +3633,21 @@ globals@^11.1.0:
   resolved "https://registry.npmjs.org/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
   integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
-goldpage@0.5.5, goldpage@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/goldpage/-/goldpage-0.5.5.tgz#1b58125d6c63ddf48a7add14bb3a7f26f9254ec8"
-  integrity sha512-oQxZV2re7s5I3hsrW9l5kDFGSjnDCfTgZjYiJbcST57qscWIxgeTToOQLzG4omACmlz10GiYHukPUedRPGfG+w==
+goldpage@0.5.6, goldpage@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/goldpage/-/goldpage-0.5.6.tgz#8c96e036c8f5173af308fc88a51134d87f00d227"
+  integrity sha512-Da5qWRc5ln9aZdYOk5jKFtVkKOXUgN25wVyCNa4SCirsQkTmfM5m2EC6tmVQyzrtMbjnejyymSX+3QWgCQ94EA==
   dependencies:
-    "@brillout/autoload" "0.5.5"
-    "@brillout/cli-theme" "0.5.5"
+    "@brillout/autoload" "0.5.6"
+    "@brillout/cli-theme" "0.5.6"
     "@brillout/project-files" "^0.4.2"
     "@brillout/reassert" "^0.1.1"
-    "@brillout/reconfig" "0.5.5"
-    "@goldpage/browser" "0.5.5"
-    "@goldpage/core" "0.5.5"
-    "@goldpage/path-to-regexp" "0.5.5"
-    "@goldpage/server-universal-middleware" "0.5.5"
-    "@goldpage/webpack" "0.5.5"
+    "@brillout/reconfig" "0.5.6"
+    "@goldpage/browser" "0.5.6"
+    "@goldpage/core" "0.5.6"
+    "@goldpage/path-to-regexp" "0.5.6"
+    "@goldpage/server-universal-middleware" "0.5.6"
+    "@goldpage/webpack" "0.5.6"
     source-map-support "^0.5.12"
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
@@ -7310,20 +7310,20 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-ssr@0.5.5:
-  version "0.5.5"
-  resolved "https://registry.npmjs.org/webpack-ssr/-/webpack-ssr-0.5.5.tgz#c8915587fb47a1237c9ae81d18d1b263fb227a2e"
-  integrity sha512-30KNdIGty7sl0A09BZ3qrIVBElnJDjg9bWik65Yl6WL3dRhHshB5NX5f5Z2DKopmY082Y1qmux92aLbQKMJLWQ==
+webpack-ssr@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/webpack-ssr/-/webpack-ssr-0.5.6.tgz#6b54ad453d3060177be6ce12d223c00cb1d8d470"
+  integrity sha512-3isqxANu0ahz9eB+W1ZbkivDnabLE/XCuogC0OSRlLoYaZzgnBfIr/b0r3jzauiIs2vMivQVyglOhvoIjVMD1Q==
   dependencies:
-    "@brillout/cli-theme" "0.5.5"
-    "@brillout/file-sets" "0.5.5"
+    "@brillout/cli-theme" "0.5.6"
+    "@brillout/file-sets" "0.5.6"
     "@brillout/project-files" "^0.4.2"
     "@brillout/require-gold" "^0.1.1"
-    "@brillout/webpack-config-mod" "0.5.5"
-    "@rebuild/build" "0.5.5"
-    "@rebuild/config" "0.5.5"
-    "@rebuild/iso" "0.5.5"
-    "@rebuild/serve" "0.5.5"
+    "@brillout/webpack-config-mod" "0.5.6"
+    "@rebuild/build" "0.5.6"
+    "@rebuild/config" "0.5.6"
+    "@rebuild/iso" "0.5.6"
+    "@rebuild/serve" "0.5.6"
     chokidar "^2.1.5"
     fs-extra "^7.0.1"
     mkdirp "^0.5.1"

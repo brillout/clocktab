@@ -1,29 +1,33 @@
 {
   "scripts": {
-    "dev": "goldpage dev",
-    "build": "goldpage build",
-    "prod": "npm run build && npm run start",
-    "start": "export NODE_ENV='production' && node ./.build/nodejs/server"
+    "dev": "yarn goldpage:dev",
+    "dev:todo": "yarn goldpage:dev & sleep 5 && yarn dev:link-static",
+    "goldpage:dev": "goldpage dev",
+    "dev:link": "ln -s `pwd`/static/* .build/browser/",
+
+    "prod:start": "export NODE_ENV='production' && node ./.build/nodejs/server",
+    "goldpage:build": "goldpage build",
+    "prod:build:clean": "rm -rf .build/",
+    "prod:build:static": "mkdir -p .build/browser/ && cp -r static/* dist/",
+
+    "prod:build": "yarn prod:build:clean && yarn goldpage:build && yarn prod:build:static",
+    "prod:serve": "serve .build/browser/ --listen 3000"
   },
   "scriptsOld": {
     "dev": "yarn parcel:dev",
     "dev:static": "yarn serve src/ --listen 3000",
     "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
-    "prod:build": "yarn prod:build:clean && yarn parcel:prod && yarn prod:build:static",
-    "prod:build:clean": "rm -rf dist/",
-    "prod:build:static": "mkdir -p dist/ && cp static/* dist/",
     "prod:deploy": "push-dir --dir=dist/ --branch=gh-pages --cleanup",
-    "prod:serve": "serve dist/ --listen 3000",
     "parcel:dev": "parcel serve src/index.html --port 3000",
     "parcel:prod": "parcel build src/*.html"
   },
   "dependencies": {
     "@brillout/assert": "^0.1.1",
-    "@goldpage/react": "^0.5.5",
-    "@goldpage/serverless": "^0.5.5",
+    "@goldpage/react": "^0.5.6",
+    "@goldpage/serverless": "^0.5.6",
     "bowser": "^2.9.0",
-    "goldpage": "^0.5.5",
+    "goldpage": "^0.5.6",
     "parcel": "^1.12.4",
     "push-dir": "^0.4.1",
     "react": "^16.13.0",
