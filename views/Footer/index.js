@@ -7,7 +7,7 @@ function Footer() {
   return (
     <Container>
       <Section>
-        <Header>Support & features</Header>
+        <Header>Support</Header>
 
         <Link href="/bug-repair">Bug Repair</Link>
         <Link href="/feature-suggestion">Suggest a Feature</Link>
