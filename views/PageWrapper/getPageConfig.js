@@ -4,7 +4,7 @@ import logoUrl from '../Header/logo.svg';
 
 export {getPageConfig};
 
-function getPageConfig(View, header, {route, onPageLoad, noHeader}={}) {
+function getPageConfig(View, header, {route, onPageLoad, noHeader, ...pageConfig}={}) {
   route = route || '/'+header.toLowerCase().split(' ').join('-');
   const title = header + ' - Clock Tab';
 
@@ -23,6 +23,7 @@ function getPageConfig(View, header, {route, onPageLoad, noHeader}={}) {
     favicon: logoUrl,
     renderToDom: true,
     renderToHtml: true,
+    ...pageConfig
   };
 };
 
