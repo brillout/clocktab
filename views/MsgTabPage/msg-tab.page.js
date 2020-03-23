@@ -11,23 +11,15 @@ export default config({
     <FullView id='msg-container-1'>
       <div id='msg-container-2'>
         <div id='hint'>type something...</div>
-        <div id='text' spellcheck="false">&nbsp;</div>
+        <div id='text' spellCheck="false">&nbsp;</div>
       </div>
     </FullView>
     <MorePanel />
   </>,
   onPageLoad: loadWrapper => {
     loadWrapper();
-    /*
-    const iframe = document.querySelector('iframe');
-    const text = iframe.contentWindow.document.getElementById('text');
-        <div id='hint'>type something...</div>
-        <div contentEditable='true' id='text'>&nbsp;</div>
-      <iframe style={{height: '100vh', width: '100vw', border: 0}} />
-    */
     const text = window.document.getElementById('text');
-    const container = window.document.getElementById('msg-container-2');
     text.setAttribute('contentEditable', 'true');
-    init_msg_tab({text, container});
+    init_msg_tab({text});
   },
 });
