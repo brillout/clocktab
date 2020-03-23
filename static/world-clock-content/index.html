@@ -17,6 +17,7 @@
     <script src="assets/js/lists.js" type="text/javascript"></script>
     <script src="assets/js/date.js" type="text/javascript"></script>
     <script src="assets/js/worldclock.js"           type="text/javascript"></script>
+    <script src="assets/js/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -115,7 +116,9 @@
         </div>
     </div>
 
-    <table class="mt-5" style="margin:0 auto; margin-top:20px;">
+    <div id="warning" style="margin-top: 20px; text-align:center; font-size:13px;"></div>
+
+    <table style="margin:0 auto; margin-top:40px;">
         <tr>
             <td id="12" style="border-radius:3px; padding-right:1px;">
                 <a style="cursor:pointer; text-decoration:none;" onclick="ttzc.swap24h(this);">12</a>
@@ -127,15 +130,12 @@
         </tr>
     </table>
 
-    <table style="margin:0 auto; margin-top:20px;">
+    <table style="margin:0 auto; margin-top:20px;" data-iframe-height="true">
         <tr>
             <td class="num_clocks">Clocks &nbsp;</td>
             <td><input id="num_clocks" class="num_clocks" type="number" pattern="\d*" value="0" min="1" max="20" /></td>
         </tr>
     </table>
-
-    <div id="warning" style="margin:20px auto 0 auto; text-align:center; font-size:13px;">
-    </div>
 
 </div>
 

@@ -10,7 +10,9 @@
 .text-color-light {
   color: var(--text-color-light);
 }
+/*
 html, body { height:100% }
+*/
 body {
   display: flex;
   flex-direction: column;
@@ -19,8 +21,12 @@ body {
   -ms-flex-align: center;
 }
 .container {
+  /*
   margin-top: auto;
   margin-bottom: auto;
+  */
+  margin-top: 0;
+  margin-bottom: 0;
 }
 input {
   width:100%;

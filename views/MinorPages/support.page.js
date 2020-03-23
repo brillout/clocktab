@@ -10,7 +10,7 @@ export default getPageConfig(
     </p>
 
     <p>
-    Otherwise, you can write an email at <a className="contact-address"></a>.
+    Otherwise, write an email to <a className="contact-address"></a>.
     </p>
   </>,
   'Support',

@@ -7,7 +7,7 @@
   padding-right: var(--content-side-padding);
 }
 #footer_container {
-  margin-top: 70px;
+  margin-top: 50px;
 }
 h2 {
   margin: 2.8rem 0 1.4rem;
@@ -18,14 +18,21 @@ h1 {
 
 
 /* style */
+h1, h2 {
+  font-family: Lato, "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
+#page-wrapper {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
+h1, h2 {
+  font-weight: 500;
+}
 #page-wrapper {
   font-size: 1.05em;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
 }
 h2 {
   font-size: 1.4rem;
   font-style: normal;
-  font-weight: bold;
   letter-spacing: -.03rem;
   line-height: 2rem;
 }

@@ -34,6 +34,13 @@ a#header-logo {
   vertical-align: middle;
   padding-left: 10px;
   font-size: 1.55em;
+  /*
   position: relative;
   top: 2px;
+  */
+}
+
+#header-logo > b {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 500;
 }
