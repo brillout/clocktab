@@ -44,17 +44,25 @@ function config(conf) {
     renderToHtml: true,
     ...conf,
     onPageLoad: loadWrapper => {
-      conf.onPageLoad(() => {
-        loadWrapper();
-
-        pretty_scroll_area();
-
-        activate_screen_buttons();
-
-        actionize_more_panel_link();
-      });
+      if( conf.onPageLoad ){
+        conf.onPageLoad(() => {
+          onPageLoad(loadWrapper);
+        });
+      } else {
+        onPageLoad(loadWrapper);
+      }
     },
   };
+}
+
+function onPageLoad(loadWrapper) {
+  loadWrapper();
+
+  pretty_scroll_area();
+
+  activate_screen_buttons();
+
+  actionize_more_panel_link();
 }
 
 function actionize_more_panel_link() {
@@ -70,7 +78,7 @@ function actionize_more_panel_link() {
 function activate_screen_buttons() {
   const manual_scroll = document.querySelector('#manual-scroll');
   const manual_fullscreen = document.querySelector('#manual-fullscreen');
-  const clock_view = document.querySelector('#zoom-container');
+  const clock_view = document.querySelector('.pretty_scroll_area__hide_scroll_element');
 
   manual_scroll.onclick = do_scroll;
   manual_fullscreen.onclick = do_fullscreen;

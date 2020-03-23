@@ -1,16 +1,22 @@
 import React from 'react';
-import {getPageConfig} from '../PageWrapper';
-import './_.js';
-import init_msg_tab from './init_msg_tab';
+import {FullView, MorePanel, config} from '../FullViewWrapper';
+//import './_.js';
+//import init_msg_tab from './init_msg_tab';
 
-export default getPageConfig(
-  () => <>
+export default config({
+  route: '/msg-tab',
+  title: 'Msg Tab',
+  view: () => <>
+    <FullView>
+      <div style={{height: '100vh', backgroundColor: 'red'}}>
+        bla
+      </div>
+    </FullView>
+    <MorePanel />
+  </>,
+ // onPageLoad: () => { init_msg_tab() },
+});
+    /*
     <div id='hint'>type something...</div>
     <div contentEditable='true' id='text'>&nbsp;</div>
-  </>,
-  'Msg Tab',
-  {
-    noHeader: true,
-    onPageLoad: () => { init_msg_tab() },
-  }
-);
+    */
