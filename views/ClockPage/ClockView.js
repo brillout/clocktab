@@ -6,9 +6,7 @@ export default ClockView;
 
 function ClockView() {
   return <>
-    <Header/>
-
-    <div id="zoom-container" className="pretty_scroll_area__hide_scroll_element">
+    <FullView id="zoom-container">
       <div id='layout_container'>
 
         <div id="layout_ad">
@@ -44,15 +42,9 @@ function ClockView() {
 
         <div id="layout_equilibrator"></div>
       </div>
-    </div>
+    </FullView>
 
-    <div id="screen-buttons-wrapper" className="pretty_scroll_area__absolute_positioned">
-      <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
-      <div className="screen-button glass-background" id="manual-scroll">Center</div>
-      <div className="screen-button glass-background" id="auto-scroll"></div>
-    </div>
-
-    <div id="more_panel">
+    <MorePanel>
       <div id="more_panel_background" className='glass-background'></div>
       <div id="more_panel_jumper_wrapper">
         <div id="more_panel_jumper" className='glass-background'></div>
@@ -71,7 +63,31 @@ function ClockView() {
         <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
       </div>
       <div id='options-container'></div>
-      <Footer/>
+    </MorePanel>
+  </>;
+}
+
+function FullView({children, ...props}) {
+  return <>
+    <Header/>
+
+    <div className="pretty_scroll_area__hide_scroll_element" {...props}>
+      {children}
+    </div>
+
+    <div id="screen-buttons-wrapper" className="pretty_scroll_area__absolute_positioned">
+      <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
+      <div className="screen-button glass-background" id="manual-scroll">Center</div>
+      <div className="screen-button glass-background" id="auto-scroll"></div>
     </div>
   </>;
+}
+
+function MorePanel({children}) {
+  return (
+    <div id="more_panel">
+      {children}
+      <Footer/>
+    </div>
+  );
 }
