@@ -1,7 +1,7 @@
-#top_content {
+.pretty_scroll_area__content_container {
   position: relative;
 }
-#top_content > #screen-buttons-wrapper {
+.pretty_scroll_area__content_container > #screen-buttons-wrapper {
   position: absolute;
 }
 #screen-buttons-wrapper {
