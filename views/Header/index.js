@@ -9,11 +9,11 @@ function Header() {
     <div id='header-container' className='glass-background'>
       <div id="header-content">
         <Logo/>
-        <Link txt={'World Clock'} href={'/world-clock'} />
-        <Link txt={'Timer Tab'} href={'https://www.timer-tab.com'} />
-        <Link txt={'Msg Tab'} href={'/msg-tab'} />
-        <Link txt={'New Year'} href={'/new-year-countdown'} />
-        <Link txt={'History'} href={'/history'} />
+        <Link href={'/world-clock'} >World Clock</Link>
+        <Link href={'https://www.timer-tab.com'} target="_blank">Timer Tab</Link>
+        <Link href={'/msg-tab'}>Msg Tab</Link>
+        <Link href={'/new-year-countdown'}>New Year</Link>
+        <Link href={'/history'}>History</Link>
       </div>
     </div>
   );
@@ -31,8 +31,8 @@ function Logo() {
   );
 }
 
-function Link({href, txt}) {
+function Link(props) {
   return (
-    <a className='header-link' href={href}>{txt}</a>
+    <a className='header-link' {...props}></a>
   );
 }
