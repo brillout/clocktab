@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from '../Header';
-import Footer from '../Footer';
+import {FullView, MorePanel} from '../FullViewWrapper';
 
 export default ClockView;
 
@@ -45,10 +44,6 @@ function ClockView() {
     </FullView>
 
     <MorePanel>
-      <div id="more_panel_background" className='glass-background'></div>
-      <div id="more_panel_jumper_wrapper">
-        <div id="more_panel_jumper" className='glass-background'></div>
-      </div>
       <div id='secondary-ad'>
         <div className='ad-content-wrapper'>
           <div id="CLOCKTAB_leaderboard_BTF_desktop" className="ad_desktop">
@@ -65,29 +60,4 @@ function ClockView() {
       <div id='options-container'></div>
     </MorePanel>
   </>;
-}
-
-function FullView({children, ...props}) {
-  return <>
-    <Header/>
-
-    <div className="pretty_scroll_area__hide_scroll_element" {...props}>
-      {children}
-    </div>
-
-    <div id="screen-buttons-wrapper" className="pretty_scroll_area__absolute_positioned">
-      <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
-      <div className="screen-button glass-background" id="manual-scroll">Center</div>
-      <div className="screen-button glass-background" id="auto-scroll"></div>
-    </div>
-  </>;
-}
-
-function MorePanel({children}) {
-  return (
-    <div id="more_panel">
-      {children}
-      <Footer/>
-    </div>
-  );
 }

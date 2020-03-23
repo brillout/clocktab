@@ -1,8 +1,9 @@
 import './css/clock.css';
 import ClockView from './ClockView';
 import onPageLoad from './onPageLoad';
+import {config} from '../FullViewWrapper';
 
-export default {
+export default config({
   route: '/',
   view: ClockView,
 
@@ -13,8 +14,4 @@ export default {
     "<meta name='description' content='Displays the current Time. Featuring \"Time Icon\" and customizable Themes. Made by the Creator of Timer Tab.'>",
   ],
   onPageLoad,
-
-  renderToDom: true,
-  renderToHtml: true,
-};
-
+});
