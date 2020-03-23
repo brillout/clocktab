@@ -1,28 +1,35 @@
-body
-{
-  margin: 0;
+#msg-container-1 {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+#msg-container-1 > #msg-container-2 {
+  position: absolute;
+}
+ #msg-container-2 {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   text-align:center;
+}
+
+#msg-container-2 > #hint {
+  position: absolute;
 }
 #hint
 {
-  position: fixed;
+  top: 0;
   color: #888;
   width: 100%;
-  top: 0;
   transition: opacity 1s ease-in-out;
 }
-#test2
-{
-  opacity: 0;
-}
-#text,#text2
-{
-  /*
-  max-width: 100%;
-  */
-}
+
 #text
 {
+  outline: none;
+  background: red;
   display: inline-block;
   outline: none;
   cursor: default;
