@@ -24,7 +24,6 @@ function Logo() {
     <a
      id="header-logo"
      href='/'
-     className="big-text"
     >
       <img src={logoUrl} />
       <b>Clock Tab</b>
