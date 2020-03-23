@@ -18,7 +18,7 @@ export default getPageConfig(
     </p>
 
     <p>
-    More about Romuald can be found on his homepage, <a href="https://brillout.com/">brillout.com</a>.
+    More about Romuald can be found on his homepage, <a target="_blank" href="https://brillout.com/">brillout.com</a>.
     </p>
   </>,
   'About',

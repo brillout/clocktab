@@ -25,7 +25,7 @@ function Footer() {
         <Header>Clock Tab</Header>
 
         <Link href="/roadmap">Roadmap</Link>
-        <Link href="https://github.com/brillout/clocktab">Source Code</Link>
+        <Link href="https://github.com/brillout/clocktab" target="_blank">Source Code</Link>
         <Link href="/contact">Contact</Link>
         <Link href="/about">About</Link>
       </Section>
@@ -74,18 +74,16 @@ function Header({children}) {
   );
 }
 
-function Link({href, children}) {
+function Link({...props}) {
   return (
     <a
-      href={href}
       style={{
         display: 'block',
         textDecoration: 'none',
         color: 'inherit',
       }}
-    >
-      {children}
-    </a>
+      {...props}
+    />
   );
 };
 
