@@ -28,7 +28,10 @@ function DonateView() {
 
     <p>
     If you donate, I will give you a hidden code to remove ads.
-    To donate, make a PayPal wire to my PayPal email:
+    </p>
+
+    <p>
+    In order to donate, make a PayPal wire to my PayPal email:
     </p>
     <p style={{paddingLeft: 20}}>
       <b id='paypal-email'></b>
