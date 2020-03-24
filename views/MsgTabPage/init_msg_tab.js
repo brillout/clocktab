@@ -1,5 +1,6 @@
-import {getScroll, setScroll, scrollToHideScrollElement, isScrolledToHideScrollElement} from 'tab-utils/pretty_scroll_area';
+import {setScroll, scrollToHideScrollElement} from 'tab-utils/pretty_scroll_area';
 import {sleep} from 'tab-utils/sleep';
+import assert from '@brillout/assert';
 
 export default init_msg_tab;
 
@@ -7,11 +8,7 @@ function init_msg_tab({text}) {
   document.body.onload=function() {
     maximize();
     do_focus(); // autofocus doesn't seem to work
-  };
-
-  window.onkeydown = () => {
-    scroll_and_block();
-    text.focus();
+    requestAnimationFrame(() => setScroll(0));
   };
 
   window.onclick = do_focus;
@@ -29,17 +26,32 @@ function init_msg_tab({text}) {
     );
     text.style.paddingTop= paddingTop + 'px';
   }
-  window.onkeyup=function() {
+
+  const EMPTY_FILLER = '&nbsp;';
+  let previousText = text.innerHTML;
+  window.oninput=function() {
+    const currentText = text.innerHTML;
+
+    if( currentText===previousText ) return;
+
     // Carret is hidden when no text
-    if( ! text.innerHTML ){
-      text.innerHTML = '&nbsp;';
-      document.getElementById('hint').style.opacity = '1';
-    } else {
-      //document.getElementById('hint').style.opacity = '0';
+    if( currentText==='' ) {
+      text.innerHTML = EMPTY_FILLER;
+      set_carret_position(0);
     }
 
+    // Remove trailing EMPTY_FILLER
+    if( previousText===EMPTY_FILLER && currentText.endsWith(EMPTY_FILLER) && currentText.length === previousText.length+1 ){
+      const currentText__mod = currentText.slice(0, currentText.length - EMPTY_FILLER.length);
+      assert(currentText__mod.length===1);
+      text.innerHTML = currentText__mod;
+      set_carret_position(1);
+    }
+
+    document.getElementById('hint').style.opacity = currentText.replace(/\s/g, '').length===0?'1':'0';
+
     scroll_and_block();
-  //maximize();
+    maximize();
     scroll_and_block();
   }
   window.onresize=maximize;
@@ -54,6 +66,15 @@ function init_msg_tab({text}) {
       text.selectionStart=l;
       */
     });
+  }
+
+  function set_carret_position(pos) {
+    const sel = window.getSelection();
+    var range = document.createRange();
+    range.setStart(text, pos);
+    range.setEnd(text, pos);
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 }
 

@@ -10,7 +10,9 @@ export default config({
   view: () => <>
     <FullView id='msg-container'>
       <div id='hint'>Type something...</div>
-      <div id='text' spellCheck="false">&nbsp;</div>
+      <div id='text-container'>
+        <div id='text' spellCheck="false">&nbsp;</div>
+      </div>
     </FullView>
     <MorePanel />
   </>,

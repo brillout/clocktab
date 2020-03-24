@@ -13,7 +13,17 @@ function FullView({children, ...props}) {
   return <>
     <Header/>
 
-    <div className="pretty_scroll_area__hide_scroll_element" {...props}>
+    <div
+      className="pretty_scroll_area__hide_scroll_element"
+      {...props}
+      style={{
+        height: '100vh',
+        /* This div's `width` is already set to `100vw` because it is children of .pretty_scroll_area
+        width: '100vw',
+        */
+        ...props.style
+      }}
+    >
       {children}
     </div>
 
