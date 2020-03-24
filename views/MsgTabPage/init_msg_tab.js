@@ -5,6 +5,9 @@ import assert from '@brillout/assert';
 export default init_msg_tab;
 
 function init_msg_tab({text}) {
+  text.onblur = function() {
+    do_focus();
+  };
   document.body.onload=function() {
     maximize();
     do_focus(); // autofocus doesn't seem to work
@@ -46,7 +49,8 @@ function init_msg_tab({text}) {
       set_carret_position(1);
     }
 
-    document.getElementById('hint').style.opacity = currentText.replace(/\s/g, '').length===0?'1':'0';
+    const currentText__nonWhiteSpace = currentText.replace(/\s/g, '').split(EMPTY_FILLER).join('');
+    document.getElementById('hint').style.opacity = currentText__nonWhiteSpace.length===0?'1':'0';
 
     scroll_and_block();
     maximize();
