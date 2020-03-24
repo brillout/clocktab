@@ -1,13 +1,13 @@
 import {getScroll, setScroll, scrollToHideScrollElement, isScrolledToHideScrollElement} from 'tab-utils/pretty_scroll_area';
-import {sleep} from 'tab-utils';
+import {sleep} from 'tab-utils/sleep';
 
 export default init_msg_tab;
 
-function init_msg_tab({text, textHidden}) {
+function init_msg_tab({text}) {
   document.body.onload=function()
   {
     maximize();
- // text.focus(); //autofocus doesn't seem to work
+    do_focus(); // autofocus doesn't seem to work
   };
 
   let firstTime = true;
@@ -24,17 +24,13 @@ function init_msg_tab({text, textHidden}) {
     }
   };
 
-  /*
-  window.onclick = refocus;
-  setInterval(refocus, 100);
-
+  window.onclick = do_focus;
+  setInterval(do_focus, 100);
   window.onfocus = function() {
-    text.focus();
+    do_focus();
   };
-  */
 
-  function maximize()
-  {
+  function maximize() {
     text.setTextSize(window.innerWidth,window.innerHeight);
     text.style.paddingTop='0px';
     const paddingTop = (
@@ -49,16 +45,6 @@ function init_msg_tab({text, textHidden}) {
       text.innerHTML = '&nbsp;';
     }
 
-    /*
-    console.log('pr',textHidden.innerHTML);
-    text.innerHTML = textHidden.innerHTML;
-    console.log(text.innerHTML);
-
-    console.log('selectionS', textHidden.selectionStart, textHidden.selectionEnd);
-    text.selectionStart = textHidden.selectionStart;
-    text.selectionEnd = textHidden.selectionEnd;
-    */
-
     scroll_and_block();
     maximize();
     scroll_and_block();
@@ -72,7 +58,8 @@ function init_msg_tab({text, textHidden}) {
   }
   window.onresize=maximize;
 
-  function refocus() {
+  function do_focus() {
+    text.focus();
     requestAnimationFrame(() => {
       text.focus();
       /*
