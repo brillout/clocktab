@@ -37,3 +37,12 @@
   font-family: sans;
   white-space: nowrap;
 }
+
+#text-hidden {
+  opacity: 0.5;
+  position: fixed;
+  text-align: center;
+  width: 100vw;
+  bottom: 0;
+  left: 0;
+}

@@ -4,6 +4,7 @@
 import ml from '../../ml';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
+import {sleep} from 'tab-utils';
 
 export default loadClock;
 
@@ -465,9 +466,5 @@ async function loadClock() {
 
   spark();
 
-  await Promise.race([awaitClockFont, sleep(0.4)]);
+  await Promise.race([awaitClockFont, sleep({seconds: 0.4})]);
 };
-
-function sleep(seconds) {
-  return new Promise(resolve => window.setTimeout(resolve, seconds*1000));
-}

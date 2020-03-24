@@ -12,6 +12,7 @@ export default config({
       <div id='msg-container-2'>
         <div id='hint'>type something...</div>
         <div id='text' spellCheck="false">&nbsp;</div>
+        <div id='text-hidden'></div>
       </div>
     </FullView>
     <MorePanel />
@@ -19,7 +20,8 @@ export default config({
   onPageLoad: loadWrapper => {
     loadWrapper();
     const text = window.document.getElementById('text');
+    const textHidden = window.document.getElementById('text-hidden');
     text.setAttribute('contentEditable', 'true');
-    init_msg_tab({text});
+    init_msg_tab({text, textHidden});
   },
 });
