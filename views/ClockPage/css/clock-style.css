@@ -88,9 +88,3 @@ input[type='color']
 .footer-section-title {
   color: #5a5d61;
 }
-#header-container {
-  text-align: center;
-}
-#header-container > #header-content {
-  display: inline-flex;
-}

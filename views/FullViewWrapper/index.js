@@ -3,8 +3,7 @@ import pretty_scroll_area, {scrollToElement, addScrollListener, removeScrollList
 import Header from '../Header';
 import Footer from '../Footer';
 import assert from '@brillout/assert';
-import './screen-buttons.css';
-
+import './full-view.css';
 
 export {FullView, MorePanel, config};
 

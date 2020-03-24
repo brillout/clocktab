@@ -1,0 +1,8 @@
+@import './screen-buttons.css';
+
+#header-container {
+  text-align: center;
+}
+#header-container > #header-content {
+  display: inline-flex;
+}

@@ -8,11 +8,13 @@ function init_msg_tab({text}) {
   document.body.onload=function() {
     maximize();
     do_focus(); // autofocus doesn't seem to work
-    requestAnimationFrame(() => setScroll(0));
+    scroll_to_top();
   };
 
   window.onclick = do_focus;
+  /*
   setInterval(do_focus, 100);
+  */
   window.onfocus = function() {
     do_focus();
   };
@@ -107,5 +109,15 @@ async function scroll_and_block() {
 
   function do_scroll() {
     scrollToHideScrollElement({smooth: false});
+  }
+}
+
+function scroll_to_top() {
+  do_top_scroll();
+  setTimeout(do_top_scroll, 10);
+
+  function do_top_scroll() {
+    setScroll(0);
+    requestAnimationFrame(() => setScroll(0));
   }
 }
