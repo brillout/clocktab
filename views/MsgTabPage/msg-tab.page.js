@@ -8,11 +8,9 @@ export default config({
   route: '/msg-tab',
   title: 'Msg Tab',
   view: () => <>
-    <FullView id='msg-container-1'>
-      <div id='msg-container-2'>
-        <div id='hint'>type something...</div>
-        <div id='text' spellCheck="false">&nbsp;</div>
-      </div>
+    <FullView id='msg-container'>
+      <div id='hint'>Type something...</div>
+      <div id='text' spellCheck="false">&nbsp;</div>
     </FullView>
     <MorePanel />
   </>,

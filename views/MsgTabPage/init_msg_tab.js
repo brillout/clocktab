@@ -4,24 +4,14 @@ import {sleep} from 'tab-utils/sleep';
 export default init_msg_tab;
 
 function init_msg_tab({text}) {
-  document.body.onload=function()
-  {
+  document.body.onload=function() {
     maximize();
     do_focus(); // autofocus doesn't seem to work
   };
 
-  let firstTime = true;
-  let lastScroll;
   window.onkeydown = () => {
     scroll_and_block();
     text.focus();
- // lastScroll = getScroll();
-    if(firstTime)
-    {
-      document.getElementById('hint').style.opacity='0';
-      text.innerHTML=' '; //text.innerHTML='' makes loses focus, carrent hidden when no text
-      firstTime=false;
-    }
   };
 
   window.onclick = do_focus;
@@ -43,18 +33,14 @@ function init_msg_tab({text}) {
     // Carret is hidden when no text
     if( ! text.innerHTML ){
       text.innerHTML = '&nbsp;';
+      document.getElementById('hint').style.opacity = '1';
+    } else {
+      //document.getElementById('hint').style.opacity = '0';
     }
 
     scroll_and_block();
-    maximize();
+  //maximize();
     scroll_and_block();
-
-    /*
-    if( lastScroll ){
-    setScroll(lastScroll);
-    lastScroll = null;
-    }
-    */
   }
   window.onresize=maximize;
 
