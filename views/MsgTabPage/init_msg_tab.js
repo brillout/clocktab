@@ -28,13 +28,14 @@ function init_msg_tab({text}) {
     text.style.paddingTop= paddingTop + 'px';
   }
 
-  const EMPTY_SPACE = ' ';
+  const EMPTY_SPACE = String.fromCharCode(160);
   function isEmptySpace(str) {
+    const charCode = str.charCodeAt(0);
     return (
       str && [
         160, // non-breaking space
         32, // normal space
-      ].includes(str.charCodeAt(0))
+      ].includes(charCode)
     );
   }
   let previousText = text.textContent;
@@ -55,16 +56,15 @@ function init_msg_tab({text}) {
         isEmptySpace(currentText.slice(-1)) &&
         currentText.length === 1+EMPTY_SPACE.length
       );
-      console.log({previousText, currentText, currentText__mod, empty_filler_should_be_removed});
       if( empty_filler_should_be_removed ){
-        assert(currentText__mod.length===1);
+        assert.warning(currentText__mod.length===1);
         currentText = text.textContent = currentText__mod;
         set_carret_position(1);
       }
     }
 
-    assert(currentText.length>0);
-    const is_pristine_state = currentText===EMPTY_SPACE;
+    assert.warning(currentText.length>0);
+    const is_pristine_state = isEmptySpace(currentText);
 
     document.getElementById('hint').style.opacity = is_pristine_state?'1':'0';
     document.title = is_pristine_state ? 'Msg Tab' : currentText + ' - Msg Tab';
