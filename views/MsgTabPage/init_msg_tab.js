@@ -11,10 +11,6 @@ function init_msg_tab({text}) {
     scroll_to_top();
   };
 
-  window.onclick = do_focus;
-  /*
-  setInterval(do_focus, 100);
-  */
   window.onfocus = function() {
     do_focus();
   };
