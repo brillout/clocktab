@@ -28,33 +28,52 @@ function init_msg_tab({text}) {
     text.style.paddingTop= paddingTop + 'px';
   }
 
-  const EMPTY_FILLER = '&nbsp;';
-  let previousText = text.innerHTML;
-  window.oninput=function() {
-    const currentText = text.innerHTML;
-
-    if( currentText===previousText ) return;
+  const EMPTY_SPACE = ' ';
+  function isEmptySpace(str) {
+    return (
+      str && [
+        160, // non-breaking space
+        32, // normal space
+      ].includes(str.charCodeAt(0))
+    );
+  }
+  let previousText = text.textContent;
+  text.oninput=function() {
+    let currentText = text.textContent;
 
     // Carret is hidden when no text
     if( currentText==='' ) {
-      text.innerHTML = EMPTY_FILLER;
+      currentText = text.textContent = EMPTY_SPACE;
       set_carret_position(0);
     }
 
-    // Remove trailing EMPTY_FILLER
-    if( previousText===EMPTY_FILLER && currentText.endsWith(EMPTY_FILLER) && currentText.length === previousText.length+1 ){
-      const currentText__mod = currentText.slice(0, currentText.length - EMPTY_FILLER.length);
-      assert(currentText__mod.length===1);
-      text.innerHTML = currentText__mod;
-      set_carret_position(1);
+    // Remove trailing EMPTY_SPACE
+    {
+      const currentText__mod = currentText.slice(0, currentText.length - EMPTY_SPACE.length);
+      const empty_filler_should_be_removed = (
+        isEmptySpace(previousText) &&
+        isEmptySpace(currentText.slice(-1)) &&
+        currentText.length === 1+EMPTY_SPACE.length
+      );
+      console.log({previousText, currentText, currentText__mod, empty_filler_should_be_removed});
+      if( empty_filler_should_be_removed ){
+        assert(currentText__mod.length===1);
+        currentText = text.textContent = currentText__mod;
+        set_carret_position(1);
+      }
     }
 
-    const currentText__nonWhiteSpace = currentText.replace(/\s/g, '').split(EMPTY_FILLER).join('');
-    document.getElementById('hint').style.opacity = currentText__nonWhiteSpace.length===0?'1':'0';
+    assert(currentText.length>0);
+    const is_pristine_state = currentText===EMPTY_SPACE;
+
+    document.getElementById('hint').style.opacity = is_pristine_state?'1':'0';
+    document.title = is_pristine_state ? 'Msg Tab' : currentText + ' - Msg Tab';
 
     scroll_and_block();
     maximize();
     scroll_and_block();
+
+    previousText = currentText;
   }
   window.onresize=maximize;
 
