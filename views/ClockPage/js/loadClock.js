@@ -4,7 +4,7 @@
 import ml from '../../ml';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
-import {sleep} from 'tab-utils';
+import {sleep} from 'tab-utils/sleep';
 
 export default loadClock;
 
