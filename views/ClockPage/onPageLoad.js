@@ -1,14 +1,18 @@
-
 import loadAd from './js/loadAd';
-import loadClock from './js/loadClock';
+import load_clock from './js/load_clock';
+import init_clock_options, {get_opt} from './js/init_clock_options';
 // import autoReloadPage from './js/autoReloadPage';
 import auto_remove_hash from '../../tab-utils/auto_remove_hash';
-import {on_big_text_load} from '../BigText';
+import {on_big_text_load, set_max_width_getter} from '../BigText';
 
 export default onPageLoad;
 
 async function onPageLoad (loadWrapper){
-  await loadClock();
+  set_max_width_getter(() => get_opt('font_size'));
+
+  await init_clock_options();
+
+  load_clock();
 
   on_big_text_load();
 
