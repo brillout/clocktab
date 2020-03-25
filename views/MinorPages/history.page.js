@@ -36,6 +36,8 @@ Historically <b>France</b> used to be on Paris time, nine minutes ahead of GMT. 
 <p>
 On Aug. 15, 2015, <b>North Korean</b> leader Kim Jong Un decided to put clocks back half an hour to establish their own time zone, “Pyongyang time” differentiating from South Korea. About three years later, the change has been reversed as a sign of reconciliation and collaboration. 
 </p>
+
+
 <h2>When we change our clocks – Europe vs U.S.A.</h2>
 
 <p>
@@ -46,7 +48,8 @@ Most of the <b>United States</b> starts Daylight Saving Time at 2:00 a.m. on the
 In the <b>European Union</b>, daylight saving time (summer time) starts and ends at 01:00 a.m. Universal Time (GMT). It starts on the last Sunday of March and ends on the last Sunday of October. In the EU, all time zones change at the same time.
 </p>
 
-<h2>Definitions</h2>
+
+<h2>Main Timzones</h2>
 
 <p>
 <b>UTC</b> (or GMT) is the "<b>Universal Coordinated Time</b>", which corresponds to the Greenwich Time zone. At this point meridian 0 has been placed. When the sun is exactly at the peak of the meridian line or longitudinal zenith, it is 12 o'clock. The old acronym GMT, which means "Greenwich mean time", has given way to UTC. The new system is based on atomic clocks and no longer on celestial phenomena.
@@ -63,6 +66,7 @@ In the <b>European Union</b>, daylight saving time (summer time) starts and ends
 <p>
 <b>PST</b> is the “<b>Pacific Standard Time</b>”. It is the time zone of the west coast of the United States and Canada, which in the summer becomes Pacific Daylight Time (PDT).
 </p>
+
  </>;
 }
 
