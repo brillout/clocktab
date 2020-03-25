@@ -3,6 +3,7 @@ import pretty_scroll_area, {scrollToElement, addScrollListener, removeScrollList
 import Header from '../Header';
 import Footer from '../Footer';
 import assert from '@brillout/assert';
+import logoUrl from '../Header/logo.svg';
 import './full-view.css';
 
 export {FullView, MorePanel, config};
@@ -51,6 +52,7 @@ function config(conf) {
   return {
     renderToDom: true,
     renderToHtml: true,
+    favicon: logoUrl,
     ...conf,
     onPageLoad: loadWrapper => {
       if( conf.onPageLoad ){

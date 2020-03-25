@@ -737,11 +737,12 @@ ml.changeIcon=function(url)
   var createNewEl=ml.browser().usesGecko;
   if(!faviconEl || createNewEl)
   {
-  //var REL = 'shortcut icon';
     var REL = 'icon';
+    var REL2 = 'shortcut icon';
+
     var oldlinks=document.getElementsByTagName('link');
     for(var i=0;i<oldlinks.length;i++)
-      if(oldlinks[i].getAttribute('rel').toLowerCase()==REL)
+      if([REL, REL2].includes(oldlinks[i].getAttribute('rel').toLowerCase()))
         document.head.removeChild(oldlinks[i]);
 
     faviconEl      = document.createElement('link');
