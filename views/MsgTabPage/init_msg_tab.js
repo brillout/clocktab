@@ -1,5 +1,5 @@
-import {setScroll, scrollToHideScrollElement} from 'tab-utils/pretty_scroll_area';
-import {sleep} from 'tab-utils/sleep';
+import {setScroll, scrollToHideScrollElement} from '../../tab-utils/pretty_scroll_area';
+import {sleep} from '../../tab-utils/sleep';
 import assert from '@brillout/assert';
 
 export default init_msg_tab;

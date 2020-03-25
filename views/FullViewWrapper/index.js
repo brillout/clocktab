@@ -1,5 +1,5 @@
 import React from 'react';
-import pretty_scroll_area, {scrollToElement, addScrollListener, removeScrollListener} from 'tab-utils/pretty_scroll_area';
+import pretty_scroll_area, {scrollToElement, addScrollListener, removeScrollListener} from '../../tab-utils/pretty_scroll_area';
 import Header from '../Header';
 import Footer from '../Footer';
 import assert from '@brillout/assert';

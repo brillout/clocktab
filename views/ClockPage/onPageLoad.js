@@ -2,7 +2,7 @@
 import loadAd from './js/loadAd';
 import loadClock from './js/loadClock';
 // import autoReloadPage from './js/autoReloadPage';
-import auto_remove_hash from 'tab-utils/auto_remove_hash';
+import auto_remove_hash from '../../tab-utils/auto_remove_hash';
 import {on_big_text_load} from '../BigText';
 
 export default onPageLoad;

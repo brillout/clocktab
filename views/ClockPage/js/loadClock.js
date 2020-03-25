@@ -4,7 +4,7 @@
 import ml from '../../ml';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
-import {sleep} from 'tab-utils/sleep';
+import {sleep} from '../../../tab-utils/sleep';
 import {refresh_big_text_size, set_bottom_line, set_max_width_getter} from '../../BigText';
 
 export default loadClock;
