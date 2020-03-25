@@ -1,0 +1,61 @@
+/* Overall Layout */
+#layout_container {
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+#layout_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#layout_container > #layout_middle {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#layout_container > #layout_top {
+  flex-shrink: 0;
+}
+#layout_container > #layout_bottom {
+  flex-shrink: 1;
+}
+#layout_container > #layout_top,
+#layout_container > #layout_bottom {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+
+
+
+/* for metro apps
+#big_line > table {width: 100%}
+*/
+
+
+
+
+table {
+  border-spacing: 0;
+}
+table td {
+  padding:0;
+}
+#middle_table {
+  margin: auto;
+  white-space: nowrap;
+}
+
+#middle_table {
+  text-align: center;
+}
+#middle_table td { min-width: 100% }
+
+
+
+
+#middle_table *:not(input):not(a) {
+	user-select: none;
+}
+#middle_table,#middle_table * { cursor: pointer; }
+

@@ -5,6 +5,7 @@ import ml from '../../ml';
 import setBackground from './setBackground';
 import loadFontList from './loadFontList';
 import {sleep} from 'tab-utils/sleep';
+import {refresh_big_text_size, set_bottom_line, set_max_width_getter} from '../../BigText';
 
 export default loadClock;
 
@@ -24,38 +25,8 @@ async function loadClock() {
   var DEFAULT_THEME    = 'steel';
   var FS_NAME          = "fs";
   var MIN_WIDTH        = 580;
-  var timeEl           = document.getElementById('time');
-  var timeTableEl      = document.getElementById('timeTable');
-  const clockEl = timeTableEl;
-  var timeRowEl        = document.getElementById('timeRow');
-  var dateEl           = document.getElementById('date');
-
-  /* SIZE of time */
-  var timeout;
-  function setSize(noTimeout){
-  //{{{
-    function do_(){
-      var time_new_size = ml.getTextSize(timeRowEl,Math.min(window.innerWidth,parseInt(getOpt('font_size'),10)||Infinity),window.innerHeight);
-      ml.assert(time_new_size.width && time_new_size.height);
-      let date_new_size;
-      if(dateEl.innerHTML!="") {
-        date_new_size = ml.getTextSize(dateEl,time_new_size.width*0.95,window.innerHeight);
-        var diff = time_new_size.height+date_new_size.height-window.innerHeight;
-        if(diff>0) {
-          time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
-          date_new_size = ml.getTextSize(dateEl,time_new_size.width,window.innerHeight-time_new_size.height);
-          time_new_size = ml.getTextSize(timeRowEl,window.innerWidth  ,window.innerHeight-date_new_size.height);
-        }
-        dateEl.style.fontSize = date_new_size.fontSize+'px';
-      }
-      timeTableEl.style.fontSize = time_new_size.fontSize  +'px';
-    }
-    window.clearTimeout(timeout);
-    if(timeout===undefined||noTimeout) do_();
-    else timeout=setTimeout(do_,300);
-  //}}}
-  }
-  window.addEventListener('resize',function(){setSize()},false);
+  var time_text_el     = document.getElementById('time_text');
+  var clock_el         = document.getElementById('middle_table');
 
   /* OPTIONS */
   var getOpt;
@@ -296,11 +267,10 @@ async function loadClock() {
           }
           bodyFontLoader=function(_force, callback){
             var fontName = getOpt('clock_font');
-            const clock_el = document.getElementById('timeTable');
             fontLoader(fontName,function(){
               if( _force || fontName===getOpt('clock_font') && clock_el.style.fontFamily!==fontName ){
                 clock_el.style.fontFamily=fontName;
-                setSize(true);
+                refresh_big_text_size();
               }
               callback();
             })
@@ -335,8 +305,8 @@ async function loadClock() {
         setBackground(bg_image_val || bg_color_val);
       }
       function bg_image_listener(){ setBackground(getOpt('bg_image')) }
-      function colorChangeListener(){clockEl.style.color        =getOpt('color_font' )}
-      function fontShadowListener (){clockEl.style['textShadow']=getOpt('font_shadow')}
+      function colorChangeListener(){clock_el.style.color        =getOpt('color_font' )}
+      function fontShadowListener (){clock_el.style['textShadow']=getOpt('font_shadow')}
       function theme_change_listener(){
         fontShadowListener();
         colorChangeListener();
@@ -375,12 +345,10 @@ async function loadClock() {
     })();
     //}}}
 
-    const containerEl = document.querySelector('#zoom-container');
-    const scaleEl = document.querySelector('#layout_container');
-    const zoomEl = timeTableEl;
-    ml.zoomable_element({containerEl, scaleEl, zoomEl, keybinding: 'f'});
   //}}}
   })();
+
+  set_max_width_getter(() => getOpt('font_size'));
 
   /* TIME */
   var domBeat;
@@ -431,21 +399,22 @@ async function loadClock() {
         if(lastTime===undefined || lastTime!==newTime || force)
         {
           lastTime         = newTime;
-          timeEl.innerHTML = newTime;
+          time_text_el.innerHTML = newTime;
           //screenshot
-          //timeEl.innerHTML = '01:37';
+          //time_text_el.innerHTML = '01:37';
           refreshSize = true;
         }
 
         var day = d.getDay();
         if(!lastDay || lastDay!==day || force){
           lastDay=day;
-          dateEl.innerHTML = getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + ml.date.getWeek(d):"")):"";
-          //screenshot
-          //dateEl.innerHTML = "Thursday - January 01";
+          const date_text = (
+            getOpt('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (getOpt('show_week')?" - Week " + ml.date.getWeek(d):"")):""
+          );
+          set_bottom_line(date_text);
           refreshSize = true;
         }
-        if(refreshSize) setSize();
+        if(refreshSize) refresh_big_text_size();
       });
 
       //metroTile&&metroTile(lastTime,lastDay);

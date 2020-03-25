@@ -1,48 +1,3 @@
-/* Overall Layout */
-#layout_container {
-  height: 100vh;
-  overflow: hidden !important;
-}
-
-#layout_container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-#layout_container > #layout_clock {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-#layout_container > #layout_ad {
-  flex-shrink: 0;
-}
-#layout_container > #layout_equilibrator {
-  flex-shrink: 1;
-}
-#layout_container > #layout_ad,
-#layout_container > #layout_equilibrator {
-  flex-grow: 1;
-  flex-basis: 0;
-}
-
-#timeTable {
-  margin: auto;
-  white-space: nowrap;
-}
-html { overflow: hidden; }
-
-#timeTable {
-  text-align: center;
-}
-table {
-  border-spacing: 0;
-}
-table td {
-  padding:0;
-}
-#timeTable td { min-width: 100% }
-#timeRow > table {width: 100%} /* for metro app */
-
 
 /* Clock Text Layout */
 #digit1,
@@ -66,10 +21,11 @@ table td {
   padding-left: .05em;
   padding-right: .05em;
 }
-body:not(.noPeriod)  #time,
-body:not(.noSeconds) #time{
+body:not(.noPeriod)  #time_text,
+body:not(.noSeconds) #time_text{
   padding-right: .2em;
 }
+
 
 
 #options-container {
