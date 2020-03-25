@@ -31,7 +31,7 @@ async function init_clock_options() {
   const MIN_WIDTH = 580;
 
   /* OPTIONS */
-  var opts = [
+  const opts = [
     {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                             },
     {id:'clock_font'        ,description:'font'            ,default_:DEFAULT_FONT        ,negDependency:'theme'},
     {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
