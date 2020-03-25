@@ -16,7 +16,7 @@ export default getPageConfig(
     <p>
     If don't know how to programm
     but you want to learn how to code,
-    then write an email to Romuald at <a data-subject="I'd like to contribute" className="contact-address"></a>.
+    write an email to Romuald at <a data-subject="I'd like to contribute" className="contact-address"></a>.
     </p>
   </>,
   'Contribute',

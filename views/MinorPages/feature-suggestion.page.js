@@ -14,7 +14,7 @@ export default getPageConfig(
     .
 
     <p>
-    If you have a GitHub account, you can also
+    You can also
     {' '}
     <a href="https://github.com/brillout/clocktab/issues/new" target="_blank">
       create a GitHub ticket

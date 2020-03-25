@@ -18,7 +18,7 @@ function RoadmapView() {
     </ul>
 
     <p>
-    You have wish? Then <a href="/feature-suggestion">suggest a feature</a>!
+    You have wish? <a href="/feature-suggestion">Suggest a feature</a>!
     </p>
   </>;
 }

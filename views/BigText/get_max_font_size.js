@@ -43,7 +43,7 @@ function getWidestChar(chars) {
   //dummyinspect
   //onsole
   // TODO
-  //document.body.removeChild(dummy);
+  document.body.removeChild(dummy);
   assert.warning(widestChar);
   return widestChar;
 } 
