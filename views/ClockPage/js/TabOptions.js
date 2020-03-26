@@ -1,6 +1,5 @@
 import load_font from './load_font';
 import assert from '@brillout/assert';
-import {sleep} from '../../../tab-utils/sleep';
 import loadFontList from './loadFontList';
 import ml from '../../ml';
 import setBackground from './setBackground';
@@ -22,13 +21,15 @@ export class TabOptions {
     this.option_list = instantiate_options({tab_options: this, option_spec_list});
 
     this.resolve_font_loaded_promise;
-    this.font_loaded_promise = new Promsie(r => this.resolve_font_loaded_promise = r);
+    this.font_loaded_promise = new Promise(r => this.resolve_font_loaded_promise = r);
   }
 
   generate_dom() {
     this.option_list.forEach(opt => {
       opt.generate_dom();
-      opt.local_side_effects();
+      if( opt.local_side_effects ){
+        opt.local_side_effects();
+      }
     });
     this.global_side_effects();
   }
@@ -114,7 +115,7 @@ export class TabOptions {
     return option_id;
   }
   get_font_name() {
-    this.get_option_value(this.font_option_id);
+    return this.get_option_value(this.font_option_id);
   }
 
   get_option_value(option_id) {
@@ -181,8 +182,6 @@ class Option {
   }
 
   generate_dom() {
-    const {input_tag, input_type, option_id, option_description, option_default} = this;
-
     const on_input_change = () => {
       if( this.local_side_effects ) {
         this.local_side_effects();
@@ -190,7 +189,10 @@ class Option {
       this.tab_options.global_side_effects();
     };
 
-    const {label_el, input_el} = generate_dom({input_tag, input_type, option_id, option_description, option_default, on_input_change});
+    const {options_container} = this.tab_options;
+    const {input_tag, input_type, option_id, option_description, option_default} = this;
+
+    const {label_el, input_el} = generate_dom({input_tag, input_type, option_id, option_description, option_default, options_container, on_input_change});
 
     this.label_el = label_el;
     this.input_el = input_el;
@@ -293,7 +295,7 @@ class PresetOption extends SelectOption {
       const option_el = document.createElement('option');
       option_el.innerHTML = preset_name;
       option_el.value     = preset_name;
-      input_el.appendChild(option_el);
+      this.input_el.appendChild(option_el);
     }
   }
 }
@@ -340,9 +342,8 @@ async function load_text_font({text_container, get_font_name}) {
   text_container.style.fontFamily = font_name;
 }
 
-function generate_dom({input_tag, input_type, option_id, option_description, option_default, on_input_change}) {
+function generate_dom({input_tag, input_type, option_id, option_description, option_default, options_container, on_input_change}) {
   assert(input_tag);
-  assert(input_type);
   assert(option_id);
   assert(option_description);
   assert(option_default!==undefined);
@@ -365,7 +366,7 @@ function generate_dom({input_tag, input_type, option_id, option_description, opt
     label_el.appendChild(description_el);
     label_el.appendChild(input_el);
   }
-  this.options_container.appendChild(label_el);
+  options_container.appendChild(label_el);
 
 //ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
   ml.persistantInput(
@@ -389,7 +390,8 @@ function hide_show_el(el, to_hide) {
 
 function instantiate_options({tab_options, option_spec_list}) {
   return (
-    option_spec_list.map(option_spec => {
+    option_spec_list.map(({option_type, ...option_spec}) => {
+      assert(option_spec.option_id, option_spec);
       const args = {
         ...option_spec,
         tab_options,
@@ -402,6 +404,9 @@ function instantiate_options({tab_options, option_spec_list}) {
       }
       if( option_type === 'text-color-input' ){
         return new TextColorOption(args);
+      }
+      if( option_type === 'color-input' ){
+        return new ColorOption(args);
       }
       if( option_type === 'text-shadow-input' ){
         return new TextShadowOption(args);

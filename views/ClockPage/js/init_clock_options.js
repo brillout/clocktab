@@ -1,7 +1,7 @@
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import THEME_LIST from './THEME_LIST';
-import TabOptions from './TabOptions';
+import {TabOptions} from './TabOptions';
 
 export default init_clock_options;
 
@@ -14,9 +14,11 @@ function init_clock_options() {
     on_any_change,
   });
 
+  const get_option_value = tab_options.get_option_value.bind(tab_options);
+  const {font_loaded_promise} = tab_options;
+
   tab_options.generate_dom();
 
-  const {get_option_value, font_loaded_promise} = tab_options;
   return {get_option_value, font_loaded_promise};
 
   function on_any_change() {
@@ -33,7 +35,7 @@ function init_clock_options() {
 
     dom_beat();
 
-    refresh_big_text_size();
+ // refresh_big_text_size();
   }
 }
 

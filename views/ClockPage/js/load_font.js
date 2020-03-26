@@ -1,3 +1,5 @@
+import assert from '@brillout/assert';
+
 export default load_font;
 
 async function load_font(font_name) {
@@ -15,6 +17,7 @@ async function load_font(font_name) {
 
   var attempts;
   function do_it() {
+    assert(font_name, {font_name});
     WebFont.load({
       google: {
         families: [font_name],
