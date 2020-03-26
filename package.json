@@ -1,6 +1,9 @@
 {
   "scripts": {
     "dev": "yarn goldpage:dev",
+
+    "install-all": "yarn install && (cd tab-utils/ && git submodule update . && yarn install)",
+
     "dev:todo": "yarn goldpage:dev & sleep 5 && yarn dev:link-static",
     "goldpage:dev": "goldpage dev",
     "dev:link": "ln -s `pwd`/static/* .build/browser/",
