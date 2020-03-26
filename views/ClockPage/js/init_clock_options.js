@@ -4,6 +4,7 @@ import {sleep} from '../../../tab-utils/sleep';
 import loadFontList from './loadFontList';
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
+import THEME_LIST from './THEME_LIST';
 
 export default init_clock_options;
 
@@ -17,166 +18,31 @@ async function init_clock_options() {
 
   const clock_el = document.getElementById('middle_table');
 
-  const DEFAULT_12HOUR = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-  const DEFAULT_BG_COLOR = '#ffffff';
-  const DEFAULT_BG_IMAGE = '';
-  const DEFAULT_FONT = 'Josefin Slab';
-  const DEFAULT_FCOL = '#a70000';
-//const DEFAULT_ICOL = '#cc0000';
-//const DEFAULT_ICOL = '#007000';
-  const DEFAULT_ICOL = '#545454';
-  const DEFAULT_SHADOW = '';
-  const DEFAULT_THEME = 'steel';
-  const FS_NAME = "fs";
-  const MIN_WIDTH = 580;
-
-  /* OPTIONS */
-  const opts = [
-    {id:'theme'             ,description:'theme'           ,default_:DEFAULT_THEME                             },
-    {id:'clock_font'        ,description:'font'            ,default_:DEFAULT_FONT        ,negDependency:'theme'},
-    {id:'color_font'        ,description:'font color'      ,default_:DEFAULT_FCOL        ,negDependency:'theme'},
-    {id:'font_shadow'       ,description:'font shadow'     ,default_:DEFAULT_SHADOW      ,negDependency:'theme',placeholder:'see css text-shadow'},
-    {id:'font_size'         ,description:'font size'       ,default_:MIN_WIDTH.toString()                },
-    {id:'bg_color'          ,description:'background color',default_:DEFAULT_BG_COLOR    ,negDependency:'theme'},
-    {id:'bg_image'          ,description:'background image',default_:DEFAULT_BG_IMAGE    ,negDependency:'theme',placeholder:'image url'},
-    {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
-    {id:'show_seconds_title',description:'seconds in title',default_:false                               },
-    {id:'show_seconds'      ,description:'seconds'         ,default_:true                                },
-    {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
-    {id:'show_pm'           ,description:'am/pm'           ,default_:true                ,dependency:'12_hour'          },
-    {id:'show_date'         ,description:'date'            ,default_:true                                               },
-    {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }
-  ];
-
-  var themes = {
-    'simple':{
-      'bg_color':'#ffffff',
-      'bg_image': '',
-      'clock_font':'Syncopate',
-      'font_shadow':'none',
-      'color_font':'#333333'},
-    'steel':{
-      'bg_color':'',
-      //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-      'bg_image':'https://i.imgur.com/9YKVj.jpg',
-      'clock_font':'Syncopate',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#e9e9e9'},
-    'grey':{
-      'bg_color':'#3D3F42',
-      'bg_image': '',
-      'clock_font':'Lora',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#EBEBF1'},
-    'lobster':{
-      'bg_color':'#330000',
-      'bg_image': '',
-      'clock_font':'Lobster',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#333333'},
-    'digital':{
-      'bg_color':'black',
-      'bg_image': '',
-      'clock_font':'Orbitron',
-      'font_shadow':'none',
-      'color_font':'#00ff00'},
-    'paper':{
-      //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/x97za.jpg',
-      'clock_font':'Redressed',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#111111'},
-    'ocean':{
-      //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/mOHYs.jpg',
-      'clock_font':'Michroma',
-    //'font_shadow':'1px 1px 2px #fff',
-    //'font_shadow':'0px 1px 1px #333',
-      'font_shadow':'none',
-      'color_font':'#333'},
-    'classy':{
-    // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/0KS5T.jpg',
-      'clock_font':'Nothing You Could Do',
-      'font_shadow':'none',
-      'color_font':'#0000aa'},
-    'ocean2':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/i6yiy.jpg',
-      'clock_font':'Droid Sans Mono',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#fff'},
-    'river_valley':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/8G6JM.jpg',
-      'clock_font':'Lato',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#fff'},
-    'red':{
-      'bg_color':'#a00',
-      'bg_image': '',
-      'clock_font':'Muli',
-      'font_shadow':'0 1px 1px #000',
-      'color_font':'#1a1a1a'},
-    'sin_city':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/R60yCtG.jpg',
-      'clock_font':'Knewave',
-      'color_font':'#e71010'},
-    'van_gogh':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/WfHm7XM.jpg',
-      'clock_font':'Akronim',
-      'color_font':'#b63232'},
-    'mars_terraformed':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/9Ocmfvt.png',
-      'font_shadow':'0 1px 1px #000',
-      'clock_font':'Allerta Stencil',
-      'color_font':'#6d0000'},
-    'neo':{
-      'bg_color':'black',
-      'bg_image':'',
-      'font_shadow':'',
-      'clock_font':'Allerta Stencil',
-      'color_font':'#6d0000'},
-    'purple':{
-      'bg_color':'#0e0e0e',
-      'bg_image':'',
-      'font_shadow':'',
-      'clock_font':'Text Me One',
-      'color_font':'#6d30be'},
-    'naruto':{
-      'bg_color':'',
-      'bg_image':'https://i.imgur.com/iyyms5e.jpg',
-      'font_shadow':'',
-      'clock_font':'Knewave',
-      'color_font':'#ffdf00'},
-  };
+  const {get_option, set_option} = init_options({
+    option_list: get_option_list(),
+    preset_list: THEME_LIST,
+  });
 
   var randomTheme = (function()
   {
-  //var random = Math.floor(Math.random()*ml.len(themes));
-    var random = Math.floor(Math.random()*Object.keys(themes).length);
+  //var random = Math.floor(Math.random()*ml.len(THEME_LIST));
+    var random = Math.floor(Math.random()*Object.keys(THEME_LIST).length);
     var counter=0;
-    for(var ret in themes) if(counter++===random) return ret;
+    for(var ret in THEME_LIST) if(counter++===random) return ret;
   })();
 
   function isCustomTheme() {
     return getOpt('theme')==='';
   }
-  getOpt=function(id) {
-    if( id!=='theme' ){
+  getOpt=function(option_id) {
+    if( option_id!=='theme' ){
       var theme = getOpt('theme');
       if(theme==='random') theme=randomTheme;
-      if( theme && themes[theme] && (id in themes[theme])) {
-        return themes[theme][id];
+      if( theme && THEME_LIST[theme] && (option_id in THEME_LIST[theme])) {
+        return THEME_LIST[theme][option_id];
       }
     }
-    var el = document.getElementById(id);
+    var el = document.getElementById(option_id);
 
   // return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
 
@@ -186,51 +52,6 @@ async function init_clock_options() {
     return el.value;
   };
 
-  //generate html options
-  //{{{
-  (function()
-  {
-    const optionsEl = document.getElementById('options-container');
-    for(var i=0;i<opts.length;i++) {
-      var opt = opts[i];
-      opt.dom = document.createElement('label');
-      opt.dom.setAttribute('class','opti');
-      opt.dom.appendChild(document.createElement('span')).innerHTML=opt.description;//+'&nbsp;';
-      //opt.dom.innerHTML=opt.description;
-      opt.input = document.createElement(opt.id==='clock_font'||opt.id==='theme'?'select':'input');
-        opt.input.id   = opt.id;
-        var isCheckbox   = opt.default_===false || opt.default_===true;
-        var isColorInput = opt.default_[0]==='#';
-        var isTextInput  = !isCheckbox && !isColorInput;
-        if(opt.input.nodeName==='INPUT')
-        {
-          if(isColorInput) opt.input.style.width = '35px';
-          if(isTextInput)
-          {
-            if(opt.placeholder || opt.default_) opt.input.size=(opt.placeholder || opt.default_).length*3/4;
-            else opt.input.style.width = '35px';
-          }
-          opt.input.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
-        }
-        else opt.input.style.width=opt.id==='clock_font'?'90px':'83px';
-        if(isCheckbox) opt.dom.insertBefore(opt.input,opt.dom.firstChild);
-        else           opt.dom. appendChild(opt.input);
-        if(opt.placeholder) opt.input.placeholder=opt.placeholder;
-      if(isCheckbox || isColorInput) opt.dom['classList']['add']('pointerCursor');
-      optionsEl.appendChild(opt.dom);
-    }
-
-    //populate theme option
-    document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
-    for(var i in themes)
-    {
-      var fop=document.createElement('option');
-      fop.innerHTML=i;
-      fop.value    =i;
-      document.getElementById('theme').appendChild(fop);
-    }
-  })();
-    //}}}
 
   var loadClockFont;
   (function() {
@@ -287,15 +108,15 @@ async function init_clock_options() {
   (function(){
     function setOptVisibility()
     {
-      for(var i=0;i<opts.length;i++)
+      for(var i=0;i<OPTION_LIST.length;i++)
       {
-        var opt = opts[i];
-        var toHide=opt.dependency && !getOpt(opt.dependency) || opt.negDependency && getOpt(opt.negDependency);
-          opt.dom.style.width     =toHide?'0px'   :'';
-          opt.dom.style.height    =toHide?'0px'   :'';
-          opt.dom.style.visibility=toHide?'hidden':'visible';
-          opt.dom.style.position  =toHide?'absolute':'';
-          opt.dom.style.zIndex    =toHide?'-1':'';
+        var opt = OPTION_LIST[i];
+        var toHide=opt.option_dependency && !getOpt(opt.option_dependency) || opt.option_negative_dependency && getOpt(opt.option_negative_dependency);
+          opt.dom_el.style.width     =toHide?'0px'   :'';
+          opt.dom_el.style.height    =toHide?'0px'   :'';
+          opt.dom_el.style.visibility=toHide?'hidden':'visible';
+          opt.dom_el.style.position  =toHide?'absolute':'';
+          opt.dom_el.style.zIndex    =toHide?'-1':'';
       }
     }
     function bg_listener() {
@@ -313,36 +134,215 @@ async function init_clock_options() {
       bg_listener();
       setOptVisibility();
       if( isCustomTheme() ) {
-        const fonts = Object.values(themes).map(t => t.clock_font);
+        const fonts = Object.values(THEME_LIST).map(t => t.clock_font);
         loadFontList(fonts);
       }
     }
     function refreshStuff(){dom_beat(true);setOptVisibility()};
 
-    for(var i=0;i<opts.length;i++)
+    for(var i=0;i<OPTION_LIST.length;i++)
     {
-      var opt = opts[i];
+      var opt = OPTION_LIST[i];
       var changeListener;
-      if(opt.id==='show_seconds')changeListener=function(val){
+      if(opt.option_id==='show_seconds')changeListener=function(val){
         document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
-      else if(opt.id==='show_pm'||opt.id==='12_hour')
+      else if(opt.option_id==='show_pm'||opt.option_id==='12_hour')
         changeListener=function(){
         document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
         refreshStuff();
         setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
       }
-      else if(opt.id==='font_shadow') changeListener=fontShadowListener;
-      else if(opt.id==='color_font')  changeListener=colorChangeListener;
-      else if(opt.id==='theme')  changeListener=theme_change_listener;
-      else if(opt.id==='clock_font')   changeListener=loadClockFont;
-      else if(opt.id==='bg_color')   changeListener=bg_listener;
-      else if(opt.id==='bg_image')   changeListener=bg_listener;
+      else if(opt.option_id==='font_shadow') changeListener=fontShadowListener;
+      else if(opt.option_id==='color_font')  changeListener=colorChangeListener;
+      else if(opt.option_id==='theme')  changeListener=theme_change_listener;
+      else if(opt.option_id==='clock_font')   changeListener=loadClockFont;
+      else if(opt.option_id==='bg_color')   changeListener=bg_listener;
+      else if(opt.option_id==='bg_image')   changeListener=bg_listener;
       else                       changeListener=refreshStuff;
-      ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
+      ml.persistantInput(opt.option_id,changeListener,opt.option_default,0,opt.option_id!=='show_seconds'&&opt.option_id!=='show_pm'&&opt.option_id!=='12_hour');
     }
     theme_change_listener();
   })();
   //}}}
 
   await Promise.race([awaitClockFont, sleep({seconds: 0.4})]);
+}
+
+function get_option_list() {
+  return [
+    {
+      option_id:'theme',
+      option_type: 'preset-type'
+      option_description:'theme',
+      option_default: 'steel',
+    },
+    {
+      option_id: 'clock_font',
+      option_type: 'font-list-type'
+      option_description: 'font',
+      option_default: 'Josefin Slab',
+      option_negative_dependency: 'theme',
+    },
+    {
+      option_id: 'color_font',
+      option_type: 'color-type'
+      option_description: 'font color',
+      option_default: '#a70000',
+      option_negative_dependency: 'theme',
+    },
+    {
+      option_id: 'font_shadow',
+      option_description:  'font shadow',
+      option_default: '',
+      option_negative_dependency: 'theme',
+      option_placeholder: 'see css text-shadow',
+    },
+    {
+      option_id: 'font_size',
+      option_description: 'font size',
+      option_default: '580',
+    },
+    {
+      option_id: 'bg_color',
+      option_description: 'background color',
+      option_default: '#ffffff',
+      option_negative_dependency: 'theme',
+    },
+    {
+      option_id: 'bg_image',
+      option_description: 'background image',
+      option_default: ''    ,
+      option_negative_dependency: 'theme',
+      option_placeholder: 'image url',
+    },
+    {
+      option_id: 'color_icon',
+      option_description: 'icon color',
+      /*
+      option_default: '#cc0000',
+      option_default: '#007000',
+      */
+      option_default: '#545454',
+    },
+    {
+      option_id: 'show_seconds_title',
+      option_description: 'seconds in title',
+      option_default: false,
+    },
+    {
+      option_id: 'show_seconds',
+      option_description: 'seconds',
+      option_default: true,
+    },
+    {
+      option_id: '12_hour',
+      option_description: '12-hour',
+      option_default: get_default_12_hour(),
+    },
+    {
+      option_id: 'show_pm',
+      option_description: 'am/pm',
+      option_default: true,
+      option_dependency: '12_hour',
+    },
+    {
+      option_id: 'show_date',
+      option_description: 'date',
+      option_default: true,
+    },
+    {
+      option_id: 'show_week',
+      option_description: 'week',
+      option_default: false,
+      option_dependency: 'show_date',
+    }
+  ];
+}
+
+function get_default_12_hour() {
+  return (
+    /(AM)|(PM)/.test(new Date().toLocaleTimeString()) ||
+    window.navigator.language==='en-US'
+  );
+}
+
+function init_options({option_list, preset_list}) {
+  const options_container = document.getElementById('options-container');
+  generate_option_elements({options_container, option_list, preset_list});
+}
+
+function generate_color_input() {
+  const input_el =
+  const dom_el =
+  generate_input({option_description, input_type: 'input'});
+}
+
+
+function generate_boolean_input() {
+}
+function generate_input({option_description}) {
+  const dom_el = document.createElement('label');
+
+  dom_el.appendChild(document.createElement('span')).innerHTML = opt.option_description;//+'&nbsp;';
+
+  return dom_el;
+}
+
+    opt.input_el = document.createElement(opt.option_id==='clock_font'||opt.option_id==='theme'?'select':'input');
+      opt.input_el.option_id   = opt.option_id;
+      var isCheckbox   = opt.option_default===false || opt.option_default===true;
+      var isColorInput = opt.option_default[0]==='#';
+      var isTextInput  = !isCheckbox && !isColorInput;
+      if(opt.input_el.nodeName==='INPUT')
+      {
+        if(isColorInput) opt.input_el.style.width = '35px';
+        if(isTextInput)
+        {
+          if(opt.option_placeholder || opt.option_default) opt.input_el.size=(opt.option_placeholder || opt.option_default).length*3/4;
+          else opt.input_el.style.width = '35px';
+        }
+        opt.input_el.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
+      }
+      else opt.input_el.style.width=opt.option_id==='clock_font'?'90px':'83px';
+      if(isCheckbox) dom_el.insertBefore(opt.input_el,dom_el.firstChild);
+      else           dom_el. appendChild(opt.input_el);
+      if(opt.option_placeholder) opt.input_el.placeholder=opt.option_placeholder;
+
+    if(isCheckbox || isColorInput) dom_el['classList']['add']('pointer-cursor');
+    options_container.appendChild(dom_el);
+
+    Object.assign(dom_el, {
+      hide,
+      show,
+      get_option_value,
+      set_option_value,
+    });
+
+function generate_option_elements({options_container, option_list, preset_list}) {
+
+  option_list.forEach(opt => {
+    const {
+      get_option_value,
+      set_option_value,
+    } = (function() {
+      const {option_description} = opt;
+      if( opt.option_type === 'color-type' ){
+        return generate_color_input({option_description});
+      }
+    })();
+
+  }
+
+
+
+
+  //populate theme option
+  document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
+  for(var i in THEME_LIST)
+  {
+    var fop=document.createElement('option');
+    fop.innerHTML=i;
+    fop.value    =i;
+    document.getElementById('theme').appendChild(fop);
+  }
 }

@@ -31,41 +31,35 @@ input[type='checkbox']:checked:after {
     left: 1px;
 }
 
-label
-{
+label {
   margin: 7px;
   white-space: nowrap;
   display: inline-block;
 }
-label > *
-{
+label > * {
   margin: 2px;
 }
 
-label.pointerCursor,
-label.pointerCursor > *
-{
+label.pointer-cursor,
+label.pointer-cursor > * {
   cursor: pointer !important;
 }
 
 /* vertical align options*/
-label:before
-{
+label:before {
   content: " ";
   height: 100%;
   width: 0;
 }
 label:before,
-label > *
-{
+label > * {
   display: inline-block;
   vertical-align: middle;
 }
 
 
 /* color input playground: http://jsfiddle.net/BC7JD/2/ */
-input[type='color']
-{
+input[type='color'] {
   padding: 0px;
   height: 16px;
   outline: 0;
@@ -73,13 +67,3 @@ input[type='color']
   border-radius: 3px;
 }
 
-
-#bottom_line {
-  opacity: 0.7;
-}
-
-
-
-.footer-section-title {
-  color: #5a5d61;
-}

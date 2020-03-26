@@ -6,3 +6,11 @@
 #header-container > #header-content {
   display: inline-flex;
 }
+
+#bottom_line {
+  opacity: 0.7;
+}
+
+.footer-section-title {
+  color: #5a5d61;
+}
