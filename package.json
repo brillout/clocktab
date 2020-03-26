@@ -31,6 +31,7 @@
     "push-dir": "^0.4.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "serve": "^11.3.0"
+    "serve": "^11.3.0",
+    "webfontloader": "^1.6.28"
   }
 }

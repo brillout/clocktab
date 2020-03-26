@@ -6,6 +6,7 @@ import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import THEME_LIST from './THEME_LIST';
 import assert from '@brillout/assert';
+import load_font from './load_font';
 
 export default init_clock_options;
 
@@ -53,57 +54,6 @@ async function init_clock_options() {
     return el.value;
   };
 
-
-  var loadClockFont;
-  (function() {
-  //{{{
-    var bodyFontLoader;
-    loadClockFont=function(_force){
-      let resolve;
-      const promise = new Promise(r => resolve = r);
-      if(bodyFontLoader) {
-        bodyFontLoader(_force, () => {resolve()});
-      } else {
-        resolve();
-      }
-      return promise;
-    };
-    setTimeout(function loadFontApi(){
-      ml.loadASAP('https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js',function(){
-        if(!window['WebFont']||!window['WebFont']['load']) {
-          setTimeout(loadFontApi,2000);
-          return;
-        }
-        function fontLoader(fontName,callback){
-          if( !fontName ){
-            return;
-          }
-          var attempts=0;
-          (function do_(){
-            window['WebFont']['load']({'google':{'families':[fontName]},
-                                       'fontactive':callback,
-                                       'fontinactive':function(){setTimeout(do_,Math.max(Math.pow(2,attempts++)*1000,60000))}
-                                     });
-          })();
-        }
-        bodyFontLoader=function(_force, callback){
-          var fontName = getOpt('clock_font');
-          fontLoader(fontName,function(){
-            if( _force || fontName===getOpt('clock_font') && clock_el.style.fontFamily!==fontName ){
-              clock_el.style.fontFamily=fontName;
-              refresh_big_text_size();
-            }
-            callback();
-          })
-        };
-        loadClockFont().then(() => {
-          resolveAwaitClockFont();
-        });
-      });
-    },0);
-  //}}}
-  })();
-
   //refresh options onchange
   //{{{
   (function(){
@@ -131,7 +81,7 @@ async function init_clock_options() {
     function theme_change_listener(){
       fontShadowListener();
       colorChangeListener();
-      loadClockFont();
+      load_clock_font();
       bg_listener();
       setOptVisibility();
       if( isCustomTheme() ) {
@@ -156,13 +106,31 @@ async function init_clock_options() {
       else if(opt.option_id==='font_shadow') changeListener=fontShadowListener;
       else if(opt.option_id==='color_font')  changeListener=colorChangeListener;
       else if(opt.option_id==='theme')  changeListener=theme_change_listener;
-      else if(opt.option_id==='clock_font')   changeListener=loadClockFont;
+      else if(opt.option_id==='clock_font')   changeListener=load_clock_font;
       else if(opt.option_id==='bg_color')   changeListener=bg_listener;
       else if(opt.option_id==='bg_image')   changeListener=bg_listener;
       else                       changeListener=refreshStuff;
       ml.persistantInput(opt.option_id,changeListener,opt.option_default,0,opt.option_id!=='show_seconds'&&opt.option_id!=='show_pm'&&opt.option_id!=='12_hour');
     }
     theme_change_listener();
+
+    async function load_clock_font() {
+      const font_name = getOpt('clock_font');
+
+      await load_font(font_name);
+
+      if( font_name !== getOpt('clock_font') ){
+        return;
+      }
+
+      if( font_name === clock_el.style.fontFamily ){
+        return;
+      }
+
+      clock_el.style.fontFamily = font_name;
+
+      refresh_big_text_size();
+    }
   })();
   //}}}
 
