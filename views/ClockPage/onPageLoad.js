@@ -8,11 +8,11 @@ import {on_big_text_load, set_max_width_getter} from '../BigText';
 export default onPageLoad;
 
 async function onPageLoad (loadWrapper){
-  const {get_option, font_loaded_promise} = init_clock_options();
+  const {get_option_value, font_loaded_promise} = init_clock_options();
 
-  set_max_width_getter(() => get_option('font_size'));
+  set_max_width_getter(() => get_option_value('font_size'));
 
-  load_clock({get_option});
+  load_clock({get_option_value});
 
   on_big_text_load();
 

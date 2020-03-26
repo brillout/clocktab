@@ -7,7 +7,7 @@ export default init_clock_options;
 
 function init_clock_options() {
   const tab_options = new TabOptions({
-    option_list: get_option_list(),
+    option_spec_list: get_option_list(),
     preset_list: THEME_LIST,
     text_container: document.getElementById('middle_table'),
     options_container: document.getElementById('options-container'),
@@ -16,13 +16,13 @@ function init_clock_options() {
 
   tab_options.generate_dom();
 
-  const {get_option, font_loaded_promise} = tab_options;
-  return {get_option, font_loaded_promise};
+  const {get_option_value, font_loaded_promise} = tab_options;
+  return {get_option_value, font_loaded_promise};
 }
 
 function on_any_change() {
   {
-    const show_seconds = get_option('show_seconds');
+    const show_seconds = get_option_value('show_seconds');
     document.body['classList'][show_seconds?'remove':'add']('noSeconds');
   }
 

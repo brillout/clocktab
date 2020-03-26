@@ -25,38 +25,7 @@ export class TabOptions {
     instantiate_options();
   }
 
-  get_option(option_id) {
-    const option = this.option_list.find(opt => opt.option_id === option_id);
-    assert(option, {option_id});
-    return option.option_value;
 
-var getOpt;
-function get_option(...args){
-  return getOpt(...args);
-}
-function set_getOpt({option_list, preset_list}) {
-  const random_theme = get_random_theme
-  var randomTheme = (function()
-  {
-  //var random = Math.floor(Math.random()*ml.len(THEME_LIST));
-    var random = Math.floor(Math.random()*Object.keys(THEME_LIST).length);
-    var counter=0;
-    for(var ret in THEME_LIST) if(counter++===random) return ret;
-  })();
-
-  getOpt=function(option_id) {
-    if( option_id!=='theme' ){
-      var theme = getOpt('theme');
-      if(theme==='random') theme=randomTheme;
-      if( theme && THEME_LIST[theme] && (option_id in THEME_LIST[theme])) {
-        return THEME_LIST[theme][option_id];
-      }
-    }
-  };
-
-}
-
-  }
 
   instantiate_options() {
     this.option_list = this.option_spec_list.map(({
@@ -74,7 +43,7 @@ function set_getOpt({option_list, preset_list}) {
           tab_options: this,
         };
         if( option_type === 'text-font-input' ){
-          return new TextFontOption(args);
+          return new FontOption(args);
         }
         if( option_type === 'preset-input' ){
           return new PresetOption(args);
@@ -98,7 +67,7 @@ function set_getOpt({option_list, preset_list}) {
     });
   }
 
-  hide_show_options() {
+  update_option_visibility() {
     this.option_list.forEach(opt => {
       const to_hide = (
         opt.option_dependency && !this.get_option(opt.option_dependency) ||
@@ -112,24 +81,110 @@ function set_getOpt({option_list, preset_list}) {
     });
   }
 
-  on_global_change() {
-    load_and_update_font();
+  global_side_effects() {
+    this.update_option_visibility();
+    this.update_font();
+    this.load_font_list();
+    this.on_any_change();
   }
 
-  load_and_update_font() {
-    const {text_font, container_name} = this;
-    const font_name = 
-    load_text_font({font_name, container_name});
+  is_custom_preset() {
+    const {current_preset} = this;
+    assert(current_preset || current_preset===null);
+    this.current_preset===null;
   }
 
-  get text_font() {
+  get preset_font_names() {
+    const {font_option_id} = this;
+    const presets = Object.values(this.preset_list)
+    const preset_font_names = (
+      Object.entries(presets)
+      .map(([preset_name, preset]) => {
+        const font_name = preset[font_option_id];
+        assert(font_name, {preset_name, font_option_id, font_name});
+        return font_name;
+      })
+    );
+
+    return preset_font_names;
   }
-  get text_font_option_id() {
-    const {option_id} = this.option_list.find(({is_text_font_selector}) => is_text_font_selector);
+  load_font_list() {
+    if( !this.is_custom_preset() ){
+      return;
+    }
+    loadFontList(this.preset_font_names);
+  }
+
+
+  update_font() {
+    const {text_container} = this;
+    const get_font_name = () => this.get_font_name();
+    await load_text_font({text_container, get_font_name});
+    this.tab_options.resolve_font_loaded_promise();
+  }
+
+  find_option_id(prop) {
+    ['is_preset_selector', 'is_font_selector'].includes(prop);
+    const option = this.option_list.find(opt => opt[prop]);
+    assert(option, prop);
+    return option.option_id;
+  }
+  get font_option_id() {
+    const option_id = this.find_option_id('is_font_selector');
     return option_id;
   }
-  get text_font() {
-    return this.get_option(this.text_font_option_id);
+  get preset_option_id() {
+    const option_id = this.find_option_id('is_preset_selector');
+    return option_id;
+  }
+  get_font_name() {
+    this.get_option_value(this.font_option_id);
+  }
+
+  get_option_value(option_id) {
+    const {current_preset} = this;
+
+    const is_defined_by_preset = (option_id in (current_preset||{}));
+
+    if( is_defined_by_preset ) {
+      return current_preset[option_id];
+    } else {
+      return this.get_option_input(option_id);
+    }
+  }
+  get_option(option_id) {
+    const option = this.option_list.find(opt => opt.option_id === option_id);
+    assert(option, {option_id});
+    return option;
+  }
+  get_option_input(option_id) {
+    const option = this.get_option(option_id);
+    return option.input_value;
+  }
+
+  get current_preset() {
+    if( this.is_custom_preset() ){
+      return null;
+    }
+    let preset_name = this.get_option_input(this.preset_option_id);
+    if( preset_name==='random' ){
+      preset_name = this.random_preset_name;
+    }
+    const preset = this.preset_list[preset_name];
+    assert(preset, {preset_name});
+    return prest;
+  }
+
+  get random_preset_name() {
+    if( !this._random_theme_name ){
+      const {preset_list} = this;
+      const preset_names = Object.keys(preset_list);
+      var idx = Math.floor(Math.random()*preset_names.length);
+      const preset_name = preset_names[idx];
+      assert(preset_list[preset_name]);
+      this._random_theme_name = preset_name;
+    }
+    return this._random_theme_name;
   }
 }
 
@@ -146,7 +201,12 @@ class Option {
   generate_dom() {
     const {input_tag, input_type, option_id, option_description, option_default} = this;
 
-    const on_input_change = () => {this.input_change_listener()};
+    const on_input_change = () => {
+      if( this.local_side_effects ) {
+        this.local_side_effects();
+      }
+      this.tab_options.global_side_effects();
+    };
 
     const {label_el, input_el} = generate_dom({input_tag, input_type, option_id, option_description, option_default, on_input_change});
 
@@ -154,12 +214,7 @@ class Option {
     this.input_el = input_el;
   }
 
-  input_change_listener() {
-    this.tab_options.hide_show_options();
-    this.tab_options.on_any_change();
-  }
-
-  get option_value() {
+  get input_value() {
     return this.input_el.value;
   }
 
@@ -182,7 +237,7 @@ class BooleanOption extends Option {
     super.generate_dom();
     this.label_el['classList']['add']('pointer-cursor');
   }
-  get option_value() {
+  get input_value() {
     return !!this.input_el.checked;
   }
 }
@@ -200,33 +255,20 @@ class ColorOption extends Option {
   }
 }
 class TextColorOption extends ColorOption {
-  input_change_listener() {
+  local_side_effects() {
     this.tab_options.text_container.style.color = this.value;
-    super.input_change_listener();
   }
 }
 
 class TextShadowOption extends TextOption {
-  input_change_listener() {
+  local_side_effects() {
     this.tab_options.text_container.style.textShadow = this.value;
-    super.input_change_listener();
   }
 }
 
 class PresetOption extends SelectOption {
-  change_effect() {
-    const text_font_option_id = this.tab_options.text_font.option_id;
-    if( this.is_custom_theme() ) {
-      const preset_fonts = (
-        Object.values(this.tab_options.preset_list)
-        .map(preset => preset[text_font_option_id])
-      );
-      loadFontList(fonts);
-    }
-  }
-
-  is_custom_theme() {
-    return this.option_value==='';
+  constructor() {
+    this.is_preset_selector = true;
   }
 
   generate_dom() {
@@ -246,7 +288,7 @@ class PresetOption extends SelectOption {
 
 
 class BackgroundOption extends TextOption {
-  change_effect() {
+  local_side_effects() {
     const bg_image_val = getOpt('bg_image');
     const bg_color_val = getOpt('bg_color');
     setBackground(bg_image_val || bg_color_val);
@@ -261,15 +303,12 @@ class SelectOption extends Option {
 }
 
 class FontOption extends SelectOption {
+  constructor() {
+    this.is_font_selector = true;
+  }
   generate_dom() {
     super.generate_dom();
     this.input_el.style.width = '90px';
-  }
-}
-
-class TextFontOption extends FontOption {
-  constructor() {
-    this.is_text_font_selector = true;
   }
 }
 
@@ -296,12 +335,12 @@ class TextOption extens Option {
 }
 
 
-function load_text_font({font_name, text_container}) {
+async function load_text_font({text_container, get_font_name}) {
+  const font_name = get_font_name();
+
   await load_font(font_name);
 
-  this.tab_options.resolve_font_loaded_promise();
-
-  if( font_name !== this.option_value ){
+  if( font_name !== get_font_name() ){
     return;
   }
 
