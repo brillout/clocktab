@@ -1,16 +1,19 @@
-export default init_options;
-
 const CONTAINER_ID = 'options-container';
+
+export default init_options;
+export {get_option};
 
 function init_options({option_list, preset_list}) {
   generate_option_elements({option_list, preset_list});
+
+  set_getOpt({option_list, preset_list});
 }
+
 function generate_option_elements({option_list, preset_list}) {
 
   option_list.forEach(opt => {
     const {
-      get_option_value,
-      set_option_value,
+      get_opt_val,
     } = (function() {
       if( opt.option_type === 'font-input' ){
         return generate_font_input(opt);
@@ -29,8 +32,7 @@ function generate_option_elements({option_list, preset_list}) {
     Object.assign(opt, {
       hide,
       show,
-      get_option_value,
-      set_option_value,
+      get_opt_val,
     });
   }
 }
@@ -105,3 +107,59 @@ function generate_input({input_tag, input_type, option_id, option_description}) 
   return {label_el, input_el};
 }
 
+
+
+
+
+var getOpt;
+function get_option(...args){
+  return getOpt(...args);
+}
+function set_getOpt({option_list, preset_list}) {
+  const random_theme = get_random_theme
+  var randomTheme = (function()
+  {
+  //var random = Math.floor(Math.random()*ml.len(THEME_LIST));
+    var random = Math.floor(Math.random()*Object.keys(THEME_LIST).length);
+    var counter=0;
+    for(var ret in THEME_LIST) if(counter++===random) return ret;
+  })();
+
+  getOpt=function(option_id) {
+    if( option_id!=='theme' ){
+      var theme = getOpt('theme');
+      if(theme==='random') theme=randomTheme;
+      if( theme && THEME_LIST[theme] && (option_id in THEME_LIST[theme])) {
+        return THEME_LIST[theme][option_id];
+      }
+    }
+    var el = document.getElementById(option_id);
+
+  // return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
+
+    if( el.type==='checkbox' ){
+      return !!el.checked;
+    }
+    return el.value;
+  };
+
+}
+    function setOptVisibility()
+    {
+      for(var i=0;i<OPTION_LIST.length;i++)
+      {
+        var opt = OPTION_LIST[i];
+        var toHide=opt.option_dependency && !getOpt(opt.option_dependency) || opt.option_negative_dependency && getOpt(opt.option_negative_dependency);
+          opt.dom_el.style.width     =toHide?'0px'   :'';
+          opt.dom_el.style.height    =toHide?'0px'   :'';
+          opt.dom_el.style.visibility=toHide?'hidden':'visible';
+          opt.dom_el.style.position  =toHide?'absolute':'';
+          opt.dom_el.style.zIndex    =toHide?'-1':'';
+      }
+    }
+
+
+
+  function isCustomTheme() {
+    return getOpt('theme')==='';
+  }
