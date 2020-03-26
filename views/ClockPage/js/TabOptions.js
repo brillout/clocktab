@@ -75,16 +75,14 @@ export class TabOptions {
 
   get preset_font_names() {
     const {font_option_id} = this;
-    const presets = Object.values(this.preset_list)
     const preset_font_names = (
-      Object.entries(presets)
+      Object.entries(this.preset_list)
       .map(([preset_name, preset]) => {
         const font_name = preset[font_option_id];
         assert(font_name, {preset_name, font_option_id, font_name});
         return font_name;
       })
     );
-
     return preset_font_names;
   }
 
@@ -159,7 +157,7 @@ export class TabOptions {
       const preset_names = Object.keys(preset_list);
       var idx = Math.floor(Math.random()*preset_names.length);
       const preset_name = preset_names[idx];
-      assert(preset_list[preset_name]);
+      assert(preset_list[preset_name], {preset_name});
       this._random_theme_name = preset_name;
     }
     return this._random_theme_name;
@@ -168,7 +166,7 @@ export class TabOptions {
   get is_custom_preset() {
     const {current_preset} = this;
     assert(current_preset || current_preset===null);
-    this.current_preset===null;
+    return this.current_preset===null;
   }
 }
 
@@ -263,7 +261,7 @@ class PresetOption extends SelectOption {
 
     this.input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
     for(const preset_name in this.tab_options.preset_list) {
-      var option_el = document.createElement('option');
+      const option_el = document.createElement('option');
       option_el.innerHTML = preset_name;
       option_el.value     = preset_name;
       input_el.appendChild(option_el);
