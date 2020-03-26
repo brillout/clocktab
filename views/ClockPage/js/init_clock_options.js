@@ -18,23 +18,23 @@ function init_clock_options() {
 
   const {get_option_value, font_loaded_promise} = tab_options;
   return {get_option_value, font_loaded_promise};
-}
 
-function on_any_change() {
-  {
-    const show_seconds = get_option_value('show_seconds');
-    document.body['classList'][show_seconds?'remove':'add']('noSeconds');
+  function on_any_change() {
+    {
+      const show_seconds = get_option_value('show_seconds');
+      document.body['classList'][show_seconds?'remove':'add']('noSeconds');
+    }
+
+    {
+      const show_pm = get_option_value('show_pm');
+      const twelve_hour = get_option_value('12_hour');
+      document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
+    }
+
+    dom_beat();
+
+    refresh_big_text_size();
   }
-
-  {
-    const show_pm = getOpt('show_pm');
-    const twelve_hour = getOpt('12_hour');
-    document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
-  }
-
-  dom_beat();
-
-  refresh_big_text_size();
 }
 
 function get_option_list() {
@@ -47,14 +47,14 @@ function get_option_list() {
     },
     {
       option_id: 'clock_font',
-      option_type: 'font-input'
+      option_type: 'text-font-input'
       option_description: 'font',
       option_default: 'Josefin Slab',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'color_font',
-      option_type: 'color-input'
+      option_type: 'text-color-input'
       option_description: 'font color',
       option_default: '#a70000',
       option_negative_dependency: 'theme',
@@ -69,17 +69,20 @@ function get_option_list() {
     },
     {
       option_id: 'font_size',
+      option_type: 'text-input'
       option_description: 'font size',
       option_default: '580',
     },
     {
       option_id: 'bg_color',
+      option_type: 'background-color-input'
       option_description: 'background color',
       option_default: '#ffffff',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'bg_image',
+      option_type: 'background-image-input'
       option_description: 'background image',
       option_default: ''    ,
       option_negative_dependency: 'theme',
@@ -87,6 +90,7 @@ function get_option_list() {
     },
     {
       option_id: 'color_icon',
+      option_type: 'color-input'
       option_description: 'icon color',
       /*
       option_default: '#cc0000',
@@ -96,32 +100,38 @@ function get_option_list() {
     },
     {
       option_id: 'show_seconds_title',
+      option_type: 'boolean-input'
       option_description: 'seconds in title',
       option_default: false,
     },
     {
       option_id: 'show_seconds',
+      option_type: 'boolean-input'
       option_description: 'seconds',
       option_default: true,
     },
     {
       option_id: '12_hour',
+      option_type: 'boolean-input'
       option_description: '12-hour',
       option_default: get_default_12_hour(),
     },
     {
       option_id: 'show_pm',
+      option_type: 'boolean-input'
       option_description: 'am/pm',
       option_default: true,
       option_dependency: '12_hour',
     },
     {
       option_id: 'show_date',
+      option_type: 'boolean-input'
       option_description: 'date',
       option_default: true,
     },
     {
       option_id: 'show_week',
+      option_type: 'boolean-input'
       option_description: 'week',
       option_default: false,
       option_dependency: 'show_date',

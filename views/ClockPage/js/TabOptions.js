@@ -43,19 +43,28 @@ export class TabOptions {
           tab_options: this,
         };
         if( option_type === 'text-font-input' ){
-          return new FontOption(args);
+          return new TextFontOption(args);
         }
         if( option_type === 'preset-input' ){
           return new PresetOption(args);
         }
-        if( option_type === 'color-input' ){
-          return new ColorOption(args);
-        }
-        if( option_type === 'text' ){
-          return new TextOption(args);
+        if( option_type === 'text-color-input' ){
+          return new TextColorOption(args);
         }
         if( option_type === 'text-shadow-input' ){
           return new TextShadowOption(args);
+        }
+        if( option_type === 'text-input' ){
+          return new TextOption(args);
+        }
+        if( option_type === 'background-image-input' ){
+          return new BackgroundImageOption(args);
+        }
+        if( option_type === 'background-color-input' ){
+          return new BackgroundColorOption(args);
+        }
+        if( option_type === 'boolean-input' ){
+          return new BooleanOption(args);
         }
       })
     )
@@ -84,6 +93,7 @@ export class TabOptions {
   global_side_effects() {
     this.update_option_visibility();
     this.update_font();
+    this.update_background();
     this.load_font_list();
     this.on_any_change();
   }
@@ -123,11 +133,23 @@ export class TabOptions {
     this.tab_options.resolve_font_loaded_promise();
   }
 
+
   find_option_id(prop) {
-    ['is_preset_selector', 'is_font_selector'].includes(prop);
+    [
+      'is_preset_selector',
+      'is_font_selector',
+      'is_background_color',
+      'is_background_image',
+    ].includes(prop);
     const option = this.option_list.find(opt => opt[prop]);
     assert(option, prop);
     return option.option_id;
+  }
+  get_backgroud_image() {
+    this.get_option_value(this.find_option_id('is_background_image'));
+  }
+  get_backgroud_color() {
+    this.get_option_value(this.find_option_id('is_background_color'));
   }
   get font_option_id() {
     const option_id = this.find_option_id('is_font_selector');
@@ -139,6 +161,12 @@ export class TabOptions {
   }
   get_font_name() {
     this.get_option_value(this.font_option_id);
+  }
+
+  update_background() {
+    const image = this.tab_options.get_backgroud_image();
+    const color = this.tab_options.get_backgroud_color();
+    setBackground(image || color);
   }
 
   get_option_value(option_id) {
@@ -267,7 +295,8 @@ class TextShadowOption extends TextOption {
 }
 
 class PresetOption extends SelectOption {
-  constructor() {
+  constructor(args) {
+    super(args);
     this.is_preset_selector = true;
   }
 
@@ -287,11 +316,16 @@ class PresetOption extends SelectOption {
 }
 
 
-class BackgroundOption extends TextOption {
-  local_side_effects() {
-    const bg_image_val = getOpt('bg_image');
-    const bg_color_val = getOpt('bg_color');
-    setBackground(bg_image_val || bg_color_val);
+class BackgroundImageOption extends TextOption {
+  constructor(args) {
+    super(args);
+    this.is_background_image = true;
+  }
+}
+class BackgroundColorOption extends TextOption {
+  constructor(args) {
+    super(args);
+    this.is_background_color = true;
   }
 }
 
@@ -302,8 +336,9 @@ class SelectOption extends Option {
   }
 }
 
-class FontOption extends SelectOption {
-  constructor() {
+class TextFontOption extends SelectOption {
+  constructor(args) {
+    super(args);
     this.is_font_selector = true;
   }
   generate_dom() {
