@@ -1,14 +1,15 @@
-import ml from '../../ml';
+import assert from '@brillout/assert';
+import ml from '../ml';
 
-export default loadFontList;
+export default load_font_list;
 
 let fontLoaded;
 
-function loadFontList(fonts) {
+function load_font_list({fonts, font_option_id}) {
   if( fontLoaded ) {
     return;
   }
-  setFontList(fonts);
+  setFontList(fonts, font_option_id);
 
   window['onfontsload'] = function(resp){
     if( resp.error ) {
@@ -16,7 +17,7 @@ function loadFontList(fonts) {
       return;
     }
     fontLoaded = true;
-    setFontList(resp['items'].map(f => f.family));
+    setFontList(resp['items'].map(f => f.family), font_option_id);
     console.log('load-progress - font-list - done');
   };
 
@@ -24,8 +25,10 @@ function loadFontList(fonts) {
   ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
 }
 
-function setFontList(fontList) {
-  const clockFontOptEl = document.getElementById('clock_font');
+function setFontList(fontList, font_option_id) {
+  assert(font_option_id, font_option_id);
+  const clockFontOptEl = document.getElementById(font_option_id);
+  assert(clockFontOptEl, {font_option_id});
 
   const selectedFont = clockFontOptEl.value;
 

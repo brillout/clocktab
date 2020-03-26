@@ -1,4 +1,4 @@
-export default setBackground;
+export default set_background;
 
 //tricky bg images to test:
 //-http://static.panoramio.com/photos/original/3719338.jpg
@@ -36,7 +36,7 @@ function setCss({color='white', img='none'}={}) {
   BG_EL.style['backgroundSize'] = img===LOAD_IMG?'auto':'cover';
 }
 
-function setBackground(val) {
+function set_background(val) {
   DEBUG && console.log('set-background', {val});
   init();
   if( !val ) { setCss(); return; }

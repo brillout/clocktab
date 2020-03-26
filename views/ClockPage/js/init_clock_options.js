@@ -1,7 +1,7 @@
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import THEME_LIST from './THEME_LIST';
-import {TabOptions} from './TabOptions';
+import {TabOptions} from '../../TabOptions';
 
 export default init_clock_options;
 

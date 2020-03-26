@@ -1,9 +1,9 @@
 import load_font from './load_font';
 import assert from '@brillout/assert';
-import loadFontList from './loadFontList';
-import ml from '../../ml';
-import setBackground from './setBackground';
-import '../../option-manager/option.css';
+import load_font_list from './load_font_list';
+import ml from '../ml';
+import set_background from './set_background';
+import './tab-options.css';
 
 export class TabOptions {
   constructor({
@@ -43,7 +43,7 @@ export class TabOptions {
   update_background() {
     const image = this.get_backgroud_image();
     const color = this.get_backgroud_color();
-    setBackground(image || color);
+    set_background(image || color);
   }
   async update_font() {
     const {text_container} = this;
@@ -68,7 +68,9 @@ export class TabOptions {
     if( !this.is_custom_preset ){
       return;
     }
-    loadFontList(this.preset_font_names);
+    const fonts = this.preset_font_names;
+    const {font_option_id} = this;
+    load_font_list({fonts, font_option_id});
   }
 
 
