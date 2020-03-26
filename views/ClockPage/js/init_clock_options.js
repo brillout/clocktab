@@ -5,6 +5,7 @@ import loadFontList from './loadFontList';
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import THEME_LIST from './THEME_LIST';
+import assert from '@brillout/assert';
 
 export default init_clock_options;
 
@@ -172,20 +173,20 @@ function get_option_list() {
   return [
     {
       option_id:'theme',
-      option_type: 'preset-type'
+      option_type: 'preset-input'
       option_description:'theme',
       option_default: 'steel',
     },
     {
       option_id: 'clock_font',
-      option_type: 'font-list-type'
+      option_type: 'font-input'
       option_description: 'font',
       option_default: 'Josefin Slab',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'color_font',
-      option_type: 'color-type'
+      option_type: 'color-input'
       option_description: 'font color',
       option_default: '#a70000',
       option_negative_dependency: 'theme',
@@ -267,70 +268,35 @@ function get_default_12_hour() {
 }
 
 function init_options({option_list, preset_list}) {
-  const options_container = document.getElementById('options-container');
-  generate_option_elements({options_container, option_list, preset_list});
+  generate_option_elements({option_list, preset_list});
 }
-
-function generate_color_input() {
-  const input_el =
-  const dom_el =
-  generate_input({option_description, input_type: 'input'});
-}
-
-
-function generate_boolean_input() {
-}
-function generate_input({option_description}) {
-  const dom_el = document.createElement('label');
-
-  dom_el.appendChild(document.createElement('span')).innerHTML = opt.option_description;//+'&nbsp;';
-
-  return dom_el;
-}
-
-    opt.input_el = document.createElement(opt.option_id==='clock_font'||opt.option_id==='theme'?'select':'input');
-      opt.input_el.option_id   = opt.option_id;
-      var isCheckbox   = opt.option_default===false || opt.option_default===true;
-      var isColorInput = opt.option_default[0]==='#';
-      var isTextInput  = !isCheckbox && !isColorInput;
-      if(opt.input_el.nodeName==='INPUT')
-      {
-        if(isColorInput) opt.input_el.style.width = '35px';
-        if(isTextInput)
-        {
-          if(opt.option_placeholder || opt.option_default) opt.input_el.size=(opt.option_placeholder || opt.option_default).length*3/4;
-          else opt.input_el.style.width = '35px';
-        }
-        opt.input_el.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
-      }
-      else opt.input_el.style.width=opt.option_id==='clock_font'?'90px':'83px';
-      if(isCheckbox) dom_el.insertBefore(opt.input_el,dom_el.firstChild);
-      else           dom_el. appendChild(opt.input_el);
-      if(opt.option_placeholder) opt.input_el.placeholder=opt.option_placeholder;
-
-    if(isCheckbox || isColorInput) dom_el['classList']['add']('pointer-cursor');
-    options_container.appendChild(dom_el);
-
-    Object.assign(dom_el, {
-      hide,
-      show,
-      get_option_value,
-      set_option_value,
-    });
-
-function generate_option_elements({options_container, option_list, preset_list}) {
+function generate_option_elements({option_list, preset_list}) {
 
   option_list.forEach(opt => {
     const {
       get_option_value,
       set_option_value,
     } = (function() {
-      const {option_description} = opt;
-      if( opt.option_type === 'color-type' ){
-        return generate_color_input({option_description});
+      if( opt.option_type === 'font-input' ){
+        return generate_font_input(opt);
+      }
+      if( opt.option_type === 'preset-input' ){
+        return generate_preset_input(opt);
+      }
+      if( opt.option_type === 'color-input' ){
+        return generate_color_input(opt);
+      }
+      if( opt.option_type === 'text' ){
+        return generate_text_input(opt);
       }
     })();
 
+    Object.assign(opt, {
+      hide,
+      show,
+      get_option_value,
+      set_option_value,
+    });
   }
 
 
@@ -346,3 +312,66 @@ function generate_option_elements({options_container, option_list, preset_list})
     document.getElementById('theme').appendChild(fop);
   }
 }
+
+
+function generate_color_input({option_id, option_description}) {
+  const {input_el, label_el} = generate_input({input_tag: 'input', input_type: 'color', option_id, option_description});
+  input_el.style.width = '35px';
+
+  label_el['classList']['add']('pointer-cursor');
+}
+function generate_font_input({option_id, option_description}) {
+  const {input_el} = generate_input({input_tag: 'select', option_id, option_description});
+
+  input_el.style.width = '90px';
+}
+function generate_preset_input({option_id, option_description}) {
+  const {input_el} = generate_input({input_tag: 'select', option_id, option_description});
+
+  input_el.style.width = '83px';
+}
+function generate_boolean_input({option_id, option_description}) {
+  const {input_el} = generate_input({input_tag: 'input', input_type: 'checkbox', option_id, option_description});
+
+  label_el['classList']['add']('pointer-cursor');
+}
+function generate_text_input({option_placeholder, option_default}) {
+  const {input_el, label_el} = generate_input({input_tag: 'input', input_type: 'text', option_id, option_description});
+
+  if(option_placeholder) {
+    input_el.placeholder = option_placeholder;
+  }
+
+  const prefill = option_placeholder || option_default;
+  if( prefill ){
+    input_el.size = prefill.length*3/4;
+  } else {
+    input_el.style.width = '35px';
+  }
+}
+
+function generate_input({input_tag, input_type, option_id, option_description}) {
+  assert(option_id);
+
+  const label_el = document.createElement('label');
+
+  assert(['select', 'input'].includes(input_tag));
+  const input_el = document.createElement(input_tag);
+  input_el.id   = option_id;
+  if( input_type ) input_el.setAttribute('type', input_type);
+
+  const description_el = document.createElement('span');
+  description_el.innerHTML = option_description;//+'&nbsp;';
+
+  if( input_type==='checkbox' ){
+    label_el.appendChild(input_el);
+    label_el.appendChild(description_el);
+  } else {
+    label_el.appendChild(description_el);
+    label_el.appendChild(input_el);
+  }
+  document.getElementById('options-container').appendChild(label_el);
+
+  return {label_el, input_el};
+}
+
