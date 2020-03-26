@@ -3,6 +3,7 @@ import assert from '@brillout/assert';
 import loadFontList from './loadFontList';
 import ml from '../../ml';
 import setBackground from './setBackground';
+import '../../option-manager/option.css';
 
 export class TabOptions {
   constructor({
@@ -27,9 +28,6 @@ export class TabOptions {
   generate_dom() {
     this.option_list.forEach(opt => {
       opt.generate_dom();
-      if( opt.local_side_effects ){
-        opt.local_side_effects();
-      }
     });
     this.global_side_effects({initial_run: true});
   }
@@ -101,10 +99,10 @@ export class TabOptions {
     return option.option_id;
   }
   get_backgroud_image() {
-    this.get_option_value(this.find_option_id('is_background_image'));
+    return this.get_option_value(this.find_option_id('is_background_image'));
   }
   get_backgroud_color() {
-    this.get_option_value(this.find_option_id('is_background_color'));
+    return this.get_option_value(this.find_option_id('is_background_color'));
   }
   get font_option_id() {
     const option_id = this.find_option_id('is_font_selector');
@@ -149,7 +147,7 @@ export class TabOptions {
     }
     const preset = this.preset_list[preset_name];
     assert(preset, {preset_name});
-    return prest;
+    return preset;
   }
 
   get random_preset_name() {
@@ -181,25 +179,33 @@ class Option {
     this.tab_options = tab_options;
   }
 
-  generate_dom() {
-    const on_input_change = () => {
-      if( this.local_side_effects ) {
-        this.local_side_effects();
-      }
-      this.tab_options.global_side_effects();
-    };
-
-    const {options_container} = this.tab_options;
-    const {input_tag, input_type, option_id, option_description, option_default} = this;
-
-    const {label_el, input_el} = generate_dom({input_tag, input_type, option_id, option_description, option_default, options_container, on_input_change});
-
+  generate_option() {
+    const {option_id, option_description} = this;
+    const {input_tag, input_type} = this;
+    assert(input_tag);
+    assert(input_type || input_tag!=='input');
+    const {label_el, input_el} = generate_option({input_tag, input_type, option_id, option_description});
     this.label_el = label_el;
     this.input_el = input_el;
   }
 
+  generate_dom() {
+    const on_input_change = () => {
+      this.tab_options.global_side_effects();
+    };
+
+    const {options_container} = this.tab_options;
+    const {label_el, input_tag, input_type, option_id, option_description, option_default} = this;
+
+    activate_option({options_container, label_el, option_id, on_input_change, option_default});
+  }
+
   get input_value() {
     return this.input_el.value;
+  }
+
+  get option_value() {
+    return this.tab_options.get_option_value(this.option_id);
   }
 
   hide() {
@@ -215,11 +221,11 @@ class BooleanOption extends Option {
     super(args);
     this.input_tag = 'input';
     this.input_type = 'checkbox';
-
   }
   generate_dom() {
-    super.generate_dom();
+    this.generate_option();
     this.label_el['classList']['add']('pointer-cursor');
+    super.generate_dom();
   }
   get input_value() {
     return !!this.input_el.checked;
@@ -240,7 +246,7 @@ class TextOption extends Option {
     this.input_type = 'text';
   }
   generate_dom() {
-    super.generate_dom();
+    this.generate_option();
 
     if( this.option_placeholder ) {
       this.input_el.placeholder = this.option_placeholder;
@@ -252,6 +258,8 @@ class TextOption extends Option {
     } else {
       this.input_el.style.width = '35px';
     }
+
+    super.generate_dom();
   }
 }
 
@@ -262,21 +270,25 @@ class ColorOption extends Option {
     this.input_type = 'color';
   }
   generate_dom() {
-    super.generate_dom();
+    this.generate_option();
     this.input_el.style.width = '35px';
     this.label_el['classList']['add']('pointer-cursor');
+    super.generate_dom();
   }
 }
 class TextColorOption extends ColorOption {
+  /*
   local_side_effects() {
-    this.tab_options.text_container.style.color = this.value;
+    this.tab_options.text_container.style.color = this.option_value;
   }
+  */
 }
-
 class TextShadowOption extends TextOption {
+  /*
   local_side_effects() {
-    this.tab_options.text_container.style.textShadow = this.value;
+    this.tab_options.text_container.style.textShadow = this.option_value;
   }
+  */
 }
 
 class PresetOption extends SelectOption {
@@ -286,17 +298,20 @@ class PresetOption extends SelectOption {
   }
 
   generate_dom() {
-    super.generate_dom();
+    this.generate_option();
 
     this.input_el.style.width = '83px';
 
     this.input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
-    for(const preset_name in this.tab_options.preset_list) {
+    const preset_names = Object.keys(this.tab_options.preset_list);
+    preset_names.forEach(preset_name => {
       const option_el = document.createElement('option');
       option_el.innerHTML = preset_name;
       option_el.value     = preset_name;
       this.input_el.appendChild(option_el);
-    }
+    });
+
+    super.generate_dom();
   }
 }
 
@@ -320,8 +335,9 @@ class TextFontOption extends SelectOption {
     this.is_font_selector = true;
   }
   generate_dom() {
-    super.generate_dom();
+    this.generate_option();
     this.input_el.style.width = '90px';
+    super.generate_dom();
   }
 }
 
@@ -342,12 +358,11 @@ async function load_text_font({text_container, get_font_name}) {
   text_container.style.fontFamily = font_name;
 }
 
-function generate_dom({input_tag, input_type, option_id, option_description, option_default, options_container, on_input_change}) {
+function generate_option({input_tag, input_type, option_id, option_description}) {
   assert(input_tag);
+  assert(input_type || input_tag!=='input');
   assert(option_id);
   assert(option_description);
-  assert(option_default!==undefined);
-  assert(on_input_change);
 
   const label_el = document.createElement('label');
 
@@ -366,6 +381,17 @@ function generate_dom({input_tag, input_type, option_id, option_description, opt
     label_el.appendChild(description_el);
     label_el.appendChild(input_el);
   }
+
+  return {label_el, input_el};
+}
+
+function activate_option({options_container, label_el, option_id, on_input_change, option_default}) {
+  assert(options_container);
+  assert(label_el);
+  assert(option_id);
+  assert(on_input_change);
+  assert(option_default!==undefined);
+
   options_container.appendChild(label_el);
 
 //ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
@@ -376,8 +402,6 @@ function generate_dom({input_tag, input_type, option_id, option_description, opt
     0,
     true
   );
-
-  return {label_el, input_el};
 }
 
 function hide_show_el(el, to_hide) {

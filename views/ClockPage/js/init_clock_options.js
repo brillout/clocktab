@@ -6,10 +6,12 @@ import {TabOptions} from './TabOptions';
 export default init_clock_options;
 
 function init_clock_options() {
+  const text_container = document.getElementById('middle_table');
+
   const tab_options = new TabOptions({
     option_spec_list: get_option_list(),
     preset_list: THEME_LIST,
-    text_container: document.getElementById('middle_table'),
+    text_container,
     options_container: document.getElementById('options-container'),
     on_any_change,
   });
@@ -30,6 +32,8 @@ function init_clock_options() {
   }
 
   function update_options() {
+    text_container.style.color = get_option_value('color_font');
+    text_container.style.textShadow = get_option_value('font_shadow');
     {
       const show_seconds = get_option_value('show_seconds');
       document.body['classList'][show_seconds?'remove':'add']('noSeconds');
