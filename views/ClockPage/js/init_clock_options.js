@@ -6,14 +6,17 @@ import TabOptions from './TabOptions';
 export default init_clock_options;
 
 function init_clock_options() {
-  const tabOptions = new TabOptions({
+  const tab_options = new TabOptions({
     option_list: get_option_list(),
     preset_list: THEME_LIST,
-    styled_text_container_el: document.getElementById('middle_table'),
+    text_container: document.getElementById('middle_table'),
+    options_container: document.getElementById('options-container'),
     on_any_change,
   });
 
-  const {get_option, on_font_loaded} = tabOptions;
+  tab_options.generate_dom();
+
+  const {get_option, on_font_loaded} = tab_options;
   return {get_option, on_font_loaded};
 }
 
