@@ -46,7 +46,7 @@ export class TabOptions {
     const color = this.get_backgroud_color();
     setBackground(image || color);
   }
-  update_font() {
+  async update_font() {
     const {text_container} = this;
     const get_font_name = () => this.get_font_name();
     await load_text_font({text_container, get_font_name});
@@ -224,6 +224,35 @@ class BooleanOption extends Option {
   }
 }
 
+class SelectOption extends Option {
+  constructor(args) {
+    super(args);
+    this.input_tag = 'select';
+  }
+}
+
+class TextOption extends Option {
+  constructor(args) {
+    super(args);
+    this.input_tag = 'input';
+    this.input_type = 'text';
+  }
+  generate_dom() {
+    super.generate_dom();
+
+    if( this.option_placeholder ) {
+      this.input_el.placeholder = this.option_placeholder;
+    }
+
+    const prefill = this.option_placeholder || this.option_default;
+    if( prefill ){
+      this.input_el.size = prefill.length*3/4;
+    } else {
+      this.input_el.style.width = '35px';
+    }
+  }
+}
+
 class ColorOption extends Option {
   constructor(args) {
     super(args);
@@ -283,13 +312,6 @@ class BackgroundColorOption extends TextOption {
   }
 }
 
-class SelectOption extends Option {
-  constructor(args) {
-    super(args);
-    this.input_tag = 'select';
-  }
-}
-
 class TextFontOption extends SelectOption {
   constructor(args) {
     super(args);
@@ -298,28 +320,6 @@ class TextFontOption extends SelectOption {
   generate_dom() {
     super.generate_dom();
     this.input_el.style.width = '90px';
-  }
-}
-
-class TextOption extens Option {
-  constructor(args) {
-    super(args);
-    this.input_tag = 'input';
-    this.input_type = 'text';
-  }
-  generate_dom() {
-    super.generate_dom();
-
-    if( this.option_placeholder ) {
-      this.input_el.placeholder = this.option_placeholder;
-    }
-
-    const prefill = this.option_placeholder || this.option_default;
-    if( prefill ){
-      this.input_el.size = prefill.length*3/4;
-    } else {
-      this.input_el.style.width = '35px';
-    }
   }
 }
 

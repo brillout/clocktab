@@ -1,8 +1,8 @@
-import WebFont from 'webfontloader';
-
 export default load_font;
 
 async function load_font(font_name) {
+  const WebFont = require('webfontloader');
+
   let resolve;
   const promise = new Promise(r => resolve = r);
 
@@ -17,8 +17,8 @@ async function load_font(font_name) {
   function do_it() {
     WebFont.load({
       google: {
-        families: [font_name]
-      }
+        families: [font_name],
+      },
       fontactive: resolve,
       fontinactive: () => {
         attempts++;

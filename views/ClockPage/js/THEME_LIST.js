@@ -1,4 +1,4 @@
-export default const THEME_LIST = {
+export default {
   'simple':{
     'bg_color':'#ffffff',
     'bg_image': '',
