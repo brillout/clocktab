@@ -281,7 +281,7 @@ function generate_option_elements({option_list, preset_list}) {
         return generate_font_input(opt);
       }
       if( opt.option_type === 'preset-input' ){
-        return generate_preset_input(opt);
+        return generate_preset_input(opt, preset_list);
       }
       if( opt.option_type === 'color-input' ){
         return generate_color_input(opt);
@@ -298,19 +298,6 @@ function generate_option_elements({option_list, preset_list}) {
       set_option_value,
     });
   }
-
-
-
-
-  //populate theme option
-  document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
-  for(var i in THEME_LIST)
-  {
-    var fop=document.createElement('option');
-    fop.innerHTML=i;
-    fop.value    =i;
-    document.getElementById('theme').appendChild(fop);
-  }
 }
 
 
@@ -325,10 +312,18 @@ function generate_font_input({option_id, option_description}) {
 
   input_el.style.width = '90px';
 }
-function generate_preset_input({option_id, option_description}) {
+function generate_preset_input({option_id, option_description}, preset_list) {
   const {input_el} = generate_input({input_tag: 'select', option_id, option_description});
 
   input_el.style.width = '83px';
+
+  input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
+  for(var preset_name in preset_list) {
+    var option_el = document.createElement('option');
+    option_el.innerHTML = preset_name;
+    option_el.value     = preset_name;
+    input_el.appendChild(option_el);
+  }
 }
 function generate_boolean_input({option_id, option_description}) {
   const {input_el} = generate_input({input_tag: 'input', input_type: 'checkbox', option_id, option_description});
