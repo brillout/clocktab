@@ -171,11 +171,13 @@ export class TabOptions {
 
 
 class Option {
-  constructor({option_id, option_description, option_placeholder, option_default, tab_options}) {
+  constructor({option_id, option_description, option_placeholder, option_default, option_dependency, option_negative_dependency, tab_options}) {
     this.option_id = option_id;
     this.option_description = option_description;
     this.option_placeholder = option_placeholder;
     this.option_default = option_default;
+    this.option_dependency = option_dependency;
+    this.option_negative_dependency = option_negative_dependency;
     this.tab_options = tab_options;
   }
 
@@ -322,7 +324,7 @@ class BackgroundImageOption extends TextOption {
     this.is_background_image = true;
   }
 }
-class BackgroundColorOption extends TextOption {
+class BackgroundColorOption extends ColorOption {
   constructor(args) {
     super(args);
     this.is_background_color = true;

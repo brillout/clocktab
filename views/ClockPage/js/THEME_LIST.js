@@ -1,3 +1,7 @@
+// Theme components
+// - nice bg colors
+//   - #7b3535
+
 export default {
   'simple':{
     'bg_color':'#ffffff',

@@ -26,7 +26,7 @@ function init_clock_options() {
   function on_any_change({initial_run}) {
     update_options();
     if( !initial_run ){
-      dom_beat();
+      dom_beat(true);
       refresh_big_text_size();
     }
   }
