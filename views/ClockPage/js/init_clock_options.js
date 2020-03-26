@@ -21,7 +21,15 @@ function init_clock_options() {
 
   return {get_option_value, font_loaded_promise};
 
-  function on_any_change() {
+  function on_any_change({initial_run}) {
+    update_options();
+    if( !initial_run ){
+      dom_beat();
+      refresh_big_text_size();
+    }
+  }
+
+  function update_options() {
     {
       const show_seconds = get_option_value('show_seconds');
       document.body['classList'][show_seconds?'remove':'add']('noSeconds');
@@ -32,10 +40,6 @@ function init_clock_options() {
       const twelve_hour = get_option_value('12_hour');
       document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
     }
-
-    dom_beat();
-
- // refresh_big_text_size();
   }
 }
 

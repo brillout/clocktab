@@ -31,15 +31,15 @@ export class TabOptions {
         opt.local_side_effects();
       }
     });
-    this.global_side_effects();
+    this.global_side_effects({initial_run: true});
   }
 
-  global_side_effects() {
+  global_side_effects({initial_run}={}) {
     this.update_background();
     this.update_font();
     this.update_option_visibility();
     this.load_font_list();
-    this.on_any_change();
+    this.on_any_change({initial_run});
   }
 
   update_background() {
