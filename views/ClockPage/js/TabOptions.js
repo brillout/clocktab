@@ -5,10 +5,6 @@ import loadFontList from './loadFontList';
 import ml from '../../ml';
 import setBackground from './setBackground';
 
-export default init_options;
-export {get_option};
-export {on_font_loaded};
-
 export class TabOptions {
   constructor({
     option_spec_list,
@@ -22,6 +18,9 @@ export class TabOptions {
     this.text_container = text_container;
     this.options_container = options_container;
     this.on_any_change = on_any_change;
+
+    this.resolve_font_loaded_promise;
+    this.font_loaded_promise = new Promsie(r => this.resolve_font_loaded_promise = r);
 
     instantiate_options();
   }
@@ -59,27 +58,23 @@ function set_getOpt({option_list, preset_list}) {
 
   }
 
-  on_font_loaded() {
-    let resolveAwaitClockFont;
-    const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
-    return promise;
-  }
-
   instantiate_options() {
     this.option_list = this.option_spec_list.map(({
         option_id,
         option_description,
+        option_placeholder,
         option_default,
         option_type,
       }) => {
         const args = {
           option_id,
           option_description,
+          option_placeholder,
           option_default,
           tab_options: this,
         };
-        if( option_type === 'font-input' ){
-          return new FontOption(args);
+        if( option_type === 'text-font-input' ){
+          return new TextFontOption(args);
         }
         if( option_type === 'preset-input' ){
           return new PresetOption(args);
@@ -116,51 +111,35 @@ function set_getOpt({option_list, preset_list}) {
       }
     });
   }
-}
 
-
-function generate_font_input({option_id, option_description}) {
-  const {input_el} = generate_input({input_tag: 'select', option_id, option_description});
-
-  input_el.style.width = '90px';
-}
-function generate_preset_input({option_id, option_description}, preset_list) {
-  const {input_el} = generate_input({input_tag: 'select', option_id, option_description});
-
-  input_el.style.width = '83px';
-
-  input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
-  for(var preset_name in preset_list) {
-    var option_el = document.createElement('option');
-    option_el.innerHTML = preset_name;
-    option_el.value     = preset_name;
-    input_el.appendChild(option_el);
-  }
-}
-
-function generate_text_input({option_placeholder, option_default}) {
-  const {input_el, label_el} = generate_input({input_tag: 'input', input_type: 'text', option_id, option_description});
-
-  if(option_placeholder) {
-    input_el.placeholder = option_placeholder;
+  on_global_change() {
+    load_and_update_font();
   }
 
-  const prefill = option_placeholder || option_default;
-  if( prefill ){
-    input_el.size = prefill.length*3/4;
-  } else {
-    input_el.style.width = '35px';
+  load_and_update_font() {
+    const {text_font, container_name} = this;
+    const font_name = 
+    load_text_font({font_name, container_name});
   }
-}
 
-function generate_input({}) {
+  get text_font() {
+  }
+  get text_font_option_id() {
+    const {option_id} = this.option_list.find(({is_text_font_selector}) => is_text_font_selector);
+    return option_id;
+  }
+  get text_font() {
+    return this.get_option(this.text_font_option_id);
+  }
 }
 
 
 class Option {
-  constructor({option_id, option_description, tab_options}) {
+  constructor({option_id, option_description, option_placeholder, option_default, tab_options}) {
     this.option_id = option_id;
     this.option_description = option_description;
+    this.option_placeholder = option_placeholder;
+    this.option_default = option_default;
     this.tab_options = tab_options;
   }
 
@@ -236,10 +215,11 @@ class TextShadowOption extends TextOption {
 
 class PresetOption extends SelectOption {
   change_effect() {
+    const text_font_option_id = this.tab_options.text_font.option_id;
     if( this.is_custom_theme() ) {
       const preset_fonts = (
         Object.values(this.tab_options.preset_list)
-        .map(preset => TODO preset.clock_font)
+        .map(preset => preset[text_font_option_id])
       );
       loadFontList(fonts);
     }
@@ -248,7 +228,22 @@ class PresetOption extends SelectOption {
   is_custom_theme() {
     return this.option_value==='';
   }
+
+  generate_dom() {
+    super.generate_dom();
+
+    this.input_el.style.width = '83px';
+
+    this.input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
+    for(const preset_name in this.tab_options.preset_list) {
+      var option_el = document.createElement('option');
+      option_el.innerHTML = preset_name;
+      option_el.value     = preset_name;
+      input_el.appendChild(option_el);
+    }
+  }
 }
+
 
 class BackgroundOption extends TextOption {
   change_effect() {
@@ -258,28 +253,64 @@ class BackgroundOption extends TextOption {
   }
 }
 
+class SelectOption extends Option {
+  constructor(args) {
+    super(args);
+    this.input_tag = 'select';
+  }
+}
+
+class FontOption extends SelectOption {
+  generate_dom() {
+    super.generate_dom();
+    this.input_el.style.width = '90px';
+  }
+}
+
 class TextFontOption extends FontOption {
-  change_effect() {
-    async function load_clock_font() {
-      const font_name = getOpt('clock_font');
+  constructor() {
+    this.is_text_font_selector = true;
+  }
+}
 
-      await load_font(font_name);
+class TextOption extens Option {
+  constructor(args) {
+    super(args);
+    this.input_tag = 'input';
+    this.input_type = 'text';
+  }
+  generate_dom() {
+    super.generate_dom();
 
-      if( font_name !== getOpt('clock_font') ){
-        return;
-      }
+    if( this.option_placeholder ) {
+      this.input_el.placeholder = this.option_placeholder;
+    }
 
-      if( font_name === text_container.style.fontFamily ){
-        return;
-      }
-
-      text_container.style.fontFamily = font_name;
+    const prefill = this.option_placeholder || this.option_default;
+    if( prefill ){
+      this.input_el.size = prefill.length*3/4;
+    } else {
+      this.input_el.style.width = '35px';
     }
   }
 }
 
 
+function load_text_font({font_name, text_container}) {
+  await load_font(font_name);
 
+  this.tab_options.resolve_font_loaded_promise();
+
+  if( font_name !== this.option_value ){
+    return;
+  }
+
+  if( font_name === text_container.style.fontFamily ){
+    return;
+  }
+
+  text_container.style.fontFamily = font_name;
+}
 
 function generate_dom({input_tag, input_type, option_id, option_description, option_default, on_input_change}) {
   assert(input_tag);

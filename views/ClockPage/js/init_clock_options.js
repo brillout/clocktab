@@ -16,8 +16,8 @@ function init_clock_options() {
 
   tab_options.generate_dom();
 
-  const {get_option, on_font_loaded} = tab_options;
-  return {get_option, on_font_loaded};
+  const {get_option, font_loaded_promise} = tab_options;
+  return {get_option, font_loaded_promise};
 }
 
 function on_any_change() {

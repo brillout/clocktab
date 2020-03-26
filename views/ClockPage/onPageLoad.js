@@ -8,7 +8,7 @@ import {on_big_text_load, set_max_width_getter} from '../BigText';
 export default onPageLoad;
 
 async function onPageLoad (loadWrapper){
-  const {get_option, on_font_loaded} = init_clock_options();
+  const {get_option, font_loaded_promise} = init_clock_options();
 
   set_max_width_getter(() => get_option('font_size'));
 
@@ -21,7 +21,7 @@ async function onPageLoad (loadWrapper){
   auto_remove_hash();
 
   await Promise.race([
-    on_font_loaded(),
+    font_loaded_promise(),
     sleep({seconds: 0.4}),
   ]);
 
