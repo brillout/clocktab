@@ -13,74 +13,50 @@ export class TabOptions {
     options_container,
     on_any_change,
   }) {
-    this.option_spec_list = option_spec_list;
-    this.preset_list = preset_list;
     this.text_container = text_container;
     this.options_container = options_container;
+
     this.on_any_change = on_any_change;
+
+    this.preset_list = preset_list;
+    this.option_list = instantiate_options({tab_options: this, option_spec_list});
 
     this.resolve_font_loaded_promise;
     this.font_loaded_promise = new Promsie(r => this.resolve_font_loaded_promise = r);
-
-    instantiate_options();
-  }
-
-
-
-  instantiate_options() {
-    this.option_list = this.option_spec_list.map(({
-        option_id,
-        option_description,
-        option_placeholder,
-        option_default,
-        option_type,
-      }) => {
-        const args = {
-          option_id,
-          option_description,
-          option_placeholder,
-          option_default,
-          tab_options: this,
-        };
-        if( option_type === 'text-font-input' ){
-          return new TextFontOption(args);
-        }
-        if( option_type === 'preset-input' ){
-          return new PresetOption(args);
-        }
-        if( option_type === 'text-color-input' ){
-          return new TextColorOption(args);
-        }
-        if( option_type === 'text-shadow-input' ){
-          return new TextShadowOption(args);
-        }
-        if( option_type === 'text-input' ){
-          return new TextOption(args);
-        }
-        if( option_type === 'background-image-input' ){
-          return new BackgroundImageOption(args);
-        }
-        if( option_type === 'background-color-input' ){
-          return new BackgroundColorOption(args);
-        }
-        if( option_type === 'boolean-input' ){
-          return new BooleanOption(args);
-        }
-      })
-    )
   }
 
   generate_dom() {
     this.option_list.forEach(opt => {
       opt.generate_dom();
+      opt.local_side_effects();
     });
+    this.global_side_effects();
   }
 
+  global_side_effects() {
+    this.update_background();
+    this.update_font();
+    this.update_option_visibility();
+    this.load_font_list();
+    this.on_any_change();
+  }
+
+  update_background() {
+    const image = this.get_backgroud_image();
+    const color = this.get_backgroud_color();
+    setBackground(image || color);
+  }
+  update_font() {
+    const {text_container} = this;
+    const get_font_name = () => this.get_font_name();
+    await load_text_font({text_container, get_font_name});
+    this.resolve_font_loaded_promise();
+  }
   update_option_visibility() {
     this.option_list.forEach(opt => {
       const to_hide = (
-        opt.option_dependency && !this.get_option(opt.option_dependency) ||
-        opt.option_negative_dependency && this.get_option(opt.option_negative_dependency)
+        opt.option_dependency && !this.get_option_input(opt.option_dependency) ||
+        opt.option_negative_dependency && this.get_option_input(opt.option_negative_dependency)
       );
       if( to_hide ){
         opt.hide();
@@ -89,14 +65,14 @@ export class TabOptions {
       }
     });
   }
-
-  global_side_effects() {
-    this.update_option_visibility();
-    this.update_font();
-    this.update_background();
-    this.load_font_list();
-    this.on_any_change();
+  load_font_list() {
+    if( !this.is_custom_preset() ){
+      return;
+    }
+    loadFontList(this.preset_font_names);
   }
+
+
 
   is_custom_preset() {
     const {current_preset} = this;
@@ -118,20 +94,7 @@ export class TabOptions {
 
     return preset_font_names;
   }
-  load_font_list() {
-    if( !this.is_custom_preset() ){
-      return;
-    }
-    loadFontList(this.preset_font_names);
-  }
 
-
-  update_font() {
-    const {text_container} = this;
-    const get_font_name = () => this.get_font_name();
-    await load_text_font({text_container, get_font_name});
-    this.tab_options.resolve_font_loaded_promise();
-  }
 
 
   find_option_id(prop) {
@@ -161,12 +124,6 @@ export class TabOptions {
   }
   get_font_name() {
     this.get_option_value(this.font_option_id);
-  }
-
-  update_background() {
-    const image = this.tab_options.get_backgroud_image();
-    const color = this.tab_options.get_backgroud_color();
-    setBackground(image || color);
   }
 
   get_option_value(option_id) {
@@ -432,3 +389,40 @@ function hide_show_el(el, to_hide) {
   el.style.position   = to_hide ? 'absolute':''       ;
   el.style.zIndex     = to_hide ? '-1'      :''       ;
 }
+
+function instantiate_options({tab_options, option_spec_list}) {
+  return (
+    option_spec_list.map(option_spec => {
+      const args = {
+        ...option_spec,
+        tab_options,
+      };
+      if( option_type === 'text-font-input' ){
+        return new TextFontOption(args);
+      }
+      if( option_type === 'preset-input' ){
+        return new PresetOption(args);
+      }
+      if( option_type === 'text-color-input' ){
+        return new TextColorOption(args);
+      }
+      if( option_type === 'text-shadow-input' ){
+        return new TextShadowOption(args);
+      }
+      if( option_type === 'text-input' ){
+        return new TextOption(args);
+      }
+      if( option_type === 'background-image-input' ){
+        return new BackgroundImageOption(args);
+      }
+      if( option_type === 'background-color-input' ){
+        return new BackgroundColorOption(args);
+      }
+      if( option_type === 'boolean-input' ){
+        return new BooleanOption(args);
+      }
+      assert(false, {option_type});
+    })
+  );
+}
+
