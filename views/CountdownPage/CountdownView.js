@@ -15,6 +15,7 @@ function CountdownView() {
     </FullView>
 
     <MorePanel>
+      <div id='options-container'></div>
     </MorePanel>
   </>;
 }

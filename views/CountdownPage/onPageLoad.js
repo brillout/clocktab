@@ -1,16 +1,36 @@
+import {sleep} from '../../tab-utils/sleep';
 import {refresh_big_text_size, set_bottom_line, set_max_width_getter} from '../BigText';
 import {on_big_text_load} from '../BigText';
+import init_countdown_options from './init_countdown_options';
 
 export default onPageLoad;
 
-function onPageLoad(loadWrapper) {
-  loadWrapper();
-  const dom_el = document.querySelector('#countdown-el');
-  const countdown_date = new Date('2021');
-  start_countdown({dom_el, countdown_date});
+async function onPageLoad(loadWrapper) {
+  const {get_option_value, font_loaded_promise} = init_countdown_options();
+
+  /*
+  set_max_width_getter(() => get_option_value('font_size'));
+  */
+
   set_max_width_getter(() => '500');
+
+  loadWrapper();
+
+  const dom_el = document.querySelector('#countdown-el');
+
+  const countdown_date = new Date('2021');
+
+  start_countdown({dom_el, countdown_date});
+
   set_bottom_line('Until Januar 01 2021');
+
   on_big_text_load();
+
+  await Promise.race([
+    font_loaded_promise,
+    sleep({seconds: 0.4}),
+  ]);
+
 }
 
 function start_countdown({dom_el, countdown_date}) {
