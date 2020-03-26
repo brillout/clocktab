@@ -1,40 +1,65 @@
+import load_font from './load_font';
+import assert from '@brillout/assert';
+import {sleep} from '../../../tab-utils/sleep';
+import loadFontList from './loadFontList';
+import ml from '../../ml';
+import setBackground from './setBackground';
+
 const CONTAINER_ID = 'options-container';
 
 export default init_options;
 export {get_option};
+export {on_font_loaded};
 
-function init_options({option_list, preset_list}) {
-  generate_option_elements({option_list, preset_list});
+export class
 
-  set_getOpt({option_list, preset_list});
+async function on_font_loaded() {
+  let resolveAwaitClockFont;
+  const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
 }
 
-function generate_option_elements({option_list, preset_list}) {
 
-  option_list.forEach(opt => {
-    const {
-      get_opt_val,
-    } = (function() {
-      if( opt.option_type === 'font-input' ){
-        return generate_font_input(opt);
-      }
-      if( opt.option_type === 'preset-input' ){
-        return generate_preset_input(opt, preset_list);
-      }
-      if( opt.option_type === 'color-input' ){
-        return generate_color_input(opt);
-      }
-      if( opt.option_type === 'text' ){
-        return generate_text_input(opt);
-      }
-    })();
 
-    Object.assign(opt, {
-      hide,
-      show,
-      get_opt_val,
-    });
+
+function init_options({option_list, preset_list, on_any_change, styled_text_container_el}) {
+  generate_option_elements({option_list, preset_list, on_any_change});
+
+  set_getOpt({option_list, preset_list});
+
+  return;
+
+  function generate_option_elements({option_list, preset_list, on_any_change}) {
+
+    option_list.forEach(opt => {
+      const {
+        get_opt_val,
+      } = (function() {
+        if( opt.option_type === 'font-input' ){
+          return generate_font_input(opt);
+        }
+        if( opt.option_type === 'preset-input' ){
+          return generate_preset_input(opt, preset_list);
+        }
+        if( opt.option_type === 'color-input' ){
+          return generate_color_input(opt);
+        }
+        if( opt.option_type === 'text' ){
+          return generate_text_input(opt);
+        }
+        if( opt.option_type === 'text-shadow-input' ){
+          return generate_text_shadow_input(opt);
+        }
+      })();
+
+      Object.assign(opt, {
+        hide,
+        show,
+        get_opt_val,
+      });
+    }
   }
+
+
 }
 
 
@@ -67,6 +92,16 @@ function generate_boolean_input({option_id, option_description}) {
 
   label_el['classList']['add']('pointer-cursor');
 }
+
+function generate_text_shadow_input({on_change, ...args}) {
+  on_change = function(newVal) {
+    styled_text_container_el.style['textShadow'] = newVal;
+  }
+  const ret = generate_text(...args);
+  return ret;
+}
+    function colorChangeListener(){styled_text_container_el.style.color        =getOpt('color_font' )}
+
 function generate_text_input({option_placeholder, option_default}) {
   const {input_el, label_el} = generate_input({input_tag: 'input', input_type: 'text', option_id, option_description});
 
@@ -82,7 +117,7 @@ function generate_text_input({option_placeholder, option_default}) {
   }
 }
 
-function generate_input({input_tag, input_type, option_id, option_description}) {
+function generate_input({input_tag, input_type, option_id, option_description, on_any_change, on_local_change}) {
   assert(option_id);
 
   const label_el = document.createElement('label');
@@ -104,7 +139,21 @@ function generate_input({input_tag, input_type, option_id, option_description}) 
   }
   document.getElementById(CONTAINER_ID).appendChild(label_el);
 
+//ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
+  ml.persistantInput(
+    opt.option_id,
+    input_change_listener,
+    opt.option_default,
+    0,
+    true
+  );
+
   return {label_el, input_el};
+
+  function input_change_listener() {
+    hide_show_options();
+    on_any_change();
+  }
 }
 
 
@@ -144,7 +193,7 @@ function set_getOpt({option_list, preset_list}) {
   };
 
 }
-    function setOptVisibility()
+    function hide_show_options()
     {
       for(var i=0;i<OPTION_LIST.length;i++)
       {
@@ -163,3 +212,53 @@ function set_getOpt({option_list, preset_list}) {
   function isCustomTheme() {
     return getOpt('theme')==='';
   }
+
+
+
+    function bg_listener() {
+      const bg_image_val = getOpt('bg_image');
+      const bg_color_val = getOpt('bg_color');
+      setBackground(bg_image_val || bg_color_val);
+    }
+
+      else if(opt.option_id==='bg_color')   changeListener=bg_listener;
+      else if(opt.option_id==='bg_image')   changeListener=bg_listener;
+
+
+  //refresh options onchange
+  //{{{
+  (function(){
+
+    function theme_change_listener(){
+      fontShadowListener();
+      colorChangeListener();
+      load_clock_font();
+      bg_listener();
+
+      if( isCustomTheme() ) {
+        const fonts = Object.values(THEME_LIST).map(t => t.clock_font);
+        loadFontList(fonts);
+      }
+    }
+
+    }
+
+
+    async function load_clock_font() {
+      const font_name = getOpt('clock_font');
+
+      await load_font(font_name);
+
+      if( font_name !== getOpt('clock_font') ){
+        return;
+      }
+
+      if( font_name === styled_text_container_el.style.fontFamily ){
+        return;
+      }
+
+      styled_text_container_el.style.fontFamily = font_name;
+    }
+  })();
+  //}}}
+

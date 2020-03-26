@@ -1,96 +1,37 @@
-import ml from '../../ml';
-import setBackground from './setBackground';
-import {sleep} from '../../../tab-utils/sleep';
-import loadFontList from './loadFontList';
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import THEME_LIST from './THEME_LIST';
-import assert from '@brillout/assert';
-import load_font from './load_font';
-import init_options from './init_options';
+import TabOptions from './TabOptions';
 
 export default init_clock_options;
 
-async function init_clock_options() {
-  let resolveAwaitClockFont;
-  const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
-
-  const clock_el = document.getElementById('middle_table');
-
-//const {get_option, set_option} =
-  init_options({
+function init_clock_options() {
+  const tabOptions = new TabOptions({
     option_list: get_option_list(),
     preset_list: THEME_LIST,
+    styled_text_container_el: document.getElementById('middle_table'),
+    on_any_change,
   });
 
-  //refresh options onchange
-  //{{{
-  (function(){
-    function bg_listener() {
-      const bg_image_val = getOpt('bg_image');
-      const bg_color_val = getOpt('bg_color');
-      setBackground(bg_image_val || bg_color_val);
-    }
-    function bg_image_listener(){ setBackground(getOpt('bg_image')) }
-    function colorChangeListener(){clock_el.style.color        =getOpt('color_font' )}
-    function fontShadowListener (){clock_el.style['textShadow']=getOpt('font_shadow')}
-    function theme_change_listener(){
-      fontShadowListener();
-      colorChangeListener();
-      load_clock_font();
-      bg_listener();
-      setOptVisibility();
-      if( isCustomTheme() ) {
-        const fonts = Object.values(THEME_LIST).map(t => t.clock_font);
-        loadFontList(fonts);
-      }
-    }
-    function refreshStuff(){dom_beat(true);setOptVisibility()};
+  const {get_option, on_font_loaded} = tabOptions;
+  return {get_option, on_font_loaded};
+}
 
-    for(var i=0;i<OPTION_LIST.length;i++)
-    {
-      var opt = OPTION_LIST[i];
-      var changeListener;
-      if(opt.option_id==='show_seconds')changeListener=function(val){
-        document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
-      else if(opt.option_id==='show_pm'||opt.option_id==='12_hour')
-        changeListener=function(){
-        document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
-        refreshStuff();
-        setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
-      }
-      else if(opt.option_id==='font_shadow') changeListener=fontShadowListener;
-      else if(opt.option_id==='color_font')  changeListener=colorChangeListener;
-      else if(opt.option_id==='theme')  changeListener=theme_change_listener;
-      else if(opt.option_id==='clock_font')   changeListener=load_clock_font;
-      else if(opt.option_id==='bg_color')   changeListener=bg_listener;
-      else if(opt.option_id==='bg_image')   changeListener=bg_listener;
-      else                       changeListener=refreshStuff;
-      ml.persistantInput(opt.option_id,changeListener,opt.option_default,0,opt.option_id!=='show_seconds'&&opt.option_id!=='show_pm'&&opt.option_id!=='12_hour');
-    }
-    theme_change_listener();
+function on_any_change() {
+  {
+    const show_seconds = get_option('show_seconds');
+    document.body['classList'][show_seconds?'remove':'add']('noSeconds');
+  }
 
-    async function load_clock_font() {
-      const font_name = getOpt('clock_font');
+  {
+    const show_pm = getOpt('show_pm');
+    const twelve_hour = getOpt('12_hour');
+    document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
+  }
 
-      await load_font(font_name);
+  dom_beat();
 
-      if( font_name !== getOpt('clock_font') ){
-        return;
-      }
-
-      if( font_name === clock_el.style.fontFamily ){
-        return;
-      }
-
-      clock_el.style.fontFamily = font_name;
-
-      refresh_big_text_size();
-    }
-  })();
-  //}}}
-
-  await Promise.race([awaitClockFont, sleep({seconds: 0.4})]);
+  refresh_big_text_size();
 }
 
 function get_option_list() {
@@ -117,7 +58,8 @@ function get_option_list() {
     },
     {
       option_id: 'font_shadow',
-      option_description:  'font shadow',
+      option_type: 'text-shadow-input'
+      option_description: 'font shadow',
       option_default: '',
       option_negative_dependency: 'theme',
       option_placeholder: 'see css text-shadow',

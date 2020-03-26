@@ -1,7 +1,6 @@
 import loadAd from './js/loadAd';
 import load_clock from './js/load_clock';
 import init_clock_options from './js/init_clock_options';
-import {get_option} from './js/init_options';
 // import autoReloadPage from './js/autoReloadPage';
 import auto_remove_hash from '../../tab-utils/auto_remove_hash';
 import {on_big_text_load, set_max_width_getter} from '../BigText';
@@ -9,17 +8,22 @@ import {on_big_text_load, set_max_width_getter} from '../BigText';
 export default onPageLoad;
 
 async function onPageLoad (loadWrapper){
+  const {get_option, on_font_loaded} = init_clock_options();
+
   set_max_width_getter(() => get_option('font_size'));
 
-  await init_clock_options();
-
-  load_clock();
+  load_clock({get_option});
 
   on_big_text_load();
 
   loadWrapper();
 
   auto_remove_hash();
+
+  await Promise.race([
+    on_font_loaded(),
+    sleep({seconds: 0.4}),
+  ]);
 
   loadAd();
 //setTimeout(() => loadAd(), 500);

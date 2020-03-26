@@ -1,6 +1,5 @@
 import ml from '../../ml';
 import {refresh_big_text_size, set_bottom_line} from '../../BigText';
-import {get_option} from './init_options';
 
 export default load_clock;
 
@@ -8,7 +7,7 @@ export {dom_beat};
 function dom_beat(...args){if(!domBeat) return;return domBeat(...args);}
 var domBeat;
 
-function load_clock() {
+function load_clock({get_option}) {
   const time_text_el = document.getElementById('time_text');
   const digit1  = document.getElementById('digit1');
   const digit2  = document.getElementById('digit2');
