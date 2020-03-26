@@ -66,19 +66,12 @@ export class TabOptions {
     });
   }
   load_font_list() {
-    if( !this.is_custom_preset() ){
+    if( !this.is_custom_preset ){
       return;
     }
     loadFontList(this.preset_font_names);
   }
 
-
-
-  is_custom_preset() {
-    const {current_preset} = this;
-    assert(current_preset || current_preset===null);
-    this.current_preset===null;
-  }
 
   get preset_font_names() {
     const {font_option_id} = this;
@@ -148,10 +141,10 @@ export class TabOptions {
   }
 
   get current_preset() {
-    if( this.is_custom_preset() ){
+    let preset_name = this.get_option_input(this.preset_option_id);
+    if( !preset_name ){
       return null;
     }
-    let preset_name = this.get_option_input(this.preset_option_id);
     if( preset_name==='random' ){
       preset_name = this.random_preset_name;
     }
@@ -170,6 +163,12 @@ export class TabOptions {
       this._random_theme_name = preset_name;
     }
     return this._random_theme_name;
+  }
+
+  get is_custom_preset() {
+    const {current_preset} = this;
+    assert(current_preset || current_preset===null);
+    this.current_preset===null;
   }
 }
 
