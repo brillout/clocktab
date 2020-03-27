@@ -50,7 +50,7 @@ function get_option_list() {
       option_id: 'countdown_preset',
       option_type: 'preset-input',
       option_description: 'Preset',
-      option_default: 'steel',
+      option_default: 'christmas',
     },
 
 
