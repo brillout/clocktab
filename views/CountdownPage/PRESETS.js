@@ -3,7 +3,7 @@ const us_election = new Date("November 3, 2020");
 const christmas = new Date("December 25, "+new Date().getFullYear());
 
 const PRESETS = {
-  'trump-wins-2020':{
+  'trump_wins_2020':{
     'countdown_size': '380',
     'countdown_title': "Trump Wins",
     'countdown_date': us_election,
@@ -14,7 +14,7 @@ const PRESETS = {
     'countdown_shadow':'1px 1px black',
     /// red: #e00014
     'countdown_color':'#0300ff'},
-  'trump-loses-2020':{
+  'trump_loses_2020':{
     'countdown_size': '380',
     'countdown_title': "End of Trump",
     'countdown_date': us_election,
@@ -26,7 +26,7 @@ const PRESETS = {
     'countdown_shadow':'1px 1px black',
     'countdown_color':'white'},
 
-  'new-year':{
+  'new_year':{
     'countdown_size': '580',
     'countdown_title': "2021",
     'countdown_date': new_year,

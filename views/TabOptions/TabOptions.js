@@ -334,14 +334,14 @@ class PresetOption extends SelectOption {
 
     this.input_el.style.width = '93px';
 
-    this.input_el.innerHTML  = '<option label="<custom>" value="">&lt;custom&gt;</option>';
+    this.input_el.innerHTML  = '<option label="<custom>" value="">&lt;Custom&gt;</option>';
     if( !this.tab_options.no_random_preset ){
-      this.input_el.innerHTML += '<option label="<random>" value="random">&lt;random&gt;</option>';
+      this.input_el.innerHTML += '<option label="<random>" value="random">&lt;Random&gt;</option>';
     }
     const preset_names = Object.keys(this.tab_options.preset_list);
     preset_names.forEach(preset_name => {
       const option_el = document.createElement('option');
-      option_el.innerHTML = preset_name;
+      option_el.innerHTML = prettify_preset_id(preset_name);
       option_el.value     = preset_name;
       this.input_el.appendChild(option_el);
     });
@@ -493,3 +493,12 @@ function instantiate_options({tab_options, option_spec_list}) {
   );
 }
 
+function prettify_preset_id(preset_name) {
+  return (
+    preset_name
+    .replace(/[_-]/g,' ')
+    .split(' ')
+    .map(word => word[0].toUpperCase() + word.slice(1))
+    .join(' ')
+  );
+}
