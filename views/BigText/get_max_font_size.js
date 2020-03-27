@@ -41,9 +41,9 @@ function getEstimation(el,width,height,possibleChars,minTextLength){
     dummy.style.whiteSpace='nowrap';//should el be equal to get_el_style('white-space')?
     dummy.style.letterSpacing=get_el_style(el,'letter-spacing');
     dummy.style.lineHeight=get_el_style(el,'line-height');
+    dummy.style.padding=get_el_style(el,'padding');
 
   dummy.innerHTML=dummyContent;
-  document.body.appendChild(dummy);
   //dummyinspect
   //onsole
   /*
@@ -144,15 +144,21 @@ function adjustFontSize(el,possibleChars,noHeight,minTextLength) {
   */
 }; 
 
-function getDummy(tagName) { 
-  var dummy = document.createElement(tagName||'div');
-  dummy.style.display='inline-block';
-  dummy.style.position='absolute';
-  dummy.style.top='0';
-  dummy.style.top='-9999px';
-  dummy.style.zIndex='-9999';
-  dummy.style.visibility='hidden';
-  return dummy;
+let dummy_el;
+function getDummy(tagName='div') { 
+  if( !dummy_el ){
+    dummy_el = document.createElement(tagName);
+    dummy_el.id = 'font-size-dummy';
+    dummy_el.style.display='inline-block';
+    dummy_el.style.position='absolute';
+    dummy_el.style.top='0';
+    dummy_el.style.visibility='hidden';
+    dummy_el.style.pointerEvents='none';
+    dummy_el.style.zIndex='-9999';
+    document.body.appendChild(dummy_el);
+  }
+  assert(dummy_el.tagName===tagName);
+  return dummy_el;
 } 
 
 function getWidestChar(chars) { 
@@ -169,13 +175,6 @@ function getWidestChar(chars) {
     }
   }
 
-  //window.bla=window.bla||0;
-  //if(window.bla!==2&&window.bla!==0) document.body.removeChild(dummy);
-  //window.bla++;
-
-  //dummyinspect
-  //onsole
-  // TODO
   document.body.removeChild(dummy);
   assert.warning(widestChar);
   return widestChar;

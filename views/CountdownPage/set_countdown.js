@@ -1,4 +1,4 @@
-import {set_bottom_line} from '../BigText';
+import {refresh_big_text_size, set_bottom_line} from '../BigText';
 
 export {start_countdown};
 export {dom_beat};
@@ -25,6 +25,7 @@ function dom_beat() {
   center_text.textContent = time_major;
   top_text.textContent = countdown_title;
   set_bottom_line(time_minor);
+  refresh_big_text_size();
 }
 
 function format(time_left__miliseconds) {

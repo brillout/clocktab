@@ -63,16 +63,6 @@ function set_max_width_getter(_get_max_width) {
 
 function activate_auto_resize() {
   window.addEventListener('resize', refresh_big_text_size , {passive: true});
-
-  loop();
-
-  function loop() {
-    refresh_big_text_size();
-
-    window.requestAnimationFrame(() => {
-      setTimeout(loop, 300);
-    });
-  }
 }
 
 function activate_zoom() {
