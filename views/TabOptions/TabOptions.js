@@ -56,6 +56,7 @@ export class TabOptions {
           tab_options: this,
           text: 'Customize'
           on_click: () => {
+            this.modify_preset();
           },
         });
       );
@@ -69,9 +70,10 @@ export class TabOptions {
       const opt = (
         new Button({
           tab_options: this,
-          text: 'Save & Share as URL'
+          text: 'Save as Share-able URL'
           on_click: () => {
-            const options_url = this.generate_options_url();
+            this.save_custom_preset();
+            const options_url = this.current_preset.generate_url();
             alert(options_url);
           },
         });
@@ -81,43 +83,34 @@ export class TabOptions {
     }
 
     {
+      /* TODO
       this.button_del = opt;
+      on_click: () => {
+        this.delete_current_preset();
+      }
+      */
     }
 
     {
-      this.preset_name_option = '';
+      const preset_name_option = new TextOption({
+        preset_id: 'new_preset_name',
+        preset_description: 'Name of your preset',
+        tab_options: this,
+      });
+      preset_name_option.generate_dom();
+      this.preset_name_option = preset_name_option;
     }
   }
-  generate_options_url() {
-    const {app_name} = this;
-    assert(app_name);
-    const data = {
-      app_name,
-      options: {},
-    };
-    this.option_list.forEach(opt => {
-      data.options[opt.option_id] = opt.input_value;
-    });
-    const data__json = JSON.stringify(data);
-    const data__base64 = window.atob(data__json);
-    console.log(data__base64);
-  }
-  modify_preset() {
-    this.current_preset.preset_option_values.forEach(({opt_id, opt_val}) => {
-      const opt = get_option_by_id(opt_id);
-      opt.set_value(opt_value);
-    });
-    this.select_preset_creator();
-  }
-  get new_preset_name() {
-    return this.preset_name_option.input_value;
-  }
+
   save_custom_preset() {
     if( this.new_preset_name ){
       alert("You need to provide a preset name.");
     }
     const preset_name = this.new_preset_name;
+    const {app_name} = this;
+    assert(app_name);
     const preset_options = {
+      app_name,
       preset_name,
     };
     this.option_list.forEach(opt => {
@@ -135,7 +128,7 @@ export class TabOptions {
       opt.reset();
     });
   }
-  load_preset() {
+  load_url_preset() {
     const data_url = retrieve_data_url();
     const preset_options = parse_data_url({data_url});
 
@@ -159,9 +152,22 @@ export class TabOptions {
 
     this.select_preset(new_preset);
   }
-  delete_preset() {
+
+  get new_preset_name() {
+    return this.preset_name_option.input_value;
+  }
+
+  delete_current_preset() {
     this.current_preset.remove();
   }
+  modify_preset() {
+    this.current_preset.preset_option_values.forEach(({opt_id, opt_val}) => {
+      const opt = this.get_option_by_id(opt_id);
+      opt.set_value(opt_value);
+    });
+    this.select_preset_creator();
+  }
+
 
   global_side_effects({initial_run}={}) {
     this.update_background();
@@ -356,10 +362,15 @@ class Button {
 
 class Option {
   constructor(props) {
+    assert(props.option_id);
+    assert(props.option_description);
+    assert(props.tab_options);
     Object.assign(this, props);
   }
 
   generate_option() {
+    this.generate_option_called = true;
+
     const {option_id, option_description} = this;
     const {input_tag, input_type} = this;
     assert(input_tag);
@@ -370,6 +381,10 @@ class Option {
   }
 
   generate_dom() {
+    assert(this.generate_option_called);
+    assert(props.input_el);
+    assert(props.label_el);
+
     const on_input_change = () => {
       this.tab_options.global_side_effects();
     };
@@ -707,6 +722,16 @@ class Preset {
   save() {
     assert(!this.is_invalid);
   }
+  remove() {
+  }
+  generate_url() {
+    const data__json = JSON.stringify(data);
+    const data__base64 = window.atob(data__json);
+  }
+}
+
+function generate_url() {
+  // TODO
 }
 
 // TODO
