@@ -9,12 +9,20 @@ export class TabOptions {
   constructor({
     option_spec_list,
     preset_list,
+
     text_container,
     options_container,
     no_random_preset,
+
     on_any_change,
     on_font_change,
+
+    enable_import_export,
+    app_name,
   }) {
+    this.option_list = instantiate_options({tab_options: this, option_spec_list});
+    this.preset_list = preset_list;
+
     this.text_container = text_container;
     this.options_container = options_container;
     this.no_random_preset = no_random_preset;
@@ -22,8 +30,9 @@ export class TabOptions {
     this.on_any_change = on_any_change;
     this.on_font_change = on_font_change;
 
-    this.preset_list = preset_list;
-    this.option_list = instantiate_options({tab_options: this, option_spec_list});
+    this.enable_import_export = enable_import_export;
+    this.app_name = app_name;
+
 
     this.resolve_font_loaded_promise;
     this.font_loaded_promise = new Promise(r => this.resolve_font_loaded_promise = r);
@@ -34,6 +43,124 @@ export class TabOptions {
       opt.generate_dom();
     });
     this.global_side_effects({initial_run: true});
+
+    if( this.enable_import_export ){
+      this.generate_import_import_dom();
+    }
+  }
+
+  generate_import_import_dom() {
+    {
+      const opt = (
+        new Button({
+          tab_options: this,
+          text: 'Customize'
+          on_click: () => {
+          },
+        });
+      );
+      opt.generate_dom();
+      this.button_mod = opt;
+    }
+
+    // TODO
+
+    {
+      const opt = (
+        new Button({
+          tab_options: this,
+          text: 'Save & Share as URL'
+          on_click: () => {
+            const options_url = this.generate_options_url();
+            alert(options_url);
+          },
+        });
+      );
+      opt.generate_dom();
+      this.button_url = opt;
+    }
+
+    {
+      this.button_del = opt;
+    }
+
+    {
+      this.preset_name_option = '';
+    }
+  }
+  generate_options_url() {
+    const {app_name} = this;
+    assert(app_name);
+    const data = {
+      app_name,
+      options: {},
+    };
+    this.option_list.forEach(opt => {
+      data.options[opt.option_id] = opt.input_value;
+    });
+    const data__json = JSON.stringify(data);
+    const data__base64 = window.atob(data__json);
+    console.log(data__base64);
+  }
+  modify_preset() {
+    this.current_preset.preset_option_values.forEach(({opt_id, opt_val}) => {
+      const opt = get_option_by_id(opt_id);
+      opt.set_value(opt_value);
+    });
+    this.select_preset_creator();
+  }
+  get new_preset_name() {
+    return this.preset_name_option.input_value;
+  }
+  save_custom_preset() {
+    if( this.new_preset_name ){
+      alert("You need to provide a preset name.");
+    }
+    const preset_name = this.new_preset_name;
+    const preset_options = {
+      preset_name,
+    };
+    this.option_list.forEach(opt => {
+      preset_options[opt.option_id] = opt.input_value;
+    });
+
+    const new_preset = new Preset(preset_options);
+    assert(!new_preset.is_invalid, {preset_options});
+    new_preset.save();
+
+    this.select_preset(new_preset);
+
+    // Erase all custom option values
+    this.option_list.forEach(opt => {
+      opt.reset();
+    });
+  }
+  load_preset() {
+    const data_url = retrieve_data_url();
+    const preset_options = parse_data_url({data_url});
+
+    const wrong_url_format = !preset_options;
+
+    const wrong_app = data_url.app_name !== this.app_name;
+
+    const new_preset = new Preset(preset_options);
+    const wrong_presets = new_preset.is_invalid;
+
+    // Validation
+    if( wrong_url_format || wrong_app || wrong_presets ){
+      alert("URL is incorrect, maybe you inadvertently modified the URL?");
+      if( wrong_app ) {
+        alert("Wrong app: the URL hash should be loaded in a different app.");
+      }
+      return;
+    }
+
+    new_preset.save();
+
+    this.select_preset(new_preset);
+  }
+  delete_preset() {
+    this.current_preset.remove();
   }
 
   global_side_effects({initial_run}={}) {
@@ -57,6 +184,7 @@ export class TabOptions {
     this.resolve_font_loaded_promise();
   }
   update_option_visibility() {
+    // Visibility of options
     this.option_list.forEach(opt => {
       const to_hide = (
         opt.option_dependency && !this.get_option_input(opt.option_dependency) ||
@@ -68,6 +196,19 @@ export class TabOptions {
         opt.show();
       }
     });
+
+    // Visibility of action buttons
+    if( this.enable_import_export ){
+      if( this.is_custom_preset ){
+        this.button_mod.hide();
+        this.button_url.show();
+        this.button_del.show();
+      } else {
+        this.button_mod.show();
+        this.button_url.hide();
+        this.button_del.hide();
+      }
+    }
   }
   load_font_list() {
     if( !this.is_custom_preset ){
@@ -134,13 +275,13 @@ export class TabOptions {
       return this.get_option_input(option_id);
     }
   }
-  get_option(option_id) {
+  get_option_by_id(option_id) {
     const option = this.option_list.find(opt => opt.option_id === option_id);
     assert(option, {option_id});
     return option;
   }
   get_option_input(option_id) {
-    const option = this.get_option(option_id);
+    const option = this.get_option_by_id(option_id);
     return option.input_value;
   }
 
@@ -155,6 +296,15 @@ export class TabOptions {
     const preset = this.preset_list[preset_name];
     assert(preset, {preset_name});
     return preset;
+  }
+  set current_preset() {
+    // TODO
+  }
+  select_preset_creator() {
+    this.current_preset = '';
+  }
+  select_preset(preset) {
+    this.current_preset = preset;
   }
 
   get random_preset_name() {
@@ -176,6 +326,33 @@ export class TabOptions {
   }
 }
 
+class Button {
+  constructor({on_click, text}) {
+    this.on_click = on_click;
+    this.text = text;
+  }
+  generate_dom() {
+    const dom_el =document.createElement('button'); 
+    dom_el.setAttribute('type', 'button');
+    dom_el.onclick = ev => {
+      ev.preventDefault();
+      this.on_click();
+    };
+    dom_el.textContent = this.text;
+    const {options_container} = this.tab_options;
+    options_container.appendChild(dom_el);
+
+    this.dom_el = dom_el;
+  }
+
+  // TODO as mixin
+  hide() {
+    hide_show_el(this.dom_el, true);
+  }
+  show() {
+    hide_show_el(this.dom_el);
+  }
+}
 
 class Option {
   constructor(props) {
@@ -211,11 +388,24 @@ class Option {
     return this.tab_options.get_option_value(this.option_id);
   }
 
+  val_modifier(val) {
+    this.input_el = val;
+  }
+  set_value(val) {
+    this.modify_value(val);
+    // TODO - direclty trigger localStorage save and call global listener only once?
+    this.input_el.dispatchEvent(new Event('change'));
+  }
+
   hide() {
     hide_show_el(this.label_el, true);
   }
   show() {
     hide_show_el(this.label_el);
+  }
+
+  reset() {
+    // TODO
   }
 }
 
@@ -241,6 +431,13 @@ class BooleanOption extends Option {
     this.generate_option();
     this.label_el['classList']['add']('pointer-cursor');
     super.generate_dom();
+  }
+  val_modifier(val) {
+    if( !!val ){
+      this.input_el.setAttribute('checked', "true");
+    } else {
+      this.input_el.removeAttribute('checked');
+    }
   }
   get input_value() {
     return !!this.input_el.checked;
@@ -501,4 +698,28 @@ function prettify_preset_id(preset_name) {
     .map(word => word[0].toUpperCase() + word.slice(1))
     .join(' ')
   );
+}
+
+// TODO
+class Preset {
+  is_invalid(){
+  }
+  save() {
+    assert(!this.is_invalid);
+  }
+}
+
+// TODO
+function parse_data_url({data_url}) {
+  if( !data_url ){
+    return null;
+  }
+
+  const preset_options = {};
+
+  // TODO
+  validate_preset_options();
+
+}
+function retrieve_data_url() {
 }

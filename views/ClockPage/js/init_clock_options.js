@@ -16,6 +16,8 @@ function init_clock_options() {
     options_container: document.getElementById('options-container'),
     on_any_change,
     on_font_change,
+    enable_import_export: true,
+    app_name: 'romu-clock',
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);
