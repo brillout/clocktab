@@ -1,28 +1,18 @@
 import {sleep} from '../../tab-utils/sleep';
-import {refresh_big_text_size, set_bottom_line, set_max_width_getter} from '../BigText';
-import {on_big_text_load} from '../BigText';
+import {on_big_text_load, set_max_width_getter} from '../BigText';
 import init_countdown_options from './init_countdown_options';
+import {start_countdown} from './set_countdown';
 
 export default onPageLoad;
 
 async function onPageLoad(loadWrapper) {
   const {get_option_value, font_loaded_promise} = init_countdown_options();
 
-  /*
-  set_max_width_getter(() => get_option_value('font_size'));
-  */
-
-  set_max_width_getter(() => '500');
+  set_max_width_getter(() => get_option_value('countdown_size'));
 
   loadWrapper();
 
-  const dom_el = document.querySelector('#countdown-el');
-
-  const countdown_date = new Date('2021');
-
-  start_countdown({dom_el, countdown_date});
-
-  set_bottom_line('Until Januar 01 2021');
+  start_countdown({get_option_value});
 
   on_big_text_load();
 
@@ -30,57 +20,4 @@ async function onPageLoad(loadWrapper) {
     font_loaded_promise,
     sleep({seconds: 0.4}),
   ]);
-
-}
-
-function start_countdown({dom_el, countdown_date}) {
-  hear_beat(() => {
-    const now = new Date();
-    let time_left = format_time_left(countdown_date - now);
-    dom_el.textContent = time_left;
-  });
-}
-
-function format_time_left(time_left__miliseconds) {
-  let rest = time_left__miliseconds
-
-  const milliseconds = rest % 1000 | 0;
-  rest = rest / 1000;
-
-  const seconds = rest % 60 | 0;
-  rest = rest / 60;
-
-  const minutes = rest % 60 | 0;
-  rest = rest / 60;
-
-  const hours = rest % 24 | 0;
-  rest = rest / 24;
-
-  const days = rest | 0;
-
-  let time_left = '';
-  [
-    [days,'d'],
-    [hours, 'h'],
-    [minutes, 'm'],
-    [seconds, 's'],
- // [milliseconds, 'ms'],
-  ]
-  .forEach(([val, suffix]) => {
-    if( !time_left && !val ) return;
-
-    if( time_left ) time_left+=' ';
-    time_left += val + suffix;
-  });
-
-  return time_left;
-}
-
-function hear_beat(pulse) {
-  beat();
-
-  function beat() {
-    pulse();
-    setTimeout(beat, 300);
-  }
 }

@@ -80,10 +80,7 @@ function load_clock({get_option_value}) {
     };
     //}}}
 
-    var sparked;
     spark=function() {
-      ml.assert(!sparked);
-      sparked=true;
       (function repeater(){
         domBeat();
         window.setTimeout(repeater,1000);

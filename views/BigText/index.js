@@ -9,22 +9,23 @@ export {on_big_text_load};
 export {refresh_big_text_size};
 export {set_bottom_line};
 export {set_max_width_getter};
+export {set_text_position};
 
-function BigText({top_content, big_text}) {
+function BigText({top_content, big_text, bottom_max_font_size, id}) {
   return (
     <div id="zoom_container">
-      <div id='layout_container'>
+      <div id='layout_container' className='center-layout'>
 
         <div id="layout_top">
           {top_content}
         </div>
 
-        <div id="layout_middle">
+        <div id={id} className="layout_middle">
           <table id='middle_table'>
             <tr><td id='big_line'>
               {big_text}
             </td></tr>
-            <tr><td id='bottom_line'>
+            <tr><td id='bottom_line' data-max-font-size={bottom_max_font_size}>
             </td></tr>
           </table>
         </div>
@@ -33,6 +34,12 @@ function BigText({top_content, big_text}) {
       </div>
     </div>
   );
+}
+
+function set_text_position(position) {
+  assert(['top', 'center', 'bottom'].includes(position));
+  const layout_container = document.querySelector('#layout_container');
+  layout_container.setAttribute('class', position+'-layout');
 }
 
 function on_big_text_load() {
@@ -89,10 +96,12 @@ function refresh_big_text_size() {
   });
 
   if(bottom_el.innerHTML!="") {
+    const max_font_size = bottom_el.getAttribute('data-max-font-size');
     date_new_size = get_max_font_size({
       dom_el: bottom_el,
       max_width: time_new_size.width*0.95,
       max_height: window.innerHeight,
+      max_font_size,
     });
 
     const diff = time_new_size.height+date_new_size.height-window.innerHeight;
@@ -106,6 +115,7 @@ function refresh_big_text_size() {
         dom_el: bottom_el,
         max_width: time_new_size.width,
         max_height: window.innerHeight-time_new_size.height,
+        max_font_size,
       });
       time_new_size = get_max_font_size({
         dom_el: big_el,

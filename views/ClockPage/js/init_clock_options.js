@@ -6,7 +6,7 @@ import {TabOptions} from '../../TabOptions';
 export default init_clock_options;
 
 function init_clock_options() {
-  const text_container = document.getElementById('middle_table');
+  const text_container = document.getElementById('clock-container');
 
   const tab_options = new TabOptions({
     option_spec_list: get_option_list(),

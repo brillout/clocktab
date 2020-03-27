@@ -7,7 +7,7 @@ export default ClockView;
 function ClockView() {
   return <>
     <FullView>
-      <BigText
+      <BigText id={'clock-container'}
         top_content={<PrimaryAd />}
         big_text={<TopLine />}
         //bottom_line={}

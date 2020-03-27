@@ -7,10 +7,11 @@ export default CountdownView;
 function CountdownView() {
   return <>
     <FullView>
-      <BigText
+      <BigText id={'countdown-container'}
         //top_content={}
-        big_text={<div id="countdown-el" />}
+        big_text={<div id="countdown-text" />}
         //bottom_line={}
+        bottom_max_font_size={'20px'}
       />
     </FullView>
 

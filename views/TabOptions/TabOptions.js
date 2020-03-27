@@ -12,9 +12,11 @@ export class TabOptions {
     text_container,
     options_container,
     on_any_change,
+    no_random_preset,
   }) {
     this.text_container = text_container;
     this.options_container = options_container;
+    this.no_random_preset = no_random_preset;
 
     this.on_any_change = on_any_change;
 
@@ -173,14 +175,8 @@ export class TabOptions {
 
 
 class Option {
-  constructor({option_id, option_description, option_placeholder, option_default, option_dependency, option_negative_dependency, tab_options}) {
-    this.option_id = option_id;
-    this.option_description = option_description;
-    this.option_placeholder = option_placeholder;
-    this.option_default = option_default;
-    this.option_dependency = option_dependency;
-    this.option_negative_dependency = option_negative_dependency;
-    this.tab_options = tab_options;
+  constructor(props) {
+    Object.assign(this, props);
   }
 
   generate_option() {
@@ -220,6 +216,18 @@ class Option {
   }
 }
 
+class DateOption extends Option {
+  constructor(args) {
+    super(args);
+    this.input_tag = 'input';
+    this.input_type = 'date';
+  }
+  generate_dom() {
+    this.generate_option();
+    super.generate_dom();
+  }
+}
+
 class BooleanOption extends Option {
   constructor(args) {
     super(args);
@@ -240,6 +248,23 @@ class SelectOption extends Option {
   constructor(args) {
     super(args);
     this.input_tag = 'select';
+  }
+}
+
+class ChoiceOption extends SelectOption {
+  generate_dom() {
+    this.generate_option();
+
+    this.input_el.style.width = '50px';
+
+    this.option_choices.forEach(choice => {
+      const option_el = document.createElement('option');
+      option_el.innerHTML = choice;
+      option_el.value     = choice;
+      this.input_el.appendChild(option_el);
+    });
+
+    super.generate_dom();
   }
 }
 
@@ -306,7 +331,10 @@ class PresetOption extends SelectOption {
 
     this.input_el.style.width = '83px';
 
-    this.input_el.innerHTML = '<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
+    this.input_el.innerHTML  = '<option label="<custom>" value="">&lt;custom&gt;</option>';
+    if( !this.tab_options.no_random_preset ){
+      this.input_el.innerHTML += '<option label="<random>" value="random">&lt;random&gt;</option>';
+    }
     const preset_names = Object.keys(this.tab_options.preset_list);
     preset_names.forEach(preset_name => {
       const option_el = document.createElement('option');
@@ -450,6 +478,12 @@ function instantiate_options({tab_options, option_spec_list}) {
       }
       if( option_type === 'boolean-input' ){
         return new BooleanOption(args);
+      }
+      if( option_type === 'date-input' ){
+        return new DateOption(args);
+      }
+      if( option_type === 'choice-input' ){
+        return new ChoiceOption(args);
       }
       assert(false, {option_type});
     })

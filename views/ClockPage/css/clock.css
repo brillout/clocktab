@@ -2,3 +2,6 @@
 @import './clock-functional.css';
 @import './clock-layout.css';
 
+#bottom_line {
+  opacity: 0.7;
+}
