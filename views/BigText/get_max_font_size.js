@@ -16,7 +16,9 @@ function get_max_font_size({dom_el, max_width, max_height}) {
 
 // export {adjustFontSize};
 
-function getEstimation(el,width,height,possibleChars,minTextLength){ 
+function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleChars,minTextLength){ 
+  assert(outer_height && outer_width, {outer_height, outer_width});
+
   const DUMMY_SIZE=100;//intuitively: the bigger the font-size the more precise the approximation
 
   var dummyContent=el.innerHTML;
@@ -41,7 +43,6 @@ function getEstimation(el,width,height,possibleChars,minTextLength){
     dummy.style.whiteSpace='nowrap';//should el be equal to get_el_style('white-space')?
     dummy.style.letterSpacing=get_el_style(el,'letter-spacing');
     dummy.style.lineHeight=get_el_style(el,'line-height');
-    dummy.style.padding=get_el_style(el,'padding');
 
   dummy.innerHTML=dummyContent;
   //dummyinspect
@@ -79,14 +80,32 @@ function getEstimation(el,width,height,possibleChars,minTextLength){
   onsole.log(get_el_style(dummy,'width'));
   },5000);
   */
-  var  width_dummy =  width&&parseInt(get_el_style(dummy,'width' ),10);
-  var height_dummy = height&&parseInt(get_el_style(dummy,'height'),10);
-  var ratio = Math.min(height?(height/height_dummy):Infinity,
-                        width?( width/ width_dummy):Infinity);
+  const dummy_height = parseInt(get_el_style(dummy,'height'),10);
+  const dummy_width  = parseInt(get_el_style(dummy,'width' ),10);
+
+  /*
+  const padding_height = parseInt(get_el_style(el, 'padding-left'), 10) + parseInt(get_el_style(el, 'padding-right') ,10);
+  const padding_width  = parseInt(get_el_style(el, 'padding-top' ), 10) + parseInt(get_el_style(el, 'padding-bottom'),10);
+  const inner_width  = outer_width  - padding_height;
+  const inner_height = outer_height - padding_width;
+  console.log({el, padding_width, padding_height});
+
+  const ratio_width  = inner_width  / dummy_width;
+  const ratio_height = inner_height / dummy_height;
+  */
+
+  const ratio_width  = outer_width  / dummy_width;
+  const ratio_height = outer_height / dummy_height;
+
+  const ratio = Math.min(ratio_width, ratio_height);
+
   return {
-    fontSize:ratio*DUMMY_SIZE,
-    width:ratio*width_dummy,
-    height:ratio*height_dummy,
+    fontSize:
+      ratio * DUMMY_SIZE,
+    width:
+      ratio * dummy_width,
+    height:
+      ratio * dummy_height,
   };
 } 
 

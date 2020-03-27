@@ -15,6 +15,7 @@ function init_clock_options() {
     text_container,
     options_container: document.getElementById('options-container'),
     on_any_change,
+    on_font_change,
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);
@@ -24,6 +25,9 @@ function init_clock_options() {
 
   return {get_option_value, font_loaded_promise};
 
+  function on_font_change() {
+    refresh_big_text_size();
+  }
   function on_any_change({initial_run}) {
     update_options();
     if( !initial_run ){

@@ -79,13 +79,22 @@ function refresh_big_text_size() {
   const big_el = document.getElementById('big_line');
   assert(bottom_el && big_el);
 
+  const padding_el = document.getElementById('middle_table');
+  const padding = {
+    height: parseInt(get_el_style(padding_el, 'padding-left'), 10) + parseInt(get_el_style(padding_el, 'padding-right') ,10),
+    width : parseInt(get_el_style(padding_el, 'padding-top' ), 10) + parseInt(get_el_style(padding_el, 'padding-bottom'),10),
+  };
+
+  const window_width = window.innerWidth - padding.width;
+  const window_height = window.innerHeight - padding.height;
+
   let time_new_size;
   let date_new_size;
 
   time_new_size = get_max_font_size({
     dom_el: big_el,
-    max_width: Math.min(window.innerWidth, parseInt(get_max_width(),10)||Infinity),
-    max_height: window.innerHeight,
+    max_width: Math.min(window_width, parseInt(get_max_width(),10)||Infinity),
+    max_height: window_height,
   });
 
   if(bottom_el.innerHTML!="") {
@@ -93,27 +102,27 @@ function refresh_big_text_size() {
     date_new_size = get_max_font_size({
       dom_el: bottom_el,
       max_width: time_new_size.width*0.95,
-      max_height: window.innerHeight,
+      max_height: window_height,
       max_font_size,
     });
 
-    const diff = time_new_size.height+date_new_size.height-window.innerHeight;
+    const diff = time_new_size.height+date_new_size.height - window_height;
     if(diff>0) {
       time_new_size = get_max_font_size({
         dom_el: big_el,
-        max_width: window.innerWidth,
-        max_height: window.innerHeight-date_new_size.height,
+        max_width: window_width,
+        max_height: window_height - date_new_size.height,
       });
       date_new_size = get_max_font_size({
         dom_el: bottom_el,
         max_width: time_new_size.width,
-        max_height: window.innerHeight-time_new_size.height,
+        max_height: window_height - time_new_size.height,
         max_font_size,
       });
       time_new_size = get_max_font_size({
         dom_el: big_el,
-        max_width: window.innerWidth,
-        max_height: window.innerHeight-date_new_size.height,
+        max_width: window_width,
+        max_height: window_height - date_new_size.height,
       });
     }
 
@@ -123,3 +132,6 @@ function refresh_big_text_size() {
   big_el.style.fontSize = time_new_size.fontSize  +'px';
 }
 
+function get_el_style(el, styleProp) {
+  return document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+}

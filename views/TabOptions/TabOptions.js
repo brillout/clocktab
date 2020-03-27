@@ -11,14 +11,16 @@ export class TabOptions {
     preset_list,
     text_container,
     options_container,
-    on_any_change,
     no_random_preset,
+    on_any_change,
+    on_font_change,
   }) {
     this.text_container = text_container;
     this.options_container = options_container;
     this.no_random_preset = no_random_preset;
 
     this.on_any_change = on_any_change;
+    this.on_font_change = on_font_change;
 
     this.preset_list = preset_list;
     this.option_list = instantiate_options({tab_options: this, option_spec_list});
@@ -51,6 +53,7 @@ export class TabOptions {
     const {text_container} = this;
     const get_font_name = () => this.get_font_name();
     await load_text_font({text_container, get_font_name});
+    this.on_font_change();
     this.resolve_font_loaded_promise();
   }
   update_option_visibility() {
