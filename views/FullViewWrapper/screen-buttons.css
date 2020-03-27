@@ -39,19 +39,23 @@
 /* Icons */
 .screen-button {
   position: relative;
-  padding-left: 30px;
+  padding-left: 39px;
 }
 .screen-button:before {
+  --left: 9px;
   position: absolute;
   height: 100%;
   top: 0;
-  left: 6px;
+  left: var(--left);
   width: 20px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 15px;
   content: "";
   display: block;
+}
+#manual-fullscreen:before {
+  left: calc(var(--left) + 1px);
 }
 #manual-fullscreen:before {
   background-image: url(./fullscreen.svg);
