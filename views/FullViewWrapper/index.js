@@ -14,7 +14,7 @@ function FullView({children, ...props}) {
     <Header/>
 
     <div
-      className="pretty_scroll_area__hide_scroll_element"
+      className="pretty_scroll_area__hide_scroll_element load-area"
       {...props}
       style={{
         height: '100vh',
