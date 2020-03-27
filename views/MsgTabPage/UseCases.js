@@ -5,7 +5,7 @@ export default UseCases;
 function UseCases() {
   return (
     <Center>
-      <Title>Msg Tab Use Cases</Title>
+      <Title>Use Cases</Title>
       <Item>School & Universities - Communicate to students without speaking, e.g. during examination.</Item>
       <Item>At the library - You are forbidden to talk.</Item>
       <Item>Audio not working - At a video coference or at presentation with a large audience.</Item>
