@@ -39,7 +39,7 @@
 /* Icons */
 .screen-button {
   position: relative;
-  padding-left: 39px;
+  padding-left: 36px;
 }
 .screen-button:before {
   --left: 9px;
