@@ -109,4 +109,10 @@ export default {
     'font_shadow':'',
     'clock_font':'Knewave',
     'color_font':'#ffdf00'},
+  'gold':{
+    'bg_color':'#7b3535',
+    'bg_image':'',
+    'font_shadow':'',
+    'clock_font':'Petit Formal Script',
+    'color_font':'#a79c00'},
 };

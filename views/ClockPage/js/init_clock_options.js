@@ -1,6 +1,6 @@
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
-import THEME_LIST from './THEME_LIST';
+import PRESETS from './PRESETS';
 import {TabOptions} from '../../TabOptions';
 
 export default init_clock_options;
@@ -10,7 +10,7 @@ function init_clock_options() {
 
   const tab_options = new TabOptions({
     option_spec_list: get_option_list(),
-    preset_list: THEME_LIST,
+    preset_list: PRESETS,
     text_container,
     options_container: document.getElementById('options-container'),
     on_any_change,
