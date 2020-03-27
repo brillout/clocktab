@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" style="stroke-linejoin:round;stroke:currentColor;stroke-width:2;stroke-linecap:round;fill:none" xmlns="http://www.w3.org/2000/svg" height="1.3333pc" viewBox="0 0 20.0002 20.000198" width="1.3333pc" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" class="feather feather-maximize">
+ <path d="m6.0001 1.0001h-3c-1.1046 0-2 .89543-2 2v3m13 13h3c1.1046 0 2-.89543 2-2v-3m-18 0v3c0 1.1046.89543 2 2 2h3"/>
+ <g transform="translate(-1.9741 -1.9998)">
+  <polyline points="15 3 21 3 21 9"/>
+  <line x2="14" y1="3" x1="21" y2="10"/>
+ </g>
+</svg>

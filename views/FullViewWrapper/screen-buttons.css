@@ -29,13 +29,46 @@
   transition: opacity 0.7s ease-out;
 }
 .hide_scroll .screen-button,
-#auto-scroll.screen-button[data-counter='0'],
 #auto-scroll.screen-button[data-disable-auto-scroll] {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.7s ease-in;
 }
 
+
+/* Icons */
+.screen-button {
+  position: relative;
+  padding-left: 30px;
+}
+.screen-button:before {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 6px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+  content: "";
+  display: block;
+}
+#manual-fullscreen:before {
+  background-image: url(./fullscreen.svg);
+}
+#manual-scroll:before {
+  background-image: url(./center.svg);
+}
 #auto-scroll:before {
-  content: 'Auto-center ' attr(data-counter) 's';
+  background-image: url(./center.svg);
+}
+
+
+#auto-scroll:before {
+  animation: blinker 1.3s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0.15;
+  }
 }

@@ -73,18 +73,25 @@ function activate_auto_scroll({do_scroll}) {
   var counter;
   var repeater;
   function start_auto_scroll() {
-    auto_scroll.removeAttribute(disable_prop);
+    show();
     if( repeater ) return;
     counter = AUTO_DURATION;
     inOneSec();
     assert.internal(repeater);
   }
   function stop_auto_scroll() {
-    auto_scroll.setAttribute(disable_prop, 'true');
+    hide();
     if( repeater ) {
       window.clearTimeout(repeater);
       repeater = null;
     }
+  }
+
+  function show() {
+    auto_scroll.removeAttribute(disable_prop);
+  }
+  function hide() {
+    auto_scroll.setAttribute(disable_prop, 'true');
   }
 
   function inOneSec() {
@@ -101,8 +108,12 @@ function activate_auto_scroll({do_scroll}) {
   }
 
   function updateDom() {
- // auto_scroll.setAttribute('data-counter', (counter<10?'0':'')+counter);
-    auto_scroll.setAttribute('data-counter', counter);
+    if( !counter ) {
+      hide();
+    } else {
+      show();
+    }
+    auto_scroll.textContent = 'Auto-center ' + counter + 's';
   }
 
   function scrollListener(scrollPos) {
