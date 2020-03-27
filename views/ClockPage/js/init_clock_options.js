@@ -2,6 +2,7 @@ import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import PRESETS from './PRESETS';
 import {TabOptions} from '../../TabOptions';
+import {set_text_position} from '../../BigText';
 
 export default init_clock_options;
 
@@ -44,6 +45,7 @@ function init_clock_options() {
       const twelve_hour = get_option_value('12_hour');
       document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
     }
+    set_text_position(get_option_value('clock_position'));
   }
 }
 
@@ -52,27 +54,27 @@ function get_option_list() {
     {
       option_id:'theme',
       option_type: 'preset-input',
-      option_description:'theme',
+      option_description:'Theme',
       option_default: 'steel',
     },
     {
       option_id: 'clock_font',
       option_type: 'text-font-input',
-      option_description: 'font',
+      option_description: 'Font',
       option_default: 'Josefin Slab',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'color_font',
       option_type: 'text-color-input',
-      option_description: 'font color',
+      option_description: 'Font color',
       option_default: '#a70000',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'font_shadow',
       option_type: 'text-shadow-input',
-      option_description: 'font shadow',
+      option_description: 'Font shadow',
       option_default: '',
       option_negative_dependency: 'theme',
       option_placeholder: 'see css text-shadow',
@@ -80,20 +82,20 @@ function get_option_list() {
     {
       option_id: 'font_size',
       option_type: 'text-input',
-      option_description: 'font size',
+      option_description: 'Clock size',
       option_default: '580',
     },
     {
       option_id: 'bg_color',
       option_type: 'background-color-input',
-      option_description: 'background color',
+      option_description: 'Background color',
       option_default: '#ffffff',
       option_negative_dependency: 'theme',
     },
     {
       option_id: 'bg_image',
       option_type: 'background-image-input',
-      option_description: 'background image',
+      option_description: 'Background image',
       option_default: ''    ,
       option_negative_dependency: 'theme',
       option_placeholder: 'image url',
@@ -101,7 +103,7 @@ function get_option_list() {
     {
       option_id: 'color_icon',
       option_type: 'color-input',
-      option_description: 'icon color',
+      option_description: 'Tab icon color',
       /*
       option_default: '#cc0000',
       option_default: '#007000',
@@ -111,13 +113,31 @@ function get_option_list() {
     {
       option_id: 'show_seconds_title',
       option_type: 'boolean-input',
-      option_description: 'seconds in title',
+      option_description: 'Tab title seconds',
       option_default: false,
+    },
+    {
+      option_id: 'clock_position',
+      option_type: 'choice-input',
+      option_choices: [
+        'top-left',
+        'top',
+        'top-right',
+        'center-left',
+        'center',
+        'center-right',
+        'bottom-left',
+        'bottom',
+        'bottom-right',
+      ],
+      option_description: 'Clock position',
+      option_default: 'center',
+      option_negative_dependency: 'theme',
     },
     {
       option_id: 'show_seconds',
       option_type: 'boolean-input',
-      option_description: 'seconds',
+      option_description: 'Seconds',
       option_default: true,
     },
     {
@@ -136,13 +156,13 @@ function get_option_list() {
     {
       option_id: 'show_date',
       option_type: 'boolean-input',
-      option_description: 'date',
+      option_description: 'Date',
       option_default: true,
     },
     {
       option_id: 'show_week',
       option_type: 'boolean-input',
-      option_description: 'week',
+      option_description: 'Week',
       option_default: false,
       option_dependency: 'show_date',
     }
