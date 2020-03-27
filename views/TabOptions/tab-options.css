@@ -75,7 +75,7 @@ input[type='color'] {
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
 
-  margin-top: 20px;
+  padding: 20px;
   margin-bottom: 40px;
 }
 

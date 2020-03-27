@@ -220,7 +220,7 @@ class DateOption extends Option {
   constructor(args) {
     super(args);
     this.input_tag = 'input';
-    this.input_type = 'date';
+    this.input_type = 'datetime';
   }
   generate_dom() {
     this.generate_option();

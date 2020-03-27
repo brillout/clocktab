@@ -1,6 +1,7 @@
 import {refresh_big_text_size} from '../BigText';
 import {TabOptions} from '../TabOptions';
 import {dom_beat} from './set_countdown';
+import PRESETS from './PRESETS';
 import {set_text_position} from '../BigText';
 
 export default init_clock_options;
@@ -10,7 +11,7 @@ function init_clock_options() {
 
   const tab_options = new TabOptions({
     option_spec_list: get_option_list(),
-    preset_list: get_presets(),
+    preset_list: PRESETS,
     text_container,
     options_container: document.getElementById('options-container'),
     on_any_change,
@@ -127,41 +128,4 @@ function get_option_list() {
       option_placeholder: 'image url',
     },
   ];
-}
-
-function get_presets() {
-  const new_year = new Date((new Date(new Date()-8*60*60*1000).getFullYear()+1).toString());
-  const us_election = new Date("November 3, 2020");
-
-  return {
-    'new-year':{
-      'countdown_title': "2021",
-      'countdown_date': new_year,
-      'countdown_position': 'center',
-      'countdown_bg_color':'',
-      'countdown_bg_image':'https://i.imgur.com/H4ZC3pZ.jpg',
-      'countdown_font':'Roboto',
-      'countdown_shadow':'0 1px 1px #000',
-      'countdown_color':'#e9e9e9'},
-    'trump-wins-2020':{
-      'countdown_title': "Trump Wins",
-      'countdown_date': us_election,
-      'countdown_position': 'bottom',
-      'countdown_bg_color':'',
-      'countdown_bg_image': 'https://i.imgur.com/BpA8fWK.png',
-      'countdown_font':'Roboto',
-      'countdown_shadow':'1px 1px black',
-      /// red: #e00014
-      'countdown_color':'#0300ff'},
-    'trump-loses-2020':{
-      'countdown_title': "End of Trump",
-      'countdown_date': us_election,
-      'countdown_position': 'bottom',
-      'countdown_bg_color':'',
-      // Non-resized: https://i.imgur.com/srnUbAP.jpg
-      'countdown_bg_image': 'https://i.imgur.com/srnUbAPh.jpg',
-      'countdown_font':'Roboto',
-      'countdown_shadow':'1px 1px black',
-      'countdown_color':'white'},
-  };
 }
