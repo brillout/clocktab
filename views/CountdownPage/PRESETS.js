@@ -4,7 +4,7 @@ const christmas = new Date("December 25, "+new Date().getFullYear());
 
 const PRESETS = {
   'trump-wins-2020':{
-    'countdown_size': '780',
+    'countdown_size': '380',
     'countdown_title': "Trump Wins",
     'countdown_date': us_election,
     'countdown_position': 'bottom',
@@ -15,7 +15,7 @@ const PRESETS = {
     /// red: #e00014
     'countdown_color':'#0300ff'},
   'trump-loses-2020':{
-    'countdown_size': '780',
+    'countdown_size': '380',
     'countdown_title': "End of Trump",
     'countdown_date': us_election,
     'countdown_position': 'bottom',
@@ -27,7 +27,7 @@ const PRESETS = {
     'countdown_color':'white'},
 
   'new-year':{
-    'countdown_size': '780',
+    'countdown_size': '580',
     'countdown_title': "2021",
     'countdown_date': new_year,
     'countdown_position': 'center',
@@ -42,7 +42,7 @@ const PRESETS = {
   // - https://imgur.com/a/0BZ9N2b
   // - https://imgur.com/a/72JS8Jn
   'christmas':{
-    'countdown_size': '780',
+    'countdown_size': '380',
     'countdown_title': 'Christmas',
     'countdown_date': christmas,
     'countdown_position': 'top',
