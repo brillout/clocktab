@@ -1,4 +1,4 @@
-import ml from '../../../views/ml';
+import ml from './ml';
 
 export default loadAnalytics;
 

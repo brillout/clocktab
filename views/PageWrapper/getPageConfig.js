@@ -1,6 +1,7 @@
 import React from 'react';
 import PageWrapper from './PageWrapper';
 import logoUrl from '../Header/logo.svg';
+import on_page_load from './on_page_load';
 
 export {getPageConfig};
 
@@ -19,7 +20,7 @@ function getPageConfig(View, header, {route, onPageLoad, noHeader, ...pageConfig
     view,
     route,
     title,
-    onPageLoad,
+    on_page_load: () => on_page_load(onPageLoad),
     favicon: logoUrl,
     renderToDom: true,
     renderToHtml: true,

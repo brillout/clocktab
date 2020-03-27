@@ -1,4 +1,4 @@
-import loadCommon from './js/common.js';
+import './css/common.css';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,13 +17,5 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   }
   */
 
-  if( !page.onPageLoad ){
-    loadCommon();
-  } else {
-    let loadCommon_called = false;
-    page.onPageLoad(() => {loadCommon_called = true; loadCommon();});
-    if( !loadCommon_called ){
-      loadCommon();
-    }
-  }
+  page.on_page_load();
 }

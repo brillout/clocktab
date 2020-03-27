@@ -26,7 +26,7 @@ export default getPageConfig(
   {onPageLoad},
 );
 
-function onPageLoad(loadCommon) {
+function onPageLoad() {
   const link = document.querySelector('#repair-link');
 
   const browser_spec = getBrowser();
@@ -43,8 +43,6 @@ function onPageLoad(loadCommon) {
     '',
     'Thanks for having a look!',
   ].join('\n'));
-
-  loadCommon();
 
   document.querySelector('#browser-spec').innerHTML = browser_spec;
   document.querySelector('#setting-spec').innerHTML = setting_spec;

@@ -8,7 +8,7 @@ import {sleep} from '../../tab-utils/sleep';
 
 export default onPageLoad;
 
-async function onPageLoad (loadWrapper){
+async function onPageLoad (load_common){
   const {get_option_value, font_loaded_promise} = init_clock_options();
 
   set_max_width_getter(() => get_option_value('font_size'));
@@ -17,14 +17,14 @@ async function onPageLoad (loadWrapper){
 
   on_big_text_load();
 
-  loadWrapper();
-
   auto_remove_hash();
 
   await Promise.race([
     font_loaded_promise,
     sleep({seconds: 0.4}),
   ]);
+
+  load_common();
 
   loadAd();
 //setTimeout(() => loadAd(), 500);

@@ -5,6 +5,7 @@ import Footer from '../Footer';
 import assert from '@brillout/assert';
 import logoUrl from '../Header/logo.svg';
 import './full-view.css';
+import on_page_load from './on_page_load';
 
 export {FullView, MorePanel, config};
 
@@ -54,15 +55,7 @@ function config(conf) {
     renderToHtml: true,
     favicon: logoUrl,
     ...conf,
-    onPageLoad: loadWrapper => {
-      if( conf.onPageLoad ){
-        conf.onPageLoad(() => {
-          onPageLoad(loadWrapper);
-        });
-      } else {
-        onPageLoad(loadWrapper);
-      }
-    },
+    on_page_load: () => on_page_load(conf.onPageLoad),
   };
 }
 

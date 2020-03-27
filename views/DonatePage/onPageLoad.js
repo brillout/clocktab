@@ -1,8 +1,7 @@
 export default onPageLoad;
 
-function onPageLoad(loadCommon) {
+function onPageLoad() {
   set_email_paypal();
-  loadCommon();
 }
 
 function set_email_paypal() {

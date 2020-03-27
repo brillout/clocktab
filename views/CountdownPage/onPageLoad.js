@@ -5,12 +5,10 @@ import {start_countdown} from './set_countdown';
 
 export default onPageLoad;
 
-async function onPageLoad(loadWrapper) {
+async function onPageLoad(load_common) {
   const {get_option_value, font_loaded_promise} = init_countdown_options();
 
   set_max_width_getter(() => get_option_value('countdown_size'));
-
-  loadWrapper();
 
   start_countdown({get_option_value});
 
@@ -20,4 +18,6 @@ async function onPageLoad(loadWrapper) {
     font_loaded_promise,
     sleep({seconds: 0.4}),
   ]);
+
+  load_common();
 }
