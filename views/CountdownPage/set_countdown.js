@@ -4,14 +4,6 @@ export {start_countdown};
 export {dom_beat};
 
 
-let countdown_text_el;
-function get_dom_elements() {
-  if( countdown_text_el) {
-    return;
-  }
-  countdown_text_el = document.querySelector('#countdown-text');
-}
-
 let get_option_value;
 function start_countdown({get_option_value: _get_option_value}) {
   get_option_value = _get_option_value;
@@ -19,26 +11,29 @@ function start_countdown({get_option_value: _get_option_value}) {
 }
 
 function dom_beat() {
-  get_dom_elements();
+  const top_text = document.querySelector('#top-text');
+  const center_text = document.querySelector('#center-text');
 
   const countdown_date = new Date(get_option_value('countdown_date'));
 
   let countdown_title = get_option_value('countdown_title');
   countdown_title = countdown_title.replace('%date', new Date().toLocaleDateString());
-  set_bottom_line(countdown_title);
 
   const now = new Date();
-  let time_left = format_time_left(countdown_date - now);
-  countdown_text_el.textContent = time_left;
+  const {time_major, time_minor} = format(countdown_date - now);
+
+  center_text.textContent = time_major;
+  top_text.textContent = countdown_title;
+  set_bottom_line(time_minor);
 }
 
-function format_time_left(time_left__miliseconds) {
+function format(time_left__miliseconds) {
   let rest = time_left__miliseconds
 
   const milliseconds = rest % 1000;
   rest = (rest / 1000) | 0;
 
-  const seconds = rest % 60;
+  const seconds = pad(rest % 60);
   rest = (rest / 60) | 0;
 
   const minutes = rest % 60;
@@ -47,24 +42,54 @@ function format_time_left(time_left__miliseconds) {
   const hours = rest % 24;
   rest = (rest / 24) | 0;
 
-  const days = rest;
+  const days = rest % 30;
+  rest = (rest / 30) | 0;
 
-  let time_left = '';
+  const months = rest % 12;
+  rest = (rest / 12) | 0;
+
+  const years = rest;
+
+  /*
+  const decades = rest;
+
+  const centuries = rest;
+
+  const centuries = rest;
+
+  const millennia
+  */
+
+  let time_major = '';
+  let time_minor = '';
   [
-    [days,'d'],
-    [hours, 'h'],
-    [minutes, 'm'],
-    [seconds, 's'],
+    [years,'y', 'year'],
+    [months,'mo', 'month'],
+    [days,'d', 'day'],
+    [hours, 'h', 'hour'],
+    [minutes, 'm', 'minute'],
+    [seconds, 's', ''],
  // [milliseconds, 'ms'],
   ]
-  .forEach(([val, suffix]) => {
-    if( !time_left && !val ) return;
+  .filter(([val]) => val)
+  .forEach(([val, suffix, suffix_long], key) => {
+    if( key===0 ){
+      time_major = val;
+      if( suffix_long ){
+        time_major += ' ' + suffix_long + (val!=1?'s':'');
+      }
+      return;
+    }
 
-    if( time_left ) time_left+=' ';
-    time_left += val + suffix;
+    if( time_minor ) time_minor+=' ';
+    time_minor += val + suffix;
   });
 
-  return time_left;
+  return {time_major, time_minor};
+}
+
+function pad(i) {
+  return (i<10?'0':'')+i;
 }
 
 function ignite_beat(pulse) {
@@ -72,7 +97,7 @@ function ignite_beat(pulse) {
 
   function pulse() {
     dom_beat();
-    setTimeout(pulse, 300);
+    setTimeout(pulse, 1001);
   }
 }
 
