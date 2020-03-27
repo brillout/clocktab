@@ -111,6 +111,7 @@ function get_option_list() {
       option_type: 'text-input',
       option_description: 'Countdown size',
       option_default: '580',
+      option_negative_dependency: 'countdown_preset',
     },
     {
       option_id: 'countdown_bg_color',
