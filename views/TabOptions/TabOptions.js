@@ -255,7 +255,7 @@ class ChoiceOption extends SelectOption {
   generate_dom() {
     this.generate_option();
 
-    this.input_el.style.width = '50px';
+    this.input_el.style.width = '100px';
 
     this.option_choices.forEach(choice => {
       const option_el = document.createElement('option');
@@ -329,7 +329,7 @@ class PresetOption extends SelectOption {
   generate_dom() {
     this.generate_option();
 
-    this.input_el.style.width = '83px';
+    this.input_el.style.width = '93px';
 
     this.input_el.innerHTML  = '<option label="<custom>" value="">&lt;custom&gt;</option>';
     if( !this.tab_options.no_random_preset ){
@@ -368,7 +368,7 @@ class TextFontOption extends SelectOption {
   }
   generate_dom() {
     this.generate_option();
-    this.input_el.style.width = '90px';
+    this.input_el.style.width = '110px';
     super.generate_dom();
   }
 }

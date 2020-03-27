@@ -14,7 +14,7 @@ export {set_text_position};
 function BigText({top_content, big_text, bottom_max_font_size, id}) {
   return (
     <div id="zoom_container">
-      <div id='layout_container' className='center-layout'>
+      <div id='layout_container' className='position-center'>
 
         <div id="layout_top">
           {top_content}
@@ -37,9 +37,12 @@ function BigText({top_content, big_text, bottom_max_font_size, id}) {
 }
 
 function set_text_position(position) {
-  assert(['top', 'center', 'bottom'].includes(position));
   const layout_container = document.querySelector('#layout_container');
-  layout_container.setAttribute('class', position+'-layout');
+  layout_container.setAttribute('class',
+    position.split('-')
+    .map(pos => 'position-'+pos)
+    .join(' ')
+  );
 }
 
 function on_big_text_load() {

@@ -24,27 +24,32 @@
   flex-basis: 0;
 }
 
-#layout_container.center-layout > #layout_top,
-#layout_container.center-layout > #layout_bottom {
+
+
+.position-center #layout_top,
+.position-center #layout_bottom {
   flex-grow: 1;
 }
-#layout_container.top-layout > #layout_top {
+.position-top #layout_top {
   flex-grow: 0;
 }
-#layout_container.bottom-layout > #layout_top {
+.position-bottom #layout_top {
   flex-grow: 1;
 }
-#layout_container.bottom-layout > #layout_bottom {
+.position-bottom #layout_bottom {
   flex-grow: 0;
 }
 
 
-
-
-/* for metro apps
-#big_line > table {width: 100%}
-*/
-
+#middle_table {
+  margin: auto;
+}
+.position-left #middle_table {
+  margin-left: 0;
+}
+.position-right #middle_table {
+  margin-right: 0;
+}
 
 
 
@@ -55,7 +60,6 @@ table td {
   padding:0;
 }
 #middle_table {
-  margin: auto;
   white-space: nowrap;
 }
 

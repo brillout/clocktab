@@ -67,7 +67,17 @@ function get_option_list() {
     {
       option_id: 'countdown_position',
       option_type: 'choice-input',
-      option_choices: ['top', 'center', 'bottom'],
+      option_choices: [
+        'top-left',
+        'top',
+        'top-right',
+        'center-left',
+        'center',
+        'center-right',
+        'bottom-left',
+        'bottom',
+        'bottom-right',
+      ],
       option_description: 'Countdown position',
       option_default: 'bottom',
       option_negative_dependency: 'countdown_preset',
