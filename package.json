@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "yarn goldpage:dev",
 
-    "install-all": "yarn install && (cd tab-utils/ && git submodule update . && yarn install)",
+    "postinstall": "git submodule update tab-utils/ && (cd tab-utils/ && yarn install)",
 
     "dev:todo": "yarn goldpage:dev & sleep 5 && yarn dev:link-static",
     "goldpage:dev": "goldpage dev",
