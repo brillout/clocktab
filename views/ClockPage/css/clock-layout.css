@@ -25,15 +25,3 @@ body:not(.noPeriod)  #time_text,
 body:not(.noSeconds) #time_text{
   padding-right: .2em;
 }
-
-
-
-#options-container {
-  margin: auto;
-  max-width: var(--max-content-width);
-  padding-left: var(--content-side-padding);
-  padding-right: var(--content-side-padding);
-
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
