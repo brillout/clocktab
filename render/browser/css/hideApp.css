@@ -1,3 +1,4 @@
+/*
 .load-area:before {
   opacity: 0;
   transition: opacity 1s ease-out;
@@ -18,4 +19,4 @@ html.hideApp .load-area:before {
 .load-area {
   position: relative;
 }
-
+*/
