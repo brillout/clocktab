@@ -1,8 +1,6 @@
 import assert from '@brillout/assert';
 import pretty_scroll_area, {scrollToElement, addScrollListener} from '../../tab-utils/pretty_scroll_area';
-import activate_email_links from '../activate_email_links';
-import activate_app from '../activate_app';
-import loadAnalytics from '../loadAnalytics';
+import load_common from '../common/load_common';
 
 export default on_page_load;
 
@@ -11,14 +9,6 @@ function on_page_load(on_load) {
     load_full_view();
     load_common();
   });
-}
-
-function load_common() {
-  activate_email_links();
-
-  activate_app();
-
-  loadAnalytics();
 }
 
 function load_full_view() {
