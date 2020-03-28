@@ -11,7 +11,7 @@ function init_clock_options() {
 
   const tab_options = new TabOptions({
     option_spec_list: get_option_list(),
-    preset_list: PRESETS,
+    preset_spec_list: PRESETS,
     text_container,
     options_container: document.getElementById('options-container'),
     on_any_change,

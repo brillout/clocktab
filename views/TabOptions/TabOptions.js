@@ -43,11 +43,12 @@ export class TabOptions {
     this.option_list.forEach(opt => {
       opt.generate_dom();
     });
-    this.global_side_effects({initial_run: true});
 
     if( this.enable_import_export ){
       this.generate_import_export_dom();
     }
+
+    this.global_side_effects({initial_run: true});
   }
 
   generate_import_export_dom() {
@@ -99,6 +100,7 @@ export class TabOptions {
       const name_option = new TextOption({
         option_id: 'name',
         option_description: 'Name of your preset',
+        option_default: '',
         tab_options: this,
       });
       name_option.generate_dom();
@@ -177,7 +179,7 @@ export class TabOptions {
       assert(!['preset_name', 'preset_id', 'id', 'name'].includes(opt_val));
       this
       .find_option(option => option.option_id === opt_id)
-      .set_input_value(opt_value);
+      .set_input_value(opt_val);
     });
     this.select_preset_creator();
   }
@@ -205,7 +207,7 @@ export class TabOptions {
   }
   update_option_visibility() {
     // Visibility of options
-    const get_input_val = option_id => this.find_option(option => option.option_id === opt.option_dependency).input_value;
+    const get_input_val = dep_option_id => this.find_option(option => option.option_id === dep_option_id).input_value;
     this.option_list.forEach(opt => {
       const to_hide = (
         opt.option_dependency && !get_input_val(opt.option_dependency) ||
@@ -219,15 +221,17 @@ export class TabOptions {
     });
 
     // Visibility of action buttons
-    if( this.enable_import_export ){
-      if( this.selected_preset.is_preset_creator || this.selected_preset.is_random_preset ){
+    if( this.enable_import_export && !this.selected_preset.is_random_preset ){
+      if( this.selected_preset.is_preset_creator ){
         this.button_mod.hide();
         this.button_url.show();
-        this.button_del.show();
+        this.name_option.show();
+     // this.button_del.hide();
       } else {
         this.button_mod.show();
+        this.name_option.hide();
         this.button_url.hide();
-        this.button_del.hide();
+     // this.button_del.show();
       }
     }
   }
@@ -310,12 +314,21 @@ export class TabOptions {
   get preset_option() {
     return this.find_option(option => option.is_preset_selector);
   }
+
+  get_option_value(option_id) {
+    return (
+      this
+      .find_option(option => option.option_id === option_id)
+      .active_value
+    );
+  }
 }
 
 class Button {
-  constructor({on_click, text}) {
+  constructor({on_click, text, tab_options}) {
     this.on_click = on_click;
     this.text = text;
+    this.tab_options = tab_options;
   }
   generate_dom() {
     const dom_el =document.createElement('button'); 
@@ -362,8 +375,8 @@ class Option {
 
   generate_dom() {
     assert(this.generate_option_called);
-    assert(props.input_el);
-    assert(props.label_el);
+    assert(this.input_el);
+    assert(this.label_el);
 
     const on_input_change = () => {
       this.tab_options.global_side_effects();
@@ -379,19 +392,19 @@ class Option {
     return this.input_el.value;
   }
   get preset_value() {
-    const preset_val = this.tab_options.active_preset.get_option_value(this);
+    const preset_val = this.tab_options.active_preset.get_opt_value(this);
     return preset_val;
   }
   get active_value() {
     const {preset_value} = this;
-    return preset_value===null ? this.input_value : preset_value;
+    return preset_value!==null ? preset_value : this.input_value;
   }
 
   val_modifier(val) {
     this.input_el = val;
   }
   set_input_value(val) {
-    this.modify_value(val);
+    this.val_modifier(val);
     // TODO?
     //  - Direclty trigger localStorage save and call global listener only once?
     //  - Or throttle global listener?
@@ -623,7 +636,7 @@ function activate_option({options_container, label_el, option_id, on_input_chang
   assert(label_el);
   assert(option_id);
   assert(on_input_change);
-  assert(option_default!==undefined);
+  assert(option_default!==undefined, {option_id});
 
   options_container.appendChild(label_el);
 
@@ -763,7 +776,7 @@ class Preset {
     this.preset_options = preset_options;
     this.tab_options = tab_options;
   }
-  get_option_value(option) {
+  get_opt_value(option) {
     const {option_id} = option;
     assert(option_id);
     const {preset_options} = this;
@@ -791,7 +804,7 @@ class Preset {
   }
   get preset_font_name() {
     const preset_font_name = (
-      this.get_option_value(this.tab_options.font_option)
+      this.get_opt_value(this.tab_options.font_option)
     );
     assert(preset_font_name);
   }
