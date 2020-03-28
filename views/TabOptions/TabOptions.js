@@ -58,7 +58,7 @@ export class TabOptions {
           tab_options: this,
           text: 'Customize',
           on_click: () => {
-            assert(!this.selected_preset.is_preset_creator);
+            assert(!this.selected_preset.is_creator_preset);
             this.modify_preset();
           },
         })
@@ -73,9 +73,9 @@ export class TabOptions {
           tab_options: this,
           text: 'Save as share-able URL',
           on_click: () => {
-            assert(this.selected_preset.is_preset_creator);
+            assert(this.selected_preset.is_creator_preset);
             this.save_custom_preset();
-            assert(!this.selected_preset.is_preset_creator);
+            assert(!this.selected_preset.is_creator_preset);
             /* TODo
             const options_url = this.selected_preset.generate_url();
             alert(options_url);
@@ -173,7 +173,7 @@ export class TabOptions {
 
   modify_preset() {
     const {active_preset} = this;
-    assert(!active_preset.is_preset_creator);
+    assert(!active_preset.is_creator_preset);
     Object.entries(active_preset.preset_options)
     .forEach(([opt_id, opt_val]) => {
       assert(!['preset_name', 'preset_id', 'id', 'name'].includes(opt_val));
@@ -222,7 +222,7 @@ export class TabOptions {
 
     // Visibility of action buttons
     if( this.enable_import_export && !this.selected_preset.is_randomizer_preset ){
-      if( this.selected_preset.is_preset_creator ){
+      if( this.selected_preset.is_creator_preset ){
         this.button_mod.hide();
         this.button_url.show();
         this.name_option.show();
@@ -236,7 +236,7 @@ export class TabOptions {
     }
   }
   load_font_list() {
-    if( !this.selected_preset.is_preset_creator ){
+    if( !this.selected_preset.is_creator_preset ){
       return;
     }
     const fonts = this.preset_list.get_all_preset_fonts();
@@ -805,7 +805,7 @@ class Preset {
     return (
       !this.is_invalid &&
       !this.is_randomizer_preset &&
-      !this.is_preset_creator
+      !this.is_creator_preset
     );
   }
   get is_invalid(){
@@ -863,7 +863,7 @@ RandomizerPreset.test = preset_name => (
 class CreatorPreset {
   constructor() {
     this.preset_name = CreatorPreset.creator_preset_name;
-    this.is_preset_creator = true;
+    this.is_creator_preset = true;
   }
 }
 CreatorPreset.creator_preset_name='_creator';
