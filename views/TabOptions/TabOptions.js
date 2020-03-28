@@ -609,6 +609,16 @@ class TextFontOption extends SelectOption {
     this.input_el.style.width = '110px';
     super.generate_dom();
   }
+  get input_value() {
+    const val = super.input_value;
+    /*
+    if( !val ){
+      val = this.input_el.querySelectorAll('option')[3].value;
+    }
+    */
+    assert(val, {val}, this.input_el.id);
+    return val;
+  }
 }
 
 

@@ -3,6 +3,8 @@ import assert from '@brillout/assert';
 export default load_font;
 
 async function load_font(font_name) {
+  assert(font_name, {font_name});
+
   const WebFont = require('webfontloader');
 
   let resolve;
