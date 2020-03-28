@@ -95,7 +95,9 @@ class BooleanInput extends PersistantInput {
 }
 
 class TextInput extends PersistantInput {
-  constructor(args) {
+  constructor({input_placeholder, input_width, ...args}) {
+    // TN input_placeholder
+    // TN input_width
     super(args);
     this.input_tag = 'input';
     this.input_type = 'text';
@@ -104,6 +106,18 @@ class TextInput extends PersistantInput {
     // `input` event seem to only be reliably fired for text inputs
     //  - https://caniuse.com/#feat=input-event
     return 'input';
+  }
+
+  // TN
+  generate_dom() {
+    const prefill = this.option_placeholder || this.option_default;
+    if( prefill ){
+      this.input_el.size = prefill.length*3/4;
+    } else {
+      this.input_el.style.width = '35px';
+    }
+
+    super.generate_dom();
   }
 }
 
