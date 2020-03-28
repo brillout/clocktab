@@ -122,6 +122,8 @@ export class TabOptions {
     });
     assert(!new_preset.is_invalid);
 
+    this.preset_list.add_preset(new_preset);
+
     new_preset.save();
 
     this.select_preset(new_preset);
@@ -157,6 +159,8 @@ export class TabOptions {
       }
       return;
     }
+
+    this.preset_list.add_preset(new_preset);
 
     new_preset.save();
 
@@ -710,8 +714,11 @@ class PresetList {
       } else {
         preset = new Preset({preset_name, preset_options, tab_options});
       }
-      this._presets.push(preset);
+      this.add_preset(preset);
     });
+  }
+  add_preset(preset) {
+    this._presets.push(preset);
   }
   get preset_names() {
     return (
