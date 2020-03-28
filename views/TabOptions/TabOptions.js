@@ -4,7 +4,7 @@ import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
 import './tab-options.css';
-import PersistantInput from './PersistantInput';
+import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput} from './PersistantInput';
 
 export class TabOptions {
   constructor({
@@ -248,7 +248,7 @@ export class TabOptions {
     }
     const fonts = this.preset_list.get_all_preset_fonts();
     const font_option_id = this.font_option.option_id;
-    load_font_list({fonts, font_option_id});
+    load_font_list({fonts/* TN, font_option_id*/});
   }
 
 
@@ -331,44 +331,36 @@ export class TabOptions {
   }
 }
 
-class Button {
-  constructor({on_click, text, tab_options}) {
-    this.on_click = on_click;
-    this.text = text;
-    this.tab_options = tab_options;
-  }
-  generate_dom() {
-    const dom_el =document.createElement('button'); 
-    dom_el.setAttribute('type', 'button');
-    dom_el.onclick = ev => {
-      ev.preventDefault();
-      this.on_click();
-    };
-    dom_el.textContent = this.text;
-    const {options_container} = this.tab_options;
-    options_container.appendChild(dom_el);
-
-    this.dom_el = dom_el;
-  }
-
-  // to-do: as mixin
-  hide() {
-    hide_show_el(this.dom_el, true);
-  }
-  show() {
-    hide_show_el(this.dom_el);
-  }
-}
-
 class Option {
-  constructor(props) {
-    assert(props.option_id);
-    assert(props.option_description);
-    assert(props.tab_options);
-    Object.assign(this, props);
+  constructor({option_id, option_description, ...props}) {
+    assert(option_id);
+    assert(option_description);
+    assert(on_input_change);
+    assert(tab_options);
+    Object.assign(this, {
+      option_id,
+      option_description,
+      option_default,
+      input_width,
+      on_input_change,
+      tab_options,
+      ...props,
+    });
+
+    this.input_args = {
+      input_id: option_id,
+      input_description: option_description,
+      on_input_change,// TN is not available
+      input_default: option_default,
+      input_width,
+    };
   }
 
   generate_option() {
+    assert(this.user_input);
+
+    this.user_input.init();
+
     this.generate_option_called = true;
 
     const {option_id, option_description} = this;
@@ -396,7 +388,7 @@ class Option {
   }
 
   get input_value() {
-    return this.input_el.value;
+    return this.user_input.input_get();
   }
   get preset_value() {
     const preset_val = this.tab_options.active_preset.get_opt_value(this);
@@ -407,22 +399,15 @@ class Option {
     return preset_value!==null ? preset_value : this.input_value;
   }
 
-  val_modifier(val) {
-    this.input_el.value = val;
-  }
   set_input_value(val) {
-    this.val_modifier(val);
-    // TODO?
-    //  - Direclty trigger localStorage save and call global listener only once?
-    //  - Or throttle global listener?
-    this.input_el.dispatchEvent(new Event('change'));
+    this.user_input.input_set(val);
   }
 
   hide() {
-    hide_show_el(this.label_el, true);
+    this.user_input.hide();
   }
   show() {
-    hide_show_el(this.label_el);
+    this.user_input.show();
   }
 
   reset() {
@@ -433,47 +418,31 @@ class Option {
 class DateOption extends Option {
   constructor(args) {
     super(args);
-    this.input_tag = 'input';
-    this.input_type = 'datetime';
-  }
-  generate_dom() {
-    this.generate_option();
-    super.generate_dom();
+    this.user_input = new DateInput(this.input_args);
   }
 }
 
 class BooleanOption extends Option {
   constructor(args) {
     super(args);
-    this.input_tag = 'input';
-    this.input_type = 'checkbox';
-  }
-  generate_dom() {
-    this.generate_option();
-    this.label_el['classList']['add']('pointer-cursor');
-    super.generate_dom();
-  }
-  val_modifier(val) {
-    if( !!val ){
-      this.input_el.setAttribute('checked', "true");
-    } else {
-      this.input_el.removeAttribute('checked');
-    }
-  }
-  get input_value() {
-    return !!this.input_el.checked;
+    this.user_input = new BooleanOption(this.input_args);
   }
 }
 
 class SelectOption extends Option {
   constructor(args) {
     super(args);
-    this.input_tag = 'select';
+    this.user_input = new SelectInput(this.input_args);
+  }
+
+  // TN
+  add_new_option() {
   }
 }
 
 class ChoiceOption extends SelectOption {
   generate_dom() {
+    // TN
     this.generate_option();
 
     this.input_el.style.width = '100px';
@@ -492,9 +461,10 @@ class ChoiceOption extends SelectOption {
 class TextOption extends Option {
   constructor(args) {
     super(args);
-    this.input_tag = 'input';
-    this.input_type = 'text';
+    this.user_input = new TextInput(this.input_args);
   }
+
+  // TN
   generate_dom() {
     this.generate_option();
 
@@ -515,15 +485,8 @@ class TextOption extends Option {
 
 class ColorOption extends Option {
   constructor(args) {
-    super(args);
-    this.input_tag = 'input';
-    this.input_type = 'color';
-  }
-  generate_dom() {
-    this.generate_option();
-    this.input_el.style.width = '35px';
-    this.label_el['classList']['add']('pointer-cursor');
-    super.generate_dom();
+    super({input_width: '35px', ...args});
+    this.user_input = new ColorInput(this.input_args);
   }
 }
 class TextColorOption extends ColorOption {
@@ -543,29 +506,18 @@ class TextShadowOption extends TextOption {
 
 class PresetOption extends SelectOption {
   constructor(args) {
-    super(args);
+    super({input_width: '93px', ...args});
     this.is_preset_selector = true;
-  }
+    this.tab_options.preset_list;
 
-  generate_dom() {
-    this.generate_option();
-
-    this.input_el.style.width = '93px';
-
-    // TN
-    this.input_el.innerHTML  = '<option label="<Creator>" value="_creator">&lt;Creator&gt;</option>';
+    this.input_options = [];
+    this.input_options.push({val: '_creator', val_pretty='<Creator>'})
     if( !this.tab_options.no_random_preset ){
-      this.input_el.innerHTML += '<option label="<Random>" value="_random">&lt;Random&gt;</option>';
+      this.input_options.push({val: '_random', val_pretty='<Random>'})
     }
-    const {preset_names} = this.tab_options.preset_list;
-    preset_names.forEach(preset_name => {
-      const option_el = document.createElement('option');
-      option_el.innerHTML = prettify_id(preset_name);
-      option_el.value     = preset_name;
-      this.input_el.appendChild(option_el);
+    this.tab_options.preset_list.preset_names.forEach(preset_name => {
+      this.input_options.push(preset_name);
     });
-
-    super.generate_dom();
   }
 
   get input_value() {
@@ -602,22 +554,12 @@ class BackgroundColorOption extends ColorOption {
 
 class TextFontOption extends SelectOption {
   constructor(args) {
-    super(args);
+    super({input_width: '110px', ...args});
     this.is_font_option = true;
-  }
-  generate_dom() {
-    this.generate_option();
-    this.input_el.style.width = '110px';
-    super.generate_dom();
   }
   get input_value() {
     const val = super.input_value;
-    /*
-    if( !val ){
-      val = this.input_el.querySelectorAll('option')[3].value;
-    }
-    */
-    assert(val, {val}, this.input_el.id);
+    assert(val, {val});
     return val;
   }
 }
@@ -639,33 +581,6 @@ async function load_text_font({text_container, get_font_name}) {
   text_container.style.fontFamily = font_name;
 }
 
-function generate_option({input_tag, input_type, option_id, option_description}) {
-  assert(input_tag);
-  assert(input_type || input_tag!=='input');
-  assert(option_id);
-  assert(option_description);
-
-  const label_el = document.createElement('label');
-
-  assert(['select', 'input'].includes(input_tag));
-  const input_el = document.createElement(input_tag);
-  input_el.id   = option_id;
-  if( input_type ) input_el.setAttribute('type', input_type);
-
-  const description_el = document.createElement('span');
-  description_el.innerHTML = option_description;//+'&nbsp;';
-
-  if( input_type==='checkbox' ){
-    label_el.appendChild(input_el);
-    label_el.appendChild(description_el);
-  } else {
-    label_el.appendChild(description_el);
-    label_el.appendChild(input_el);
-  }
-
-  return {label_el, input_el};
-}
-
 function activate_option({options_container, label_el, option_id, on_input_change, option_default}) {
   assert(options_container);
   assert(label_el);
@@ -675,21 +590,13 @@ function activate_option({options_container, label_el, option_id, on_input_chang
 
   options_container.appendChild(label_el);
 
-  /*
+  /* TN
   persistantInput({
     input_id: option_id,
     on_input_change,
     input_default: option_default,
   });
   */
-}
-
-function hide_show_el(el, to_hide) {
-  el.style.width      = to_hide ? '0px'     :''       ;
-  el.style.height     = to_hide ? '0px'     :''       ;
-  el.style.visibility = to_hide ? 'hidden'  :'visible';
-  el.style.position   = to_hide ? 'absolute':''       ;
-  el.style.zIndex     = to_hide ? '-1'      :''       ;
 }
 
 function instantiate_options({tab_options, option_spec_list}) {
@@ -735,16 +642,6 @@ function instantiate_options({tab_options, option_spec_list}) {
       }
       assert(false, {option_type});
     })
-  );
-}
-
-function prettify_id(preset_name) {
-  return (
-    preset_name
-    .replace(/[_-]/g,' ')
-    .split(' ')
-    .map(word => word[0].toUpperCase() + word.slice(1))
-    .join(' ')
   );
 }
 
