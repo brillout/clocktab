@@ -1,52 +1,36 @@
-import assert from '@brillout/assert';
 import ml from '../ml';
 
 export default load_font_list;
 
-let fontLoaded;
+let promise;
 
-function load_font_list({fonts, font_option_id}) {
-  if( fontLoaded ) {
-    return;
+function load_font_list() {
+  if( promise ) {
+    return promise;
   }
-  setFontList(fonts, font_option_id);
+
+  let resolve_promise;
+  promise = new Promise(r => resolve_promise = r);
 
   window['onfontsload'] = function(resp){
     if( resp.error ) {
       console.error(resp.error.message);
+      resolve_promise([]);
       return;
     }
-    fontLoaded = true;
-    setFontList(resp['items'].map(f => f.family), font_option_id);
-    console.log('load-progress - font-list - done');
+
+    let font_list = resp['items'].map(f => f.family);
+
+    if(ml.browser().usesGecko) {
+      // Firefox crashes when selecting a from too many options
+      const MAX = 300;
+      font_list = font_list.slice(0, MAX);
+    }
+
+    resolve_promise(font_list);
   };
 
-  console.log('load-progress - font-list - start');
   ml.loadASAP('https://www.googleapis.com/webfonts/v1/webfonts?callback=onfontsload&sort=popularity&key=AIzaSyAOMrdvfJJPa1btlQNCkXT9gcA-lCADPeE');
-}
 
-function setFontList(fontList, font_option_id) {
-  assert(font_option_id, font_option_id);
-  const clockFontOptEl = document.getElementById(font_option_id);
-  assert(clockFontOptEl, {font_option_id});
-
-  const selectedFont = clockFontOptEl.value;
-
-  fontList = makeUnique([selectedFont, ...fontList]);
-
-  clockFontOptEl.innerHTML='';
-  var max=300;//firefox crashes when selecting a from too many options
-  for(var i in fontList) {
-    const fontFamily = fontList[i];
-    if(ml.browser().usesGecko && !max--)break;
-    var fop=document.createElement('option');
-    fop.innerHTML = fontFamily;
-    fop.value     = fontFamily;
-    clockFontOptEl.appendChild(fop);
-  }
-  clockFontOptEl.value = selectedFont || fontList[0];
-}
-
-function makeUnique(arr) {
-  return Array.from(new Set(arr.filter(Boolean))).sort();
+  return promise;
 }

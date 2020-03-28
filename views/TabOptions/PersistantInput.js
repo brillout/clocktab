@@ -139,7 +139,16 @@ class SelectInput extends PersistantInput {
   }
 
   // TN
-  add_option() {
+  add_options() {
+
+
+
+
+    // TN - don't add duplicated
+    make_unique
+    // TN - preserve all selction
+    const selectedFont = clockFontOptEl.value;
+    clockFontOptEl.value = selectedFont || fontList[0];
   }
 
   _input_modifier(val) {
@@ -286,3 +295,6 @@ function hide_show_el(el, to_hide) {
   el.style.zIndex     = to_hide ? '-1'      :''       ;
 }
 
+function make_unique(arr) {
+  return Array.from(new Set(arr.filter(Boolean))).sort();
+}

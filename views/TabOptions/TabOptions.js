@@ -242,13 +242,16 @@ export class TabOptions {
       }
     }
   }
-  load_font_list() {
+  async load_font_list() {
     if( !this.selected_preset.is_creator_preset ){
       return;
     }
-    const fonts = this.preset_list.get_all_preset_fonts();
-    const font_option_id = this.font_option.option_id;
-    load_font_list({fonts/* TN, font_option_id*/});
+    this.font_option.add_fonts(
+      this.preset_list.get_all_preset_fonts()
+    );
+    this.font_option.add_fonts(
+      await load_font_list()
+    );
   }
 
 
@@ -332,17 +335,13 @@ export class TabOptions {
 }
 
 class Option {
-  constructor({option_id, option_description, ...props}) {
+  constructor({option_id, option_description, input_width, tab_options, ...props}) {
     assert(option_id);
     assert(option_description);
-    assert(on_input_change);
+    assert(input_width);
     assert(tab_options);
     Object.assign(this, {
       option_id,
-      option_description,
-      option_default,
-      input_width,
-      on_input_change,
       tab_options,
       ...props,
     });
@@ -352,8 +351,8 @@ class Option {
       input_description: option_description,
       on_input_change: () => { this.tab_options.global_side_effects() },
       input_default: option_default,
-      input_width,
       input_container: this.tab_options.options_container,
+      input_width,
     };
   }
 
@@ -361,7 +360,6 @@ class Option {
     assert(this.user_input);
     this.user_input.init();
   }
-
 
   get input_value() {
     return this.user_input.input_get();
@@ -417,7 +415,7 @@ class SelectOption extends Option {
 }
 
 class ChoiceOption extends SelectOption {
-  generate_dom() {
+  constructor() {
     super({input_width: '100px', ...args});
   }
 }
@@ -499,7 +497,7 @@ class BackgroundColorOption extends ColorOption {
   }
 }
 
-class TextFontOption extends SelectOption {
+class FontOption extends SelectOption {
   constructor(args) {
     super({input_width: '110px', ...args});
     this.is_font_option = true;
@@ -508,6 +506,9 @@ class TextFontOption extends SelectOption {
     const val = super.input_value;
     assert(val, {val});
     return val;
+  }
+  add_fonts(new_fonts) {
+    this.user_input.add_options(new_fonts);
   }
 }
 
@@ -537,7 +538,7 @@ function instantiate_options({tab_options, option_spec_list}) {
         tab_options,
       };
       if( option_type === 'text-font-input' ){
-        return new TextFontOption(args);
+        return new FontOption(args);
       }
       if( option_type === 'preset-input' ){
         return new PresetOption(args);
