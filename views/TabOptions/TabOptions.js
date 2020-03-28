@@ -22,9 +22,7 @@ export class TabOptions {
   }) {
     this.option_list = instantiate_options({tab_options: this, option_spec_list});
 
-    this.preset_list__new = new PresetList({preset_spec_list, tab_options: this});
-    // TODO - replace with preset_list__new
-    this.preset_list = preset_spec_list;
+    this.preset_list = new PresetList({preset_spec_list, tab_options: this});
 
     this.text_container = text_container;
     this.options_container = options_container;
@@ -138,7 +136,7 @@ export class TabOptions {
     const {app_name, preset_options} = data;
 
     let {preset_name} = data;
-    preset_name = this.preset_list__new.make_preset_name_unique(preset_name);
+    preset_name = this.preset_list.make_preset_name_unique(preset_name);
 
     const wrong_url_format = !preset_options;
 
@@ -234,7 +232,7 @@ export class TabOptions {
     if( !this.selected_preset.is_preset_creator ){
       return;
     }
-    const fonts = this.preset_list__new.get_all_preset_fonts();
+    const fonts = this.preset_list.get_all_preset_fonts();
     const font_option_id = this.font_option.option_id;
     load_font_list({fonts, font_option_id});
   }
@@ -304,7 +302,7 @@ export class TabOptions {
 
   get selected_preset() {
     const preset_name = this.preset_option.input_value;
-    const preset = this.preset_list__new.get_preset_by_name(preset_name);
+    const preset = this.preset_list.get_preset_by_name(preset_name);
     return preset;
   }
   get preset_option() {
@@ -534,7 +532,7 @@ class PresetOption extends SelectOption {
     if( !this.tab_options.no_random_preset ){
       this.input_el.innerHTML += '<option label="<random>" value="random">&lt;Random&gt;</option>';
     }
-    const {preset_names} = this.tab_options.preset_list__new;
+    const {preset_names} = this.tab_options.preset_list;
     preset_names.forEach(preset_name => {
       const option_el = document.createElement('option');
       option_el.innerHTML = prettify_preset_id(preset_name);
@@ -708,7 +706,7 @@ class PresetList {
     .forEach(([preset_name, preset_options]) => {
       let preset;
       if( RandomizerPreset.test(preset_name) ) {
-        preset = new RandomizerPreset({preset_list__new: this});
+        preset = new RandomizerPreset({preset_list: this});
       } else {
         preset = new Preset({preset_name, preset_options, tab_options});
       }
@@ -751,17 +749,17 @@ class PresetList {
 
 // TODO
 class RandomizerPreset extends Preset {
-  constructor({preset_list__new}) {
-    this.preset_list__new = preset_list__new;
+  constructor({preset_list}) {
+    this.preset_list = preset_list;
     this.random_preset = pick_random_preset();
     this.is_random_preset = true;
   }
   pick_random_preset(){
-    const {preset_list__new} = this;
-    const {preset_names} = preset_list__new;
+    const {preset_list} = this;
+    const {preset_names} = preset_list;
     var idx = Math.floor(Math.random()*preset_names.length);
     const preset_name = preset_names[idx];
-    return preset_list__new.get_preset_by_name(preset_name);
+    return preset_list.get_preset_by_name(preset_name);
   }
 }
 RandomizerPreset.test = preset_name => (
