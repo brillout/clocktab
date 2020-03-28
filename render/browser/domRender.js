@@ -17,5 +17,9 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   }
   */
 
-  page.on_page_load();
+  try {
+    page.on_page_load();
+  } catch(err) {
+    alert('Something went wrong. Your Clock Tab seems to be broken; click on "Bug Repair" to fix it.');
+  }
 }

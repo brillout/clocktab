@@ -19,8 +19,8 @@ export default config({
       <UseCases />
     </MorePanel>
   </>,
-  onPageLoad: loadWrapper => {
-    loadWrapper();
+  onPageLoad: load_common => {
+    load_common();
     const text = window.document.getElementById('text');
     text.setAttribute('contentEditable', 'true');
     init_msg_tab({text});

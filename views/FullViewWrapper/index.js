@@ -28,7 +28,7 @@ function FullView({children, ...props}) {
     <div id="screen-buttons-wrapper" className="pretty_scroll_area__absolute_positioned">
       <div className="screen-button glass-background" id="manual-fullscreen">Fullscreen</div>
       <div className="screen-button glass-background" id="manual-scroll">Center</div>
-      <div className="screen-button glass-background" id="auto-scroll"></div>
+      <div className="screen-button glass-background" id="auto-scroll">&nbsp;</div>
     </div>
   </>;
 }
