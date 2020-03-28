@@ -8,7 +8,7 @@ import './tab-options.css';
 export class TabOptions {
   constructor({
     option_spec_list,
-    preset_list,
+    preset_spec_list,
 
     text_container,
     options_container,
@@ -21,7 +21,10 @@ export class TabOptions {
     app_name,
   }) {
     this.option_list = instantiate_options({tab_options: this, option_spec_list});
-    this.preset_list = preset_list;
+
+    // TODO - replace with preset_list_new
+    this.preset_list = preset_spec_list;
+    this.preset_list_new = new PresetList({preset_spec_list});
 
     this.text_container = text_container;
     this.options_container = options_container;
@@ -63,8 +66,6 @@ export class TabOptions {
       opt.generate_dom();
       this.button_mod = opt;
     }
-
-    // TODO
 
     {
       const opt = (
@@ -109,16 +110,16 @@ export class TabOptions {
     const preset_name = this.new_preset_name;
     const {app_name} = this;
     assert(app_name);
-    const preset_options = {
+    const _preset_options = {
       app_name,
       preset_name,
     };
     this.option_list.forEach(opt => {
-      preset_options[opt.option_id] = opt.input_value;
+      _preset_options[opt.option_id] = opt.input_value;
     });
 
-    const new_preset = new Preset(preset_options);
-    assert(!new_preset.is_invalid, {preset_options});
+    const new_preset = new Preset(_preset_options);
+    assert(!new_preset.is_invalid, {_preset_options});
     new_preset.save();
 
     this.select_preset(new_preset);
@@ -130,13 +131,13 @@ export class TabOptions {
   }
   load_url_preset() {
     const data_url = retrieve_data_url();
-    const preset_options = parse_data_url({data_url});
+    const _preset_options = parse_data_url({data_url});
 
-    const wrong_url_format = !preset_options;
+    const wrong_url_format = !_preset_options;
 
     const wrong_app = data_url.app_name !== this.app_name;
 
-    const new_preset = new Preset(preset_options);
+    const new_preset = new Preset(_preset_options);
     const wrong_presets = new_preset.is_invalid;
 
     // Validation
@@ -161,9 +162,9 @@ export class TabOptions {
     this.current_preset.remove();
   }
   modify_preset() {
-    this.current_preset.preset_option_values.forEach(({opt_id, opt_val}) => {
+    this.current_preset.preset_options.forEach(({opt_id, opt_val}) => {
       const opt = this.get_option_by_id(opt_id);
-      opt.set_value(opt_value);
+      opt.set_input_value(opt_value);
     });
     this.select_preset_creator();
   }
@@ -205,7 +206,7 @@ export class TabOptions {
 
     // Visibility of action buttons
     if( this.enable_import_export ){
-      if( this.is_custom_preset ){
+      if( this.is_preset_creator || this.is_random_preset ){
         this.button_mod.hide();
         this.button_url.show();
         this.button_del.show();
@@ -217,7 +218,7 @@ export class TabOptions {
     }
   }
   load_font_list() {
-    if( !this.is_custom_preset ){
+    if( !this.is_preset_creator ){
       return;
     }
     const fonts = this.preset_font_names;
@@ -270,6 +271,7 @@ export class TabOptions {
     return this.get_option_value(this.font_option_id);
   }
 
+  // TODO rename to get_option_computed_value
   get_option_value(option_id) {
     const {current_preset} = this;
 
@@ -286,25 +288,53 @@ export class TabOptions {
     assert(option, {option_id});
     return option;
   }
+  // TODO rename to get_option_input_value
   get_option_input(option_id) {
     const option = this.get_option_by_id(option_id);
     return option.input_value;
   }
+  get_option_input_value(option_id) {
+    return this.get_option_input(option_id);
+  }
 
+  get preset_option() {
+    // TODO
+    /*
+    const preset_option = this.get_option_by_id(this.preset_option_id);
+    return preset_option;
+    */
+  }
+  // Rename to activated_preset
   get current_preset() {
-    let preset_name = this.get_option_input(this.preset_option_id);
-    if( !preset_name ){
+    if( this.is_preset_creator ){
       return null;
     }
-    if( preset_name==='random' ){
+
+    let preset_name;
+    if( this.is_random_preset ){
       preset_name = this.random_preset_name;
+    } else {
+      preset_name = this.selected_preset_name;
     }
+
     const preset = this.preset_list[preset_name];
     assert(preset, {preset_name});
     return preset;
   }
-  set current_preset() {
-    // TODO
+  get selected_preset_name() {
+    const preset_name = this.get_option_input_value(this.preset_option_id);
+    return preset_name;
+  }
+  set current_preset(preset_thing) {
+    let preset_name;
+    if( preset_thing.constructor===String ) {
+      preset_name = preset_thing;
+    }
+    if( preset_thing instanceof Preset ){
+      preset_name = preset_thing.preset_name;
+    }
+    assert(preset_name);
+    this.preset_option.set_input_value(preset_name);
   }
   select_preset_creator() {
     this.current_preset = '';
@@ -325,10 +355,14 @@ export class TabOptions {
     return this._random_theme_name;
   }
 
-  get is_custom_preset() {
-    const {current_preset} = this;
-    assert(current_preset || current_preset===null);
-    return this.current_preset===null;
+  get is_preset_creator() {
+    let preset_name = this.get_option_input_value(this.preset_option_id);
+    assert(preset_name==='' || preset_name, {preset_name});
+    return preset_name==='';
+  }
+  get is_random_preset() {
+    const {selected_preset_name} = this;
+    return selected_preset_name==='random';
   }
 }
 
@@ -351,7 +385,7 @@ class Button {
     this.dom_el = dom_el;
   }
 
-  // TODO as mixin
+  // to-do: as mixin
   hide() {
     hide_show_el(this.dom_el, true);
   }
@@ -406,7 +440,7 @@ class Option {
   val_modifier(val) {
     this.input_el = val;
   }
-  set_value(val) {
+  set_input_value(val) {
     this.modify_value(val);
     // TODO - direclty trigger localStorage save and call global listener only once?
     this.input_el.dispatchEvent(new Event('change'));
@@ -715,8 +749,24 @@ function prettify_preset_id(preset_name) {
   );
 }
 
+class PresetList {
+  constructor({preset_spec_list}) {
+    this.presets = [];
+    Object
+    .entries(preset_spec_list)
+    .forEach(([preset_name, preset_options]) => {
+      const preset = new Preset({preset_name, preset_options});
+      this.presets.push(preset);
+    });
+  }
+}
+
 // TODO
 class Preset {
+  constructor({preset_name, preset_options}) {
+    this.preset_name = preset_name;
+    this.preset_options = preset_options;
+  }
   is_invalid(){
   }
   save() {
@@ -740,7 +790,7 @@ function parse_data_url({data_url}) {
     return null;
   }
 
-  const preset_options = {};
+  const _preset_options = {};
 
   // TODO
   validate_preset_options();
