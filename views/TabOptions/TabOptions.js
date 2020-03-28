@@ -221,7 +221,7 @@ export class TabOptions {
     });
 
     // Visibility of action buttons
-    if( this.enable_import_export && !this.selected_preset.is_random_preset ){
+    if( this.enable_import_export && !this.selected_preset.is_randomizer_preset ){
       if( this.selected_preset.is_preset_creator ){
         this.button_mod.hide();
         this.button_url.show();
@@ -277,14 +277,14 @@ export class TabOptions {
     let active_preset;
 
     const {selected_preset} = this;
-    if( selected_preset.is_random_preset ){
+    if( selected_preset.is_randomizer_preset ){
       active_preset = selected_preset.random_preset;
     } else {
       active_preset = selected_preset;
     }
 
-    assert(active_preset.is_real_preset);
-    assert(active_preset.preset_name || active_preset.is_preset_creator);
+    assert(!active_preset.is_randomizer_preset);
+    assert(active_preset.preset_name);
 
     return active_preset;
   }
@@ -300,7 +300,7 @@ export class TabOptions {
     this.preset_option.set_input_value(preset_name);
   }
   select_preset_creator() {
-    this.active_preset = '';
+    this.active_preset = this.preset_list.creator_preset;
   }
   select_preset(preset) {
     this.active_preset = preset;
@@ -545,9 +545,10 @@ class PresetOption extends SelectOption {
 
     this.input_el.style.width = '93px';
 
-    this.input_el.innerHTML  = '<option label="<custom>" value="">&lt;Custom&gt;</option>';
+    // TN
+    this.input_el.innerHTML  = '<option label="<Creator>" value="_creator">&lt;Creator&gt;</option>';
     if( !this.tab_options.no_random_preset ){
-      this.input_el.innerHTML += '<option label="<random>" value="random">&lt;Random&gt;</option>';
+      this.input_el.innerHTML += '<option label="<Random>" value="_random">&lt;Random&gt;</option>';
     }
     const {preset_names} = this.tab_options.preset_list;
     preset_names.forEach(preset_name => {
@@ -558,6 +559,16 @@ class PresetOption extends SelectOption {
     });
 
     super.generate_dom();
+  }
+
+  get input_value() {
+    const val = super.input_value;
+    // Older Clock Tab version saved creator selection as `''`;
+    if( val==='' ){
+      // Incentivize user to re-select the <Creator> preset
+      return RandomizerPreset.randomizer_preset_name;
+    }
+    return val;
   }
 }
 
@@ -717,17 +728,19 @@ function prettify_preset_id(preset_name) {
 class PresetList {
   constructor({preset_spec_list, tab_options}) {
     this.tab_options = tab_options;
-    this._presets = []; // TODO make this._presets private
-    Object
-    .entries(preset_spec_list)
-    .forEach(([preset_name, preset_options]) => {
-      let preset;
-      if( RandomizerPreset.test(preset_name) ) {
-        preset = new RandomizerPreset({preset_list: this});
-      } else {
-        preset = new Preset({preset_name, preset_options, tab_options});
-      }
-      this.add_preset(preset);
+    this.randomizer_preset = new RandomizerPreset({preset_list: this});
+    this.creator_preset = new CreatorPreset();
+    // TODO make this._presets private
+    this._presets = [];
+    this.get_initial_presets(preset_spec_list);
+  }
+  get_initial_presets(preset_spec_list) {
+    this.add_preset(this.randomizer_preset);
+    this.add_preset(this.creator_preset);
+
+    const {tab_options} = this;
+    Object.entries(preset_spec_list).forEach(([preset_name, preset_options]) => {
+      this.add_preset(new Preset({preset_name, preset_options, tab_options}));
     });
   }
   add_preset(preset) {
@@ -746,6 +759,7 @@ class PresetList {
     );
   }
   get_preset_by_name(preset_name) {
+    assert(preset_name);
     for(let preset of this._presets){
       if( preset.preset_name === preset_name ){
         return preset;
@@ -790,17 +804,13 @@ class Preset {
   get is_real_preset() {
     return (
       !this.is_invalid &&
-      !this.is_random_preset &&
+      !this.is_randomizer_preset &&
       !this.is_preset_creator
     );
   }
   get is_invalid(){
     // TODO
-  }
-  get is_preset_creator() {
-    const {preset_name} = this;
-    assert(preset_name==='' || preset_name);
-    return preset_name==='';
+    return false;
   }
   get preset_font_name() {
     const preset_font_name = (
@@ -821,24 +831,47 @@ class Preset {
   }
 }
 
-class RandomizerPreset extends Preset {
+class RandomizerPreset {
   constructor({preset_list}) {
+    this.preset_name = RandomizerPreset.randomizer_preset_name;
+    this.is_randomizer_preset = true;
     this.preset_list = preset_list;
-    this.random_preset = pick_random_preset();
-    this.is_random_preset = true;
+  }
+  get random_preset() {
+    const random_preset = this.pick_random_preset();
+    return random_preset;
   }
   pick_random_preset(){
-    const {preset_list} = this;
-    const {preset_names} = preset_list;
-    var idx = Math.floor(Math.random()*preset_names.length);
-    const preset_name = preset_names[idx];
-    return preset_list.get_preset_by_name(preset_name);
+    // TODO make private
+    if( !this._picked ){
+      const {preset_list} = this;
+      const {preset_names} = preset_list;
+      var idx = Math.floor(Math.random()*preset_names.length);
+      const preset_name = preset_names[idx];
+      this._picked = preset_list.get_preset_by_name(preset_name);
+    }
+    return this._picked;
   }
 }
+RandomizerPreset.randomizer_preset_name='_random';
+/*
 RandomizerPreset.test = preset_name => (
-  // TODO start special preset names with underscore
-  preset_name==='random'
+  preset_name==='_random'
 );
+*/
+
+class CreatorPreset {
+  constructor() {
+    this.preset_name = CreatorPreset.creator_preset_name;
+    this.is_preset_creator = true;
+  }
+}
+CreatorPreset.creator_preset_name='_creator';
+/*
+CreatorPreset.test = preset_name => (
+  preset_name==='_creator'
+);
+*/
 
 
 function generate_url() {
