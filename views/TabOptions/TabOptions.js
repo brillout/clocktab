@@ -4,6 +4,7 @@ import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
 import './tab-options.css';
+import PersistantInput from './PersistantInput';
 
 export class TabOptions {
   constructor({
@@ -559,7 +560,7 @@ class PresetOption extends SelectOption {
     const {preset_names} = this.tab_options.preset_list;
     preset_names.forEach(preset_name => {
       const option_el = document.createElement('option');
-      option_el.innerHTML = prettify_preset_id(preset_name);
+      option_el.innerHTML = prettify_id(preset_name);
       option_el.value     = preset_name;
       this.input_el.appendChild(option_el);
     });
@@ -674,14 +675,13 @@ function activate_option({options_container, label_el, option_id, on_input_chang
 
   options_container.appendChild(label_el);
 
-//ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
-  ml.persistantInput(
-    option_id,
+  /*
+  persistantInput({
+    input_id: option_id,
     on_input_change,
-    option_default,
-    0,
-    true
-  );
+    input_default: option_default,
+  });
+  */
 }
 
 function hide_show_el(el, to_hide) {
@@ -738,7 +738,7 @@ function instantiate_options({tab_options, option_spec_list}) {
   );
 }
 
-function prettify_preset_id(preset_name) {
+function prettify_id(preset_name) {
   return (
     preset_name
     .replace(/[_-]/g,' ')
@@ -922,3 +922,4 @@ function retrieve_data_from_url() {
 
   return {app_name, preset_name, preset_options}
 }
+

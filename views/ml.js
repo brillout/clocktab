@@ -1908,63 +1908,6 @@ ml.pStore={};
     //}}}
   })();
 })();
-ml.persistantInput=function(id,listener,default_,keyUpDelay,noFirstListenerCall)
-//{{{
-//convention:
-//-inputEl.id === id for localStorage
-//-default_===0 || default_===1 => checkbox input
-{
-//ml.assert(false,'replace localstorage with pStore');
-  ml.assert(id!="key");
-  if(default_===undefined || default_===null) default_='';
-  var inputEl = document.getElementById(id);
-  if(window.localStorage!==undefined)
-  {
-    if(!ml.persistantInput.chromeBugFixed)
-      //{{{
-    //fix for stupid chrome bug: if value is equal to '' then when browser restarts the value become undefined
-      (function()
-      {
-        if(!window.localStorage['key']) return;
-        var keys={};
-        for(var i=0;i<window.localStorage.length;i++) keys[window.localStorage['key'](i)]=true;
-        for(var key in keys) if(!window.localStorage[key]) window.localStorage[key]='';
-        ml.persistantInput.chromeBugFixed=true;
-      })();
-      //}}}
-
-    var binaryInput = default_===false || default_===true;
-    
-    var val = window.localStorage.getItem(id)!==null?window.localStorage[id]:default_;//opera's hasOwnProperty allways return true
-    if(binaryInput) val=!!val;
-    ml.assert(binaryInput === (inputEl.type==='checkbox'));
-    if(inputEl.nodeName==='SELECT' && inputEl.childNodes.length===0) inputEl.innerHTML='<option>'+val+'</option>';
-    inputEl[binaryInput?'checked':'value']=val;
-    if(listener && !noFirstListenerCall) listener(val);
-
-    var lastTimeout;
-    var changeListener=function(){
-      if(lastTimeout) window.clearTimeout(lastTimeout);
-      lastTimeout=window.setTimeout(function()
-      {
-        var newVal = binaryInput?(inputEl['checked']?"true":""):inputEl['value'];
-        if(window.localStorage[id]!=newVal)
-        {
-          window.localStorage[id]=newVal;
-          if(listener) listener(binaryInput?!!newVal:newVal);
-        }
-      },keyUpDelay!==undefined?keyUpDelay:(binaryInput?0:1000));
-    }
-    var addChangeListener = binaryInput ||  inputEl.type.toLowerCase()==='color' || inputEl.nodeName==='SELECT';
-    if( addChangeListener)                                inputEl.addEventListener('change',changeListener,false);
-    if(!addChangeListener || inputEl.nodeName==='SELECT') inputEl.addEventListener('keyup' ,changeListener,false);
-  }
-  else
-  {
-    inputEl.parentNode.removeChild(inputEl);
-    if(!noFirstListenerCall) listener(default_);
-  }
-};
 //}}}
 // todo replace persistantInput
 /*
