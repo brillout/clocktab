@@ -17,9 +17,12 @@ class Storage {
 }
 
 class PersistantInput {
-  constructor({input_id, on_input_change, input_default}) {
+  constructor(props) {
     assert(input_id && on_input_change);
 
+    this._props = props;
+
+    const {input_id, on_input_change, input_default} = props;
     this._input_id = input_id;
     this._on_input_change = on_input_change;
     this._input_default = input_default;
@@ -38,7 +41,6 @@ class PersistantInput {
   }
   init() {
     assert(this.input_tag && this.input_type);
-    this._input_el = // TN
 
     const init_val = (
       this._storage.has_val() ? (
@@ -51,6 +53,11 @@ class PersistantInput {
       this._input_modifier(init_val);
     }
     this._input_el.addEventListener(this._change_event, () => {this._on_input_change()}, false);
+  }
+  init_dom() {
+    const {dom_el, input_el} = generate_input(this._props);
+    this._dom_el = dom_el;
+    this._input_el = input_el;
   }
   hide() {
     hide_show_el(this.dom_el, true);
@@ -76,7 +83,7 @@ class BooleanInput extends PersistantInput {
   constructor(args) {
     super(args);
     this.input_tag = 'input';
-    this.input_type = 'checkbox'; // TN
+    this.input_type = 'checkbox';
   }
   _input_retriever() {
     return !!this._input_el.checked;
@@ -90,14 +97,12 @@ class BooleanInput extends PersistantInput {
   }
   init() {
     super.init();
-    this.dom_el['classList']['add']('pointer-cursor');
+    this._dom_el['classList']['add']('pointer-cursor');
   }
 }
 
 class TextInput extends PersistantInput {
-  constructor({input_placeholder, input_width, ...args}) {
-    // TN input_placeholder
-    // TN input_width
+  constructor(args) {
     super(args);
     this.input_tag = 'input';
     this.input_type = 'text';
@@ -108,16 +113,12 @@ class TextInput extends PersistantInput {
     return 'input';
   }
 
-  // TN
-  generate_dom() {
-    const prefill = this.option_placeholder || this.option_default;
-    if( prefill ){
-      this.input_el.size = prefill.length*3/4;
-    } else {
-      this.input_el.style.width = '35px';
+  init_dom() {
+    super.init_dom();
+    const {input_placeholder} = this._props;
+    if( input_placeholder ){
+      this._input_el.placeholder = input_placeholder;
     }
-
-    super.generate_dom();
   }
 }
 
@@ -138,31 +139,32 @@ class SelectInput extends PersistantInput {
     super.init();
   }
 
-  // TN
-  add_options() {
+  add_options(new_options) {
+    new_options.forEach(option_args => {
+       this.input_el.innerHTML += this._generate_option_html(option_args)
+    })
 
-
-
-
-    // TN - don't add duplicated
-    make_unique
-    // TN - preserve all selction
-    const selectedFont = clockFontOptEl.value;
-    clockFontOptEl.value = selectedFont || fontList[0];
+    /*
+    const selected_option = this.input_get();
+    if( selected_option ){
+      this.input_set(selected_option);
+    }
+    */
   }
 
   _input_modifier(val) {
     assert(val, {val});
     if( !this._input_el.querySelector('option[value="'+val+'"]') ){
-      this.input_el.innerHTML += this._generate_option_html({val});
+      this.input_el.innerHTML += this._generate_option_html(val);
     }
     super._input_modifier(val);
   }
 
   // TODO - make to a static prop
-  _generate_option_html({val, val_pretty}) {
-    assert(val, {val, val_pretty});
-    const val_pretty = val_pretty || prettify_option(val);
+  _generate_option_html(args) {
+    const val = args.val || args;
+    assert(val, args);
+    const val_pretty = args.val_pretty || val;
     return (
       '<option label="'+val_pretty+'" value="'+val+'">'+escapeHtml(val_pretty)+'</option>'
     );
@@ -184,17 +186,15 @@ class ColorInput extends PersistantInput {
   }
   init() {
     super.init();
-    // TN this.dom_el
-    this.dom_el['classList']['add']('pointer-cursor');
+    this._dom_el['classList']['add']('pointer-cursor');
   }
 }
 
-// TN
 class Button {
-  constructor({on_click, text, tab_options}) {
+  constructor({on_click, text, input_container}) {
     this.on_click = on_click;
     this.text = text;
-    this.tab_options = tab_options;
+    this.input_container = input_container;
   }
   generate_dom() {
     const dom_el =document.createElement('button'); 
@@ -204,9 +204,7 @@ class Button {
       this.on_click();
     };
     dom_el.textContent = this.text;
-    const {options_container} = this.tab_options;
-    options_container.appendChild(dom_el);
-
+    this.input_container.appendChild(dom_el);
     this.dom_el = dom_el;
   }
 
@@ -238,42 +236,37 @@ class GlobalDebouncer {
 }
 */
 
-// TN
-function generate_option({input_tag, input_type, option_id, option_description}) {
+function generate_input({input_tag, input_type, input_id, input_description, input_width, input_container}) {
   assert(input_tag);
   assert(input_type || input_tag!=='input');
-  assert(option_id);
-  assert(option_description);
+  assert(input_id);
+  assert(input_description);
 
-  const label_el = document.createElement('label');
+  const dom_el = document.createElement('label');
 
   assert(['select', 'input'].includes(input_tag));
   const input_el = document.createElement(input_tag);
-  input_el.id   = option_id;
+  input_el.id   = input_id;
   if( input_type ) input_el.setAttribute('type', input_type);
 
   const description_el = document.createElement('span');
-  description_el.innerHTML = option_description;//+'&nbsp;';
+  description_el.textContent = input_description;//+'&nbsp;';
 
   if( input_type==='checkbox' ){
-    label_el.appendChild(input_el);
-    label_el.appendChild(description_el);
+    dom_el.appendChild(input_el);
+    dom_el.appendChild(description_el);
   } else {
-    label_el.appendChild(description_el);
-    label_el.appendChild(input_el);
+    dom_el.appendChild(description_el);
+    dom_el.appendChild(input_el);
   }
 
-  return {label_el, input_el};
-}
+  if( input_width ){
+    input_el.style.width = input_width;
+  }
 
-function prettify_option(val) {
-  return (
-    val
-    .replace(/[_-]/g,' ')
-    .split(' ')
-    .map(word => word[0].toUpperCase() + word.slice(1))
-    .join(' ')
-  );
+  input_container.appendChild(dom_el);
+
+  return {dom_el, input_el};
 }
 
 function escapeHtml(unsafe) {
@@ -295,6 +288,9 @@ function hide_show_el(el, to_hide) {
   el.style.zIndex     = to_hide ? '-1'      :''       ;
 }
 
+/*
+new_options = make_unique(new_options);
 function make_unique(arr) {
   return Array.from(new Set(arr.filter(Boolean))).sort();
 }
+*/

@@ -409,8 +409,8 @@ class SelectOption extends Option {
     this.user_input = new SelectInput(this.input_args);
   }
 
-  // TN
-  add_new_option() {
+  add_options(args) {
+    this.user_input.add_options(args);
   }
 }
 
@@ -461,7 +461,7 @@ class PresetOption extends SelectOption {
       this.input_options.push({val: '_random', val_pretty='<Random>'})
     }
     this.tab_options.preset_list.preset_names.forEach(preset_name => {
-      this.input_options.push(preset_name);
+      this.input_options.push({val: preset_name, val_pretty: prettify_preset_name(preset_name)});
     });
   }
 
@@ -480,6 +480,16 @@ class PresetOption extends SelectOption {
     }
 
     return val;
+  }
+
+  add_preset(preset) {
+    const {preset_name} = preset;
+    assert(preset_name);
+    const option_args = {
+      val: preset_name,
+      val_pretty: prettify_preset_name(preset_name),
+    };
+    this.add_options([option_args]);
   }
 }
 
@@ -507,8 +517,8 @@ class FontOption extends SelectOption {
     assert(val, {val});
     return val;
   }
-  add_fonts(new_fonts) {
-    this.user_input.add_options(new_fonts);
+  add_fonts(args) {
+    this.add_options(args);
   }
 }
 
@@ -748,5 +758,15 @@ function retrieve_data_from_url() {
   validate_preset_options();
 
   return {app_name, preset_name, preset_options}
+}
+
+function prettify_preset_name(val) {
+  return (
+    val
+    .replace(/[_-]/g,' ')
+    .split(' ')
+    .map(word => word[0].toUpperCase() + word.slice(1))
+    .join(' ')
+  );
 }
 
