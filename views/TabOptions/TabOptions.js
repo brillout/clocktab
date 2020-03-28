@@ -189,6 +189,7 @@ export class TabOptions {
     this.update_background();
     this.update_font();
     this.update_option_visibility();
+    this.update_button_visibility();
     this.load_font_list();
     this.on_any_change({initial_run});
   }
@@ -211,7 +212,7 @@ export class TabOptions {
     this.option_list.forEach(opt => {
       const to_hide = (
         opt.option_dependency && !get_input_val(opt.option_dependency) ||
-        opt.option_negative_dependency && get_input_val(opt.option_negative_dependency)
+        opt.is_creator_option && !this.selected_preset.is_creator_preset
       );
       if( to_hide ){
         opt.hide();
@@ -219,19 +220,24 @@ export class TabOptions {
         opt.show();
       }
     });
-
-    // Visibility of action buttons
-    if( this.enable_import_export && !this.selected_preset.is_randomizer_preset ){
-      if( this.selected_preset.is_creator_preset ){
-        this.button_mod.hide();
-        this.button_url.show();
-        this.name_option.show();
-     // this.button_del.hide();
-      } else {
+  }
+  update_button_visibility() {
+    if( ! this.enable_import_export ){
+      return;
+    }
+    if( this.selected_preset.is_creator_preset ){
+      this.button_mod.hide();
+      this.button_url.show();
+      this.name_option.show();
+   // this.button_del.hide();
+    } else {
+      this.button_url.hide();
+      this.name_option.hide();
+   // this.button_del.hide();
+      if( !this.selected_preset.is_randomizer_preset ){
         this.button_mod.show();
-        this.name_option.hide();
-        this.button_url.hide();
-     // this.button_del.show();
+      } else {
+        this.button_mod.hide();
       }
     }
   }
@@ -293,10 +299,10 @@ export class TabOptions {
     if( preset_thing.constructor===String ) {
       preset_name = preset_thing;
     }
-    if( preset_thing instanceof Preset ){
+    if( (preset_thing instanceof Preset) || (preset_thing instanceof FakePreset) ){
       preset_name = preset_thing.preset_name;
     }
-    assert(preset_name);
+    assert(preset_name, {preset_thing, preset_name});
     this.preset_option.set_input_value(preset_name);
   }
   select_preset_creator() {
@@ -401,7 +407,7 @@ class Option {
   }
 
   val_modifier(val) {
-    this.input_el = val;
+    this.input_el.value = val;
   }
   set_input_value(val) {
     this.val_modifier(val);
@@ -563,11 +569,18 @@ class PresetOption extends SelectOption {
 
   get input_value() {
     const val = super.input_value;
+
     // Older Clock Tab version saved creator selection as `''`;
     if( val==='' ){
       // Incentivize user to re-select the <Creator> preset
       return RandomizerPreset.randomizer_preset_name;
     }
+
+    // New value is `_random`
+    if( val==='random' ){
+      return RandomizerPreset.randomizer_preset_name;
+    }
+
     return val;
   }
 }
@@ -831,8 +844,15 @@ class Preset {
   }
 }
 
-class RandomizerPreset {
+class FakePreset {
+  get_opt_value() {
+    return null;
+  }
+}
+
+class RandomizerPreset extends FakePreset {
   constructor({preset_list}) {
+    super();
     this.preset_name = RandomizerPreset.randomizer_preset_name;
     this.is_randomizer_preset = true;
     this.preset_list = preset_list;
@@ -860,8 +880,9 @@ RandomizerPreset.test = preset_name => (
 );
 */
 
-class CreatorPreset {
+class CreatorPreset extends FakePreset {
   constructor() {
+    super();
     this.preset_name = CreatorPreset.creator_preset_name;
     this.is_creator_preset = true;
   }

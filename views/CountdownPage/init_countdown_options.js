@@ -61,14 +61,14 @@ function get_option_list() {
       option_type: 'date-input',
       option_description: 'Date',
       option_default: 'Josefin Slab',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_title',
       option_type: 'text-input',
       option_description: 'Title',
       option_default: 'Until %date',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
 
     {
@@ -87,7 +87,7 @@ function get_option_list() {
       ],
       option_description: 'Countdown position',
       option_default: 'bottom',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
 
     {
@@ -95,44 +95,44 @@ function get_option_list() {
       option_type: 'text-font-input',
       option_description: 'Font',
       option_default: 'Roboto',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_color',
       option_type: 'text-color-input',
       option_description: 'Font color',
       option_default: '#a70000',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_shadow',
       option_type: 'text-shadow-input',
       option_description: 'Font shadow',
       option_default: '',
-      option_negative_dependency: 'countdown_preset',
       option_placeholder: 'see css text-shadow',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_size',
       option_type: 'text-input',
       option_description: 'Countdown size',
       option_default: '580',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_bg_color',
       option_type: 'background-color-input',
       option_description: 'Background color',
       option_default: '#ffffff',
-      option_negative_dependency: 'countdown_preset',
+      is_creator_option: true,
     },
     {
       option_id: 'countdown_bg_image',
       option_type: 'background-image-input',
       option_description: 'Background image',
       option_default: ''    ,
-      option_negative_dependency: 'countdown_preset',
       option_placeholder: 'image url',
+      is_creator_option: true,
     },
   ];
 }
