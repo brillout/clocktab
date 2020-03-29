@@ -9,8 +9,11 @@ function News({preset_concept_name, ...props}) {
     </div>
     <ul>
       <li>Countdown &mdash; check out the brand new Countdown Tab!</li>
+      {/*
       <li>{preset_concept_name} super-powered &mdash; you can now create, save, and share {preset_concept_name}s!</li>
+      */}
+      <li>Themes super-powered &mdash; you can now create, save, and share Themes!</li>
     </ul>
-    These features are new; if you encounter any bug then <a href="/bug-repair">let me know</a>!
+    These features are new; if you encounter any issue then <a href="/bug-repair">let me know</a>!
   </div>;
 }
