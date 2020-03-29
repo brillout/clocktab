@@ -112,13 +112,13 @@ export class TabOptions {
     assert(this.selected_preset.is_creator_preset);
 
     const preset_name_pretty = this.name_option.input_value;
-    if( !preset_name ){
+    if( !preset_name_pretty ){
       alert("You need to provide a name for your "+this.preset_concept_name+" in order to save it.");
       return;
     }
     const preset_name = NameIdConverter.from_name_to_id(preset_name_pretty);
 
-    if( this.preset_list.get_preset_by_name(preset_name) ){
+    if( this.preset_list.get_preset_by_name(preset_name, {can_be_null: true}) ){
       const error_msg = (
         'Change the name of your '+this.preset_concept_name+'; '+
         'you already have a '+this.preset_concept_name+' saved with ID "'+preset_name+'". (IDs are genrated from name; change name to change ID.)'
@@ -145,35 +145,6 @@ export class TabOptions {
     this.preset_list.save_preset(new_preset);
     this.select_preset(new_preset);
     this.reset_creator();
-  }
-  load_url_preset() {
-    const data = retrieve_preset_from_url();
-    const {app_name, preset_options} = data;
-
-    let {preset_name} = data;
-    preset_name = this.preset_list.make_preset_name_unique(preset_name);
-
-    const wrong_url_format = !preset_options;
-
-    const wrong_app = app_name !== this.app_name;
-
-    // Validation
-    if( wrong_url_format || wrong_app ){
-      alert("URL is incorrect, maybe you inadvertently modified the URL?");
-      if( wrong_app ) {
-        alert("Wrong app: the URL hash should be loaded in a different app.");
-      }
-      return;
-    }
-
-    const new_preset = new SavedPreset({
-      preset_name,
-      preset_options,
-      tab_options: this,
-    });
-
-    this.preset_list.save_preset(new_preset);
-    this.select_preset(new_preset);
   }
   reset_creator() {
     // Erase all custom option values
@@ -218,6 +189,10 @@ export class TabOptions {
     this.update_button_visibility();
     this.on_any_change({initial_run});
     this.update_share_link();
+    if( initial_run ){
+      this.load_preset_from_url();
+      window.addEventListener("hashchange", () => this.load_preset_from_url(), {passive: true});
+    }
   }
 
   #previous_link = null;
@@ -246,12 +221,56 @@ export class TabOptions {
 
     if( ! this.#link_el ){
       this.#link_el = document.createElement('a');
-      this.#link_el.setAttribute('target', '_blank');
+   // this.#link_el.setAttribute('target', '_blank');
       this.#container_el.appendChild(this.#link_el);
     }
 
     this.#link_el.setAttribute('href', current_link);
     this.#link_el.textContent = current_link;
+  }
+
+  load_preset_from_url() {
+    const preset_data = LinkSerializer.from_url();
+
+    if( preset_data===null ){
+      return;
+    }
+
+    const {preset_name} = preset_data;
+    assert(preset_name);
+    const preset_conflict = this.preset_list.get_preset_by_name(preset_name, {can_be_null: true});
+    if( preset_conflict ){
+      alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
+      return;
+    }
+
+    const {app_name} = preset_data;
+    assert(app_name);
+
+    /* TN
+    const wrong_url_format =
+    if( wrong_url_format ){
+      alert("URL is incorrect, maybe you inadvertently modified the URL?");
+    }
+    */
+
+    const wrong_app = app_name !== this.app_name;
+    if( wrong_app ) {
+      alert("Wrong app: the URL hash should be loaded in a different app.");
+      return;
+    }
+
+    const {preset_options} = preset_data;
+    assert(preset_options);
+
+    const new_preset = new SavedPreset({
+      preset_name,
+      preset_options,
+      tab_options: this,
+    });
+
+    this.preset_list.save_preset(new_preset);
+    this.select_preset(new_preset);
   }
 
   update_background() {
@@ -742,7 +761,7 @@ class PresetList {
     assert(special_ones && saved_ones && native_ones);
     return {special_ones, saved_ones, native_ones};
   }
-  get_preset_by_name(preset_name) {
+  get_preset_by_name(preset_name, {can_be_null}={}) {
     assert(preset_name);
     const {special_ones, saved_ones, native_ones} = this.presets_ordered;
     const presets = [...special_ones, ...saved_ones, ...native_ones];
@@ -751,7 +770,7 @@ class PresetList {
         return preset;
       }
     }
-    assert(false, {preset_name});
+    assert(can_be_null, {preset_name});
   }
   get_all_preset_fonts() {
     const {saved_ones, native_ones} = this.presets_ordered;
@@ -775,7 +794,7 @@ class PresetList {
   // - or use this to prefill preset name
   // - already show valiation error
   make_preset_name_unique(preset_name) {
-    if( !this.get_preset_by_name(preset_name) ){
+    if( !this.get_preset_by_name(preset_name, {can_be_null: true}) ){
       return preset_name;
     }
     // TODO
@@ -788,7 +807,8 @@ class PresetSerializer {
 
     // Validation
     const {preset_name, preset_options} = preset;
-    const preset_data = new PresetData({preset_name, preset_options});
+    const {app_name} = preset.tab_options;
+    const preset_data = new PresetData({preset_name, preset_options, app_name});
 
     const preset_string = JSON.stringify(preset_data);
 
@@ -808,9 +828,12 @@ class PresetSerializer {
   static serialize_list(presets) {
     // Validation
     assert(presets.constructor===Array);
-    presets.forEach(preset_data => assert(preset_data instanceof PresetData));
+    presets.forEach(preset_data => {
+      assert(preset_data instanceof PresetData);
+    });
 
-    return JSON.stringify(presets);
+    const presets__string = JSON.stringify(presets);
+    return presets__string;
   }
 
   static deserialize_list(presets_string) {
@@ -887,10 +910,12 @@ class NativePreset extends Preset {}
 
 // TODO - use TypeScript
 class PresetData {
-  constructor({preset_name, preset_options, ...rest}) {
-    assert(Object.keys(rest).length===0);
-    assert(preset_name && preset_options);
+  constructor(args) {
+    const {preset_name, preset_options, app_name, ...rest} = args;
+    assert(Object.keys(rest).length===0, args);
+    assert(preset_name && preset_options && app_name, args);
 
+    this.app_name = app_name;
     this.preset_name = preset_name;
     this.preset_options = new PresetValues(preset_options);
   }
@@ -930,7 +955,9 @@ class PresetSavior {
       return;
     }
 
-    const preset_data = new PresetData({preset_name, preset_options});
+    const app_name = this.#app_name;
+
+    const preset_data = new PresetData({preset_name, preset_options, app_name});
     presets.push(preset_data);
 
     this._save_presets(presets);
@@ -1087,7 +1114,12 @@ class LinkSerializer {
       return null;
     }
 
-    pipe_data = window.atob(pipe_data);
+    try {
+      pipe_data = window.atob(pipe_data);
+    } catch(err) {
+      console.error(err);
+      return null;
+    }
 
     try {
       pipe_data = PresetSerializer.deserialize_single(pipe_data);

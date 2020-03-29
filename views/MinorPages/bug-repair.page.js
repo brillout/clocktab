@@ -20,7 +20,7 @@ export default getPageConfig(
 
     <br/>
     Your settings:
-    <pre id="setting-spec" style={{margin: 0}}/>
+    <pre id="setting-spec" style={{margin: 0, wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}/>
   </>,
   'Bug Repair',
   {onPageLoad},
