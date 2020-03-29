@@ -660,7 +660,7 @@ class PresetList {
     this.refresh_user_input();
   }
   remove_preset(preset) {
-    // TN - use this
+    // TN2 - use this
     this.#preset_savior.remove_preset(preset);
     this.refresh_user_input();
   }
@@ -731,7 +731,7 @@ class PresetList {
     return preset_font_names;
   }
 
-  // TN - remove this and throw alert instead
+  // TN2 - remove this and throw alert instead
   // - or use this to prefill preset name
   // - already show valiation error
   make_preset_name_unique(preset_name) {
@@ -739,6 +739,26 @@ class PresetList {
       return preset_name;
     }
     // TODO
+  }
+}
+
+class PresetSerializer {
+  static serialize_list(presets) {
+    // Validation
+    assert(presets.constructor===Array);
+    presets.forEach(preset_data => assert(preset_data instanceof PresetData));
+
+    return JSON.stringify(presets);
+  }
+
+  static deserialize_list(preset_string) {
+    let presets = JSON.parse(preset_string || JSON.stringify([]));
+
+    // Validation
+    assert(presets.constructor===Array);
+    presets = presets.map(preset_data => new PresetData(preset_data));
+
+    return presets;
   }
 }
 
@@ -792,6 +812,7 @@ class SavedPreset extends Preset {
     return true;
   }
   get share_link() {
+    // TN
     generate_url()
   }
 }
@@ -872,20 +893,10 @@ class PresetSavior {
   }
 
   _get_presets() {
-    let presets = JSON.parse(localStorage[this._storage_key]|| JSON.stringify([]));
-
-    // Validation
-    assert(presets.constructor===Array);
-    presets = presets.map(preset_data => new PresetData(preset_data));
-
-    return presets;
+    return PresetSerializer.deserialize_list(localStorage[this._storage_key]);
   }
   _save_presets(presets) {
-    // Validation
-    assert(presets.constructor===Array);
-    presets.forEach(preset_data => assert(preset_data instanceof PresetData));
-
-    localStorage[this._storage_key] = JSON.stringify(presets);
+    localStorage[this._storage_key] = PresetSerializer.serialize_list(presets);
   }
   get _storage_key() {
     return this.#app_name + '_presets';
@@ -962,7 +973,7 @@ function make_unique(arr) {
   return Array.from(new Set(arr.filter(Boolean))).sort();
 }
 
-// TN
+// TN2
 // - rename preset_options to preset_values
 // - rename preset_name to preset_id
 // - migration & refactor localStorage usage
@@ -975,6 +986,7 @@ function make_unique(arr) {
 
 
 
+// TN
 function generate_url() {
       const data__json = JSON.stringify(data);
       const data__base64 = window.atob(data__json);
