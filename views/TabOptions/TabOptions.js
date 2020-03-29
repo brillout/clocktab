@@ -134,6 +134,7 @@ export class TabOptions {
         'you already have a '+this.preset_concept_name+' saved with ID "'+preset_name+'". (IDs are genrated from name; change name to change ID.)'
       );
       alert(error_msg);
+      return;
     }
 
     const preset_options = {};
