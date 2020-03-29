@@ -31,7 +31,7 @@ function PresetBlocks({preset_concept_name}) {
         customize an existing {preset_concept_name}, save it under a new name, then use its share link.
       </div>
       <div id='share-content'>
-        Share Link:
+        Share Link:{' '}
       </div>
     </div>
   </>;

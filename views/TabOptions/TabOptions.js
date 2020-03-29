@@ -4,6 +4,7 @@ import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
 import './tab-options.css';
+import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 
 export class TabOptions {
@@ -258,6 +259,7 @@ export class TabOptions {
     if( preset_conflict ){
       alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
       this.select_preset(preset_conflict);
+      remove_hash();
       return;
     }
 
@@ -288,6 +290,8 @@ export class TabOptions {
 
     this.preset_list.save_preset(new_preset);
     this.select_preset(new_preset);
+    alert(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully loaded & saved.');
+    remove_hash();
   }
 
   update_background() {
