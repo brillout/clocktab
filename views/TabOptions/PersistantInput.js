@@ -1,4 +1,7 @@
 import assert from '@brillout/assert';
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+
 
 export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button};
 
@@ -218,6 +221,17 @@ class DateInput extends PersistantInput {
     super(args);
     this.input_tag = 'input';
     this.input_type = 'datetime';
+  }
+  init_dom() {
+    flatpickr(this._input_el, {
+      enableTime: true,
+      /*
+      dateFormat: "Y-m-d H:i",
+      altInput: true,
+      altFormat: "F j, Y",
+      dateFormat: "Y-m-d",
+      */
+    });
   }
 }
 class ColorInput extends PersistantInput {

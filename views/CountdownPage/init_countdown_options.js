@@ -54,13 +54,11 @@ function get_option_list() {
       option_description: 'Preset',
       option_default: 'christmas',
     },
-
-
     {
       option_id: 'countdown_date',
       option_type: 'date-input',
       option_description: 'Date',
-      option_default: 'Josefin Slab',
+      option_default: getNextDay(),
       is_creator_option: true,
     },
     {
@@ -116,7 +114,7 @@ function get_option_list() {
       option_id: 'countdown_size',
       option_type: 'text-input',
       option_description: 'Countdown size',
-      option_default: '580',
+      option_default: '380',
       is_creator_option: true,
     },
     {
@@ -135,4 +133,10 @@ function get_option_list() {
       is_creator_option: true,
     },
   ];
+}
+
+function getNextDay() {
+  const d = new Date(new Date()/* + 60*1000*/);
+  d.setHours(24,0,0,0);
+  return d;
 }

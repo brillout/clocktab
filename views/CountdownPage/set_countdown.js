@@ -90,7 +90,7 @@ function format(time_left__miliseconds) {
 }
 
 function pad(i) {
-  return (i<10?'0':'')+i;
+  return (0<=i && i<=9?'0':'')+i;
 }
 
 function ignite_beat(pulse) {

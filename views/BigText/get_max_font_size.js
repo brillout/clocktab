@@ -17,7 +17,7 @@ function get_max_font_size({dom_el, max_width, max_height}) {
 // export {adjustFontSize};
 
 function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleChars,minTextLength){ 
-  assert(outer_height && outer_width, {outer_height, outer_width});
+  assert(outer_height>=0 && outer_width>=0, {outer_height, outer_width});
 
   const DUMMY_SIZE=100;//intuitively: the bigger the font-size the more precise the approximation
 
