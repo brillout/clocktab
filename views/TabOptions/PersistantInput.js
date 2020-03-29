@@ -1,4 +1,6 @@
-export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput};
+import assert from '@brillout/assert';
+
+export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button};
 
 class Storage {
   constructor(storage_key) {
@@ -18,11 +20,10 @@ class Storage {
 
 class PersistantInput {
   constructor(props) {
-    assert(input_id && on_input_change);
-
     this._props = props;
 
     const {input_id, on_input_change, input_default} = props;
+    assert(input_id && on_input_change);
     this._input_id = input_id;
     this._on_input_change = on_input_change;
     this._input_default = input_default;
@@ -40,7 +41,13 @@ class PersistantInput {
     this._on_input_change();
   }
   init() {
-    assert(this.input_tag && this.input_type);
+    const {input_tag, input_type} = this;
+    assert(input_tag);
+    assert(input_type || input_tag!=='input');
+
+    const {dom_el, input_el} = generate_input({input_tag, input_type, ...this._props});
+    this._dom_el = dom_el;
+    this._input_el = input_el;
 
     const init_val = (
       this._storage.has_val() ? (
@@ -52,26 +59,22 @@ class PersistantInput {
     if( init_val!== undefined ){
       this._input_modifier(init_val);
     }
+
     this._input_el.addEventListener(this._change_event, () => {this._on_input_change()}, false);
   }
-  init_dom() {
-    const {dom_el, input_el} = generate_input(this._props);
-    this._dom_el = dom_el;
-    this._input_el = input_el;
-  }
   hide() {
-    hide_show_el(this.dom_el, true);
+    hide_show_el(this._dom_el, true);
   }
   show() {
-    hide_show_el(this.dom_el);
+    hide_show_el(this._dom_el);
   }
 
   // To be overriden
   _input_retriever() {
-    return this.input_el.value;
+    return this._input_el.value;
   }
-  _input_modifier() {
-    this.input_el.value = val;
+  _input_modifier(val) {
+    this._input_el.value = val;
   }
   get _change_event() {
     return 'change';
@@ -113,8 +116,8 @@ class TextInput extends PersistantInput {
     return 'input';
   }
 
-  init_dom() {
-    super.init_dom();
+  init() {
+    super.init();
     const {input_placeholder} = this._props;
     if( input_placeholder ){
       this._input_el.placeholder = input_placeholder;
@@ -126,22 +129,21 @@ class SelectInput extends PersistantInput {
   constructor(args) {
     super(args);
     this.input_tag = 'select';
-    this.input_args.input_options = args.option_choices;
 
-    this._input_options = args.input_options;
-    assert(this._input_options);
+    // TN - is the line needed?
+    this.input_options = args.input_options;
   }
 
   init() {
-    this._input_options.forEach(option_args => {
-      this.input_el.innerHTML += this._generate_option_html(option_args);
-    });
     super.init();
+    this.input_options.forEach(option_args => {
+      this._input_el.innerHTML += this._generate_option_html(option_args);
+    });
   }
 
   add_options(new_options) {
     new_options.forEach(option_args => {
-       this.input_el.innerHTML += this._generate_option_html(option_args)
+       this._input_el.innerHTML += this._generate_option_html(option_args)
     })
 
     /*
@@ -155,7 +157,7 @@ class SelectInput extends PersistantInput {
   _input_modifier(val) {
     assert(val, {val});
     if( !this._input_el.querySelector('option[value="'+val+'"]') ){
-      this.input_el.innerHTML += this._generate_option_html(val);
+      this._input_el.innerHTML += this._generate_option_html(val);
     }
     super._input_modifier(val);
   }
@@ -241,6 +243,7 @@ function generate_input({input_tag, input_type, input_id, input_description, inp
   assert(input_type || input_tag!=='input');
   assert(input_id);
   assert(input_description);
+  assert(input_container);
 
   const dom_el = document.createElement('label');
 

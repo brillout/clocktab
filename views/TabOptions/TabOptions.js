@@ -21,10 +21,6 @@ export class TabOptions {
     enable_import_export,
     app_name,
   }) {
-    this.option_list = instantiate_options({tab_options: this, option_spec_list});
-
-    this.preset_list = new PresetList({preset_spec_list, tab_options: this});
-
     this.text_container = text_container;
     this.options_container = options_container;
     this.no_random_preset = no_random_preset;
@@ -35,6 +31,8 @@ export class TabOptions {
     this.enable_import_export = enable_import_export;
     this.app_name = app_name;
 
+    this.preset_list = new PresetList({preset_spec_list, tab_options: this});
+    this.option_list = instantiate_options({tab_options: this, option_spec_list});
 
     this.resolve_font_loaded_promise;
     this.font_loaded_promise = new Promise(r => this.resolve_font_loaded_promise = r);
@@ -62,6 +60,7 @@ export class TabOptions {
             assert(!this.selected_preset.is_creator_preset);
             this.modify_preset();
           },
+          input_container: this.options_container,
         })
       );
       btn.generate_dom();
@@ -82,6 +81,7 @@ export class TabOptions {
             alert(options_url);
             */
           },
+          input_container: this.options_container,
         })
       );
       btn.generate_dom();
@@ -247,9 +247,6 @@ export class TabOptions {
       return;
     }
     this.font_option.add_fonts(
-      this.preset_list.get_all_preset_fonts()
-    );
-    this.font_option.add_fonts(
       await load_font_list()
     );
   }
@@ -335,10 +332,9 @@ export class TabOptions {
 }
 
 class Option {
-  constructor({option_id, option_description, input_width, tab_options, ...props}) {
+  constructor({option_id, option_description, option_default, input_width, tab_options, ...props}) {
     assert(option_id);
     assert(option_description);
-    assert(input_width);
     assert(tab_options);
     Object.assign(this, {
       option_id,
@@ -357,6 +353,9 @@ class Option {
   }
 
   generate_dom() {
+    if( this.before_generate_dom ){
+      this.before_generate_dom();
+    }
     assert(this.user_input);
     this.user_input.init();
   }
@@ -399,13 +398,15 @@ class DateOption extends Option {
 class BooleanOption extends Option {
   constructor(args) {
     super(args);
-    this.user_input = new BooleanOption(this.input_args);
+    this.user_input = new BooleanInput(this.input_args);
   }
 }
 
 class SelectOption extends Option {
-  constructor(args) {
+  constructor(args, input_options) {
     super(args);
+    assert(input_options);
+    this.input_args.input_options = input_options;
     this.user_input = new SelectInput(this.input_args);
   }
 
@@ -415,8 +416,8 @@ class SelectOption extends Option {
 }
 
 class ChoiceOption extends SelectOption {
-  constructor() {
-    super({input_width: '100px', ...args});
+  constructor({option_choices, ...args}) {
+    super({input_width: '100px', ...args}, option_choices);
   }
 }
 
@@ -451,18 +452,31 @@ class TextShadowOption extends TextOption {
 
 class PresetOption extends SelectOption {
   constructor(args) {
-    super({input_width: '93px', ...args});
+    // TN
+    const input_options = [];
+    super({input_width: '93px', ...args}, input_options);
     this.is_preset_selector = true;
-    this.tab_options.preset_list;
 
-    this.input_options = [];
-    this.input_options.push({val: '_creator', val_pretty='<Creator>'})
-    if( !this.tab_options.no_random_preset ){
-      this.input_options.push({val: '_random', val_pretty='<Random>'})
+    function get_initial_presets() {
     }
+  }
+
+  before_generate_dom() {
+    this.user_input.input_options = this.get_initial_presets();
+  }
+
+  get_initial_presets() {
+    const _initial_presets = []
+    _initial_presets.push({val: '_creator', val_pretty: '<Creator>'})
+    if( !this.tab_options.no_random_preset ){
+      _initial_presets.push({val: '_random', val_pretty: '<Random>'})
+    }
+    //* TN
     this.tab_options.preset_list.preset_names.forEach(preset_name => {
-      this.input_options.push({val: preset_name, val_pretty: prettify_preset_name(preset_name)});
+      _initial_presets.push({val: preset_name, val_pretty: prettify_preset_name(preset_name)});
     });
+    //*/
+    return _initial_presets;
   }
 
   get input_value() {
@@ -482,7 +496,7 @@ class PresetOption extends SelectOption {
     return val;
   }
 
-  add_preset(preset) {
+  add_preset_to_input(preset) {
     const {preset_name} = preset;
     assert(preset_name);
     const option_args = {
@@ -509,7 +523,11 @@ class BackgroundColorOption extends ColorOption {
 
 class FontOption extends SelectOption {
   constructor(args) {
-    super({input_width: '110px', ...args});
+    /* TN
+    const input_options = args.tab_options.preset_list.get_all_preset_fonts();
+*/
+    const input_options = [];
+    super({input_width: '110px', ...args}, input_options);
     this.is_font_option = true;
   }
   get input_value() {
@@ -605,6 +623,8 @@ class PresetList {
   }
   add_preset(preset) {
     this._presets.push(preset);
+    // TN
+ // this.tab_options.preset_option.add_preset_to_input(preset);
   }
   get preset_names() {
     return (
