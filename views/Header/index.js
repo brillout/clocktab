@@ -9,11 +9,11 @@ function Header() {
     <div id='header-container' className='glass-background'>
       <div id="header-content">
         <Logo/>
-        <Link href={'/world-clock'} >World Clock</Link>
-        <Link href={'https://www.timer-tab.com'} target="_blank">Timer Tab</Link>
-        <Link href={'/msg-tab'}>Msg Tab</Link>
+        <Link href={'/world-clock'}>World Clock</Link>
         <Link href={'/countdown'}>Countdown</Link>
         <Link href={'/history'}>History</Link>
+        <Link href={'https://www.timer-tab.com'} target="_blank">Timer Tab</Link>
+        <Link href={'/msg-tab'}>Msg Tab</Link>
       </div>
     </div>
   );
