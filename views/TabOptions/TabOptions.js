@@ -241,6 +241,7 @@ export class TabOptions {
     const preset_conflict = this.preset_list.get_preset_by_name(preset_name, {can_be_null: true});
     if( preset_conflict ){
       alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
+      this.selected_preset(preset_conflict);
       return;
     }
 
