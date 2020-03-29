@@ -61,7 +61,7 @@ export class TabOptions {
           input_container: this.options_container,
           text: 'Customize',
           on_click: () => {
-            assert(!this.selected_preset.is_creator_preset);
+            assert(!this.preset_selected.is_creator_preset);
             this.modify_preset();
           },
         })
@@ -76,7 +76,7 @@ export class TabOptions {
           input_container: this.options_container,
           text: 'Save as Share-able',
           on_click: () => {
-            assert(this.selected_preset.is_creator_preset);
+            assert(this.preset_selected.is_creator_preset);
             this.save_created_preset();
           },
         })
@@ -109,7 +109,7 @@ export class TabOptions {
   }
 
   save_created_preset() {
-    assert(this.selected_preset.is_creator_preset);
+    assert(this.preset_selected.is_creator_preset);
 
     const preset_name_pretty = this.name_option.input_value;
     if( !preset_name_pretty ){
@@ -204,15 +204,15 @@ export class TabOptions {
       this.#container_el.textContent = this.preset_concept_name+' Share Link: ';
     }
 
-    const {selected_preset} = this;
-    if( ! selected_preset.is_saved_preset ){
+    const {preset_selected} = this;
+    if( ! preset_selected.is_saved_preset ){
       this.#container_el.style.display = 'none';
       return;
     } else {
       this.#container_el.style.display = '';
     }
 
-    const current_link = selected_preset.share_link;
+    const current_link = preset_selected.share_link;
     if( this.#previous_link === current_link ){
       return;
     } else {
@@ -241,7 +241,7 @@ export class TabOptions {
     const preset_conflict = this.preset_list.get_preset_by_name(preset_name, {can_be_null: true});
     if( preset_conflict ){
       alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
-      this.selected_preset(preset_conflict);
+      this.select_preset(preset_conflict);
       return;
     }
 
@@ -292,7 +292,7 @@ export class TabOptions {
     this.option_list.forEach(opt => {
       const to_hide = (
         opt.option_dependency && !get_input_val(opt.option_dependency) ||
-        opt.is_creator_option && !this.selected_preset.is_creator_preset
+        opt.is_creator_option && !this.preset_selected.is_creator_preset
       );
       if( to_hide ){
         opt.hide();
@@ -305,7 +305,7 @@ export class TabOptions {
     if( ! this.enable_import_export ){
       return;
     }
-    if( this.selected_preset.is_creator_preset ){
+    if( this.preset_selected.is_creator_preset ){
       this.button_mod.hide();
       this.button_url.show();
       this.name_option.show();
@@ -314,7 +314,7 @@ export class TabOptions {
       this.button_url.hide();
       this.name_option.hide();
    // this.button_del.hide();
-      if( !this.selected_preset.is_randomizer_preset ){
+      if( !this.preset_selected.is_randomizer_preset ){
         this.button_mod.show();
       } else {
         this.button_mod.hide();
@@ -323,7 +323,7 @@ export class TabOptions {
   }
   #font_list_already_loading = false;
   async load_font_list() {
-    if( !this.selected_preset.is_creator_preset ){
+    if( !this.preset_selected.is_creator_preset ){
       return;
     }
     if( this.#font_list_already_loading ){
@@ -370,11 +370,11 @@ export class TabOptions {
   get active_preset() {
     let active_preset;
 
-    const {selected_preset} = this;
-    if( selected_preset.is_randomizer_preset ){
-      active_preset = selected_preset.random_preset;
+    const {preset_selected} = this;
+    if( preset_selected.is_randomizer_preset ){
+      active_preset = preset_selected.random_preset;
     } else {
-      active_preset = selected_preset;
+      active_preset = preset_selected;
     }
 
     assert(!active_preset.is_randomizer_preset);
@@ -400,7 +400,7 @@ export class TabOptions {
     this.active_preset = preset;
   }
 
-  get selected_preset() {
+  get preset_selected() {
     const preset_name = this.preset_option.input_value;
     const preset = this.preset_list.get_preset_by_name(preset_name);
     return preset;
