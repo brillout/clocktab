@@ -133,6 +133,8 @@ class TextInput extends PersistantInput {
 }
 
 class SelectInput extends PersistantInput {
+  static divider = Symbol();
+
   constructor({input_options, ...args}) {
     super(args);
     this.input_tag = 'select';
@@ -143,17 +145,22 @@ class SelectInput extends PersistantInput {
     assert(this.input_options.length>0, this._input_id);
 
     let {innerHTML} = this._input_el;
-    this.input_options.forEach(option_args => {
-      innerHTML += this._generate_option_html(option_args);
+    this.input_options.forEach(option_arg => {
+      innerHTML += this._generate_option_html(option_arg);
     });
     this._input_el.innerHTML = innerHTML;
   }
 
   add_options(new_options) {
-    let {innerHTML} = this._input_el;
+    const current_option_values = Array.from(this._input_el.querySelector('option')).map(el => el.value);
 
-    new_options.forEach(option_args => {
-      innerHTML += this._generate_option_html(option_args);
+    let {innerHTML} = this._input_el;
+    new_options.forEach(option_arg => {
+      const {val} = this._parse_option_arg(option_arg);
+      if( val && current_option_values.includes(val) ){
+        return;
+      }
+      innerHTML += this._generate_option_html(option_arg);
     })
 
     this._input_el.innerHTML = innerHTML;
@@ -169,28 +176,42 @@ class SelectInput extends PersistantInput {
   _input_modifier(val) {
     assert(val, {val});
     if( !this._input_el.querySelector('option[value="'+val+'"]') ){
-      this._input_el.innerHTML += this._generate_option_html(val);
+      this._input_el.innerHTML = (
+        this._generate_option_html(val) +
+        SelectInput.#divider_html +
+        this._input_el.innerHTML
+      );
     }
     super._input_modifier(val);
   }
 
-  // TODO - make to a static prop
-  _generate_option_html(args) {
-    assert(args, this._input_id, {args});
+  static #divider_html = '<option disabled>──────────</option>';
 
-    if( args === SelectInput.divider ){
-      return '<option disabled>──────────</option>';
+  // TODO - make to a static prop
+  _generate_option_html(option_arg) {
+    const {val, val_pretty, is_divider} = this._parse_option_arg(option_arg);
+
+    if( is_divider ){
+      return SelectInput.#divider_html;
     }
 
-    const val = args.val || args;
-    assert(val, args);
-    const val_pretty = args.val_pretty || val;
     return (
       '<option label="'+val_pretty+'" value="'+val+'">'+escapeHtml(val_pretty)+'</option>'
     );
   }
+  _parse_option_arg(option_arg) {
+    assert(option_arg, this._input_id, {option_arg});
+
+    if( option_arg === SelectInput.divider ){
+      return {is_divider: true};
+    }
+
+    const val = option_arg.val || option_arg;
+    assert(val, option_arg);
+    const val_pretty = option_arg.val_pretty || val;
+    return {val, val_pretty};
+  }
 }
-SelectInput.divider = Symbol();
 
 class DateInput extends PersistantInput {
   constructor(args) {
@@ -309,10 +330,3 @@ function hide_show_el(el, to_hide) {
   el.style.position   = to_hide ? 'absolute':''       ;
   el.style.zIndex     = to_hide ? '-1'      :''       ;
 }
-
-/*
-new_options = make_unique(new_options);
-function make_unique(arr) {
-  return Array.from(new Set(arr.filter(Boolean))).sort();
-}
-*/

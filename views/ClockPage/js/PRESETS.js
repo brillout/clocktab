@@ -1,6 +1,8 @@
 // Theme components
 // - nice bg colors
 //   - #7b3535
+// - nice fonts
+//   - Zilla Slab Highlight
 
 export default {
   'steel':{

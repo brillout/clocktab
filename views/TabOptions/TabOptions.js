@@ -187,9 +187,9 @@ export class TabOptions {
   global_side_effects({initial_run}={}) {
     this.update_background();
     this.update_font();
+    this.load_font_list();
     this.update_option_visibility();
     this.update_button_visibility();
-    this.load_font_list();
     this.on_any_change({initial_run});
   }
 
@@ -240,10 +240,15 @@ export class TabOptions {
       }
     }
   }
+  #font_list_already_loading = false;
   async load_font_list() {
     if( !this.selected_preset.is_creator_preset ){
       return;
     }
+    if( this.#font_list_already_loading ){
+      return;
+    }
+    this.#font_list_already_loading = true;
     this.font_option.add_fonts(
       [
         SelectInput.divider,
@@ -644,7 +649,7 @@ class PresetList {
     assert(false, {preset_name});
   }
   get_all_preset_fonts() {
-    const preset_font_names = (
+    let preset_font_names = (
       this
       ._presets
       .filter(preset => preset.is_real_preset)
@@ -654,6 +659,7 @@ class PresetList {
         return font_name;
       })
     );
+    preset_font_names = make_unique(preset_font_names);
     return preset_font_names;
   }
   make_preset_name_unique(preset_name) {
@@ -796,3 +802,6 @@ function prettify_preset_name(val) {
   );
 }
 
+function make_unique(arr) {
+  return Array.from(new Set(arr.filter(Boolean))).sort();
+}
