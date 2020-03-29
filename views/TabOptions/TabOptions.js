@@ -35,6 +35,8 @@ export class TabOptions {
 
     this.creator_content = document.getElementById('creator-content');
     this.options_content = document.getElementById('options-content');
+    this.save_content = document.getElementById('save-content');
+    this.save_container = document.getElementById('save-container');
     this.share_content = document.getElementById('share-content');
     this.share_container = document.getElementById('share-container');
 
@@ -58,11 +60,10 @@ export class TabOptions {
   }
 
   generate_import_export_dom() {
-    const input_container = this.creator_content;
     {
       const btn = (
         new Button({
-          input_container,
+          input_container: this.creator_content,
           text: 'Customize',
           className: 'action-button',
           on_click: () => {
@@ -75,13 +76,14 @@ export class TabOptions {
       this.button_mod = btn;
     }
 
+    const input_container = this.save_content;
     {
       const {app_name} = this;
       assert(app_name);
       const name_option = new TextOption({
         input_container,
         option_id: app_name+'_name',
-        input_width: '50px',
+        input_width: '100px',
         option_description: this.preset_concept_name+' Name',
         option_default: '',
         tab_options: this,
@@ -94,7 +96,7 @@ export class TabOptions {
       const btn = (
         new Button({
           input_container,
-          text: 'Save as Share-able',
+          text: 'Save',
           on_click: () => {
             assert(this.preset_selected.is_creator_preset);
             this.save_created_preset();
@@ -197,6 +199,7 @@ export class TabOptions {
     this.update_button_visibility();
     this.on_any_change({initial_run});
     this.update_share_link();
+    this.update_save_block();
     if( initial_run ){
       this.load_preset_from_url();
       window.addEventListener("hashchange", () => this.load_preset_from_url(), {passive: true});
@@ -229,6 +232,16 @@ export class TabOptions {
 
     this.#link_el.setAttribute('href', current_link);
     this.#link_el.textContent = current_link;
+  }
+
+  update_save_block() {
+    this.save_container.style.display = (
+      this.preset_selected.is_creator_preset ? (
+        ''
+      ) : (
+        'none'
+      )
+    );
   }
 
   load_preset_from_url() {

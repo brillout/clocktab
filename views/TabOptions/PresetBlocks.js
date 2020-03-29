@@ -6,9 +6,15 @@ function PresetBlocks({preset_concept_name}) {
   return <>
     <div className="more_panel_block">
       <div className="more_panel_block_title">
-        Preset
+        {preset_concept_name}
       </div>
       <div id='creator-content' />
+    </div>
+    <div id='save-container' className="more_panel_block">
+      <div className="more_panel_block_title">
+        Save
+      </div>
+      <div id='save-content' />
     </div>
     <div className="more_panel_block">
       <div className="more_panel_block_title">
