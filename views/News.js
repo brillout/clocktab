@@ -11,6 +11,6 @@ function News({preset_concept_name, ...props}) {
       <li>Countdown &mdash; check out the brand new Countdown Tab!</li>
       <li>{preset_concept_name} super-powered &mdash; you can now create, save, and share {preset_concept_name}s!</li>
     </ul>
-    These features are new; if you encounter any bug <a href="/bug-repair">let me know</a>!
+    These features are new; if you encounter any bug then <a href="/bug-repair">let me know</a>!
   </div>;
 }
