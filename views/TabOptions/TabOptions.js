@@ -258,7 +258,7 @@ export class TabOptions {
     const preset_conflict = this.preset_list.get_preset_by_name(preset_name, {can_be_null: true});
     if( preset_conflict ){
       this.select_preset(preset_conflict);
-      requestAnimationFrame(() => {
+      this.delay_alert(() => {
         alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
         remove_hash();
       });
@@ -292,10 +292,17 @@ export class TabOptions {
 
     this.preset_list.save_preset(new_preset);
     this.select_preset(new_preset);
-    requestAnimationFrame(() => {
-      alert(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully loaded & saved.');
+    this.delay_alert(() => {
+      alert(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully saved.');
       remove_hash();
     });
+  }
+  delay_alert(fn) {
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        fn();
+      });
+    }, 200);
   }
 
   update_background() {
