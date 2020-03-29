@@ -70,14 +70,10 @@ export class TabOptions {
       const btn = (
         new Button({
           input_container: this.options_container,
-          text: 'Save as share-able URL',
+          text: 'Save as Share-able',
           on_click: () => {
             assert(this.selected_preset.is_creator_preset);
-            this.save_custom_preset();
-            /* TODo
-            const options_url = this.selected_preset.generate_url();
-            alert(options_url);
-            */
+            this.save_created_preset();
           },
         })
       );
@@ -106,7 +102,7 @@ export class TabOptions {
     }
   }
 
-  save_custom_preset() {
+  save_created_preset() {
     assert(this.selected_preset.is_creator_preset);
 
     const preset_name = this.name_option.input_value;
@@ -125,7 +121,7 @@ export class TabOptions {
       preset_options[option.option_id] = preset_val;
     });
 
-    const new_preset = new Preset({
+    const new_preset = new SavedPreset({
       preset_name,
       preset_options,
       tab_options: this,
@@ -155,7 +151,7 @@ export class TabOptions {
       return;
     }
 
-    const new_preset = new Preset({
+    const new_preset = new SavedPreset({
       preset_name,
       preset_options,
       tab_options: this,
@@ -206,6 +202,16 @@ export class TabOptions {
     this.update_option_visibility();
     this.update_button_visibility();
     this.on_any_change({initial_run});
+    this.update_share_link();
+  }
+
+  update_share_link() {
+    const share_link = document.getElementById('share-link');
+    if( ! this.select_preset.is_saved_preset ){
+      share_link.removeAttribute('data-link');
+    } else {
+      share_link.setAttribute('data-link', this.select_preset.share_link);
+    }
   }
 
   update_background() {
@@ -644,7 +650,7 @@ class PresetList {
 
     this.#native_presets = (
       Object.entries(preset_spec_list).map(([preset_name, preset_options]) =>
-        new Preset({preset_name, preset_options, tab_options})
+        new NativePreset({preset_name, preset_options, tab_options})
       )
     );
   }
@@ -677,7 +683,7 @@ class PresetList {
       .#preset_savior
       .get_saved_presets()
       .map(({preset_name, preset_options}) =>
-        new Preset({preset_name, preset_options, tab_options})
+        new SavedPreset({preset_name, preset_options, tab_options})
       )
     );
   }
@@ -744,6 +750,11 @@ class Preset {
     this.preset_name = preset_name;
     this.preset_options = preset_options;
     this.tab_options = tab_options;
+
+    // Abstract class
+    if (new.target === Preset) {
+      throw new TypeError("Cannot construct Preset instances directly.");
+    }
   }
   get_preset_value(option) {
     const {option_id} = option;
@@ -774,11 +785,20 @@ class Preset {
     assert(prettified);
     return prettified;
   }
-  generate_url() {
-    const data__json = JSON.stringify(data);
-    const data__base64 = window.atob(data__json);
+}
+
+class SavedPreset extends Preset {
+  get is_saved_preset() {
+    return true;
+  }
+  get share_link() {
+    generate_url()
   }
 }
+
+class NativePreset extends Preset {
+}
+
 
 // TODO - use TypeScript
 class PresetData {
@@ -927,24 +947,6 @@ CreatorPreset.test = preset_name => (
 */
 
 
-function generate_url() {
-  // TODO
-}
-
-// TODO
-function retrieve_data_from_url() {
-  if( !data_url ){
-    return null;
-  }
-
-  const _preset_options = {};
-
-  // TODO
-  validate_preset_options();
-
-  return {app_name, preset_name, preset_options}
-}
-
 function prettify_preset_name(val) {
   assert(val);
   return (
@@ -969,3 +971,27 @@ function make_unique(arr) {
 
 // TODO-later
 // What Preset values should be required before saving? What happens when the user sets some to ''?
+
+
+
+
+function generate_url() {
+      const data__json = JSON.stringify(data);
+      const data__base64 = window.atob(data__json);
+  // TODO
+}
+
+// TODO
+function retrieve_data_from_url() {
+  if( !data_url ){
+    return null;
+  }
+
+  const _preset_options = {};
+
+  // TODO
+  validate_preset_options();
+
+  return {app_name, preset_name, preset_options}
+}
+

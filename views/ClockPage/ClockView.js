@@ -29,6 +29,7 @@ function ClockView() {
         <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
       </div>
       <div id='options-container'></div>
+      <div id='share-link'></div>
     </MorePanel>
   </>;
 }

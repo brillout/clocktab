@@ -79,3 +79,14 @@ input[type='color'] {
   margin-bottom: 40px;
 }
 
+
+
+#share-link:not([data-link]) {
+  display: 'none';
+}
+#share-link:before {
+  content: 'Share Link: ';
+}
+#share-link:after {
+  content: attr(data-link);
+}

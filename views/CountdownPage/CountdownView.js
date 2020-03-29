@@ -18,6 +18,7 @@ function CountdownView() {
 
     <MorePanel>
       <div id='options-container'></div>
+      <div id='share-link'></div>
     </MorePanel>
   </>;
 }
