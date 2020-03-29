@@ -36,7 +36,9 @@ function setCss({color='white', img='none'}={}) {
   BG_EL.style['backgroundSize'] = img===LOAD_IMG?'auto':'cover';
 }
 
+let change_number_counter = 0;
 function set_background(val) {
+  ++change_number_counter;
   DEBUG && console.log('set-background', {val});
   init();
   if( !val ) { setCss(); return; }
@@ -84,6 +86,7 @@ function init() {
 }
 
 function setImage(val) {
+  const change_number = change_number_counter;
   const isURI = val.indexOf('.')!==-1 || /^data:image/.test(val);
   DEBUG && console.log('set-background', {isURI});
   if( !isURI ){
@@ -98,19 +101,27 @@ function setImage(val) {
     const h=this.height;
     if(w*h>8000000) {
       alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of up to 8 000 000 pixels are allowed. (For example, any image bellow 5000*1600 is fine.)');
-      setCss();
+      if( change_number === change_number_counter ){
+        setCss();
+      }
       return;
     }
-    setCss({img: 'url("'+val+'")'});
+    if( change_number === change_number_counter ){
+      setCss({img: 'url("'+val+'")'});
+    }
   };
   imgEl.onerror=function(err) {
     alert('Image '+val+' could not be loaded. Do you have an internet connection? Is the image online? Does the URL point to an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
-    setCss();
+    if( change_number === change_number_counter ){
+      setCss();
+    }
   };
 
   window.setTimeout(function() {
     if( !loaded ){
-      setCss({img: LOAD_IMG});
+      if( change_number === change_number_counter ){
+        setCss({img: LOAD_IMG});
+      }
     }
   }, 50);
 
