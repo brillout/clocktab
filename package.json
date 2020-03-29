@@ -1,9 +1,7 @@
 {
   "scripts": {
     "dev": "yarn goldpage:dev",
-
     "postinstall": "git submodule update tab-utils/ && (cd tab-utils/ && yarn install)",
-
     "dev:todo": "yarn goldpage:dev & sleep 5 && yarn dev:link-static",
     "goldpage:dev": "goldpage dev",
     "dev:link": "ln -s `pwd`/static/* .build/browser/",
@@ -36,5 +34,8 @@
     "react-dom": "^16.13.0",
     "serve": "^11.3.0",
     "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3"
   }
 }
