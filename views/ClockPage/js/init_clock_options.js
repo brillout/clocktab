@@ -40,16 +40,16 @@ function init_clock_options() {
   }
 
   function update_options() {
-    text_container.style.color = get_option_value('color_font');
-    text_container.style.textShadow = get_option_value('font_shadow');
+    text_container.style.color = get_option_value('clock_color');
+    text_container.style.textShadow = get_option_value('clock_shadow');
     {
-      const show_seconds = get_option_value('show_seconds');
+      const show_seconds = get_option_value('clock_display_seconds');
       document.body['classList'][show_seconds?'remove':'add']('noSeconds');
     }
 
     {
-      const show_pm = get_option_value('show_pm');
-      const twelve_hour = get_option_value('12_hour');
+      const show_pm = get_option_value('clock_display_period');
+      const twelve_hour = get_option_value('clock_twelve_hour_format');
       document.body['classList'][show_pm&&twelve_hour?'remove':'add']('noPeriod');
     }
     set_text_position(get_option_value('clock_position'));
@@ -59,13 +59,13 @@ function init_clock_options() {
 function get_option_list() {
   return [
     {
-      option_id:'theme',
+      option_id:'clock_theme',
       option_type: 'preset-input',
       option_description: preset_concept_name,
       option_default: 'steel',
     },
     {
-      option_id: 'bg_image',
+      option_id: 'clock_background_image',
       option_type: 'background-image-input',
       option_description: 'Background image',
       option_default: ''    ,
@@ -73,7 +73,7 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'bg_color',
+      option_id: 'clock_background_color',
       option_type: 'background-color-input',
       option_description: 'Background color',
       option_default: '#ffffff',
@@ -87,7 +87,7 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'font_shadow',
+      option_id: 'clock_shadow',
       option_type: 'text-shadow-input',
       option_description: 'Font shadow',
       option_default: '',
@@ -96,14 +96,14 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'color_font',
+      option_id: 'clock_color',
       option_type: 'text-color-input',
       option_description: 'Clock color',
       option_default: '#2c2c2c',
       is_creator_option: true,
     },
     {
-      option_id: 'font_size',
+      option_id: 'clock_size',
       option_type: 'text-input',
       option_description: 'Clock size',
       option_default: '580',
@@ -129,45 +129,45 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: '12_hour',
+      option_id: 'clock_twelve_hour_format',
       option_type: 'boolean-input',
       option_description: '12-hour',
       option_default: get_default_12_hour(),
     },
     {
-      option_id: 'show_pm',
+      option_id: 'clock_display_period',
       option_type: 'boolean-input',
       option_description: 'am/pm',
       option_default: true,
-      option_dependency: '12_hour',
+      option_dependency: 'clock_twelve_hour_format',
     },
     {
-      option_id: 'show_seconds',
+      option_id: 'clock_display_seconds',
       option_type: 'boolean-input',
       option_description: 'Seconds',
       option_default: true,
     },
     {
-      option_id: 'show_date',
+      option_id: 'clock_display_date',
       option_type: 'boolean-input',
       option_description: 'Date',
       option_default: true,
     },
     {
-      option_id: 'show_week',
+      option_id: 'clock_display_week',
       option_type: 'boolean-input',
       option_description: 'Week',
       option_default: false,
-      option_dependency: 'show_date',
+      option_dependency: 'clock_display_date',
     },
     {
-      option_id: 'show_seconds_title',
+      option_id: 'clock_tab_display_seconds',
       option_type: 'boolean-input',
       option_description: 'Tab title seconds',
       option_default: false,
     },
     {
-      option_id: 'color_icon',
+      option_id: 'clock_tab_icon_color',
       option_type: 'color-input',
       option_description: 'Tab icon color',
       /*

@@ -619,23 +619,6 @@ class PresetOption extends SelectOption {
       ]
     );
   }
-
-  get input_value() {
-    const val = super.input_value;
-
-    // Older Clock Tab version saved creator selection as `''`;
-    if( val==='' ){
-      // Incentivize user to re-select the <Creator> preset
-      return RandomizerPreset.randomizer_preset_name;
-    }
-
-    // New value is `_random`
-    if( val==='random' ){
-      return RandomizerPreset.randomizer_preset_name;
-    }
-
-    return val;
-  }
 }
 
 

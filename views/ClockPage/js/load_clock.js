@@ -26,7 +26,9 @@ function load_clock({get_option_value}) {
     {
       var d= new Date();
 
-      var title = ml.date.readable.getHours(d,get_option_value('12_hour')) + ":" + ml.date.readable.getMinutes(d) + (get_option_value('show_seconds_title')?":"+ml.date.readable.getSeconds(d):"");
+      const is_twelve_hour_format = get_option_value('clock_twelve_hour_format');
+
+      var title = ml.date.readable.getHours(d,is_twelve_hour_format) + ":" + ml.date.readable.getMinutes(d) + (get_option_value('clock_tab_display_seconds')?":"+ml.date.readable.getSeconds(d):"");
       if(lastTitle===undefined || lastTitle!==title || force)
       {
         lastTitle      = title;
@@ -37,7 +39,7 @@ function load_clock({get_option_value}) {
       if(!lastMinutes || lastMinutes!==minutes || force)
       {
         lastMinutes=minutes;
-        ml.changeIcon(ml.timeIcon(undefined,get_option_value('color_icon'),get_option_value('12_hour')));
+        ml.changeIcon(ml.timeIcon(undefined,get_option_value('clock_tab_icon_color'),is_twelve_hour_format));
       }
 
       ml.reqFrame(function(){
@@ -53,7 +55,7 @@ function load_clock({get_option_value}) {
         //digit1.innerHTML=0;
         //digit2.innerHTML=0;
 
-        var newTime = ml.date.readable.getHours(d,get_option_value('12_hour')) + ":" + ml.date.readable.getMinutes(d);
+        var newTime = ml.date.readable.getHours(d,is_twelve_hour_format) + ":" + ml.date.readable.getMinutes(d);
       //var newTime = "&nbsp; 01:37 PM &nbsp;";
         if(lastTime===undefined || lastTime!==newTime || force)
         {
@@ -68,7 +70,7 @@ function load_clock({get_option_value}) {
         if(!lastDay || lastDay!==day || force){
           lastDay=day;
           const date_text = (
-            get_option_value('show_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (get_option_value('show_week')?" - Week " + ml.date.getWeek(d):"")):""
+            get_option_value('clock_display_date')?(ml.date.readable.getDay(d)   + " - " + ml.date.readable.getMonth(d) + " "+ ml.date.readable.getDate(d) + (get_option_value('clock_display_week')?" - Week " + ml.date.getWeek(d):"")):""
           );
           set_bottom_line(date_text);
           refreshSize = true;
