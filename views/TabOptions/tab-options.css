@@ -69,21 +69,17 @@ input[type='color'] {
 
 
 
-#options-container,
-#share-link {
-  margin: auto;
-  max-width: var(--max-content-width);
-  padding-left: var(--content-side-padding);
-  padding-right: var(--content-side-padding);
-  padding-top: 34px;
-}
 
-
-
-#share-link {
+#share-content {
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
-#share-link > a {
-  white-space: normal;
-  word-wrap: break-word;
+
+
+#share-container.no-share-link #share-content {
+  display: none;
+}
+#share-container:not(.no-share-link) #share-preamble {
+  display: none;
 }

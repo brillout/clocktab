@@ -114,7 +114,7 @@ export default {
     'bg_color':'',
     'bg_image':'https://i.imgur.com/KLks3QG.jpg',
     'font_shadow':'0 1px 1px #000000',
-    'clock_font':'Allerta Stencil',
+    'clock_font':'Aldrich',
     'color_font':'#6d0000'},
   'neo':{
     'clock_position': 'center',

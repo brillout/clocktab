@@ -3,6 +3,7 @@ import {refresh_big_text_size} from '../../BigText';
 import PRESETS from './PRESETS';
 import {TabOptions} from '../../TabOptions';
 import {set_text_position} from '../../BigText';
+import {preset_concept_name} from './preset_concept_name';
 
 export default init_clock_options;
 
@@ -13,12 +14,11 @@ function init_clock_options() {
     option_spec_list: get_option_list(),
     preset_spec_list: PRESETS,
     text_container,
-    options_container: document.getElementById('options-container'),
     on_any_change,
     on_font_change,
     enable_import_export: true,
     app_name: 'clock',
-    preset_concept_name: 'Theme',
+    preset_concept_name,
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);
@@ -61,7 +61,7 @@ function get_option_list() {
     {
       option_id:'theme',
       option_type: 'preset-input',
-      option_description:'Theme',
+      option_description: preset_concept_name,
       option_default: 'steel',
     },
     {

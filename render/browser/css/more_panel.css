@@ -110,3 +110,15 @@
 #more_panel_jumper_wrapper:hover #more_panel_jumper {
   opacity: 100;
 }
+
+
+
+.more_panel_block {
+  padding-top: 24px;
+}
+
+.more_panel_block_title {
+  font-size: 1.3em;
+  text-decoration: underline;
+  padding-bottom: 4px;
+}

@@ -12,7 +12,6 @@ export class TabOptions {
     preset_spec_list,
 
     text_container,
-    options_container,
     no_random_preset,
 
     on_any_change,
@@ -26,7 +25,6 @@ export class TabOptions {
     this.preset_concept_name = preset_concept_name;
 
     this.text_container = text_container;
-    this.options_container = options_container;
     this.no_random_preset = no_random_preset;
 
     this.on_any_change = on_any_change;
@@ -34,6 +32,11 @@ export class TabOptions {
 
     this.enable_import_export = enable_import_export;
     this.app_name = app_name;
+
+    this.creator_content = document.getElementById('creator-content');
+    this.options_content = document.getElementById('options-content');
+    this.share_content = document.getElementById('share-content');
+    this.share_container = document.getElementById('share-container');
 
     this.preset_list = new PresetList({preset_spec_list, tab_options: this});
     this.option_list = instantiate_options({tab_options: this, option_spec_list});
@@ -55,11 +58,13 @@ export class TabOptions {
   }
 
   generate_import_export_dom() {
+    const input_container = this.creator_content;
     {
       const btn = (
         new Button({
-          input_container: this.options_container,
+          input_container,
           text: 'Customize',
+          className: 'action-button',
           on_click: () => {
             assert(!this.preset_selected.is_creator_preset);
             this.modify_preset();
@@ -71,9 +76,24 @@ export class TabOptions {
     }
 
     {
+      const {app_name} = this;
+      assert(app_name);
+      const name_option = new TextOption({
+        input_container,
+        option_id: app_name+'_name',
+        input_width: '50px',
+        option_description: this.preset_concept_name+' Name',
+        option_default: '',
+        tab_options: this,
+      });
+      name_option.generate_dom();
+      this.name_option = name_option;
+    }
+
+    {
       const btn = (
         new Button({
-          input_container: this.options_container,
+          input_container,
           text: 'Save as Share-able',
           on_click: () => {
             assert(this.preset_selected.is_creator_preset);
@@ -94,18 +114,6 @@ export class TabOptions {
       */
     }
 
-    {
-      const {app_name} = this;
-      assert(app_name);
-      const name_option = new TextOption({
-        option_id: app_name+'_name',
-        option_description: 'Name of your preset',
-        option_default: '',
-        tab_options: this,
-      });
-      name_option.generate_dom();
-      this.name_option = name_option;
-    }
   }
 
   save_created_preset() {
@@ -197,19 +205,13 @@ export class TabOptions {
 
   #previous_link = null;
   #link_el = null;
-  #container_el = null;
   update_share_link() {
-    if( !this.#container_el ){
-      this.#container_el = document.getElementById('share-link');
-      this.#container_el.textContent = this.preset_concept_name+' Share Link: ';
-    }
-
     const {preset_selected} = this;
     if( ! preset_selected.is_saved_preset ){
-      this.#container_el.style.display = 'none';
+      this.share_container.classList.add('no-share-link');
       return;
     } else {
-      this.#container_el.style.display = '';
+      this.share_container.classList.remove('no-share-link');
     }
 
     const current_link = preset_selected.share_link;
@@ -222,7 +224,7 @@ export class TabOptions {
     if( ! this.#link_el ){
       this.#link_el = document.createElement('a');
    // this.#link_el.setAttribute('target', '_blank');
-      this.#container_el.appendChild(this.#link_el);
+      this.share_content.appendChild(this.#link_el);
     }
 
     this.#link_el.setAttribute('href', current_link);
@@ -248,7 +250,7 @@ export class TabOptions {
     const {app_name} = preset_data;
     assert(app_name);
 
-    /* TN
+    /* TN2
     const wrong_url_format =
     if( wrong_url_format ){
       alert("URL is incorrect, maybe you inadvertently modified the URL?");
@@ -419,7 +421,7 @@ export class TabOptions {
 }
 
 class Option {
-  constructor({option_id, option_description, option_default, input_width, tab_options, ...props}) {
+  constructor({option_id, option_description, option_default, input_width, tab_options, input_container, ...props}) {
     assert(option_id);
     assert(option_description);
     assert(tab_options);
@@ -429,12 +431,21 @@ class Option {
       ...props,
     });
 
+    input_container = input_container || (
+      props.is_creator_option ? (
+        this.tab_options.creator_content
+      ) : (
+        this.tab_options.options_content
+      )
+    );
+    assert(input_container, {option_id});
+
     this.input_args = {
       input_id: option_id,
       input_description: option_description,
       on_input_change: () => { this.tab_options.global_side_effects() },
       input_default: option_default,
-      input_container: this.tab_options.options_container,
+      input_container,
       input_width,
     };
   }
@@ -537,7 +548,8 @@ class TextShadowOption extends TextOption {
 
 class PresetOption extends SelectOption {
   constructor(args) {
-    super({input_width: '93px', ...args});
+    const input_container = args.tab_options.creator_content;
+    super({input_width: '93px', input_container, ...args});
     this.is_preset_selector = true;
   }
 

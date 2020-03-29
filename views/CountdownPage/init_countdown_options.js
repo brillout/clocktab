@@ -3,6 +3,7 @@ import {TabOptions} from '../TabOptions';
 import {dom_beat} from './set_countdown';
 import PRESETS from './PRESETS';
 import {set_text_position} from '../BigText';
+import {preset_concept_name} from './preset_concept_name';
 
 export default init_clock_options;
 
@@ -13,13 +14,12 @@ function init_clock_options() {
     option_spec_list: get_option_list(),
     preset_spec_list: PRESETS,
     text_container,
-    options_container: document.getElementById('options-container'),
     on_any_change,
     on_font_change,
     no_random_preset: true,
     enable_import_export: true,
     app_name: 'countdown',
-    preset_concept_name: 'Countdown',
+    preset_concept_name,
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);
@@ -52,7 +52,7 @@ function get_option_list() {
     {
       option_id: 'countdown_preset',
       option_type: 'preset-input',
-      option_description: 'Preset',
+      option_description: preset_concept_name,
       option_default: 'christmas',
     },
     {

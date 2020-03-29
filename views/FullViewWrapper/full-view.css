@@ -14,3 +14,11 @@
 #footer_container {
   padding-top: 40px;
 }
+
+.more_panel_block {
+  margin: auto;
+  max-width: var(--max-content-width);
+  padding-left: var(--content-side-padding);
+  padding-right: var(--content-side-padding);
+  padding-top: 34px;
+}

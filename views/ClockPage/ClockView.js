@@ -1,6 +1,9 @@
 import React from 'react';
 import {FullView, MorePanel} from '../FullViewWrapper';
 import BigText from '../BigText';
+import News from '../News';
+import PresetBlocks from '../TabOptions/PresetBlocks';
+import {preset_concept_name} from './js/preset_concept_name';
 
 export default ClockView;
 
@@ -28,8 +31,9 @@ function ClockView() {
         </div>
         <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
       </div>
-      <div id='options-container'></div>
-      <div id='share-link'></div>
+
+      <PresetBlocks preset_concept_name={preset_concept_name} />
+      <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
     </MorePanel>
   </>;
 }
