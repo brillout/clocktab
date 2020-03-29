@@ -5,6 +5,7 @@
 //   - Zilla Slab Highlight
 //   - Cardo
 //   - Kalam
+//   - Abril Fatface
 
 export default {
   'steel':{

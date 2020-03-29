@@ -40,7 +40,7 @@ class PersistantInput {
   }
   input_set(val) {
     this._storage.set_val(val);
-    input_modifier(val);
+    this._input_modifier(val);
     this._on_input_change();
   }
   init() {

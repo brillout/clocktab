@@ -22,10 +22,20 @@ function dom_beat() {
   const now = new Date();
   const {time_major, time_minor} = format(countdown_date - now);
 
+  update_tab_title({time_major, countdown_title});
+
   center_text.textContent = time_major;
   top_text.textContent = countdown_title;
   set_bottom_line(time_minor);
   refresh_big_text_size();
+}
+
+function update_tab_title({time_major, countdown_title}) {
+  let title = time_major;
+  if( countdown_title ){
+    title += ' - '+countdown_title +' - Countdown';
+  }
+  document.title = title;
 }
 
 function format(time_left__miliseconds) {
