@@ -184,7 +184,21 @@ export class TabOptions {
   }
 
 
+  #global_side_effects__timeout = null;
   global_side_effects({initial_run}={}) {
+    if( initial_run ){
+      this.run_side_effects(true);
+      return;
+    }
+    if( this.#global_side_effects__timeout ){
+      return;
+    }
+    this.#global_side_effects__timeout = requestAnimationFrame(() => {
+      this.run_side_effects();
+      this.#global_side_effects__timeout = null;
+    });
+  }
+  run_side_effects(initial_run) {
     this.update_background();
     this.update_font();
     this.load_font_list();

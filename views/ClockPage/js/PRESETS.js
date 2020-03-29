@@ -3,6 +3,8 @@
 //   - #7b3535
 // - nice fonts
 //   - Zilla Slab Highlight
+//   - Cardo
+//   - Kalam
 
 export default {
   'steel':{
