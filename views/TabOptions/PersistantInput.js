@@ -136,7 +136,16 @@ class TextInput extends PersistantInput {
 }
 
 class SelectInput extends PersistantInput {
-  static divider = Symbol();
+  static get_divider(text) {
+    let divider_text;
+    if( text ) {
+      divider_text = '─── ' + text;
+    } else {
+      divider_text = '──────────';
+    }
+    const divider_html = '<option disabled>'+divider_text+'</option>';
+    return {divider_html};
+  }
 
   constructor({input_options, ...args}) {
     super(args);
@@ -181,20 +190,18 @@ class SelectInput extends PersistantInput {
     if( !this._input_el.querySelector('option[value="'+val+'"]') ){
       this._input_el.innerHTML = (
         this._generate_option_html(val) +
-        SelectInput.#divider_html +
+        SelectInput.get_divider().divider_html +
         this._input_el.innerHTML
       );
     }
     super._input_modifier(val);
   }
 
-  static #divider_html = '<option disabled>──────────</option>';
-
   _generate_option_html(option_arg) {
-    const {val, val_pretty, is_divider} = this._parse_option_arg(option_arg);
+    const {val, val_pretty, divider_html} = this._parse_option_arg(option_arg);
 
-    if( is_divider ){
-      return SelectInput.#divider_html;
+    if( divider_html ){
+      return divider_html;
     }
 
     return (
@@ -204,8 +211,9 @@ class SelectInput extends PersistantInput {
   _parse_option_arg(option_arg) {
     assert(option_arg, this._input_id, {option_arg});
 
-    if( option_arg === SelectInput.divider ){
-      return {is_divider: true};
+    const {divider_html} = option_arg;
+    if( divider_html ){
+      return {divider_html};
     }
 
     const val = option_arg.val || option_arg;
