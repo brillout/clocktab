@@ -190,7 +190,6 @@ class SelectInput extends PersistantInput {
 
   static #divider_html = '<option disabled>──────────</option>';
 
-  // TODO - make to a static prop
   _generate_option_html(option_arg) {
     const {val, val_pretty, is_divider} = this._parse_option_arg(option_arg);
 
