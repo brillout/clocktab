@@ -52,8 +52,8 @@ class PersistantInput {
     this._dom_el = dom_el;
     this._input_el = input_el;
 
-    if( this.init_dom ){
-      this.init_dom();
+    if( this._init_dom ){
+      this._init_dom();
     }
 
     const init_val = (
@@ -139,7 +139,7 @@ class SelectInput extends PersistantInput {
   static get_divider(text) {
     let divider_text;
     if( text ) {
-      divider_text = '── ' + text + ' ──';
+      divider_text = '─── ' + text + ' ───';
     } else {
       divider_text = '───────────────';
     }
@@ -148,7 +148,7 @@ class SelectInput extends PersistantInput {
   }
 
   refresh() {
-    // TN
+    this._init_dom();
   }
 
   constructor({input_options, ...args}) {
@@ -157,10 +157,10 @@ class SelectInput extends PersistantInput {
     this.input_options = input_options;
   }
 
-  init_dom() {
+  _init_dom() {
     assert(this.input_options.length>0, this._input_id);
 
-    let {innerHTML} = this._input_el;
+    let innerHTML = '';
     this.input_options.forEach(option_arg => {
       innerHTML += this._generate_option_html(option_arg);
     });
@@ -234,7 +234,7 @@ class DateInput extends PersistantInput {
     this.input_tag = 'input';
     this.input_type = 'datetime';
   }
-  init_dom() {
+  _init_dom() {
     flatpickr(this._input_el, {
       enableTime: true,
       /*
