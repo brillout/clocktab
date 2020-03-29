@@ -49,7 +49,7 @@ In the <b>European Union</b>, daylight saving time (summer time) starts and ends
 </p>
 
 
-<h2>Main Timzones</h2>
+<h2>Main Timezones</h2>
 
 <p>
 <b>UTC</b> (or GMT) is the "<b>Universal Coordinated Time</b>", which corresponds to the Greenwich Time zone. At this point meridian 0 has been placed. When the sun is exactly at the peak of the meridian line or longitudinal zenith, it is 12 o'clock. The old acronym GMT, which means "Greenwich mean time", has given way to UTC. The new system is based on atomic clocks and no longer on celestial phenomena.
