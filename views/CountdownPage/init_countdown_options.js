@@ -119,14 +119,14 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'countdown_bg_color',
+      option_id: 'countdown_background_color',
       option_type: 'background-color-input',
       option_description: 'Background color',
       option_default: '#ffffff',
       is_creator_option: true,
     },
     {
-      option_id: 'countdown_bg_image',
+      option_id: 'countdown_background_image',
       option_type: 'background-image-input',
       option_description: 'Background image',
       option_default: ''    ,
