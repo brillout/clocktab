@@ -90,6 +90,7 @@ function get_option_list() {
       option_type: 'text-input',
       option_description: 'Clock size',
       option_default: '580',
+      input_width: '50px',
     },
     {
       option_id: 'bg_color',

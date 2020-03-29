@@ -133,15 +133,15 @@ class TextInput extends PersistantInput {
 }
 
 class SelectInput extends PersistantInput {
-  constructor(args) {
+  constructor({input_options, ...args}) {
     super(args);
     this.input_tag = 'select';
-
-    // TN - is the line needed?
-    this.input_options = args.input_options;
+    this.input_options = input_options;
   }
 
   init_dom() {
+    assert(this.input_options.length>0, this._input_id);
+
     let {innerHTML} = this._input_el;
     this.input_options.forEach(option_args => {
       innerHTML += this._generate_option_html(option_args);
@@ -151,9 +151,11 @@ class SelectInput extends PersistantInput {
 
   add_options(new_options) {
     let {innerHTML} = this._input_el;
+
     new_options.forEach(option_args => {
       innerHTML += this._generate_option_html(option_args);
     })
+
     this._input_el.innerHTML = innerHTML;
 
     /*
@@ -174,6 +176,12 @@ class SelectInput extends PersistantInput {
 
   // TODO - make to a static prop
   _generate_option_html(args) {
+    assert(args, this._input_id, {args});
+
+    if( args === SelectInput.divider ){
+      return '<option disabled>──────────</option>';
+    }
+
     const val = args.val || args;
     assert(val, args);
     const val_pretty = args.val_pretty || val;
@@ -182,6 +190,7 @@ class SelectInput extends PersistantInput {
     );
   }
 }
+SelectInput.divider = Symbol();
 
 class DateInput extends PersistantInput {
   constructor(args) {

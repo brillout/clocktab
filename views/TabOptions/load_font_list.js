@@ -19,7 +19,7 @@ function load_font_list() {
       return;
     }
 
-    let font_list = resp['items'].map(f => f.family);
+    let font_list = resp['items'].map(f => f.family).sort();
 
     if(ml.browser().usesGecko) {
       // Firefox crashes when selecting a from too many options
