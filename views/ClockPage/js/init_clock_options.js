@@ -18,6 +18,7 @@ function init_clock_options() {
     on_font_change,
     enable_import_export: true,
     app_name: 'romu-clock',
+    preset_concept_name: 'Theme',
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);

@@ -19,6 +19,7 @@ function init_clock_options() {
     no_random_preset: true,
     enable_import_export: true,
     app_name: 'romu-countdown',
+    preset_concept_name: 'Countdown',
   });
 
   const get_option_value = tab_options.get_option_value.bind(tab_options);

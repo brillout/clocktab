@@ -32,7 +32,7 @@ input[type='checkbox']:checked:after {
 }
 
 label {
-  margin: 7px;
+  padding-right: 12px;
   white-space: nowrap;
   display: inline-block;
 }
@@ -69,24 +69,21 @@ input[type='color'] {
 
 
 
-#options-container {
+#options-container,
+#share-link {
   margin: auto;
   max-width: var(--max-content-width);
   padding-left: var(--content-side-padding);
   padding-right: var(--content-side-padding);
-
-  padding: 20px;
-  margin-bottom: 40px;
+  padding-top: 34px;
 }
 
 
 
-#share-link:not([data-link]) {
-  display: 'none';
+#share-link {
+  white-space: nowrap;
 }
-#share-link:before {
-  content: 'Share Link: ';
-}
-#share-link:after {
-  content: attr(data-link);
+#share-link > a {
+  white-space: normal;
+  word-wrap: break-word;
 }

@@ -20,7 +20,11 @@ export class TabOptions {
 
     enable_import_export,
     app_name,
+    preset_concept_name,
   }) {
+    assert(preset_concept_name);
+    this.preset_concept_name = preset_concept_name;
+
     this.text_container = text_container;
     this.options_container = options_container;
     this.no_random_preset = no_random_preset;
@@ -91,8 +95,10 @@ export class TabOptions {
     }
 
     {
+      const {app_name} = this;
+      assert(app_name);
       const name_option = new TextOption({
-        option_id: 'name',
+        option_id: app_name+'_name',
         option_description: 'Name of your preset',
         option_default: '',
         tab_options: this,
@@ -105,10 +111,19 @@ export class TabOptions {
   save_created_preset() {
     assert(this.selected_preset.is_creator_preset);
 
-    const preset_name = this.name_option.input_value;
+    const preset_name_pretty = this.name_option.input_value;
     if( !preset_name ){
-      alert("You need to provide a preset name in order to save thepreset.");
+      alert("You need to provide a name for your "+this.preset_concept_name+" in order to save it.");
       return;
+    }
+    const preset_name = NameIdConverter.from_name_to_id(preset_name_pretty);
+
+    if( this.preset_list.get_preset_by_name(preset_name) ){
+      const error_msg = (
+        'Change the name of your '+this.preset_concept_name+'; '+
+        'you already have a '+this.preset_concept_name+' saved with ID "'+preset_name+'". (IDs are genrated from name; change name to change ID.)'
+      );
+      alert(error_msg);
     }
 
     const preset_options = {};
@@ -132,7 +147,7 @@ export class TabOptions {
     this.reset_creator();
   }
   load_url_preset() {
-    const data = retrieve_data_from_url();
+    const data = retrieve_preset_from_url();
     const {app_name, preset_options} = data;
 
     let {preset_name} = data;
@@ -205,13 +220,38 @@ export class TabOptions {
     this.update_share_link();
   }
 
+  #previous_link = null;
+  #link_el = null;
+  #container_el = null;
   update_share_link() {
-    const share_link = document.getElementById('share-link');
-    if( ! this.select_preset.is_saved_preset ){
-      share_link.removeAttribute('data-link');
-    } else {
-      share_link.setAttribute('data-link', this.select_preset.share_link);
+    if( !this.#container_el ){
+      this.#container_el = document.getElementById('share-link');
+      this.#container_el.textContent = this.preset_concept_name+' Share Link: ';
     }
+
+    const {selected_preset} = this;
+    if( ! selected_preset.is_saved_preset ){
+      this.#container_el.style.display = 'none';
+      return;
+    } else {
+      this.#container_el.style.display = '';
+    }
+
+    const current_link = selected_preset.share_link;
+    if( this.#previous_link === current_link ){
+      return;
+    } else {
+      this.#previous_link = current_link;
+    }
+
+    if( ! this.#link_el ){
+      this.#link_el = document.createElement('a');
+      this.#link_el.setAttribute('target', '_blank');
+      this.#container_el.appendChild(this.#link_el);
+    }
+
+    this.#link_el.setAttribute('href', current_link);
+    this.#link_el.textContent = current_link;
   }
 
   update_background() {
@@ -743,6 +783,28 @@ class PresetList {
 }
 
 class PresetSerializer {
+  static serialize_single(preset) {
+    assert(preset instanceof SavedPreset);
+
+    // Validation
+    const {preset_name, preset_options} = preset;
+    const preset_data = new PresetData({preset_name, preset_options});
+
+    const preset_string = JSON.stringify(preset_data);
+
+    return preset_string;
+  }
+
+  static deserialize_single(preset_string) {
+    assert(preset_string.constructor===String);
+
+    const preset_info = JSON.parse(preset_string);
+
+    // Validation
+    const preset_data = new PresetData(preset_info);
+
+    return preset_data;
+  }
   static serialize_list(presets) {
     // Validation
     assert(presets.constructor===Array);
@@ -751,8 +813,8 @@ class PresetSerializer {
     return JSON.stringify(presets);
   }
 
-  static deserialize_list(preset_string) {
-    let presets = JSON.parse(preset_string || JSON.stringify([]));
+  static deserialize_list(presets_string) {
+    let presets = JSON.parse(presets_string || JSON.stringify([]));
 
     // Validation
     assert(presets.constructor===Array);
@@ -801,7 +863,7 @@ class Preset {
     return preset_font_name;
   }
   get preset_name_pretty() {
-    const prettified = prettify_preset_name(this.preset_name);
+    const prettified = NameIdConverter.from_id_to_name(this.preset_name);
     assert(prettified);
     return prettified;
   }
@@ -811,14 +873,16 @@ class SavedPreset extends Preset {
   get is_saved_preset() {
     return true;
   }
+  #generated_link = null;
   get share_link() {
-    // TN
-    generate_url()
+    if( !this.#generated_link ){
+      return this.#generated_link = LinkSerializer.to_url(this);
+    }
+    return this.#generated_link;
   }
 }
 
-class NativePreset extends Preset {
-}
+class NativePreset extends Preset {}
 
 
 // TODO - use TypeScript
@@ -833,7 +897,7 @@ class PresetData {
 }
 class PresetValues {
   constructor(args) {
-    assert(args.constructor===Object, args, args.constructor);
+    assert([Object, PresetValues].includes(args.constructor), args, args.constructor);
 
     // MIGRATE_TODO
     assert(args.countdown_font || args.clock_font, Object.keys(args));
@@ -957,16 +1021,25 @@ CreatorPreset.test = preset_name => (
 );
 */
 
-
-function prettify_preset_name(val) {
-  assert(val);
-  return (
-    val
-    .replace(/[_-]/g,' ')
-    .split(' ')
-    .map(word => word[0].toUpperCase() + word.slice(1))
-    .join(' ')
-  );
+class NameIdConverter {
+  static from_id_to_name(id) {
+    assert(id);
+    return (
+      id
+      .replace(/[_-]/g,' ')
+      .split(' ')
+      .map(word => word[0].toUpperCase() + word.slice(1))
+      .join(' ')
+    );
+  }
+  static from_name_to_id(name) {
+    assert(name);
+    return (
+      name
+      .replace(/[\s]/g,'-')
+      .toLowerCase()
+    );
+  }
 }
 
 function make_unique(arr) {
@@ -982,28 +1055,48 @@ function make_unique(arr) {
 
 // TODO-later
 // What Preset values should be required before saving? What happens when the user sets some to ''?
+// TypeScript
+//  - Create a strict type for preset_name
 
 
+class LinkSerializer {
+  static to_url(preset) {
+    assert(preset instanceof Preset);
+    assert(preset.is_saved_preset);
 
+    const preset_string = PresetSerializer.serialize_single(preset);
+    const preset_base64 = window.btoa(preset_string);
 
-// TN
-function generate_url() {
-      const data__json = JSON.stringify(data);
-      const data__base64 = window.atob(data__json);
-  // TODO
-}
+    const url_base = window.location.href.split('#')[0];
 
-// TODO
-function retrieve_data_from_url() {
-  if( !data_url ){
-    return null;
+    const {preset_name} = preset;
+    const name_encoded = encodeURIComponent(preset_name);
+    assert.warning(name!==name_encoded, {name, name_encoded});
+
+    const link = url_base + '#' + name_encoded + '/' + preset_base64;
+    return link;
   }
+  static from_url() {
+    let pipe_data = window.location.href.split('#')[1];
+    if( !pipe_data ){
+      return null;
+    }
 
-  const _preset_options = {};
+    pipe_data = pipe_data.split('/')[1];
+    if( !pipe_data ){
+      return null;
+    }
 
-  // TODO
-  validate_preset_options();
+    pipe_data = window.atob(pipe_data);
 
-  return {app_name, preset_name, preset_options}
+    try {
+      pipe_data = PresetSerializer.deserialize_single(pipe_data);
+    } catch(err) {
+      console.error(err);
+      return null;
+    }
+
+    assert(pipe_data instanceof PresetData);
+    return pipe_data;
+  }
 }
-
