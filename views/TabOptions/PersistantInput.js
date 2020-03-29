@@ -147,6 +147,10 @@ class SelectInput extends PersistantInput {
     return {divider_html};
   }
 
+  refresh() {
+    // TN
+  }
+
   constructor({input_options, ...args}) {
     super(args);
     this.input_tag = 'select';

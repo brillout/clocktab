@@ -476,7 +476,7 @@ class PresetOption extends SelectOption {
   }
 
   before_dom() {
-    this.user_input.input_options = this.get_presets();
+    this.user_input.input_options = this.get_input_options();
   }
 
   refresh() {
@@ -484,40 +484,33 @@ class PresetOption extends SelectOption {
     this.user_input.refresh();
   }
 
-  get_presets() {
+  get_input_options() {
     let {special_ones, saved_ones, native_ones} = this.tab_options.preset_list.presets_ordered;
 
-    const add = ({preset_name, preset_name_pretty}) => {
-      assert(preset_name);
-      assert(preset_name_pretty);
-      input_options.push({val: preset_name, val_pretty: preset_name_pretty});
-    };
+    {
+      const map = ({preset_name, preset_name_pretty}) => {
+        assert(preset_name);
+        assert(preset_name_pretty);
+        return {val: preset_name, val_pretty: preset_name_pretty};
+      };
+      special_ones = special_ones.map(map);
+      saved_ones = saved_ones.map(map);
+      native_ones = native_ones.map(map);
+    }
 
-    this.tab_options.preset_list.preset_names.forEach(preset_name => {
-      input_options.push({val: preset_name, val_pretty: prettify_preset_name(preset_name)});
-    });
-
-    // TN
-    const presets__saved = this.tab_options.equwhe#preset_savior.get_saved_presets();
-
-    let input_options;
-    if( saved_ones.length > 0 ) {
-      input_options = [
+    return (
+      saved_ones.length > 0 ? [
         ...special_ones,
         SelectInput.get_divider('Saved'),
         ...saved_ones,
        SelectInput.get_divider('Native'),
         ...native_ones,
-      ];
-    } else {
-      input_options = [
+      ] : [
         ...special_ones,
         SelectOption.get_divider(),
         ...native_ones,
-      ];
-    }
-
-    return input_options;
+      ]
+    );
   }
 
   get input_value() {
@@ -788,6 +781,9 @@ class Preset {
   }
 }
 
+// TN
+// - all
+// - refactor localStorage usage
 class PresetSavior {
   constructor({app_name}) {
     assert(app_name);
@@ -798,7 +794,6 @@ class PresetSavior {
     return this._get_presets();
   }
 
-  // TN
   save_new_preset__(preset) {
     assert(!this.is_invalid);
     assert(this.is_creator_preset);
@@ -845,7 +840,6 @@ class PresetSavior {
     }
   }
 
-  // TN - refactor localStorage usage
   _get_presets() {
     const key = this.app_name + '_presets';
     const saved_presets = JSON.parse(localStorage[key]|| JSON.stringify([]));
@@ -859,8 +853,6 @@ class PresetSavior {
 
     return presets;
   }
-//TN
-
   _save_presets(presets) {
   }
 }
