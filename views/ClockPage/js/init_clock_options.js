@@ -83,8 +83,8 @@ function get_option_list() {
       option_type: 'text-shadow-input',
       option_description: 'Font shadow',
       option_default: '',
-      is_creator_option: true,
       option_placeholder: 'see css text-shadow',
+      is_creator_option: true,
     },
     {
       option_id: 'font_size',
@@ -92,6 +92,7 @@ function get_option_list() {
       option_description: 'Clock size',
       option_default: '580',
       input_width: '50px',
+      is_creator_option: true,
     },
     {
       option_id: 'bg_color',
@@ -105,8 +106,8 @@ function get_option_list() {
       option_type: 'background-image-input',
       option_description: 'Background image',
       option_default: ''    ,
-      is_creator_option: true,
       option_placeholder: 'image url',
+      is_creator_option: true,
     },
     {
       option_id: 'color_icon',
