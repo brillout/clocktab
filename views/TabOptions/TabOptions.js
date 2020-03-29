@@ -74,7 +74,6 @@ export class TabOptions {
           on_click: () => {
             assert(this.selected_preset.is_creator_preset);
             this.save_custom_preset();
-            assert(!this.selected_preset.is_creator_preset);
             /* TODo
             const options_url = this.selected_preset.generate_url();
             alert(options_url);
@@ -111,8 +110,9 @@ export class TabOptions {
     assert(this.selected_preset.is_creator_preset);
 
     const preset_name = this.name_option.input_value;
-    if( preset_name ){
+    if( !preset_name ){
       alert("You need to provide a preset name in order to save thepreset.");
+      return;
     }
 
     const preset_options = {};
@@ -120,7 +120,9 @@ export class TabOptions {
     .option_list
     .filter(option => option.is_creator_option)
     .forEach(option => {
-      preset_options[option.option_id] = option.input_type;
+      const preset_val = option.input_value;
+      assert([false, ''].includes(preset_val) || preset_val, option.option_id, preset_val===undefined, {preset_val});
+      preset_options[option.option_id] = preset_val;
     });
 
     const new_preset = new Preset({
@@ -128,9 +130,8 @@ export class TabOptions {
       preset_options,
       tab_options: this,
     });
-    assert(!new_preset.is_invalid);
 
-    this.preset_list.save_created_preset(new_preset);
+    this.preset_list.save_preset(new_preset);
     this.select_preset(new_preset);
     this.reset_creator();
   }
@@ -145,15 +146,8 @@ export class TabOptions {
 
     const wrong_app = app_name !== this.app_name;
 
-    const new_preset = new Preset({
-      preset_name,
-      preset_options,
-      tab_options: this,
-    });
-    const wrong_presets = new_preset.is_invalid;
-
     // Validation
-    if( wrong_url_format || wrong_app || wrong_presets ){
+    if( wrong_url_format || wrong_app ){
       alert("URL is incorrect, maybe you inadvertently modified the URL?");
       if( wrong_app ) {
         alert("Wrong app: the URL hash should be loaded in a different app.");
@@ -161,7 +155,13 @@ export class TabOptions {
       return;
     }
 
-    this.preset_list.save_created_preset(new_preset);
+    const new_preset = new Preset({
+      preset_name,
+      preset_options,
+      tab_options: this,
+    });
+
+    this.preset_list.save_preset(new_preset);
     this.select_preset(new_preset);
   }
   reset_creator() {
@@ -385,7 +385,7 @@ class Option {
     return this.user_input.input_get();
   }
   get preset_value() {
-    const preset_val = this.tab_options.active_preset.get_opt_value(this);
+    const preset_val = this.tab_options.active_preset.get_preset_value(this);
     return preset_val;
   }
   get active_value() {
@@ -507,7 +507,7 @@ class PresetOption extends SelectOption {
         ...native_ones,
       ] : [
         ...special_ones,
-        SelectOption.get_divider(),
+        SelectInput.get_divider(),
         ...native_ones,
       ]
     );
@@ -629,6 +629,9 @@ function instantiate_options({tab_options, option_spec_list}) {
 }
 
 class PresetList {
+  #preset_savior = null;
+  #native_presets = null;
+
   constructor({preset_spec_list, tab_options}) {
     this.tab_options = tab_options;
 
@@ -646,14 +649,14 @@ class PresetList {
     );
   }
 
-  save_created_preset(preset) {
-    this.#preset_savior.save_new_preset__(this);
-    refresh_user_input();
+  save_preset(preset) {
+    this.#preset_savior.save_preset(preset);
+    this.refresh_user_input();
   }
   remove_preset(preset) {
     // TN - use this
-    this.#preset_savior.remove_preset(this);
-    refresh_user_input();
+    this.#preset_savior.remove_preset(preset);
+    this.refresh_user_input();
   }
 
   refresh_user_input() {
@@ -662,7 +665,7 @@ class PresetList {
 
   get random_candidates() {
     const {saved_ones, native_ones} = this.presets_ordered;
-    if( saved_ones.length > 0 ) {
+    if( saved_ones.length > 1 ) {
       return saved_ones;
     }
     return native_ones;
@@ -688,8 +691,9 @@ class PresetList {
 
     const saved_ones = this._get_saved_presets();
 
-    const {native_ones} = this.#native_presets;
+    const native_ones = this.#native_presets;
 
+    assert(special_ones && saved_ones && native_ones);
     return {special_ones, saved_ones, native_ones};
   }
   get_preset_by_name(preset_name) {
@@ -721,7 +725,7 @@ class PresetList {
     return preset_font_names;
   }
 
-  // TN - remove this and throw alarm instead
+  // TN - remove this and throw alert instead
   // - or use this to prefill preset name
   // - already show valiation error
   make_preset_name_unique(preset_name) {
@@ -735,13 +739,13 @@ class PresetList {
 class Preset {
   constructor({preset_name, preset_options, tab_options}) {
     assert(preset_name);
-    assert(preset_options.constructor===Object);
+    assert([Object, PresetValues].includes(preset_options.constructor));
     assert(tab_options);
     this.preset_name = preset_name;
     this.preset_options = preset_options;
     this.tab_options = tab_options;
   }
-  get_opt_value(option) {
+  get_preset_value(option) {
     const {option_id} = option;
     assert(option_id);
     const {preset_options} = this;
@@ -754,18 +758,13 @@ class Preset {
   }
   get is_real_preset() {
     return (
-      !this.is_invalid &&
       !this.is_randomizer_preset &&
       !this.is_creator_preset
     );
   }
-  get is_invalid(){
-    // TODO
-    return false;
-  }
   get preset_font_name() {
     const preset_font_name = (
-      this.get_opt_value(this.tab_options.font_option)
+      this.get_preset_value(this.tab_options.font_option)
     );
     assert(preset_font_name);
     return preset_font_name;
@@ -781,10 +780,30 @@ class Preset {
   }
 }
 
-// TN
-// - all
-// - refactor localStorage usage
+// TODO - use TypeScript
+class PresetData {
+  constructor({preset_name, preset_options, ...rest}) {
+    assert(Object.keys(rest).length===0);
+    assert(preset_name && preset_options);
+
+    this.preset_name = preset_name;
+    this.preset_options = new PresetValues(preset_options);
+  }
+}
+class PresetValues {
+  constructor(args) {
+    assert(args.constructor===Object, args, args.constructor);
+
+    // MIGRATE_TODO
+    assert(args.countdown_font || args.clock_font, Object.keys(args));
+
+    Object.assign(this, args);
+  }
+}
+
 class PresetSavior {
+  #app_name = null;
+
   constructor({app_name}) {
     assert(app_name);
     this.#app_name = app_name;
@@ -794,11 +813,8 @@ class PresetSavior {
     return this._get_presets();
   }
 
-  save_new_preset__(preset) {
-    assert(!this.is_invalid);
-    assert(this.is_creator_preset);
-
-    const {preset_name, preset_options} = this;
+  save_preset(preset) {
+    const {preset_name, preset_options} = preset;
     assert(preset_name);
     assert(preset_options);
 
@@ -809,81 +825,81 @@ class PresetSavior {
       return;
     }
 
-    presets.push({
-      preset_name,
-      preset_options,
-    });
+    const preset_data = new PresetData({preset_name, preset_options});
+    presets.push(preset_data);
 
     this._save_presets(presets);
   }
 
   remove_preset(preset) {
-    if( !preset ) {
-      const {preset_name, preset_options} = this;
-      assert(preset_name);
+    const {preset_name} = preset;
+    assert(preset_name);
 
-      const old_length = presets.length;
-      presets = (
-        presets
-        .filter(preset => preset
-      );
-      const new_length = presets.length;
+    let presets = this._get_presets();
 
-      if( new_length === old_length ){
-        assert.warning(false, 'Preset '+preset_name+' not found.');
-      }
-      if( new_length !== old_length - 1 ){
-        assert.warning(false, 'Preset '+preset_name+' found multiple times.');
-      }
+    const old_length = presets.length;
+    presets = presets.filter(preset => preset.preset_name !== preset_name);
+    const new_length = presets.length;
 
-      this._save_presets(presets);
+    if( new_length === old_length ){
+      assert.warning(false, 'Preset '+preset_name+' not found.');
     }
+    if( new_length !== old_length - 1 ){
+      assert.warning(false, 'Preset '+preset_name+' found multiple times.');
+    }
+
+    this._save_presets(presets);
   }
 
   _get_presets() {
-    const key = this.app_name + '_presets';
-    const saved_presets = JSON.parse(localStorage[key]|| JSON.stringify([]));
-    assert(saved_presets.constructor===Array);
-    saved_presets.push({
-      app_name,
-      preset_name,
-      preset_options,
-    });
-    localStorage[key] = JSON.stringify(saved_presets);
+    let presets = JSON.parse(localStorage[this._storage_key]|| JSON.stringify([]));
+
+    // Validation
+    assert(presets.constructor===Array);
+    presets = presets.map(preset_data => new PresetData(preset_data));
 
     return presets;
   }
   _save_presets(presets) {
+    // Validation
+    assert(presets.constructor===Array);
+    presets.forEach(preset_data => assert(preset_data instanceof PresetData));
+
+    localStorage[this._storage_key] = JSON.stringify(presets);
+  }
+  get _storage_key() {
+    return this.#app_name + '_presets';
   }
 }
 
 class FakePreset {
-  get_opt_value() {
+  get_preset_value() {
     return null;
   }
 }
 
 class RandomizerPreset extends FakePreset {
+  #picked = null;
   constructor({preset_list}) {
     super();
     this.preset_name = RandomizerPreset.randomizer_preset_name;
     this.is_randomizer_preset = true;
     this.preset_list = preset_list;
   }
-  preset_name_pretty() {
+  get preset_name_pretty() {
     return '<Random>';
   }
   get random_preset() {
     if( ! this.#picked ){
       this.#picked = this.pick_random_preset();
     }
-    assert(this.#picked.is_real_preset);
+    assert(this.#picked.is_real_preset, this.#picked.preset_name, this.#picked);
     return this.#picked;
   }
   pick_random_preset(){
     const {random_candidates} = this.preset_list;
     const idx = Math.floor(Math.random()*random_candidates.length);
-    return random_candidates[idx].preset_name;
+    return random_candidates[idx];
   }
 }
 RandomizerPreset.randomizer_preset_name='_random';
@@ -899,7 +915,7 @@ class CreatorPreset extends FakePreset {
     this.preset_name = CreatorPreset.creator_preset_name;
     this.is_creator_preset = true;
   }
-  preset_name_pretty() {
+  get preset_name_pretty() {
     return '<Creator>';
   }
 }
@@ -943,3 +959,13 @@ function prettify_preset_name(val) {
 function make_unique(arr) {
   return Array.from(new Set(arr.filter(Boolean))).sort();
 }
+
+// TN
+// - rename preset_options to preset_values
+// - rename preset_name to preset_id
+// - migration & refactor localStorage usage
+//   - Watch out for MIGRATE_TODO
+
+
+// TODO-later
+// What Preset values should be required before saving? What happens when the user sets some to ''?

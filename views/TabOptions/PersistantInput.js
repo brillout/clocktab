@@ -139,9 +139,9 @@ class SelectInput extends PersistantInput {
   static get_divider(text) {
     let divider_text;
     if( text ) {
-      divider_text = '─── ' + text;
+      divider_text = '── ' + text + ' ──';
     } else {
-      divider_text = '──────────';
+      divider_text = '───────────────';
     }
     const divider_html = '<option disabled>'+divider_text+'</option>';
     return {divider_html};
@@ -221,8 +221,9 @@ class SelectInput extends PersistantInput {
     }
 
     const val = option_arg.val || option_arg;
-    assert(val, option_arg);
+    assert(val && val.constructor===String, option_arg);
     const val_pretty = option_arg.val_pretty || val;
+    assert(val_pretty.constructor===String, val_pretty);
     return {val, val_pretty};
   }
 }
@@ -337,9 +338,9 @@ function generate_input({input_tag, input_type, input_id, input_description, inp
   return {dom_el, input_el};
 }
 
-function escapeHtml(unsafe) {
+function escapeHtml(str) {
   return (
-    unsafe
+    str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

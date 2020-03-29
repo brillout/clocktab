@@ -34,7 +34,7 @@ const PRESETS = {
     'countdown_bg_color':'',
     'countdown_bg_image':'https://i.imgur.com/H4ZC3pZ.jpg',
     'countdown_font':'Roboto',
-    'countdown_shadow':'0 1px 1px #000',
+    'countdown_shadow':'0 1px 1px #000000',
     'countdown_color':'#e9e9e9'},
 
   // Christmas backgrounds
