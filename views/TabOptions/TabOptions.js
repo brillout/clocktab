@@ -1097,17 +1097,22 @@ class NameIdConverter {
       id
       .replace(/[_-]/g,' ')
       .split(' ')
+      .filter(Boolean)
       .map(word => word[0].toUpperCase() + word.slice(1))
       .join(' ')
     );
   }
   static from_name_to_id(name) {
     assert(name);
-    return (
+    const id = (
       name
-      .replace(/[\s]/g,'-')
+      .split(/\s/)
+      .filter(Boolean)
+      .join(' ')
       .toLowerCase()
     );
+    console.log(name, id);
+    return id;
   }
 }
 
