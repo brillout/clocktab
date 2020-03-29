@@ -111,22 +111,6 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'color_icon',
-      option_type: 'color-input',
-      option_description: 'Tab icon color',
-      /*
-      option_default: '#cc0000',
-      option_default: '#007000',
-      */
-      option_default: '#545454',
-    },
-    {
-      option_id: 'show_seconds_title',
-      option_type: 'boolean-input',
-      option_description: 'Tab title seconds',
-      option_default: false,
-    },
-    {
       option_id: 'clock_position',
       option_type: 'choice-input',
       option_choices: [
@@ -145,12 +129,6 @@ function get_option_list() {
       is_creator_option: true,
     },
     {
-      option_id: 'show_seconds',
-      option_type: 'boolean-input',
-      option_description: 'Seconds',
-      option_default: true,
-    },
-    {
       option_id: '12_hour',
       option_type: 'boolean-input',
       option_description: '12-hour',
@@ -164,6 +142,12 @@ function get_option_list() {
       option_dependency: '12_hour',
     },
     {
+      option_id: 'show_seconds',
+      option_type: 'boolean-input',
+      option_description: 'Seconds',
+      option_default: true,
+    },
+    {
       option_id: 'show_date',
       option_type: 'boolean-input',
       option_description: 'Date',
@@ -175,7 +159,23 @@ function get_option_list() {
       option_description: 'Week',
       option_default: false,
       option_dependency: 'show_date',
-    }
+    },
+    {
+      option_id: 'show_seconds_title',
+      option_type: 'boolean-input',
+      option_description: 'Tab title seconds',
+      option_default: false,
+    },
+    {
+      option_id: 'color_icon',
+      option_type: 'color-input',
+      option_description: 'Tab icon color',
+      /*
+      option_default: '#cc0000',
+      option_default: '#007000',
+      */
+      option_default: '#545454',
+    },
   ];
 }
 
