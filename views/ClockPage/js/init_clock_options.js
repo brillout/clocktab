@@ -74,7 +74,7 @@ function get_option_list() {
       option_id: 'color_font',
       option_type: 'text-color-input',
       option_description: 'Font color',
-      option_default: '#a70000',
+      option_default: '#2c2c2c',
       is_creator_option: true,
     },
     {
