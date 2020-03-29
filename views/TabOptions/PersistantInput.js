@@ -49,6 +49,10 @@ class PersistantInput {
     this._dom_el = dom_el;
     this._input_el = input_el;
 
+    if( this.init_dom ){
+      this.init_dom();
+    }
+
     const init_val = (
       this._storage.has_val() ? (
         this._storage.get_val()
@@ -60,7 +64,10 @@ class PersistantInput {
       this._input_modifier(init_val);
     }
 
-    this._input_el.addEventListener(this._change_event, () => {this._on_input_change()}, false);
+    this._input_el.addEventListener(this._change_event, () => {
+      this._storage.set_val(this._input_retriever());
+      this._on_input_change();
+    }, false);
   }
   hide() {
     hide_show_el(this._dom_el, true);
@@ -134,17 +141,20 @@ class SelectInput extends PersistantInput {
     this.input_options = args.input_options;
   }
 
-  init() {
-    super.init();
+  init_dom() {
+    let {innerHTML} = this._input_el;
     this.input_options.forEach(option_args => {
-      this._input_el.innerHTML += this._generate_option_html(option_args);
+      innerHTML += this._generate_option_html(option_args);
     });
+    this._input_el.innerHTML = innerHTML;
   }
 
   add_options(new_options) {
+    let {innerHTML} = this._input_el;
     new_options.forEach(option_args => {
-       this._input_el.innerHTML += this._generate_option_html(option_args)
+      innerHTML += this._generate_option_html(option_args);
     })
+    this._input_el.innerHTML = innerHTML;
 
     /*
     const selected_option = this.input_get();

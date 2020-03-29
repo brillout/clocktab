@@ -54,13 +54,12 @@ export class TabOptions {
     {
       const btn = (
         new Button({
-          tab_options: this,
+          input_container: this.options_container,
           text: 'Customize',
           on_click: () => {
             assert(!this.selected_preset.is_creator_preset);
             this.modify_preset();
           },
-          input_container: this.options_container,
         })
       );
       btn.generate_dom();
@@ -70,7 +69,7 @@ export class TabOptions {
     {
       const btn = (
         new Button({
-          tab_options: this,
+          input_container: this.options_container,
           text: 'Save as share-able URL',
           on_click: () => {
             assert(this.selected_preset.is_creator_preset);
@@ -81,7 +80,6 @@ export class TabOptions {
             alert(options_url);
             */
           },
-          input_container: this.options_container,
         })
       );
       btn.generate_dom();
