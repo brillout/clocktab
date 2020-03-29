@@ -29,7 +29,7 @@ const DEBUG = false;
 //window.screen.width;
 //window.screen.height;
 
-function setCss({color='white', img='none'}={}) {
+function apply_changes({color='white', img='none'}={}) {
   DEBUG && console.log('set-background', {color, img});
   BG_EL.style.backgroundColor=color; //style.background='' => Opera discareds fixed and cover style
   BG_EL.style.backgroundImage=img;
@@ -41,14 +41,14 @@ function set_background(val) {
   ++change_number_counter;
   DEBUG && console.log('set-background', {val});
   init();
-  if( !val ) { setCss(); return; }
+  if( !val ) { apply_changes(); return; }
   if( setImage(val) ) return;
   if( setGradient(val) ) return;
   setColor(val);
 }
 
 function setColor(val) {
-  setCss({
+  apply_changes({
     color: val,
   });
 }
@@ -58,7 +58,7 @@ function setGradient(val){
     return false;
   }
 
-  setCss({
+  apply_changes({
     img: val,
   });
 
@@ -102,25 +102,25 @@ function setImage(val) {
     if(w*h>8000000) {
       alert('The provided image has a size of '+w+'*'+h+' pixels. Large images are likely to slow down your machine. Thus only images of up to 8 000 000 pixels are allowed. (For example, any image bellow 5000*1600 is fine.)');
       if( change_number === change_number_counter ){
-        setCss();
+        apply_changes();
       }
       return;
     }
     if( change_number === change_number_counter ){
-      setCss({img: 'url("'+val+'")'});
+      apply_changes({img: 'url("'+val+'")'});
     }
   };
   imgEl.onerror=function(err) {
     alert('Image '+val+' could not be loaded. Do you have an internet connection? Is the image online? Does the URL point to an image? (Note that the URL should point to the image itself and not to a page containing the image.)');
     if( change_number === change_number_counter ){
-      setCss();
+      apply_changes();
     }
   };
 
   window.setTimeout(function() {
     if( !loaded ){
       if( change_number === change_number_counter ){
-        setCss({img: LOAD_IMG});
+        apply_changes({img: LOAD_IMG});
       }
     }
   }, 50);
