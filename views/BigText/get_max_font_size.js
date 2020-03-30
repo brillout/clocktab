@@ -8,9 +8,16 @@ function get_max_font_size({dom_el, max_width, max_height}) {
   const h = max_height;
 
   const {fontSize, height, width} = getEstimation(el,w,h)
-  assert(fontSize);
-  assert(height);
-  assert(width);
+
+  let log_data = {dom_el: dom_el.id, height, width, max_height, max_width, fontSize};
+
+  const approximation = 1.02;
+  assert(0<=fontSize, log_data);
+  assert(0<=height && height<=(max_height*approximation), log_data);
+  assert(0<=width && width<=(max_width*approximation), log_data);
+
+//console.log(log_data);
+
   return {fontSize, height, width};
 }
 

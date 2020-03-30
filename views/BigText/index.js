@@ -102,28 +102,27 @@ function refresh_big_text_size() {
   });
 
   if(bottom_el.innerHTML!="") {
+    const bottom_line_width_reducer = 0.95;
+
     date_new_size = get_max_font_size({
       dom_el: bottom_el,
-      max_width: time_new_size.width*0.95,
+      max_width: time_new_size.width*bottom_line_width_reducer,
       max_height,
     });
 
-    const diff = time_new_size.height+date_new_size.height - max_height;
-    if(diff>0) {
+    const too_big = time_new_size.height + date_new_size.height > max_height;
+    if( too_big ){
+      const resolve_ratio = 1/3;
+
       time_new_size = get_max_font_size({
         dom_el: big_el,
-        max_width: window_width,
-        max_height: max_height - date_new_size.height,
+        max_width,
+        max_height: max_height * (1 - resolve_ratio),
       });
       date_new_size = get_max_font_size({
         dom_el: bottom_el,
-        max_width: time_new_size.width,
-        max_height: max_height - time_new_size.height,
-      });
-      time_new_size = get_max_font_size({
-        dom_el: big_el,
-        max_width: window_width,
-        max_height: max_height - date_new_size.height,
+        max_width: time_new_size.width*bottom_line_width_reducer,
+        max_height: max_height * resolve_ratio,
       });
     }
 
