@@ -12,7 +12,7 @@
     "prod:build": "yarn prod:build:clean && yarn goldpage:build && yarn prod:build:static",
     "prod:build:clean": "rm -rf .build/",
     "prod:build:static": "mkdir -p .build/browser/ && cp -r static/* .build/browser/",
-    "prod:deploy": "push-dir --dir=.build/ --branch=gh-pages --cleanup",
+    "prod:deploy": "push-dir --dir=.build/browser/ --branch=gh-pages --cleanup",
     "prod:serve": "serve .build/browser/ --listen 3000"
   },
   "dependencies": {
