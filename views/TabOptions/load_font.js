@@ -31,7 +31,7 @@ async function load_font(font_name) {
         const max = 60;
         const seconds = Math.max(min, max);;
         const timeout = seconds * 1000;
-        setTimeout(do_, timeout);
+        setTimeout(do_it, timeout);
       },
     });
   }
