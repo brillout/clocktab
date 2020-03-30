@@ -109,8 +109,3 @@ html:not(.show_ad) #secondary-ad {
   color: #333;
   text-shadow: none;
 }
-
-
-.ad_remover {
-  display: none;
-}
