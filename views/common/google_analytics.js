@@ -11,6 +11,8 @@ const DEBUG = true;
 const DEBUG = false;
 //*/
 
+const IS_DEV = typeof window !== "undefined" && window.location.hostname === 'localhost';
+
 define_ga();
 
 let already_started = false;
@@ -43,6 +45,7 @@ function track_page_view() {
 }
 
 async function track_error(err) {
+  IS_DEV && alert(err);
   track_event({
     eventCategory: 'code_error',
     eventAction: err.message,
@@ -84,7 +87,10 @@ function define_ga() {
 
 // https://stackoverflow.com/questions/12571650/catching-all-javascript-unhandled-exceptions/49560222#49560222
 function setup_error_handlers() {
-  window.onerror = function (message, file, line, col, error) {
+  window.onerror = function (args_list) {
+ // const [message, file, line, col, error] = args_list;
+    IS_DEV && alert(args_list.join('\n\n'));
+    const message = args_list[0];
     DEBUG && console.log("[error-tracking] onerror: "+message);
     return false;
   };
