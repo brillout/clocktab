@@ -1,4 +1,5 @@
 import './css/common.css';
+import {start_tracking, track_error, setup_error_handlers} from '../../views/common/google_analytics';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,8 +19,21 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   */
 
   try {
+    setup_error_handlers();
     page.on_page_load();
   } catch(err) {
-    alert('Something went wrong. Your Clock Tab seems to be broken; click on "Bug Repair" to fix it.');
+    on_error(err);
   }
+}
+
+function on_error(err) {
+  console.error(err);
+
+  start_tracking();
+  track_error(err);
+
+  // Timeout to ensure event tracking happened.
+  setTimeout(() => {
+    alert('Something went wrong. Your Clock Tab seems to be broken; click on "Bug Repair" in the footer below to fix the problem.');
+  }, 2000);
 }

@@ -1,7 +1,9 @@
 import ml from '../ml';
 
+export {setup_error_handlers};
 export {start_tracking};
 export {track_event};
+export {track_error};
 
 /*/
 const DEBUG = true;
@@ -11,7 +13,11 @@ const DEBUG = false;
 
 define_ga();
 
+let already_started = false;
 async function start_tracking() {
+  if( already_started ) return;
+  already_started = true;
+
   load_ga('UA-5263303-5');
 
   track_page_view();
@@ -36,6 +42,13 @@ function track_page_view() {
   DEBUG && console.log('[ga] page view');
 }
 
+async function track_error(err) {
+  track_event({
+    eventCategory: 'code_error',
+    eventAction: err.message,
+    eventLabel: err,
+  });
+}
 async function track_event(args) {
   /* use TS instead
   const keys = Object.keys(args);
@@ -58,6 +71,8 @@ function load_ga(id) {
   ga('create', id, 'auto');
 
   ml.loadScript('//www.google-analytics.com/analytics.js');
+
+  DEBUG && console.log('[ga] ga code loaded');
 }
 
 function define_ga() {
@@ -65,4 +80,23 @@ function define_ga() {
   window.ga = window.ga || function() {
     (ga.q = ga.q || []).push(arguments)
   };
+}
+
+// https://stackoverflow.com/questions/12571650/catching-all-javascript-unhandled-exceptions/49560222#49560222
+function setup_error_handlers() {
+  window.onerror = function (message, file, line, col, error) {
+    DEBUG && console.log("[error-tracking] onerror: "+message);
+    return false;
+  };
+  window.addEventListener("error", function (ev) {
+    const err = ev.error;
+    DEBUG && console.log("[error-tracking] error event: "+err.message);
+    track_error(err);
+    return false;
+  });
+  window.addEventListener('unhandledrejection', function (ev) {
+    const err = ev.reason;
+    DEBUG && console.log("[error-tracking] error event: "+err.message);
+    track_error(err);
+  });
 }
