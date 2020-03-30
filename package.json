@@ -2,24 +2,18 @@
   "scripts": {
     "dev": "yarn goldpage:dev",
     "postinstall": "git submodule update tab-utils/ && (cd tab-utils/ && yarn install)",
-    "dev:todo": "yarn goldpage:dev & sleep 5 && yarn dev:link-static",
-    "goldpage:dev": "goldpage dev",
-    "dev:link": "ln -s `pwd`/static/* .build/browser/",
-    "prod:start": "export NODE_ENV='production' && node ./.build/nodejs/server",
-    "goldpage:build": "goldpage build",
-    "prod:build:clean": "rm -rf .build/",
-    "prod:build:static": "mkdir -p .build/browser/ && cp -r static/* dist/",
-    "prod:build": "yarn prod:build:clean && yarn goldpage:build && yarn prod:build:static",
-    "prod:serve": "serve .build/browser/ --listen 3000"
-  },
-  "scriptsOld": {
-    "dev": "yarn parcel:dev",
-    "dev:static": "yarn serve src/ --listen 3000",
-    "prod": "yarn prod:build && yarn prod:serve",
     "deploy": "yarn prod:build && yarn prod:deploy",
-    "prod:deploy": "push-dir --dir=dist/ --branch=gh-pages --cleanup",
-    "parcel:dev": "parcel serve src/index.html --port 3000",
-    "parcel:prod": "parcel build src/*.html"
+
+    "goldpage:dev": "goldpage dev",
+    "goldpage:build": "goldpage build",
+
+    "dev:link": "ln -s `pwd`/static/* .build/browser/",
+
+    "prod:build": "yarn prod:build:clean && yarn goldpage:build && yarn prod:build:static",
+    "prod:build:clean": "rm -rf .build/",
+    "prod:build:static": "mkdir -p .build/browser/ && cp -r static/* .build/browser/",
+    "prod:deploy": "push-dir --dir=.build/ --branch=gh-pages --cleanup",
+    "prod:serve": "serve .build/browser/ --listen 3000"
   },
   "dependencies": {
     "@brillout/assert": "^0.1.1",
