@@ -11,7 +11,7 @@ export {set_bottom_line};
 export {set_max_width_getter};
 export {set_text_position};
 
-function BigText({top_content, big_text, bottom_max_font_size, id}) {
+function BigText({top_content, big_text, id}) {
   return (
     <div id="zoom_container">
       <div id='layout_container' className='position-center'>
@@ -25,7 +25,7 @@ function BigText({top_content, big_text, bottom_max_font_size, id}) {
             <tr><td id='big_line'>
               {big_text}
             </td></tr>
-            <tr><td id='bottom_line' data-max-font-size={bottom_max_font_size}>
+            <tr><td id='bottom_line'>
             </td></tr>
           </table>
         </div>
@@ -102,12 +102,10 @@ function refresh_big_text_size() {
   });
 
   if(bottom_el.innerHTML!="") {
-    const max_font_size = bottom_el.getAttribute('data-max-font-size');
     date_new_size = get_max_font_size({
       dom_el: bottom_el,
       max_width: time_new_size.width*0.95,
       max_height,
-      max_font_size,
     });
 
     const diff = time_new_size.height+date_new_size.height - max_height;
@@ -121,7 +119,6 @@ function refresh_big_text_size() {
         dom_el: bottom_el,
         max_width: time_new_size.width,
         max_height: max_height - time_new_size.height,
-        max_font_size,
       });
       time_new_size = get_max_font_size({
         dom_el: big_el,

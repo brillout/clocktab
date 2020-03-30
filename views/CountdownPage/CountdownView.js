@@ -15,7 +15,6 @@ function CountdownView() {
         //top_content={}
         big_text={<Counter />}
         //bottom_line={}
-        bottom_max_font_size={'20px'}
       />
     </FullView>
 
