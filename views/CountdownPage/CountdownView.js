@@ -20,7 +20,7 @@ function CountdownView() {
     </FullView>
 
     <MorePanel>
-      <PresetBlocks preset_concept_name={preset_concept_name} />
+      <PresetBlocks preset_concept_name={preset_concept_name} is_countdown_page={true}/>
       <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
     </MorePanel>
   </>;

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default PresetBlocks;
 
-function PresetBlocks({preset_concept_name}) {
+function PresetBlocks({preset_concept_name, is_countdown_page}) {
   return <>
     <div className="more_panel_block">
       <div className="more_panel_block_title">
@@ -16,7 +16,7 @@ function PresetBlocks({preset_concept_name}) {
       </div>
       <div id='save-content' />
     </div>
-    <div className="more_panel_block">
+    <div className="more_panel_block" style={{display: is_countdown_page && 'none'}}>
       <div className="more_panel_block_title">
         Options
       </div>
