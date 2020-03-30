@@ -31,9 +31,9 @@ function init_clock_options() {
   function on_font_change() {
     refresh_big_text_size();
   }
-  function on_any_change({initial_run}) {
+  function on_any_change({is_initial_run}) {
     update_options();
-    if( !initial_run ){
+    if( !is_initial_run ){
       dom_beat(true);
       refresh_big_text_size();
     }

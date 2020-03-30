@@ -2288,20 +2288,6 @@ ml.replaceWebApp=function(newUrl) {
    return true;
 }; 
 
-ml.loadAnalytics=function(id) { 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', id]);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
-  })();
-
-  window['_gaq']=_gaq;//added by me
-}; 
-
 (function(){
   var winObj = typeof Windows !== "undefined" && Windows;
   if(!winObj) return;

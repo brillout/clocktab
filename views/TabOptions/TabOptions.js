@@ -4,6 +4,7 @@ import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
 import './tab-options.css';
+import {track_event} from '../common/google_analytics';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 
@@ -57,7 +58,7 @@ export class TabOptions {
       this.generate_import_export_dom();
     }
 
-    this.global_side_effects({initial_run: true});
+    this.global_side_effects({is_initial_run: true});
   }
 
   generate_import_export_dom() {
@@ -69,6 +70,7 @@ export class TabOptions {
           text: 'Customize',
           className: 'action-button',
           on_click: () => { this.modify_preset(); },
+          id: 'modify-preset-button',
         })
       );
       btn.generate_dom();
@@ -81,6 +83,7 @@ export class TabOptions {
           text: 'Delete',
           className: 'action-button',
           on_click: () => { this.delete_preset(); },
+          id: 'delete-preset-button',
         })
       );
       btn.generate_dom();
@@ -98,6 +101,7 @@ export class TabOptions {
         option_description: this.preset_concept_name+' name',
         option_default: '',
         tab_options: this,
+        id: 'preset-name-input',
       });
       name_option.generate_dom();
       this.name_option = name_option;
@@ -109,6 +113,7 @@ export class TabOptions {
           input_container,
           text: 'Save',
           on_click: () => { this.save_created_preset(); },
+          id: 'save-preset-button',
         })
       );
       btn.generate_dom();
@@ -197,8 +202,8 @@ export class TabOptions {
 
 
   #global_side_effects__timeout = null;
-  global_side_effects({initial_run}={}) {
-    if( initial_run ){
+  global_side_effects({is_initial_run}={}) {
+    if( is_initial_run ){
       this.run_side_effects(true);
       return;
     }
@@ -210,19 +215,28 @@ export class TabOptions {
       this.#global_side_effects__timeout = null;
     });
   }
-  run_side_effects(initial_run) {
+  run_side_effects(is_initial_run) {
     this.update_background();
     this.update_font();
     this.load_font_list();
     this.update_option_visibility();
     this.update_button_visibility();
-    this.on_any_change({initial_run});
+    this.on_any_change({is_initial_run});
     this.update_share_link();
     this.update_save_block();
-    if( initial_run ){
+    if( is_initial_run ){
       this.load_preset_from_url();
       window.addEventListener("hashchange", () => this.load_preset_from_url(), {passive: true});
     }
+    if( is_initial_run ) this.track_user_presets();
+  }
+
+  track_user_presets() {
+    track_event({
+      eventCategory: 'global-stats',
+      eventAction: 'preset-loaded',
+      eventLabel: this.preset_selected.preset_name+' '+this.preset_concept_name.toLowerCase(),
+    });
   }
 
   #previous_link = null;
@@ -245,6 +259,7 @@ export class TabOptions {
 
     if( ! this.#link_el ){
       this.#link_el = document.createElement('a');
+      this.#link_el.id = 'share-link-tag';
    // this.#link_el.setAttribute('target', '_blank');
       this.share_content.appendChild(this.#link_el);
     }
@@ -264,6 +279,8 @@ export class TabOptions {
   }
 
   load_preset_from_url() {
+    const preset_url = window.location.href;
+
     const preset_data = LinkSerializer.from_url();
 
     if( preset_data===null ){
@@ -312,6 +329,10 @@ export class TabOptions {
     this.delay_alert(() => {
       alert(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully saved.');
       remove_hash();
+      track_event({
+        eventAction: 'preset-import',
+        eventLabel: this.preset_concept_name+' '+new_preset.preset_name_pretty+' '+preset_url,
+      });
     });
   }
   delay_alert(fn) {
