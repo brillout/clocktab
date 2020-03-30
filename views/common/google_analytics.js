@@ -46,10 +46,11 @@ function track_page_view() {
 
 async function track_error(err) {
   IS_DEV && alert(err);
+  const errorMessage = (err||{}).message || 'no_error_object_1';
   track_event({
     eventCategory: 'code_error',
-    eventAction: err.message,
-    eventLabel: err,
+    eventAction: errorMessage,
+    eventLabel: JSON.stringify(err||null),
   });
 }
 async function track_event(args) {
@@ -95,13 +96,13 @@ function setup_error_handlers() {
     return false;
   };
   window.addEventListener("error", function (ev) {
-    const err = ev.error;
+    const err = ev.error || {message: 'no_error_object_2'};
     DEBUG && console.log("[error-tracking] error event: "+err.message);
     track_error(err);
     return false;
   });
   window.addEventListener('unhandledrejection', function (ev) {
-    const err = ev.reason;
+    const err = ev.reason || {message: 'no_error_object_3'};
     DEBUG && console.log("[error-tracking] error event: "+err.message);
     track_error(err);
   });
