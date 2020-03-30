@@ -1,3 +1,7 @@
+#more_panel {
+  --input-margin: 12px;
+}
+
 /* checkbox styling */
 input[type='checkbox'] {
     background: #292A2D;
@@ -32,7 +36,7 @@ input[type='checkbox']:checked:after {
 }
 
 label {
-  padding-right: 12px;
+  margin-right: var(--input-margin);
   white-space: nowrap;
   display: inline-block;
 }
@@ -82,4 +86,9 @@ input[type='color'] {
 }
 #share-container:not(.no-share-link) #share-preamble {
   display: none;
+}
+
+
+.action-button {
+  margin-right: var(--input-margin);
 }

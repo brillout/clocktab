@@ -267,7 +267,9 @@ class Button {
   }
   generate_dom() {
     const dom_el =document.createElement('button'); 
-    dom_el.setAttribute('class', this.className);
+    if( this.className ){
+      dom_el.setAttribute('class', this.className);
+    }
     dom_el.setAttribute('type', 'button');
     dom_el.onclick = ev => {
       ev.preventDefault();
@@ -352,6 +354,11 @@ function escapeHtml(str) {
 }
 
 function hide_show_el(el, to_hide) {
+  if( to_hide ){
+    el.setAttribute('disabled', "true");
+  } else {
+    el.removeAttribute('disabled');
+  }
   el.style.width      = to_hide ? '0px'     :''       ;
   el.style.height     = to_hide ? '0px'     :''       ;
   el.style.visibility = to_hide ? 'hidden'  :'visible';

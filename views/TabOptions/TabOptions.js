@@ -61,31 +61,41 @@ export class TabOptions {
   }
 
   generate_import_export_dom() {
+    let input_container = this.creator_content;
     {
       const btn = (
         new Button({
-          input_container: this.creator_content,
+          input_container,
           text: 'Customize',
           className: 'action-button',
-          on_click: () => {
-            assert(!this.preset_selected.is_creator_preset);
-            this.modify_preset();
-          },
+          on_click: () => { this.modify_preset(); },
         })
       );
       btn.generate_dom();
       this.button_mod = btn;
     }
+    {
+      const btn = (
+        new Button({
+          input_container,
+          text: 'Delete',
+          className: 'action-button',
+          on_click: () => { this.delete_preset(); },
+        })
+      );
+      btn.generate_dom();
+      this.button_del = btn;
+    }
 
-    const input_container = this.save_content;
+    input_container = this.save_content;
     {
       const {app_name} = this;
       assert(app_name);
       const name_option = new TextOption({
         input_container,
         option_id: app_name+'_name',
-        input_width: '100px',
-        option_description: this.preset_concept_name+' Name',
+        input_width: '150px',
+        option_description: this.preset_concept_name+' name',
         option_default: '',
         tab_options: this,
       });
@@ -98,25 +108,12 @@ export class TabOptions {
         new Button({
           input_container,
           text: 'Save',
-          on_click: () => {
-            assert(this.preset_selected.is_creator_preset);
-            this.save_created_preset();
-          },
+          on_click: () => { this.save_created_preset(); },
         })
       );
       btn.generate_dom();
       this.button_url = btn;
     }
-
-    {
-      /* TODO
-      this.button_del = opt;
-      on_click: () => {
-        this.active_preset.remove();
-      }
-      */
-    }
-
   }
 
   save_created_preset() {
@@ -165,10 +162,11 @@ export class TabOptions {
     });
   }
 
-  modify_preset() {
-    const {active_preset} = this;
-    assert(!active_preset.is_creator_preset);
-    Object.entries(active_preset.preset_options)
+  copy_to_creator() {
+    const preset = this.active_preset;
+    assert(preset.is_real_preset);
+
+    Object.entries(preset.preset_options)
     .forEach(([opt_id, opt_val]) => {
       assert(!['preset_name', 'preset_id', 'id', 'name'].includes(opt_val));
       this
@@ -176,6 +174,25 @@ export class TabOptions {
       .set_input_value(opt_val);
     });
     this.select_preset_creator();
+  }
+
+  modify_preset() {
+    const preset = this.active_preset;
+    assert(preset.is_real_preset);
+    const new_preset_name = this.preset_list.generate_unique_preset_name_copy(preset);
+    this.copy_to_creator();
+    this.name_option.set_input_value(NameIdConverter.from_id_to_name(new_preset_name));
+  }
+
+  delete_preset() {
+    const preset = this.active_preset;
+    assert(preset.is_saved_preset);
+
+    this.copy_to_creator();
+
+    this.name_option.set_input_value(preset.preset_name_pretty);
+
+    this.preset_list.remove_preset(preset);
   }
 
 
@@ -335,6 +352,11 @@ export class TabOptions {
   update_button_visibility() {
     if( ! this.enable_import_export ){
       return;
+    }
+    if( this.preset_selected.is_saved_preset ){
+      this.button_del.show();
+    } else {
+      this.button_del.hide();
     }
     if( this.preset_selected.is_creator_preset ){
       this.button_mod.hide();
@@ -744,7 +766,6 @@ class PresetList {
     this.refresh_user_input();
   }
   remove_preset(preset) {
-    // TN2 - use this
     this.#preset_savior.remove_preset(preset);
     this.refresh_user_input();
   }
@@ -788,8 +809,7 @@ class PresetList {
   }
   get_preset_by_name(preset_name, {can_be_null}={}) {
     assert(preset_name);
-    const {special_ones, saved_ones, native_ones} = this.presets_ordered;
-    const presets = [...special_ones, ...saved_ones, ...native_ones];
+    const presets = this._get_all_presets();
     for(let preset of presets){
       if( preset.preset_name === preset_name ){
         return preset;
@@ -815,14 +835,30 @@ class PresetList {
     return preset_font_names;
   }
 
-  // TN2 - remove this and throw alert instead
-  // - or use this to prefill preset name
-  // - already show valiation error
-  make_preset_name_unique(preset_name) {
-    if( !this.get_preset_by_name(preset_name, {can_be_null: true}) ){
-      return preset_name;
+  generate_unique_preset_name_copy(preset) {
+    const preset_names = this._get_all_preset_names();
+    const {preset_name} = preset;
+    assert(preset_name);
+    const base = preset_name.split(/_edit(_|$)/)[0] + '_edit';
+    for(let i=1; i<100; i++) {
+      const candidate = base + (i===1 ? '' : ('_'+i));
+      if( ! preset_names.includes(candidate) ){
+        return candidate;
+      }
     }
-    // TODO
+    assert(false);
+  }
+
+  _get_all_preset_names() {
+    const presets = this._get_all_presets();
+    const preset_names = presets.map(preset => preset.preset_name);
+    return preset_names;
+  }
+
+  _get_all_presets() {
+    const {special_ones, saved_ones, native_ones} = this.presets_ordered;
+    const presets = [...special_ones, ...saved_ones, ...native_ones];
+    return presets;
   }
 }
 
@@ -930,7 +966,14 @@ class SavedPreset extends Preset {
   }
 }
 
-class NativePreset extends Preset {}
+class NativePreset extends Preset {
+  constructor(args) {
+    super(args);
+    const {preset_name} = args;
+    assert(!preset_name.includes('-'), {preset_name});
+    assert(/^[a-zA-Z0-9_]+$$/.test(preset_name), {preset_name});
+  }
+}
 
 
 // TODO - use TypeScript
@@ -1076,25 +1119,25 @@ CreatorPreset.test = preset_name => (
 class NameIdConverter {
   static from_id_to_name(id) {
     assert(id);
-    return (
+    const name = (
       id
-      .replace(/[_-]/g,' ')
-      .split(' ')
-      .filter(Boolean)
+      .split('_')
       .map(word => word[0].toUpperCase() + word.slice(1))
       .join(' ')
     );
+ // console.log({id, name});
+    return name;
   }
   static from_name_to_id(name) {
     assert(name);
     const id = (
       name
-      .split(/\s/)
+      .split(/[\s_]/)
       .filter(Boolean)
-      .join(' ')
+      .join('_')
       .toLowerCase()
     );
-    console.log(name, id);
+ // console.log({name, id});
     return id;
   }
 }
