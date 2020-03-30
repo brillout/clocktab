@@ -1,5 +1,5 @@
-import load_font from './load_font';
 import assert from '@brillout/assert';
+import load_font from './load_font';
 import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
@@ -7,6 +7,7 @@ import './tab-options.css';
 import {track_event} from '../common/google_analytics';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
+import {show_toast} from '../common/show_toast';
 
 export class TabOptions {
   constructor({
@@ -292,10 +293,8 @@ export class TabOptions {
     const preset_conflict = this.preset_list.get_preset_by_name(preset_name, {can_be_null: true});
     if( preset_conflict ){
       this.select_preset(preset_conflict);
-      this.delay_alert(() => {
-        alert(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" (ID: "'+preset_name+'") already loaded.');
-        remove_hash();
-      });
+      show_toast(this.preset_concept_name + ' "'+preset_conflict.preset_name_pretty+'" already saved.');
+      remove_hash();
       return;
     }
 
@@ -325,22 +324,17 @@ export class TabOptions {
     });
 
     this.preset_list.save_preset(new_preset);
+
     this.select_preset(new_preset);
-    this.delay_alert(() => {
-      alert(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully saved.');
-      remove_hash();
-      track_event({
-        eventAction: 'preset-import',
-        eventLabel: this.preset_concept_name+' '+new_preset.preset_name_pretty+' '+preset_url,
-      });
+
+    show_toast(this.preset_concept_name + ' "'+new_preset.preset_name_pretty+'" successfully saved.');
+
+    remove_hash();
+
+    track_event({
+      eventAction: 'preset-import',
+      eventLabel: this.preset_concept_name+' '+new_preset.preset_name_pretty+' '+preset_url,
     });
-  }
-  delay_alert(fn) {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        fn();
-      });
-    }, 200);
   }
 
   update_background() {

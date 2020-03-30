@@ -3,12 +3,9 @@
     "dev": "yarn goldpage:dev",
     "postinstall": "git submodule update tab-utils/ && (cd tab-utils/ && yarn install)",
     "deploy": "yarn prod:build && yarn prod:deploy",
-
     "goldpage:dev": "goldpage dev",
     "goldpage:build": "goldpage build",
-
     "dev:link": "ln -s `pwd`/static/* .build/browser/",
-
     "prod:build": "yarn prod:build:clean && yarn goldpage:build && yarn prod:build:static",
     "prod:build:clean": "rm -rf .build/",
     "prod:build:static": "mkdir -p .build/browser/ && cp -r static/* .build/browser/",
@@ -28,6 +25,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "serve": "^11.3.0",
+    "toastify-js": "^1.7.0",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
