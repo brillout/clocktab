@@ -56,7 +56,7 @@ function activate_screen_buttons() {
 }
 
 function activate_auto_scroll({do_scroll}) {
-  //*/
+  /*/
   const AUTO_DURATION = 6;
   /*/
   const AUTO_DURATION = 9;
