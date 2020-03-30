@@ -854,9 +854,16 @@ class PresetList {
     const preset_names = this._get_all_preset_names();
     const {preset_name} = preset;
     assert(preset_name);
-    const base = preset_name.split(/_edit(_|$)/)[0] + '_edit';
+    const s = NameIdConverter.white_space_seralized;
+    assert(s);
+    const base = (
+      preset_name
+      .split('_').join(s)
+      .split(/-edit(-|$)/)[0] +
+      s + 'edit'
+    );
     for(let i=1; i<100; i++) {
-      const candidate = base + (i===1 ? '' : ('_'+i));
+      const candidate = base + (i===1 ? '' : (s+i));
       if( ! preset_names.includes(candidate) ){
         return candidate;
       }
@@ -1132,26 +1139,38 @@ CreatorPreset.test = preset_name => (
 */
 
 class NameIdConverter {
+  static white_space_seralized = '-';
   static from_id_to_name(id) {
     assert(id);
+
+    const sep_regex = /[-_]/;
+    assert('--a-_-_--'.split(sep_regex).filter(Boolean).join('')==='a');
+
     const name = (
       id
-      .split('_')
+      .split(sep_regex)
+      .filter(Boolean)
       .map(word => word[0].toUpperCase() + word.slice(1))
       .join(' ')
     );
+
  // console.log({id, name});
     return name;
   }
   static from_name_to_id(name) {
     assert(name);
+
+    const sep_regex = /[\s-_]/;
+    assert('  -- a-  _-  _--'.split(sep_regex).filter(Boolean).join('')==='a');
+
     const id = (
       name
-      .split(/[\s_]/)
+      .split(sep_regex)
       .filter(Boolean)
-      .join('_')
+      .join(NameIdConverter.white_space_seralized)
       .toLowerCase()
     );
+
  // console.log({name, id});
     return id;
   }
