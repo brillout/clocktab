@@ -4,8 +4,8 @@ import {getPageConfig} from '../PageWrapper';
 export default getPageConfig(
   () => <>
     <p>
-    Over a decade ago,
-    the emergence of new technologies enabled to development of rich interactive desktop-like apps on the web.
+    Around a decade ago,
+    the emergence of new technologies enabled the development of rich interactive desktop-like apps on the web.
     </p>
 
     <p>
