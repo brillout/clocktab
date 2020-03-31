@@ -234,8 +234,8 @@ export class TabOptions {
 
   track_user_presets() {
     track_event({
-      eventCategory: 'global-stats',
-      eventAction: 'preset-loaded',
+      eventCategory: 'global_stats',
+      eventAction: 'preset_used',
       eventLabel: this.preset_selected.preset_name+' '+this.preset_concept_name.toLowerCase(),
     });
   }
@@ -332,8 +332,9 @@ export class TabOptions {
     remove_hash();
 
     track_event({
-      eventAction: 'preset-import',
-      eventLabel: this.preset_concept_name+' '+new_preset.preset_name_pretty+' '+preset_url,
+      eventCategory: 'preset_imported',
+      eventAction: this.preset_concept_name+' '+new_preset.preset_name_pretty,
+      eventLabel: preset_url,
     });
   }
 

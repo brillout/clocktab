@@ -1,4 +1,5 @@
 import assert from '@brillout/assert';
+import {track_event} from './common/analytics';
 
 const ml = {};
 
@@ -2040,6 +2041,10 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
     var container_original_props;
     function zoomIn()
     {
+      track_event({
+        eventCategory: 'global_stats',
+        eventAction: 'zoom_in',
+      });
       function boxSize(el){
         function getSize(prop){return parseInt(ml.element.getStyle(el,prop),10)||0}
         var h=getSize('height');
@@ -2138,6 +2143,10 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
     }
     function zoomOut()
     {
+      track_event({
+        eventCategory: 'global_stats',
+        eventAction: 'zoom_out',
+      });
       scaleEl.style[rightPre+'ransform']='';
       //timeout makes transition of zoom counter smoother
       setTimeout(function(){

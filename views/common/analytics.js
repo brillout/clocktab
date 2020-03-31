@@ -31,6 +31,7 @@ function add_user_action_tracking() {
     let eventAction = target.id || target.getAttribute('class') || 'null';
     let eventLabel = target.href || target.value || target.textContent.slice(0, 100);
     track_event({
+      eventCategory: 'user_click',
       eventAction,
       eventLabel,
     });
@@ -57,8 +58,6 @@ async function track_event(args) {
   assert(keys.length===3);
   assert(keys.includes('eventCategory').length===3);
   */
-  args.eventCategory = args.eventCategory || 'user_action';
-
   ga('send', {hitType: 'event', ...args});
   DEBUG && console.log('[ga] event', args);
 }
