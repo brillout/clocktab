@@ -4,6 +4,8 @@ import BigText from '../BigText';
 import News from '../News';
 import PresetBlocks from '../TabOptions/PresetBlocks';
 import {preset_concept_name} from './js/preset_concept_name';
+import {ad_slots} from './ad_slots';
+import assert from '@brillout/assert';
 
 export default ClockView;
 
@@ -11,27 +13,14 @@ function ClockView() {
   return <>
     <FullView>
       <BigText id={'clock-container'}
-        top_content={<PrimaryAd />}
+        top_content={<Ad_ATF />}
         big_text={<TopLine />}
         //bottom_line={}
       />
     </FullView>
 
     <MorePanel>
-      <div id='secondary-ad'>
-        <div className='ad-content-wrapper'>
-          <div id="CLOCKTAB_leaderboard_BTF_desktop" className="ad_desktop">
-            <div id='div-gpt-ad-1584752895476-0'>
-            </div>
-          </div>
-          <div id="CLOCKTAB_leaderboard_BTF_mobile" className="ad_mobile">
-            <div id='div-gpt-ad-1584752944641-0'>
-            </div>
-          </div>
-        </div>
-        <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
-      </div>
-
+      <Ad_BTF />
       <PresetBlocks preset_concept_name={preset_concept_name} />
       <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
     </MorePanel>
@@ -50,20 +39,30 @@ function TopLine() {
   );
 }
 
-function PrimaryAd() {
+function Ad_ATF() {
+  const slots = ad_slots.filter(slot => slot.slotName.includes('ATF'));
+  assert(ad_slots.length===2);
+  assert(slots.length===1);
+  return <AdView id="primary-ad" slots={slots} />;
+}
+function Ad_BTF() {
+  const slots = ad_slots.filter(slot => slot.slotName.includes('BTF'));
+  assert(ad_slots.length===2);
+  assert(slots.length===1);
+  return <AdView id="secondary-ad" slots={slots} />;
+}
+
+function AdView({id, slots}) {
   return (
-    <div>
-      <div id="primary-ad">
-        <div className='ad-content-wrapper'>
-          <div id="CLOCKTAB_leaderboard_ATF_desktop" className="ad_desktop">
-            <div id='div-gpt-ad-1584752619085-0'></div>
+    <div id={id}>
+      <div className='ad-content-wrapper'>{
+        slots.map(slot => (
+          <div id={slot.slotName}>
+            <div id={slot.slotId}/>
           </div>
-          <div id="CLOCKTAB_leaderboard_ATF_mobile" className="ad_mobile">
-            <div id='div-gpt-ad-1584752804386-0'></div>
-          </div>
-        </div>
-        <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
-      </div>
+        ))
+      }</div>
+      <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
     </div>
   );
 }

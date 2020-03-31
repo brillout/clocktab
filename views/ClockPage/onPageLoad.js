@@ -1,4 +1,3 @@
-import loadAd from './js/loadAd';
 import load_clock from './js/load_clock';
 import init_clock_options from './js/init_clock_options';
 // import autoReloadPage from './js/autoReloadPage';
@@ -6,6 +5,8 @@ import auto_remove_hash from '../../tab-utils/auto_remove_hash';
 import {on_big_text_load, set_max_width_getter} from '../BigText';
 import {sleep} from '../../tab-utils/sleep';
 import {migrate_ancient_schema} from './migrations/001-ancient-schema.js';
+import {ad_slots} from './ad_slots';
+import load_ad from '../../tab-utils/load_ad';
 
 export default onPageLoad;
 
@@ -29,8 +30,7 @@ async function onPageLoad (load_common){
 
   load_common();
 
-  loadAd();
-//setTimeout(() => loadAd(), 500);
+  load_ad(ad_slots);
 
   // To avoid memory leak
 //autoReloadPage();

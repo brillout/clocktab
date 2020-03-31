@@ -53,8 +53,7 @@
   position: relative;
   overflow: hidden;
 }
-.ad-content-wrapper .ad_desktop,
-.ad-content-wrapper .ad_mobile {
+.ad-content-wrapper > * {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -70,17 +69,6 @@ html.show_ad #primary-ad {
 }
 html:not(.show_ad) #secondary-ad {
   height: 0;
-}
-
-@media (min-width:728px){
-  .ad_mobile {
-    display: none !important;
-  }
-}
-@media (max-width:727px) {
-  .ad_desktop {
-    display: none !important;
-  }
 }
 
 
