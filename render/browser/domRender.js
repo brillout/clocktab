@@ -1,5 +1,5 @@
 import './css/common.css';
-import {start_tracking, track_error, setup_error_handlers} from '../../views/common/google_analytics';
+import {start_tracking, track_error, setup_error_handlers} from '../../views/common/analytics';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';

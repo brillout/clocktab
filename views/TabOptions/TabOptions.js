@@ -4,7 +4,7 @@ import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
 import './tab-options.css';
-import {track_event} from '../common/google_analytics';
+import {track_event} from '../common/analytics';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 import {show_toast} from '../common/show_toast';
