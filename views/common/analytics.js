@@ -1,7 +1,7 @@
 import ml from '../ml';
 
 export {setup_error_handlers};
-export {start_tracking};
+export {load_tracker};
 export {track_event};
 export {track_error};
 
@@ -11,20 +11,18 @@ const DEBUG = true;
 const DEBUG = false;
 //*/
 
+const GA_ID = 'UA-5263303-5';
+
 const IS_DEV = typeof window !== "undefined" && window.location.hostname === 'localhost';
 
-define_ga();
+init_ga();
 
-let already_started = false;
-async function start_tracking() {
-  if( already_started ) return;
-  already_started = true;
-
-  load_ga('UA-5263303-5');
-
-  track_page_view();
-
-  add_user_action_tracking();
+let already_loaded = false;
+async function load_tracker() {
+  if( already_loaded ) return;
+  already_loaded = true;
+  ml.loadScript('//www.google-analytics.com/analytics.js');
+  DEBUG && console.log('[ga] ga code loaded');
 }
 
 function add_user_action_tracking() {
@@ -66,24 +64,22 @@ async function track_event(args) {
 }
 
 // Source: https://developers.google.com/analytics/devguides/collection/analyticsjs/tracking-snippet-reference#async-unminified
-function load_ga(id) {
+function init_ga() {
+  if( typeof window === "undefined" ) return;
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  };
+
   // Sets the time (as an integer) this tag was executed.
   // Used for timing hits.
   ga.l = +new Date;
 
   // Creates a default tracker with automatic cookie domain configuration.
-  ga('create', id, 'auto');
+  ga('create', GA_ID, 'auto');
 
-  ml.loadScript('//www.google-analytics.com/analytics.js');
+  track_page_view();
 
-  DEBUG && console.log('[ga] ga code loaded');
-}
-
-function define_ga() {
-  if( typeof window === "undefined" ) return;
-  window.ga = window.ga || function() {
-    (ga.q = ga.q || []).push(arguments)
-  };
+  add_user_action_tracking();
 }
 
 // https://stackoverflow.com/questions/12571650/catching-all-javascript-unhandled-exceptions/49560222#49560222
