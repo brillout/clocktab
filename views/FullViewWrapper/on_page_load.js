@@ -1,6 +1,7 @@
 import assert from '@brillout/assert';
 import pretty_scroll_area, {scrollToElement, addScrollListener} from '../../tab-utils/pretty_scroll_area';
 import load_common from '../common/load_common';
+import { show_toast } from '../common/show_toast';
 
 export default on_page_load;
 
@@ -46,7 +47,12 @@ function activate_screen_buttons() {
     await scrollToElement(clock_view);
   }
   async function do_fullscreen() {
-    document.documentElement.requestFullscreen();
+    try {
+      document.documentElement.requestFullscreen();
+    } catch(err) {
+      show_toast("Your browser doesn't support fullscreen.", {is_error: true, short_duration: true});
+      return;
+    }
     // When tab goes to fullscreen, scroll is changed; ensure with `requestAnimationFrame` that
     // scrolling happens *after* the tab goes fullscreen.
     requestAnimationFrame(async () => {
