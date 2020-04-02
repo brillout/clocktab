@@ -43,24 +43,23 @@ function Ad_ATF() {
   const slots = ad_slots.filter(slot => slot.slotName.includes('ATF'));
   assert(ad_slots.length===2);
   assert(slots.length===1);
-  return <AdView id="primary-ad" slots={slots} />;
+  return <AdView id="primary-ad" slot={slots[0]} />;
 }
 function Ad_BTF() {
   const slots = ad_slots.filter(slot => slot.slotName.includes('BTF'));
   assert(ad_slots.length===2);
   assert(slots.length===1);
-  return <AdView id="secondary-ad" slots={slots} />;
+  return <AdView id="secondary-ad" slot={slots[0]} />;
 }
 
-function AdView({id, slots}) {
+function AdView({id, slot: {slotName, slotID}}) {
+  assert(slotName && slotID);
   return (
     <div id={id}>
       <div className='ad-content-wrapper'>{
-        slots.map(slot => (
-          <div id={slot.slotName}>
-            <div id={slot.slotId}/>
-          </div>
-        ))
+        <div id={slotName}>
+          <div id={slotID}/>
+        </div>
       }</div>
       <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
     </div>
