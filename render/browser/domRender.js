@@ -1,5 +1,5 @@
 import './css/common.css';
-import {load_tracker, track_error, setup_error_handlers} from '../../views/common/analytics';
+import {load_tracker, track_error} from '../../views/common/analytics';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -19,7 +19,6 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
   */
 
   try {
-    setup_error_handlers();
     page.on_page_load();
   } catch(err) {
     on_error(err);
@@ -29,8 +28,8 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
 function on_error(err) {
   console.error(err);
 
-  track_error(err);
   load_tracker();
+  track_error(err);
 
   // Timeout to ensure event tracking happened.
   setTimeout(() => {
