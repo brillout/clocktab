@@ -2,7 +2,7 @@ import assert from '@brillout/assert';
 
 import ml from '../ml';
 
-export {load_tracker};
+export {load_google_analytics};
 export {track_event};
 export {track_error};
 
@@ -15,7 +15,7 @@ const GA_ID = 'UA-5263303-5';
 init();
 
 let already_loaded = false;
-async function load_tracker() {
+async function load_google_analytics() {
   if( already_loaded ) return;
   already_loaded = true;
   ml.loadScript('//www.google-analytics.com/analytics.js');
@@ -108,7 +108,7 @@ function track_error_events() {
   window.onerror = function (...args_list) {
 
     try {
-      load_tracker();
+      load_google_analytics();
 
       const [message, filename, lineno, colno, error] = args_list;
       const eventCategory = '[error] window.onerror';
@@ -126,7 +126,7 @@ function track_error_events() {
   };
   window.addEventListener("error", function (ev) {
     try {
-      load_tracker();
+      load_google_analytics();
 
       const eventCategory = '[error] ErrorEvent';
       const err = ev.error || {};

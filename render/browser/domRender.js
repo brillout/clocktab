@@ -1,5 +1,5 @@
 import './css/common.css';
-import {load_tracker, track_error} from '../../views/common/analytics';
+import {load_google_analytics, track_error} from '../../views/common/tracker';
 /*
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,7 +28,7 @@ async function domRender({page, initialProps, CONTAINER_ID}) {
 function on_error(err) {
   console.error(err);
 
-  load_tracker();
+  load_google_analytics();
   track_error(err);
 
   // Timeout to ensure event tracking happened.

@@ -1,6 +1,6 @@
 import activate_email_links from './activate_email_links';
 import activate_app from './activate_app';
-import {load_tracker} from './analytics';
+import {load_google_analytics} from './tracker';
 import init_wake_lock from './init_wake_lock';
 
 export default load_common;
@@ -14,5 +14,5 @@ function load_common() {
     init_wake_lock();
   } catch(e){}
 
-  load_tracker();
+  load_google_analytics();
 }
