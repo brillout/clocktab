@@ -2037,14 +2037,16 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
     }
     if(!rightPre) return false;
 
-    var zoomed;
+    let is_zoomed = false;
     var container_original_props;
     function zoomIn()
     {
-      track_event({
-        eventCategory: 'global_stats',
-        eventAction: 'zoom_in',
-      });
+      if( is_zoomed===false ) {
+        track_event({
+          eventCategory: 'global_stats',
+          eventAction: 'zoom_in',
+        });
+      }
       function boxSize(el){
         function getSize(prop){return parseInt(ml.element.getStyle(el,prop),10)||0}
         var h=getSize('height');
@@ -2110,7 +2112,7 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
       var translation = scale_offset*offset_to_middle[0]+'px,'+scale_offset*offset_to_middle[1]+'px';
       DEBUG && console.log('zoom', {translation, scale});
       scaleEl.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
-      zoomed=true;
+      is_zoomed = true;
 
       /*
       overflow_orginial = scaleEl.style['overflow'];
@@ -2138,19 +2140,21 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
       var diff  = Math.min(winHeight-scale*elHeight,scale*botPad);
       var translation = scale*(winWidth/2-(elPos.x+elWidth/2))+'px,'+(scale*(winHeight/2-(elPos.y+elHeight/2))-diff)+'px';
       scaleEl.style[rightPre+'ransform']='translate('+translation+') scale('+scale+')';
-      zoomed=true;
+      is_zoomed = true;
       */
     }
     function zoomOut()
     {
-      track_event({
-        eventCategory: 'global_stats',
-        eventAction: 'zoom_out',
-      });
+      if( is_zoomed===true ) {
+        track_event({
+          eventCategory: 'global_stats',
+          eventAction: 'zoom_out',
+        });
+      }
       scaleEl.style[rightPre+'ransform']='';
       //timeout makes transition of zoom counter smoother
       setTimeout(function(){
-        if(!zoomed) {
+        if( is_zoomed===false ) {
           /*
           containerEl.style.overflow = container_original_props.overflow;
           containerEl.style.width = 'auto';
@@ -2162,7 +2166,7 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
           */
         }
       }, TRANSITION_DURATION+1);
-      zoomed=false;
+      is_zoomed = false;
     }
     return [zoomIn,zoomOut];
   };
@@ -2172,9 +2176,9 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   if(!zoom_fcts) return;
   const [zoom_in, zoom_out] = zoom_fcts;
 
-  let is_zoomed = false;
+  let should_be_zommed = false;
   function set_zoom() {
-    if( is_zoomed ) {
+    if( should_be_zommed===true ) {
       zoom_in();
     } else {
       zoom_out();
@@ -2182,7 +2186,7 @@ ml.zoomable_element=function({containerEl, scaleEl, zoomEl, keybinding, bottomEl
   }
 
   el.addEventListener('click', () => {
-    is_zoomed = !is_zoomed;
+    should_be_zommed = !should_be_zommed;
     set_zoom();
   }, {passive: true});
 
