@@ -168,6 +168,8 @@ class SelectInput extends PersistantInput {
   }
 
   add_options(new_options) {
+    const current_value = this._input_retriever();
+
     const current_option_values = Array.from(this._input_el.querySelector('option')).map(el => el.value);
 
     let {innerHTML} = this._input_el;
@@ -181,12 +183,7 @@ class SelectInput extends PersistantInput {
 
     this._input_el.innerHTML = innerHTML;
 
-    /*
-    const selected_option = this.input_get();
-    if( selected_option ){
-      this.input_set(selected_option);
-    }
-    */
+    this._input_modifier(current_value);
   }
 
   _input_modifier(val) {
