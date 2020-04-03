@@ -16,6 +16,7 @@
     "@brillout/assert": "^0.1.1",
     "@goldpage/react": "^0.5.6",
     "@goldpage/serverless": "^0.5.6",
+    "@goldpage/typescript": "^0.5.6",
     "bowser": "^2.9.0",
     "flatpickr": "^4.6.3",
     "goldpage": "^0.5.6",
