@@ -10,6 +10,35 @@ import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} fro
 import {show_toast} from '../common/show_toast';
 
 export class TabOptions {
+  preset_concept_name;
+
+  text_container;
+  no_random_preset;
+
+  on_any_change;
+  on_font_change;
+
+  enable_import_export;
+  app_name;
+
+  creator_content;
+  options_content;
+  save_content;
+  save_container;
+  share_content;
+  share_container;
+
+  preset_list;
+  option_list;
+
+  resolve_font_loaded_promise;
+  font_loaded_promise;
+
+  button_mod: Button;
+  button_del: Button;
+  name_option: TextOption;
+  button_url: Button;
+
   constructor({
     option_spec_list,
     preset_spec_list,
@@ -585,12 +614,21 @@ class ChoiceOption extends SelectOption {
 }
 
 class TextOption extends Option {
+  constructor(args) {
+    super(args);
+    this.input_args.input_placeholder = args.option_placeholder;
+    this.user_input = new TextInput(this.input_args);
+  }
+}
+/*
+class TextOption extends Option {
   constructor({option_placeholder, ...args}) {
     super(args);
     this.input_args.input_placeholder = option_placeholder;
     this.user_input = new TextInput(this.input_args);
   }
 }
+*/
 
 class ColorOption extends Option {
   constructor(args) {

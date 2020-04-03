@@ -256,11 +256,12 @@ class ColorInput extends PersistantInput {
 }
 
 class Button {
-  constructor({on_click, text, input_container, className}) {
+  constructor({on_click, text, input_container, className, id}) {
     this.on_click = on_click;
     this.text = text;
     this.input_container = input_container;
     this.className = className;
+    this.id = id;
   }
   generate_dom() {
     const dom_el =document.createElement('button'); 
@@ -268,6 +269,7 @@ class Button {
       dom_el.setAttribute('class', this.className);
     }
     dom_el.setAttribute('type', 'button');
+    dom_el.setAttribute('id', this.id);
     dom_el.onclick = ev => {
       ev.preventDefault();
       this.on_click();
