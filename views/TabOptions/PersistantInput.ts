@@ -23,16 +23,22 @@ class Storage {
 }
 
 class PersistantInput {
+  #props: any;
+  #input_id: String;
+  #on_input_change: any;
+  #input_default: any;
+  #storage: Storage;
+
   constructor(props) {
     this.#props = props;
 
     const {input_id, on_input_change, input_default} = props;
     assert(input_id && on_input_change);
-    this._input_id = input_id;
-    this._on_input_change = on_input_change;
-    this._input_default = input_default;
+    this.#input_id = input_id;
+    this.#on_input_change = on_input_change;
+    this.#input_default = input_default;
 
-    this._storage = new Storage(input_id);
+    this.#storage = new Storage(input_id);
   }
 
   // Public functions
@@ -40,9 +46,9 @@ class PersistantInput {
     return this._input_retriever();
   }
   input_set(val) {
-    this._storage.set_val(val);
+    this.#storage.set_val(val);
     this._input_modifier(val);
-    this._on_input_change();
+    this.#on_input_change();
   }
   init() {
     const {input_tag, input_type} = this;
@@ -58,10 +64,10 @@ class PersistantInput {
     }
 
     const init_val = (
-      this._storage.has_val() ? (
-        this._storage.get_val()
+      this.#storage.has_val() ? (
+        this.#storage.get_val()
       ) : (
-        this._input_default
+        this.#input_default
       )
     );
     if( init_val!== undefined ){
@@ -69,8 +75,8 @@ class PersistantInput {
     }
 
     this._input_el.addEventListener(this._change_event, () => {
-      this._storage.set_val(this._input_retriever());
-      this._on_input_change();
+      this.#storage.set_val(this._input_retriever());
+      this.#on_input_change();
     }, false);
   }
   hide() {
@@ -159,7 +165,7 @@ class SelectInput extends PersistantInput {
   }
 
   _init_dom() {
-    assert(this.input_options.length>0, this._input_id);
+    assert(this.input_options.length>0, this.#input_id);
 
     let innerHTML = '';
     this.input_options.forEach(option_arg => {
@@ -211,7 +217,7 @@ class SelectInput extends PersistantInput {
     );
   }
   _parse_option_arg(option_arg) {
-    assert(option_arg, this._input_id, {option_arg});
+    assert(option_arg, this.#input_id, {option_arg});
 
     const {divider_html} = option_arg;
     if( divider_html ){
