@@ -22,12 +22,17 @@ class Storage {
   }
 }
 
-class PersistantInput {
+abstract class PersistantInput {
   #props: any;
   #input_id: String;
   #on_input_change: any;
   #input_default: any;
   #storage: Storage;
+  abstract input_tag: String;
+  abstract input_type?: String;
+
+  #dom_el: any;
+  #input_el: any;
 
   constructor(props) {
     this.#props = props;
@@ -56,8 +61,8 @@ class PersistantInput {
     assert(input_type || input_tag!=='input');
 
     const {dom_el, input_el} = generate_input({input_tag, input_type, ...this.#props});
-    this._dom_el = dom_el;
-    this._input_el = input_el;
+    this.#dom_el = dom_el;
+    this.#input_el = input_el;
 
     if( this._init_dom ){
       this._init_dom();
@@ -74,24 +79,24 @@ class PersistantInput {
       this._input_modifier(init_val);
     }
 
-    this._input_el.addEventListener(this._change_event, () => {
+    this.#input_el.addEventListener(this._change_event, () => {
       this.#storage.set_val(this._input_retriever());
       this.#on_input_change();
     }, false);
   }
   hide() {
-    hide_show_el(this._dom_el, true);
+    hide_show_el(this.#dom_el, true);
   }
   show() {
-    hide_show_el(this._dom_el);
+    hide_show_el(this.#dom_el);
   }
 
   // To be overriden
   _input_retriever() {
-    return this._input_el.value;
+    return this.#input_el.value;
   }
   _input_modifier(val) {
-    this._input_el.value = val;
+    this.#input_el.value = val;
   }
   get _change_event() {
     return 'change';
@@ -106,18 +111,18 @@ class BooleanInput extends PersistantInput {
     this.input_type = 'checkbox';
   }
   _input_retriever() {
-    return !!this._input_el.checked;
+    return !!this.#input_el.checked;
   }
   _input_modifier(val) {
     if( !!val ){
-      this._input_el.setAttribute('checked', "true");
+      this.#input_el.setAttribute('checked', "true");
     } else {
-      this._input_el.removeAttribute('checked');
+      this.#input_el.removeAttribute('checked');
     }
   }
   init() {
     super.init();
-    this._dom_el['classList']['add']('pointer-cursor');
+    this.#dom_el['classList']['add']('pointer-cursor');
   }
 }
 
@@ -137,7 +142,7 @@ class TextInput extends PersistantInput {
     super.init();
     const {input_placeholder} = this.#props;
     if( input_placeholder ){
-      this._input_el.placeholder = input_placeholder;
+      this.#input_el.placeholder = input_placeholder;
     }
   }
 }
@@ -179,7 +184,7 @@ class SelectInput extends PersistantInput {
 
     const current_option_values = Array.from(this.#input_el.querySelector('option')).map(el => el.value);
 
-    let {innerHTML} = this._input_el;
+    let {innerHTML} = this.#input_el;
     new_options.forEach(option_arg => {
       const {val} = this._parse_option_arg(option_arg);
       if( val && current_option_values.includes(val) ){
@@ -188,18 +193,18 @@ class SelectInput extends PersistantInput {
       innerHTML += this._generate_option_html(option_arg);
     })
 
-    this._input_el.innerHTML = innerHTML;
+    this.#input_el.innerHTML = innerHTML;
 
     this._input_modifier(current_value);
   }
 
   _input_modifier(val) {
     assert(val, {val});
-    if( !this._input_el.querySelector('option[value="'+val+'"]') ){
-      this._input_el.innerHTML = (
+    if( !this.#input_el.querySelector('option[value="'+val+'"]') ){
+      this.#input_el.innerHTML = (
         this._generate_option_html(val) +
         SelectInput.get_divider().divider_html +
-        this._input_el.innerHTML
+        this.#input_el.innerHTML
       );
     }
     super._input_modifier(val);
@@ -239,7 +244,7 @@ class DateInput extends PersistantInput {
     this.input_type = 'datetime';
   }
   _init_dom() {
-    flatpickr(this._input_el, {
+    flatpickr(this.#input_el, {
       enableTime: true,
       /*
       dateFormat: "Y-m-d H:i",
@@ -258,7 +263,7 @@ class ColorInput extends PersistantInput {
   }
   init() {
     super.init();
-    this._dom_el['classList']['add']('pointer-cursor');
+    this.#dom_el['classList']['add']('pointer-cursor');
   }
 }
 
