@@ -6,24 +6,25 @@ import "flatpickr/dist/flatpickr.css";
 export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button};
 
 class Storage {
+  #storage_key;
   constructor(storage_key) {
     assert(storage_key);
-    this._storage_key = storage_key;
+    this.#storage_key = storage_key;
   }
   has_val() {
-    return window.localStorage.getItem(this._storage_key) !== null;
+    return window.localStorage.getItem(this.#storage_key) !== null;
   }
   get_val() {
-    return window.localStorage.getItem(this._storage_key);
+    return window.localStorage.getItem(this.#storage_key);
   }
   set_val(val) {
-    window.localStorage.setItem(this._storage_key, val);
+    window.localStorage.setItem(this.#storage_key, val);
   }
 }
 
 class PersistantInput {
   constructor(props) {
-    this._props = props;
+    this.#props = props;
 
     const {input_id, on_input_change, input_default} = props;
     assert(input_id && on_input_change);
@@ -48,7 +49,7 @@ class PersistantInput {
     assert(input_tag);
     assert(input_type || input_tag!=='input');
 
-    const {dom_el, input_el} = generate_input({input_tag, input_type, ...this._props});
+    const {dom_el, input_el} = generate_input({input_tag, input_type, ...this.#props});
     this._dom_el = dom_el;
     this._input_el = input_el;
 
@@ -128,7 +129,7 @@ class TextInput extends PersistantInput {
 
   init() {
     super.init();
-    const {input_placeholder} = this._props;
+    const {input_placeholder} = this.#props;
     if( input_placeholder ){
       this._input_el.placeholder = input_placeholder;
     }
@@ -164,13 +165,13 @@ class SelectInput extends PersistantInput {
     this.input_options.forEach(option_arg => {
       innerHTML += this._generate_option_html(option_arg);
     });
-    this._input_el.innerHTML = innerHTML;
+    this.#input_el.innerHTML = innerHTML;
   }
 
   add_options(new_options) {
     const current_value = this._input_retriever();
 
-    const current_option_values = Array.from(this._input_el.querySelector('option')).map(el => el.value);
+    const current_option_values = Array.from(this.#input_el.querySelector('option')).map(el => el.value);
 
     let {innerHTML} = this._input_el;
     new_options.forEach(option_arg => {
