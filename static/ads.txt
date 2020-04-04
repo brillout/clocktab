@@ -1,4 +1,4 @@
-#Ads.txt ADD
+#Ads.txt
 
 33across.com, 0010b00002KeFPqAAN, DIRECT, bbea06d9c4d2853c
 33across.com, 0010b00002Mq2FYAAZ, DIRECT, bbea06d9c4d2853c
@@ -302,6 +302,9 @@ atemda.com, 191, RESELLER
 atemda.com, 491, RESELLER
 audience.media, 100358, DIRECT
 automatad.com, 231191, DIRECT
+automatad.com, 2311913889252548, DIRECT
+automatad.com, 2311913889252548, DIRECT, 2311913889252548
+automatad.com, 2311914128602940, DIRECT, 2311914128602940
 avantisvideo.com, 7865, DIRECT
 axonix.com, 56222, RESELLER
 beachfront.com, 12983, DIRECT
