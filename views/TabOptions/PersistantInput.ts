@@ -27,12 +27,12 @@ interface PersistantInput {
 }
 abstract class PersistantInput {
   protected _props: any;
-  protected _input_id: String;
+  protected _input_id: string;
   #on_input_change: any;
   #input_default: any;
   #storage: Storage;
-  abstract input_tag: String;
-  input_type?: String;
+  abstract input_tag: string;
+  input_type?: string;
 
   protected _dom_el: any;
   protected _input_el: any;
@@ -108,8 +108,8 @@ abstract class PersistantInput {
 }
 
 class BooleanInput extends PersistantInput {
-  input_tag: String;
-  input_type: String;
+  input_tag: string;
+  input_type: string;
 
   constructor(args) {
     super(args);
@@ -159,7 +159,7 @@ class SelectInput extends PersistantInput {
   input_tag;
   #input_options;
 
-  static get_divider(text) {
+  static get_divider(text?) {
     let divider_text;
     if( text ) {
       divider_text = '─── ' + text + ' ───';
@@ -193,7 +193,7 @@ class SelectInput extends PersistantInput {
   add_options(new_options) {
     const current_value = this._input_retriever();
 
-    const current_option_values = Array.from(this._input_el.querySelector('option')).map(el => el.value);
+    const current_option_values = Array.from(this._input_el.querySelector('option')).map((el: any) => el.value);
 
     let {innerHTML} = this._input_el;
     new_options.forEach(option_arg => {
@@ -249,11 +249,17 @@ class SelectInput extends PersistantInput {
 }
 
 class DateInput extends PersistantInput {
+  // TODO; apply this diff throughout whole file
+  input_tag = 'input';
+  input_type = 'datetime';
+  /*
   constructor(args) {
     super(args);
     this.input_tag = 'input';
     this.input_type = 'datetime';
   }
+  */
+
   _init_dom() {
     flatpickr(this._input_el, {
       enableTime: true,
@@ -267,6 +273,8 @@ class DateInput extends PersistantInput {
   }
 }
 class ColorInput extends PersistantInput {
+  input_tag;
+  input_type;
   constructor(args) {
     super(args);
     this.input_tag = 'input';
@@ -279,6 +287,13 @@ class ColorInput extends PersistantInput {
 }
 
 class Button {
+  on_click;
+  text: string;
+  input_container: HTMLElement;
+  className?: string;
+  id: string;
+  dom_el: HTMLElement;
+
   constructor({on_click, text, input_container, className, id}) {
     this.on_click = on_click;
     this.text = text;
