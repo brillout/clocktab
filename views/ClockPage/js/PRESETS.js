@@ -6,6 +6,8 @@
 //   - Cardo
 //   - Kalam
 //   - Abril Fatface
+// - nice images
+//   - Space girl reading: https://imgur.com/a/cY3VTIT
 
 export default {
   'steel':{
