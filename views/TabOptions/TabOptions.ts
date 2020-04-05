@@ -6,7 +6,7 @@ import set_background from './set_background';
 import './tab-options.css';
 import {track_event} from '../common/tracker';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
-import {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
+import {PersistantInput, TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 import {show_toast} from '../common/show_toast';
 
 export class TabOptions {
@@ -312,7 +312,7 @@ export class TabOptions {
   load_preset_from_url() {
     const preset_url = window.location.href;
 
-    const preset_data: any = LinkSerializer.from_url();
+    const preset_data: PresetData = LinkSerializer.from_url();
 
     if( preset_data===null ){
       return;
@@ -517,7 +517,15 @@ export class TabOptions {
   }
 }
 
+interface Option {
+  before_dom?(): void;
+}
 class Option {
+  tab_options: TabOptions;
+  option_id: string;
+  option_description: string;
+  input_args: any;
+  user_input: PersistantInput;
   constructor({option_id, option_description, option_default, input_width, tab_options, input_container, ...props}) {
     assert(option_id);
     assert(option_description);
@@ -598,7 +606,8 @@ class BooleanOption extends Option {
 }
 
 class SelectOption extends Option {
-  constructor(args, input_options) {
+  user_input: SelectInput;
+  constructor(args, input_options: string[]) {
     super(args);
     this.user_input = new SelectInput({input_options, ...this.input_args});
   }
@@ -653,10 +662,9 @@ class TextShadowOption extends TextOption {
 }
 
 class PresetOption extends SelectOption {
-  constructor(args) {
-    const input_container = args.tab_options.creator_content;
-    super({input_width: '93px', input_container, ...args});
-    this.is_preset_selector = true;
+  is_preset_selector = true;
+  constructor({input_options, ...args}) {
+    super({input_width: '93px', input_container: args.tab_options.creator_content, ...args}, input_options);
   }
 
   before_dom() {
@@ -700,22 +708,16 @@ class PresetOption extends SelectOption {
 
 
 class BackgroundImageOption extends TextOption {
-  constructor(args) {
-    super(args);
-    this.is_background_image_option = true;
-  }
+  is_background_image_option = true;
 }
 class BackgroundColorOption extends ColorOption {
-  constructor(args) {
-    super(args);
-    this.is_background_color_option = true;
-  }
+  is_background_color_option = true;
 }
 
 class FontOption extends SelectOption {
-  constructor(args) {
-    super({input_width: '110px', ...args});
-    this.is_font_option = true;
+  is_font_option = true;
+  constructor({input_optoins, ...args}) {
+    super({input_width: '110px', ...args}, input_optoins);
   }
 
   before_dom() {
@@ -753,7 +755,7 @@ function instantiate_options({tab_options, option_spec_list}) {
   return (
     option_spec_list.map(({option_type, ...option_spec}) => {
       assert(option_spec.option_id, option_spec);
-      const args = {
+      const args: any = {
         ...option_spec,
         tab_options,
       };
@@ -798,6 +800,9 @@ function instantiate_options({tab_options, option_spec_list}) {
 class PresetList {
   #preset_savior = null;
   #native_presets = null;
+  tab_options: TabOptions;
+  randomizer_preset: RandomizerPreset;
+  creator_preset: CreatorPreset;
 
   constructor({preset_spec_list, tab_options}) {
     this.tab_options = tab_options;
@@ -862,7 +867,7 @@ class PresetList {
     assert(special_ones && saved_ones && native_ones);
     return {special_ones, saved_ones, native_ones};
   }
-  get_preset_by_name(preset_name, {can_be_null}={}) {
+  get_preset_by_name(preset_name, {can_be_null=false}={}) {
     assert(preset_name);
     const presets = this._get_all_presets();
     for(let preset of presets){
@@ -1138,6 +1143,8 @@ class PresetSavior {
 abstract class FakePreset {
   abstract is_randomizer_preset: boolean;
   abstract is_creator_preset: boolean;
+  abstract preset_name;
+  abstract preset_name_pretty;
   get_preset_value() {
     return null;
   }
@@ -1145,7 +1152,7 @@ abstract class FakePreset {
 
 class RandomizerPreset extends FakePreset {
   #picked = null;
-  is_randomizer_preset = false;
+  is_randomizer_preset = true;
   is_creator_preset = false;
   preset_name = '_random';
   preset_name_pretty = '<Random>';
@@ -1171,7 +1178,7 @@ class RandomizerPreset extends FakePreset {
 
 class CreatorPreset extends FakePreset {
   is_randomizer_preset = false;
-  is_creator_preset = false;
+  is_creator_preset = true;
   preset_name = '_creator';
   preset_name_pretty = '<Creator>';
 }
@@ -1266,14 +1273,14 @@ class LinkSerializer {
       return null;
     }
 
+    let preset_data: PresetData;
     try {
-      pipe_data = PresetSerializer.deserialize_single(pipe_data);
+      preset_data = PresetSerializer.deserialize_single(pipe_data);
     } catch(err) {
       console.error(err);
       return null;
     }
 
-    assert(pipe_data instanceof PresetData);
-    return pipe_data;
+    return preset_data;
   }
 }

@@ -3,7 +3,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
 
 
-export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button};
+export {TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button, PersistantInput};
 
 class Storage {
   #storage_key;
@@ -157,7 +157,7 @@ class TextInput extends PersistantInput {
 
 class SelectInput extends PersistantInput {
   input_tag;
-  #input_options;
+  input_options;
 
   static get_divider(text?) {
     let divider_text;
@@ -177,14 +177,14 @@ class SelectInput extends PersistantInput {
   constructor({input_options, ...args}) {
     super(args);
     this.input_tag = 'select';
-    this.#input_options = input_options;
+    this.input_options = input_options;
   }
 
   _init_dom() {
-    assert(this.#input_options.length>0, this._input_id);
+    assert(this.input_options.length>0, this._input_id);
 
     let innerHTML = '';
-    this.#input_options.forEach(option_arg => {
+    this.input_options.forEach(option_arg => {
       innerHTML += this._generate_option_html(option_arg);
     });
     this._input_el.innerHTML = innerHTML;
@@ -294,7 +294,7 @@ class Button {
   id: string;
   dom_el: HTMLElement;
 
-  constructor({on_click, text, input_container: HTMLElement, className=null, id}) {
+  constructor({on_click, text, input_container, className=null, id}) {
     this.on_click = on_click;
     this.text = text;
     this.input_container = input_container;
@@ -302,7 +302,7 @@ class Button {
     this.id = id;
   }
   generate_dom() {
-    const dom_el =document.createElement('button'); 
+    const dom_el =document.createElement('button');
     if( this.className ){
       dom_el.setAttribute('class', this.className);
     }
