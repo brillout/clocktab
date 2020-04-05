@@ -294,7 +294,7 @@ class Button {
   id: string;
   dom_el: HTMLElement;
 
-  constructor({on_click, text, input_container, className, id}) {
+  constructor({on_click, text, input_container: HTMLElement, className=null, id}) {
     this.on_click = on_click;
     this.text = text;
     this.input_container = input_container;

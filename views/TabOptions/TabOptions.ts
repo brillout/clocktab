@@ -201,13 +201,14 @@ export class TabOptions {
     const preset = this.active_preset;
     assert(preset.is_real_preset);
 
-    Object.entries(preset.preset_options)
-    .forEach(([opt_id, opt_val]) => {
+    const {preset_options} = preset;
+    for(let opt_id in preset_options) {
+      const opt_val = preset_options[opt_id];
       assert(!['preset_name', 'preset_id', 'id', 'name'].includes(opt_val));
       this
       .find_option(option => option.option_id === opt_id)
       .set_input_value(opt_val);
-    });
+    }
     this.select_preset_creator();
   }
 
@@ -232,7 +233,7 @@ export class TabOptions {
 
 
   #global_side_effects__timeout = null;
-  global_side_effects({is_initial_run}={}) {
+  global_side_effects({is_initial_run=false}={}) {
     if( is_initial_run ){
       this.run_side_effects(true);
       return;
@@ -245,7 +246,7 @@ export class TabOptions {
       this.#global_side_effects__timeout = null;
     });
   }
-  run_side_effects(is_initial_run) {
+  run_side_effects(is_initial_run=false) {
     this.update_background();
     this.update_font();
     this.load_font_list();
@@ -311,7 +312,7 @@ export class TabOptions {
   load_preset_from_url() {
     const preset_url = window.location.href;
 
-    const preset_data = LinkSerializer.from_url();
+    const preset_data: any = LinkSerializer.from_url();
 
     if( preset_data===null ){
       return;
@@ -970,6 +971,13 @@ class PresetSerializer {
 }
 
 class Preset {
+  preset_name: string;
+  preset_options: Object;
+  tab_options: TabOptions;
+
+  is_randomizer_preset: boolean = false;
+  is_creator_preset: boolean = false;
+
   constructor({preset_name, preset_options, tab_options}) {
     assert(preset_name);
     assert([Object, PresetValues].includes(preset_options.constructor));
@@ -1039,6 +1047,10 @@ class NativePreset extends Preset {
 
 // TODO - use TypeScript
 class PresetData {
+  app_name: string;
+  preset_name: string;
+  preset_options: Object;
+
   constructor(args) {
     const {preset_name, preset_options, app_name, ...rest} = args;
     assert(Object.keys(rest).length===0, args);
@@ -1123,7 +1135,9 @@ class PresetSavior {
   }
 }
 
-class FakePreset {
+abstract class FakePreset {
+  abstract is_randomizer_preset: boolean;
+  abstract is_creator_preset: boolean;
   get_preset_value() {
     return null;
   }
@@ -1131,14 +1145,15 @@ class FakePreset {
 
 class RandomizerPreset extends FakePreset {
   #picked = null;
+  is_randomizer_preset = false;
+  is_creator_preset = false;
+  preset_name = '_random';
+  preset_name_pretty = '<Random>';
+  preset_list: PresetList;
   constructor({preset_list}) {
     super();
-    this.preset_name = RandomizerPreset.randomizer_preset_name;
     this.is_randomizer_preset = true;
     this.preset_list = preset_list;
-  }
-  get preset_name_pretty() {
-    return '<Random>';
   }
   get random_preset() {
     if( ! this.#picked ){
@@ -1153,29 +1168,13 @@ class RandomizerPreset extends FakePreset {
     return random_candidates[idx];
   }
 }
-RandomizerPreset.randomizer_preset_name='_random';
-/*
-RandomizerPreset.test = preset_name => (
-  preset_name==='_random'
-);
-*/
 
 class CreatorPreset extends FakePreset {
-  constructor() {
-    super();
-    this.preset_name = CreatorPreset.creator_preset_name;
-    this.is_creator_preset = true;
-  }
-  get preset_name_pretty() {
-    return '<Creator>';
-  }
+  is_randomizer_preset = false;
+  is_creator_preset = false;
+  preset_name = '_creator';
+  preset_name_pretty = '<Creator>';
 }
-CreatorPreset.creator_preset_name='_creator';
-/*
-CreatorPreset.test = preset_name => (
-  preset_name==='_creator'
-);
-*/
 
 class NameIdConverter {
   static white_space_seralized = '-';
