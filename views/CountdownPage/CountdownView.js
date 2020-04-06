@@ -3,7 +3,7 @@ import React from 'react';
 import {FullView, MorePanel} from '../FullViewWrapper';
 import BigText from '../BigText';
 import News from '../News';
-import PresetBlocks from '../TabOptions/PresetBlocks';
+import {SettingsView} from '../TabOptions/SettingsView';
 import {preset_concept_name} from './preset_concept_name';
 
 export default CountdownView;
@@ -19,7 +19,7 @@ function CountdownView() {
     </FullView>
 
     <MorePanel>
-      <PresetBlocks preset_concept_name={preset_concept_name} is_countdown_page={true}/>
+      <SettingsView preset_concept_name={preset_concept_name} is_countdown_page={true}/>
       <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
     </MorePanel>
   </>;

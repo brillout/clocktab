@@ -2,7 +2,7 @@ import React from 'react';
 import {FullView, MorePanel} from '../FullViewWrapper';
 import BigText from '../BigText';
 import News from '../News';
-import PresetBlocks from '../TabOptions/PresetBlocks';
+import {SettingsView} from '../TabOptions/SettingsView';
 import {preset_concept_name} from './js/preset_concept_name';
 import {ad_slots} from './ad_slots';
 import assert from '@brillout/assert';
@@ -21,7 +21,7 @@ function ClockView() {
 
     <MorePanel>
       <Ad_BTF />
-      <PresetBlocks preset_concept_name={preset_concept_name} />
+      <SettingsView preset_concept_name={preset_concept_name} />
       <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
     </MorePanel>
   </>;

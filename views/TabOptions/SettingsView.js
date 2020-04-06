@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default PresetBlocks;
+export {SettingsView};
 
-function PresetBlocks({preset_concept_name, is_countdown_page}) {
+function SettingsView({preset_concept_name, is_countdown_page}) {
   return <>
     <div className="more_panel_block">
       <div className="more_panel_block_title">
