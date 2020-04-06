@@ -1069,10 +1069,6 @@ class PresetData {
 class PresetValues {
   constructor(args) {
     assert([Object, PresetValues].includes(args.constructor), args, args.constructor);
-
-    // MIGRATE_TODO
-    assert(args.countdown_font || args.clock_font, Object.keys(args));
-
     Object.assign(this, args);
   }
 }
@@ -1227,12 +1223,6 @@ class NameIdConverter {
 function make_unique(arr) {
   return Array.from(new Set(arr.filter(Boolean))).sort();
 }
-
-// TN2
-// - rename preset_values to preset_values
-// - migration & refactor localStorage usage
-//   - Watch out for MIGRATE_TODO
-
 
 // TODO-later
 // What Preset values should be required before saving? What happens when the user sets some to ''?
