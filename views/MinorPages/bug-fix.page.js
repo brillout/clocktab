@@ -3,7 +3,7 @@ import {getPageConfig} from '../PageWrapper';
 
 export default getPageConfig(
   () => <>
-    Paste your fix (that Romuald provided you):
+    Paste your bug fix (that Romuald provided you):
 
     <textarea id="settings-data-input" style={{width: '100%', minHeight: '50vh'}} />
     <br/>
@@ -15,7 +15,7 @@ export default getPageConfig(
     Result:
     <pre id="result" style={{margin: 0}} />
   </>,
-  'Bug Fixer',
+  'Bug Fix',
   {onPageLoad},
 );
 
