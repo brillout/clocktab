@@ -154,12 +154,12 @@ export class TabSettings {
   save_created_preset() {
     assert(this.preset_selected.is_creator_preset);
 
-    const preset_id_pretty = this.name_option.input_value;
-    if( !preset_id_pretty ){
+    const preset_name = this.name_option.input_value;
+    if( !preset_name ){
       alert("You need to provide a name for your "+this.preset_concept_name+" in order to save it.");
       return;
     }
-    const preset_id = NameIdConverter.from_name_to_id(preset_id_pretty);
+    const preset_id = NameIdConverter.from_name_to_id(preset_name);
 
     if( this.preset_list.get_preset_by_name(preset_id, {can_be_null: true}) ){
       const error_msg = (
@@ -226,7 +226,7 @@ export class TabSettings {
 
     this.copy_to_creator();
 
-    this.name_option.set_input_value(preset.preset_id_pretty);
+    this.name_option.set_input_value(preset.preset_name);
 
     this.preset_list.remove_preset(preset);
   }
@@ -323,7 +323,7 @@ export class TabSettings {
     const preset_conflict = this.preset_list.get_preset_by_name(preset_id, {can_be_null: true});
     if( preset_conflict ){
       this.select_preset(preset_conflict);
-      show_toast(this.preset_concept_name + ' "'+preset_conflict.preset_id_pretty+'" already saved.');
+      show_toast(this.preset_concept_name + ' "'+preset_conflict.preset_name+'" already saved.');
       remove_hash();
       return;
     }
@@ -357,13 +357,13 @@ export class TabSettings {
 
     this.select_preset(new_preset);
 
-    show_toast(this.preset_concept_name + ' "'+new_preset.preset_id_pretty+'" successfully saved.');
+    show_toast(this.preset_concept_name + ' "'+new_preset.preset_name+'" successfully saved.');
 
     remove_hash();
 
     track_event({
       eventCategory: 'preset_imported',
-      eventAction: this.preset_concept_name+' '+new_preset.preset_id_pretty,
+      eventAction: this.preset_concept_name+' '+new_preset.preset_name,
       eventLabel: preset_url,
     });
   }
@@ -680,10 +680,10 @@ class PresetOption extends SelectOption {
     let {special_ones, saved_ones, native_ones} = this.tab_settings.preset_list.presets_ordered;
 
     {
-      const map = ({preset_id, preset_id_pretty}) => {
+      const map = ({preset_id, preset_name}) => {
         assert(preset_id);
-        assert(preset_id_pretty);
-        return {val: preset_id, val_pretty: preset_id_pretty};
+        assert(preset_name);
+        return {val: preset_id, val_pretty: preset_name};
       };
       special_ones = special_ones.map(map);
       saved_ones = saved_ones.map(map);
@@ -1020,7 +1020,7 @@ class Preset {
     assert(preset_font_name);
     return preset_font_name;
   }
-  get preset_id_pretty() {
+  get preset_name() {
     const prettified = NameIdConverter.from_id_to_name(this.preset_id);
     assert(prettified);
     return prettified;
@@ -1147,7 +1147,7 @@ abstract class FakePreset {
   abstract is_randomizer_preset: boolean;
   abstract is_creator_preset: boolean;
   abstract preset_id;
-  abstract preset_id_pretty;
+  abstract preset_name;
   get_preset_value() {
     return null;
   }
@@ -1158,7 +1158,7 @@ class RandomizerPreset extends FakePreset {
   is_randomizer_preset = true;
   is_creator_preset = false;
   preset_id = '_random';
-  preset_id_pretty = '<Random>';
+  preset_name = '<Random>';
   preset_list: PresetList;
   constructor({preset_list}) {
     super();
@@ -1183,7 +1183,7 @@ class CreatorPreset extends FakePreset {
   is_randomizer_preset = false;
   is_creator_preset = true;
   preset_id = '_creator';
-  preset_id_pretty = '<Creator>';
+  preset_name = '<Creator>';
 }
 
 class NameIdConverter {
