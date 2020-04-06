@@ -2,7 +2,7 @@ import React from 'react';
 import {FullView, MorePanel} from '../FullViewWrapper';
 import BigText from '../BigText';
 import News from '../News';
-import {SettingsView} from '../TabOptions/SettingsView';
+import {SettingsView} from '../TabSettings/SettingsView';
 import {preset_concept_name} from './js/preset_concept_name';
 import {ad_slots} from './ad_slots';
 import assert from '@brillout/assert';

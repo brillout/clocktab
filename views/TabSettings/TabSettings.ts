@@ -3,13 +3,13 @@ import load_font from './load_font';
 import load_font_list from './load_font_list';
 import ml from '../ml';
 import set_background from './set_background';
-import './tab-options.css';
+import './tab-settings.css';
 import {track_event} from '../common/tracker';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {PersistantInput, TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 import {show_toast} from '../common/show_toast';
 
-export class TabOptions {
+export class TabSettings {
   preset_concept_name;
 
   text_container;
@@ -72,8 +72,8 @@ export class TabOptions {
     this.share_content = document.getElementById('share-content');
     this.share_container = document.getElementById('share-container');
 
-    this.preset_list = new PresetList({preset_spec_list, tab_options: this});
-    this.option_list = instantiate_options({tab_options: this, option_spec_list});
+    this.preset_list = new PresetList({preset_spec_list, tab_settings: this});
+    this.option_list = instantiate_options({tab_settings: this, option_spec_list});
 
     this.resolve_font_loaded_promise;
     this.font_loaded_promise = new Promise(r => this.resolve_font_loaded_promise = r);
@@ -130,7 +130,7 @@ export class TabOptions {
         input_width: '150px',
         option_description: this.preset_concept_name+' name',
         option_default: '',
-        tab_options: this,
+        tab_settings: this,
         id: 'preset-name-input',
       });
       name_option.generate_dom();
@@ -183,7 +183,7 @@ export class TabOptions {
     const new_preset = new SavedPreset({
       preset_name,
       preset_options,
-      tab_options: this,
+      tab_settings: this,
     });
 
     this.preset_list.save_preset(new_preset);
@@ -350,7 +350,7 @@ export class TabOptions {
     const new_preset = new SavedPreset({
       preset_name,
       preset_options,
-      tab_options: this,
+      tab_settings: this,
     });
 
     this.preset_list.save_preset(new_preset);
@@ -521,26 +521,26 @@ interface Option {
   before_dom?(): void;
 }
 class Option {
-  tab_options: TabOptions;
+  tab_settings: TabSettings;
   option_id: string;
   option_description: string;
   input_args: any;
   user_input: PersistantInput;
-  constructor({option_id, option_description, option_default, input_width, tab_options, input_container, ...props}) {
+  constructor({option_id, option_description, option_default, input_width, tab_settings, input_container, ...props}) {
     assert(option_id);
     assert(option_description);
-    assert(tab_options);
+    assert(tab_settings);
     Object.assign(this, {
       option_id,
-      tab_options,
+      tab_settings,
       ...props,
     });
 
     input_container = input_container || (
       props.is_creator_option ? (
-        this.tab_options.creator_content
+        this.tab_settings.creator_content
       ) : (
-        this.tab_options.options_content
+        this.tab_settings.options_content
       )
     );
     assert(input_container, {option_id});
@@ -548,7 +548,7 @@ class Option {
     this.input_args = {
       input_id: option_id,
       input_description: option_description,
-      on_input_change: () => { this.tab_options.global_side_effects() },
+      on_input_change: () => { this.tab_settings.global_side_effects() },
       input_default: option_default,
       input_container,
       input_width,
@@ -567,7 +567,7 @@ class Option {
     return this.user_input.input_get();
   }
   get preset_value() {
-    const preset_val = this.tab_options.active_preset.get_preset_value(this);
+    const preset_val = this.tab_settings.active_preset.get_preset_value(this);
     return preset_val;
   }
   get active_value() {
@@ -649,14 +649,14 @@ class ColorOption extends Option {
 class TextColorOption extends ColorOption {
   /*
   local_side_effects() {
-    this.tab_options.text_container.style.color = this.active_value;
+    this.tab_settings.text_container.style.color = this.active_value;
   }
   */
 }
 class TextShadowOption extends TextOption {
   /*
   local_side_effects() {
-    this.tab_options.text_container.style.textShadow = this.active_value;
+    this.tab_settings.text_container.style.textShadow = this.active_value;
   }
   */
 }
@@ -664,7 +664,7 @@ class TextShadowOption extends TextOption {
 class PresetOption extends SelectOption {
   is_preset_selector = true;
   constructor({input_options, ...args}) {
-    super({input_width: '93px', input_container: args.tab_options.creator_content, ...args}, input_options);
+    super({input_width: '93px', input_container: args.tab_settings.creator_content, ...args}, input_options);
   }
 
   before_dom() {
@@ -677,7 +677,7 @@ class PresetOption extends SelectOption {
   }
 
   get_input_options() {
-    let {special_ones, saved_ones, native_ones} = this.tab_options.preset_list.presets_ordered;
+    let {special_ones, saved_ones, native_ones} = this.tab_settings.preset_list.presets_ordered;
 
     {
       const map = ({preset_name, preset_name_pretty}) => {
@@ -721,7 +721,7 @@ class FontOption extends SelectOption {
   }
 
   before_dom() {
-    this.user_input.input_options = this.tab_options.preset_list.get_all_preset_fonts();
+    this.user_input.input_options = this.tab_settings.preset_list.get_all_preset_fonts();
   }
 
   get input_value() {
@@ -751,13 +751,13 @@ async function load_text_font({text_container, get_font_name}) {
   text_container.style.fontFamily = font_name;
 }
 
-function instantiate_options({tab_options, option_spec_list}) {
+function instantiate_options({tab_settings, option_spec_list}) {
   return (
     option_spec_list.map(({option_type, ...option_spec}) => {
       assert(option_spec.option_id, option_spec);
       const args: any = {
         ...option_spec,
-        tab_options,
+        tab_settings,
       };
       if( option_type === 'text-font-input' ){
         return new FontOption(args);
@@ -800,23 +800,23 @@ function instantiate_options({tab_options, option_spec_list}) {
 class PresetList {
   #preset_savior = null;
   #native_presets = null;
-  tab_options: TabOptions;
+  tab_settings: TabSettings;
   randomizer_preset: RandomizerPreset;
   creator_preset: CreatorPreset;
 
-  constructor({preset_spec_list, tab_options}) {
-    this.tab_options = tab_options;
+  constructor({preset_spec_list, tab_settings}) {
+    this.tab_settings = tab_settings;
 
-    this.#preset_savior = new PresetSavior({app_name: tab_options.app_name});
+    this.#preset_savior = new PresetSavior({app_name: tab_settings.app_name});
 
-    if( !this.tab_options.no_random_preset ){
+    if( !this.tab_settings.no_random_preset ){
       this.randomizer_preset = new RandomizerPreset({preset_list: this});
     }
     this.creator_preset = new CreatorPreset();
 
     this.#native_presets = (
       Object.entries(preset_spec_list).map(([preset_name, preset_options]) =>
-        new NativePreset({preset_name, preset_options, tab_options})
+        new NativePreset({preset_name, preset_options, tab_settings})
       )
     );
   }
@@ -831,7 +831,7 @@ class PresetList {
   }
 
   refresh_user_input() {
-    this.tab_options.preset_option.refresh();
+    this.tab_settings.preset_option.refresh();
   }
 
   get random_candidates() {
@@ -842,13 +842,13 @@ class PresetList {
     return native_ones;
   }
   _get_saved_presets() {
-    const {tab_options} = this;
+    const {tab_settings} = this;
     return (
       this
       .#preset_savior
       .get_saved_presets()
       .map(({preset_name, preset_options}) =>
-        new SavedPreset({preset_name, preset_options, tab_options})
+        new SavedPreset({preset_name, preset_options, tab_settings})
       )
     );
   }
@@ -935,7 +935,7 @@ class PresetSerializer {
 
     // Validation
     const {preset_name, preset_options} = preset;
-    const {app_name} = preset.tab_options;
+    const {app_name} = preset.tab_settings;
     const preset_data = new PresetData({preset_name, preset_options, app_name});
 
     const preset_string = JSON.stringify(preset_data);
@@ -978,18 +978,18 @@ class PresetSerializer {
 class Preset {
   preset_name: string;
   preset_options: Object;
-  tab_options: TabOptions;
+  tab_settings: TabSettings;
 
   is_randomizer_preset: boolean = false;
   is_creator_preset: boolean = false;
 
-  constructor({preset_name, preset_options, tab_options}) {
+  constructor({preset_name, preset_options, tab_settings}) {
     assert(preset_name);
     assert([Object, PresetValues].includes(preset_options.constructor));
-    assert(tab_options);
+    assert(tab_settings);
     this.preset_name = preset_name;
     this.preset_options = preset_options;
-    this.tab_options = tab_options;
+    this.tab_settings = tab_settings;
 
     // Abstract class
     if (new.target === Preset) {
@@ -1015,7 +1015,7 @@ class Preset {
   }
   get preset_font_name() {
     const preset_font_name = (
-      this.get_preset_value(this.tab_options.font_option)
+      this.get_preset_value(this.tab_settings.font_option)
     );
     assert(preset_font_name);
     return preset_font_name;

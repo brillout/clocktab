@@ -1,5 +1,5 @@
 import {refresh_big_text_size} from '../BigText';
-import {TabOptions} from '../TabOptions';
+import {TabSettings} from '../TabSettings';
 import {dom_beat} from './set_countdown';
 import PRESETS from './PRESETS';
 import {set_text_position} from '../BigText';
@@ -10,7 +10,7 @@ export default init_clock_options;
 function init_clock_options() {
   const text_container = document.getElementById('countdown-container');
 
-  const tab_options = new TabOptions({
+  const tab_settings = new TabSettings({
     option_spec_list: get_option_list(),
     preset_spec_list: PRESETS,
     text_container,
@@ -22,10 +22,10 @@ function init_clock_options() {
     preset_concept_name,
   });
 
-  const get_option_value = tab_options.get_option_value.bind(tab_options);
-  const {font_loaded_promise} = tab_options;
+  const get_option_value = tab_settings.get_option_value.bind(tab_settings);
+  const {font_loaded_promise} = tab_settings;
 
-  tab_options.generate_dom();
+  tab_settings.generate_dom();
 
   return {get_option_value, font_loaded_promise};
 
