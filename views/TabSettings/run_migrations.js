@@ -1,4 +1,4 @@
-import {migrate_user_presets} from './migrations/002-preset-values.js';
+import {migrate_user_presets} from './migrations/002-user-presets.js';
 
 export {run_migrations};
 
