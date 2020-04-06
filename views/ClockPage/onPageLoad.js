@@ -4,15 +4,12 @@ import init_clock_options from './js/init_clock_options';
 import auto_remove_hash from '../../tab-utils/auto_remove_hash';
 import {on_big_text_load, set_max_width_getter} from '../BigText';
 import {sleep} from '../../tab-utils/sleep';
-import {migrate_ancient_schema} from './migrations/001-ancient-schema.js';
 import {ad_slots} from './ad_slots';
 import load_ad from '../../tab-utils/load_ad';
 
 export default onPageLoad;
 
 async function onPageLoad (load_common){
-  migrate_ancient_schema();
-
   const {get_option_value, font_loaded_promise} = init_clock_options();
 
   set_max_width_getter(() => get_option_value('clock_size'));
