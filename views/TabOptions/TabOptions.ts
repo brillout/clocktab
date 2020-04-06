@@ -1097,6 +1097,7 @@ class PresetSavior {
     const presets = this._get_presets();
 
     if( presets.find(preset => preset.preset_name === preset_name) ){
+      // @ts-ignore
       assert.warning('Trying to save '+preset_name+' but it is already saved.');
       return;
     }
@@ -1120,9 +1121,11 @@ class PresetSavior {
     const new_length = presets.length;
 
     if( new_length === old_length ){
+      // @ts-ignore
       assert.warning(false, 'Preset '+preset_name+' not found.');
     }
     if( new_length !== old_length - 1 ){
+      // @ts-ignore
       assert.warning(false, 'Preset '+preset_name+' found multiple times.');
     }
 
@@ -1250,6 +1253,7 @@ class LinkSerializer {
 
     const {preset_name} = preset;
     const name_encoded = encodeURIComponent(preset_name);
+    // @ts-ignore
     assert.warning(name!==name_encoded, {name, name_encoded});
 
     const link = url_base + '#' + name_encoded + '/' + preset_base64;
