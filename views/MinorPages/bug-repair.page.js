@@ -21,6 +21,10 @@ export default getPageConfig(
     <br/>
     Your settings:
     <pre id="setting-spec" style={{margin: 0, wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}/>
+
+    <br/>
+    Other setting keys:
+    <pre id="settings-other" style={{margin: 0}}/>
   </>,
   'Bug Repair',
   {onPageLoad},
@@ -30,7 +34,7 @@ function onPageLoad() {
   const link = document.querySelector('#repair-link');
 
   const browser_spec = getBrowser();
-  const setting_spec = getSettings();
+  const {settings__string, external_settings} = getSettings();
 
   link.setAttribute('data-body', [
     "Hi Romuald, my Clock Tab doesn't work.",
@@ -39,13 +43,17 @@ function onPageLoad() {
     browser_spec,
     '',
     'My Settings:',
-    setting_spec,
+    settings__string,
+    '',
+    'Other settings keys:',
+    external_settings,
     '',
     'Thanks for having a look!',
   ].join('\n'));
 
-  document.querySelector('#browser-spec').innerHTML = browser_spec;
-  document.querySelector('#setting-spec').innerHTML = setting_spec;
+  document.querySelector('#browser-spec').innerHTML = escapeHtml(browser_spec);
+  document.querySelector('#setting-spec').innerHTML = escapeHtml(settings__string);
+  document.querySelector('#settings-other').innerHTML = escapeHtml(external_settings);
 }
 
 function getBrowser() {
@@ -54,5 +62,34 @@ function getBrowser() {
 }
 
 function getSettings() {
-  return JSON.stringify(window.localStorage, null, 2);
+  const settings__obj = {};
+  let external_settings = [];
+  Object.entries(window.localStorage).forEach(([key, val]) => {
+    if( isTabSetting(key) ) {
+      settings__obj[key] = val;
+    } else {
+      external_settings.push(key);
+    }
+  });
+  const settings__string = JSON.stringify(settings__obj, null, 2);
+  external_settings = JSON.stringify(external_settings);
+  return {settings__string, external_settings};
+}
+
+function escapeHtml(str) {
+  return (
+    str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+  );
+}
+
+function isTabSetting(key) {
+  return (
+    key.startsWith('clock_') ||
+    key.startsWith('countdown_')
+  );
 }
