@@ -3,13 +3,16 @@
       "module": "commonjs",
       "target": "es2015",
       "lib": [ "DOM", "ES2020","ES2019.Object" ],
-      "sourceMap": true
+      "sourceMap": true,
+      "allowJs": true,
+      "checkJs": false
   },
   "exclude": [
       "node_modules"
   ],
   "include": [
       "./node_modules/@types/**/*.d.ts",
+      "./**/*.js",
       "./**/*.ts"
   ]
 }

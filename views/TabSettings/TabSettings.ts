@@ -8,6 +8,9 @@ import {track_event} from '../common/tracker';
 import {remove_hash} from '../../tab-utils/auto_remove_hash';
 import {PersistantInput, TextInput, BooleanInput, SelectInput, ColorInput, DateInput, Button} from './PersistantInput';
 import {show_toast} from '../common/show_toast';
+import {run_migrations} from './run_migrations';
+
+run_migrations();
 
 export class TabSettings {
   preset_concept_name;
