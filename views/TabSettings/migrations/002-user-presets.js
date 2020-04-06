@@ -11,7 +11,7 @@ function migrate_user_presets() {
     }
     const presets = JSON.parse(presets__string);
     let has_changes = false;
-    presets = (
+    const presets__updated = (
       presets.map(preset => {
         if( preset.preset_name ) {
           preset.preset_id = preset.preset_name;
@@ -23,10 +23,11 @@ function migrate_user_presets() {
           delete preset.preset_options;
           has_changes = true;
         }
+        return preset;
       })
     );
     if( has_changes ){
-      localStorage[presets__storage_key] = JSON.stringify(presets);
+      localStorage[presets__storage_key] = JSON.stringify(presets__updated);
     }
   });
 }
