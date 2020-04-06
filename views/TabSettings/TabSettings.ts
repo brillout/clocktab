@@ -1,7 +1,6 @@
 import assert from '@brillout/assert';
 import load_font from './load_font';
 import load_font_list from './load_font_list';
-import ml from '../ml';
 import set_background from './set_background';
 import './tab-settings.css';
 import {track_event} from '../common/tracker';
