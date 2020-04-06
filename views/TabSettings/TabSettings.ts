@@ -170,19 +170,19 @@ export class TabSettings {
       return;
     }
 
-    const preset_options = {};
+    const preset_values = {};
     this
     .option_list
     .filter(option => option.is_creator_option)
     .forEach(option => {
       const preset_val = option.input_value;
       assert([false, ''].includes(preset_val) || preset_val, option.option_id, preset_val===undefined, {preset_val});
-      preset_options[option.option_id] = preset_val;
+      preset_values[option.option_id] = preset_val;
     });
 
     const new_preset = new SavedPreset({
       preset_id,
-      preset_options,
+      preset_values,
       tab_settings: this,
     });
 
@@ -201,9 +201,9 @@ export class TabSettings {
     const preset = this.active_preset;
     assert(preset.is_real_preset);
 
-    const {preset_options} = preset;
-    for(let opt_id in preset_options) {
-      const opt_val = preset_options[opt_id];
+    const {preset_values} = preset;
+    for(let opt_id in preset_values) {
+      const opt_val = preset_values[opt_id];
       assert(!['preset_name', 'preset_id', 'id', 'name'].includes(opt_val));
       this
       .find_option(option => option.option_id === opt_id)
@@ -344,12 +344,12 @@ export class TabSettings {
       return;
     }
 
-    const {preset_options} = preset_data;
-    assert(preset_options);
+    const {preset_values} = preset_data;
+    assert(preset_values);
 
     const new_preset = new SavedPreset({
       preset_id,
-      preset_options,
+      preset_values,
       tab_settings: this,
     });
 
@@ -815,8 +815,8 @@ class PresetList {
     this.creator_preset = new CreatorPreset();
 
     this.#native_presets = (
-      Object.entries(preset_spec_list).map(([preset_id, preset_options]) =>
-        new NativePreset({preset_id, preset_options, tab_settings})
+      Object.entries(preset_spec_list).map(([preset_id, preset_values]) =>
+        new NativePreset({preset_id, preset_values, tab_settings})
       )
     );
   }
@@ -847,8 +847,8 @@ class PresetList {
       this
       .#preset_savior
       .get_saved_presets()
-      .map(({preset_id, preset_options}) =>
-        new SavedPreset({preset_id, preset_options, tab_settings})
+      .map(({preset_id, preset_values}) =>
+        new SavedPreset({preset_id, preset_values, tab_settings})
       )
     );
   }
@@ -934,9 +934,9 @@ class PresetSerializer {
     assert(preset instanceof SavedPreset);
 
     // Validation
-    const {preset_id, preset_options} = preset;
+    const {preset_id, preset_values} = preset;
     const {app_name} = preset.tab_settings;
-    const preset_data = new PresetData({preset_id, preset_options, app_name});
+    const preset_data = new PresetData({preset_id, preset_values, app_name});
 
     const preset_string = JSON.stringify(preset_data);
 
@@ -977,18 +977,18 @@ class PresetSerializer {
 
 class Preset {
   preset_id: string;
-  preset_options: Object;
+  preset_values: Object;
   tab_settings: TabSettings;
 
   is_randomizer_preset: boolean = false;
   is_creator_preset: boolean = false;
 
-  constructor({preset_id, preset_options, tab_settings}) {
+  constructor({preset_id, preset_values, tab_settings}) {
     assert(preset_id);
-    assert([Object, PresetValues].includes(preset_options.constructor));
+    assert([Object, PresetValues].includes(preset_values.constructor));
     assert(tab_settings);
     this.preset_id = preset_id;
-    this.preset_options = preset_options;
+    this.preset_values = preset_values;
     this.tab_settings = tab_settings;
 
     // Abstract class
@@ -999,9 +999,9 @@ class Preset {
   get_preset_value(option) {
     const {option_id} = option;
     assert(option_id);
-    const {preset_options} = this;
-    if( option_id in preset_options ){
-      const val = preset_options[option_id];
+    const {preset_values} = this;
+    if( option_id in preset_values ){
+      const val = preset_values[option_id];
       assert(val!==null);
       return val;
     }
@@ -1054,16 +1054,16 @@ class NativePreset extends Preset {
 class PresetData {
   app_name: string;
   preset_id: string;
-  preset_options: Object;
+  preset_values: Object;
 
   constructor(args) {
-    const {preset_id, preset_options, app_name, ...rest} = args;
+    const {preset_id, preset_values, app_name, ...rest} = args;
     assert(Object.keys(rest).length===0, args);
-    assert(preset_id && preset_options && app_name, args);
+    assert(preset_id && preset_values && app_name, args);
 
     this.app_name = app_name;
     this.preset_id = preset_id;
-    this.preset_options = new PresetValues(preset_options);
+    this.preset_values = new PresetValues(preset_values);
   }
 }
 class PresetValues {
@@ -1090,9 +1090,9 @@ class PresetSavior {
   }
 
   save_preset(preset) {
-    const {preset_id, preset_options} = preset;
+    const {preset_id, preset_values} = preset;
     assert(preset_id);
-    assert(preset_options);
+    assert(preset_values);
 
     const presets = this._get_presets();
 
@@ -1104,7 +1104,7 @@ class PresetSavior {
 
     const app_name = this.#app_name;
 
-    const preset_data = new PresetData({preset_id, preset_options, app_name});
+    const preset_data = new PresetData({preset_id, preset_values, app_name});
     presets.push(preset_data);
 
     this._save_presets(presets);
@@ -1229,7 +1229,7 @@ function make_unique(arr) {
 }
 
 // TN2
-// - rename preset_options to preset_values
+// - rename preset_values to preset_values
 // - migration & refactor localStorage usage
 //   - Watch out for MIGRATE_TODO
 
