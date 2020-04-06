@@ -27,6 +27,7 @@
     "react-dom": "^16.13.0",
     "serve": "^11.3.0",
     "toastify-js": "^1.7.0",
+    "typescript": "^3.8.3",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
