@@ -1,5 +1,5 @@
 import {refresh_big_text_size} from '../BigText';
-import {TabSettings} from '../TabSettings';
+import {TabSettings} from '../../tab-utils/TabSettings';
 import {dom_beat} from './set_countdown';
 import PRESETS from './PRESETS';
 import {set_text_position} from '../BigText';

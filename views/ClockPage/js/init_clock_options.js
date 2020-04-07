@@ -1,7 +1,7 @@
 import {dom_beat} from './load_clock';
 import {refresh_big_text_size} from '../../BigText';
 import PRESETS from './PRESETS';
-import {TabSettings} from '../../TabSettings';
+import {TabSettings} from '../../../tab-utils/TabSettings';
 import {set_text_position} from '../../BigText';
 import {preset_concept_name} from './preset_concept_name';
 
