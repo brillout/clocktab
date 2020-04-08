@@ -1,5 +1,5 @@
 import React from 'react';
-import {FullView, MorePanel} from '../FullViewWrapper';
+import {FullView, MorePanel} from '../../tab-utils/views/FullViewWrapper';
 import BigText from '../BigText';
 import News from '../News';
 import {SettingsView} from '../../tab-utils/TabSettings/SettingsView';

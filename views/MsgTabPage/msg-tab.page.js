@@ -1,5 +1,5 @@
 import React from 'react';
-import {FullView, MorePanel, config} from '../FullViewWrapper';
+import {FullView, MorePanel, config} from '../../tab-utils/views/FullViewWrapper';
 import './ml.js';
 import './msg-tab.css';
 import UseCases from './UseCases';
