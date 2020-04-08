@@ -17,8 +17,8 @@ export default getPageConfig(
 
 function onPageLoad() {
   iframeResize({
-    log: true,
     /*
+    log: true,
     heightCalculationMethod: 'lowestElement',
     */
     heightCalculationMethod: 'taggedElement',
