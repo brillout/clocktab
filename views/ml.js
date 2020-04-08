@@ -1,5 +1,5 @@
 import assert from '@brillout/assert';
-import {track_event} from './common/tracker';
+import {track_event} from '../tab-utils/views/common/tracker';
 
 const ml = {};
 

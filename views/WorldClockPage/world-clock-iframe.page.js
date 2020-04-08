@@ -1,5 +1,5 @@
 import React from 'react';
-import {getPageConfig} from '../PageWrapper';
+import {getPageConfig} from '../../tab-utils/views/PageWrapper';
 import './world-clock-wrapper.css';
 //import * as ifr from 'iframe-resizer';
 import {iframeResize} from 'iframe-resizer';
