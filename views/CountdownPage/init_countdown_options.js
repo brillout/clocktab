@@ -18,7 +18,7 @@ function init_clock_options() {
     on_font_change,
     no_random_preset: true,
     enable_import_export: true,
-    app_name: 'countdown',
+    page_id: 'countdown',
     preset_concept_name,
   });
 
