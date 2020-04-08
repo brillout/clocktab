@@ -1078,10 +1078,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@brillout/assert@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@brillout/assert/-/assert-0.1.1.tgz#f841387f0538b9b0ecfc70794ec6f882348c656e"
-  integrity sha512-+5U8TCMWhppJStnEngqcmU7HXfBY1xqfZDde6aan8HhsR4AcD2WXbv9JBUmv6wqdHM28L3bxrIRDZPdtZ7dw+g==
+"@brillout/assert@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@brillout/assert/-/assert-0.1.2.tgz#beaf9d75cff11f91ca3baab35e4d8a2013e254da"
+  integrity sha512-z3q6CzcJw8XdjYHv44oaV4kcnwJKZAULRQsH3mFvPHO4Lkyd/bnYsy0PE627Y8JhHHTHgnEi+bfvk+/0gfMFfQ==
   dependencies:
     "@brillout/format-text" "^0.1.3"
 
