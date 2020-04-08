@@ -19,7 +19,7 @@ export const tab_app_header_links = [
   {link_url: 'https://www.timer-tab.com', link_name: 'Timer Tab', link_target: "_blank"},
   {link_url: '/msg-tab', link_name: 'Msg Tab'},
 ];
-export const tab_app_roadmap = () => <>
+export const TabAppRoadmap = () => <>
   <li>Make Clock Tab more robust. (Less bugs, more resilient, and please <a href="/bug-repair">report any bug</a> you may find!)</li>
   <li>Make Clock Tab work offline.</li>
   <li>Remove memory leak. (Clock Tab can sometimes consumes a lot of CPU and RAM.)</li>
