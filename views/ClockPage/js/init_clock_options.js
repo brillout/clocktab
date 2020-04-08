@@ -17,7 +17,7 @@ function init_clock_options() {
     on_any_change,
     on_font_change,
     enable_import_export: true,
-    page_id: 'clock',
+    subapp_id: 'clock',
     preset_concept_name,
   });
 
