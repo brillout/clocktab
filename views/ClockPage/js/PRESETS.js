@@ -8,6 +8,9 @@
 //   - Abril Fatface
 // - nice images
 //   - Space girl reading: https://imgur.com/a/cY3VTIT
+//   - Black Dunes: https://imgur.com/a/UlbAIgx
+//   - Austria village at lake - sommer: https://imgur.com/a/9UJBiTz
+//   - Austria village at lake - winter: https://imgur.com/a/jinZwUa
 
 export default {
   'steel':{
