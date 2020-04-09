@@ -13,7 +13,7 @@ export {set_text_position};
 
 function BigText({top_content, big_text, id}) {
   return (
-    <div id="zoom_container">
+    <div id="zoom_container" style={{width: '100vw'}}>
       <div id='layout_container' className='position-center'>
 
         <div id="layout_top">
