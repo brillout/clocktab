@@ -2,6 +2,12 @@ import assert from '@brillout/assert';
 
 export default get_max_font_size;
 
+//*/
+const DEBUG = true;
+/*/
+const DEBUG = false;
+/*/
+
 function get_max_font_size({dom_el, max_width, max_height}) {
   const el = dom_el;
   const w = max_width;
@@ -9,14 +15,14 @@ function get_max_font_size({dom_el, max_width, max_height}) {
 
   const {fontSize, height, width} = getEstimation(el,w,h)
 
-  let log_data = {dom_el: dom_el.id, height, width, max_height, max_width, fontSize};
+  const log_data = {dom_el: dom_el.id, height, width, max_height, max_width, fontSize};
 
   const approximation = 1.02;
   assert(0<=fontSize, log_data);
   assert(0<=height && height<=(max_height*approximation), log_data);
   assert(0<=width && width<=(max_width*approximation), log_data);
 
-//console.log(log_data);
+  DEBUG && assert.log('[max-font-size-computation]', log_data);
 
   return {fontSize, height, width};
 }
@@ -45,13 +51,13 @@ function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleCha
     }
 
   var dummy= getDummy(el.tagName);
+    dummy.innerHTML=dummyContent;
     dummy.style.fontFamily=get_el_style(el,'font-family');
     dummy.style.fontSize=DUMMY_SIZE+'px';
     dummy.style.whiteSpace='nowrap';//should el be equal to get_el_style('white-space')?
     dummy.style.letterSpacing=get_el_style(el,'letter-spacing');
     dummy.style.lineHeight=get_el_style(el,'line-height');
 
-  dummy.innerHTML=dummyContent;
   //dummyinspect
   //onsole
   /*
@@ -176,11 +182,18 @@ function getDummy(tagName='div') {
     dummy_el = document.createElement(tagName);
     dummy_el.id = 'font-size-dummy';
     dummy_el.style.display='inline-block';
+
+    dummy_el.style.pointerEvents='none';
     dummy_el.style.position='absolute';
     dummy_el.style.top='0';
-    dummy_el.style.visibility='hidden';
-    dummy_el.style.pointerEvents='none';
-    dummy_el.style.zIndex='-9999';
+    dummy_el.style.left='0';
+
+    if( DEBUG ){
+      dummy_el.style.opacity='0.2';
+    } else {
+      dummy_el.style.visibility='hidden';
+    }
+
     document.body.appendChild(dummy_el);
   }
   assert(dummy_el.tagName===tagName);
