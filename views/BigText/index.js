@@ -2,7 +2,7 @@ import './big_text.css';
 import React from 'react';
 import get_max_font_size from './get_max_font_size';
 import assert from '@brillout/assert';
-import ml from '../ml';
+import {make_element_zoomable} from '../../tab-utils/make_element_zoomable';
 
 export default BigText;
 export {on_big_text_load};
@@ -70,7 +70,7 @@ function activate_zoom() {
     const scaleEl = document.querySelector('#layout_container');
     const zoomEl = document.querySelector('#middle_table');
     assert(containerEl && scaleEl && zoomEl);
-    ml.zoomable_element({containerEl, scaleEl, zoomEl, keybinding: 'f'});
+    make_element_zoomable({containerEl, scaleEl, zoomEl});
 }
 
 
