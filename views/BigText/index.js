@@ -87,6 +87,19 @@ function refresh_big_text_size() {
   const top_el = document.getElementById('bt-top-line');
   assert(bot_el && top_el);
 
+  const {max_height, max_width} = compute_max_size();
+  DEBUG && console.log('[size-computation]', bot_el, top_el, {max_width, max_height});
+
+  const {bot_line_sizes, top_line_sizes} = compute_font_sizes({max_height, max_width, top_el, bot_el});
+  DEBUG && assert.log('[size-computation]', {top_line_sizes, bot_line_sizes});
+
+  if( bot_line_sizes ){
+    bot_el.style.fontSize = bot_line_sizes.fontSize+'px';
+  }
+  top_el.style.fontSize = top_line_sizes.fontSize+'px';
+}
+
+function compute_max_size() {
   let max_width = window.innerWidth;
   let max_height = window.innerHeight;
 
@@ -115,8 +128,10 @@ function refresh_big_text_size() {
     max_height = Math.min(max_height, max_width*0.6);
   }
 
-  DEBUG && console.log('[size-computation] begin', {bot_el, top_el, max_width, max_height});
+  return {max_width, max_height};
+}
 
+function compute_font_sizes({bot_el, top_el, max_height, max_width}) {
   let top_line_sizes;
   let bot_line_sizes;
 
@@ -150,13 +165,9 @@ function refresh_big_text_size() {
         max_height: max_height * resolve_ratio,
       });
     }
-
-    bot_el.style.fontSize = bot_line_sizes.fontSize+'px';
   }
 
-  top_el.style.fontSize = top_line_sizes.fontSize  +'px';
-
-  DEBUG && assert.log('[size-computation] end', {top_line_sizes, bot_line_sizes});
+  return {bot_line_sizes, top_line_sizes};
 }
 
 function get_size(el, styleProp) {
