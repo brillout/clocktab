@@ -21,7 +21,7 @@ function News({preset_concept_name, ...props}) {
       <li>World Clock &mdash; to create multiple Clocks and convert timezones.</li>
       <li>Msg Tab &mdash; Communication-over-Screen, useful in education.</li>
     </ul>
-    These features are new; if you encounter any issue then <a href="/bug-repair">let me know</a>.
+    If you encounter any issue with these new features then <a href="/bug-repair">let me know</a>.
   </div>;
 }
 
