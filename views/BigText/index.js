@@ -13,34 +13,34 @@ export {set_text_position};
 
 function BigText({content_on_top, top_line_content, id}) {
   return (
-    <div id="zoom_container" style={{width: '100vw'}}>
-      <div id='layout--container' className='position--center'>
+    <div id="bt-zoom-container" style={{width: '100vw'}}>
+      <div id='bt-layout-container' className='bt-position-center'>
 
-        <div id="layout--top">
+        <div id="bt-layout-top">
           {content_on_top}
         </div>
 
-        <div id={id} className="layout_middle">
-          <table id='middle_table'>
-            <tr><td id='top-line'>
+        <div id={id} className="bt-layout-middle">
+          <table id='bt-middle-table'>
+            <tr><td id='bt-top-line'>
               {top_line_content}
             </td></tr>
-            <tr><td id='bot-line'>
+            <tr><td id='bt-bot-line'>
             </td></tr>
           </table>
         </div>
 
-        <div id="layout--bottom"></div>
+        <div id="bt-layout-bottom"></div>
       </div>
     </div>
   );
 }
 
 function set_text_position(position) {
-  const layout__container = document.querySelector('#layout--container');
-  layout__container.setAttribute('class',
+  const layout_container = document.querySelector('#bt-layout-container');
+  layout_container.setAttribute('class',
     position.split('-')
-    .map(pos => 'position--'+pos)
+    .map(pos => 'bt-position-'+pos)
     .join(' ')
   );
 }
@@ -51,7 +51,7 @@ function on_big_text_load() {
 }
 
 function set_bottom_line(bottom_text) {
-  const bot_el = document.getElementById('bot-line');
+  const bot_el = document.getElementById('bt-bot-line');
   assert(bot_el);
   bot_el.innerHTML = bottom_text;
 }
@@ -66,9 +66,9 @@ function activate_auto_resize() {
 }
 
 function activate_zoom() {
-    const containerEl = document.querySelector('#zoom_container');
-    const scaleEl = document.querySelector('#layout--container');
-    const zoomEl = document.querySelector('#middle_table');
+    const containerEl = document.querySelector('#bt-zoom-container');
+    const scaleEl = document.querySelector('#bt-layout-container');
+    const zoomEl = document.querySelector('#bt-middle-table');
     assert(containerEl && scaleEl && zoomEl);
     make_element_zoomable({containerEl, scaleEl, zoomEl});
 }
@@ -81,14 +81,14 @@ const DEBUG = false;
 /*/
 
 function refresh_big_text_size() {
-  const bot_el = document.getElementById('bot-line');
-  const top_el = document.getElementById('top-line');
+  const bot_el = document.getElementById('bt-bot-line');
+  const top_el = document.getElementById('bt-top-line');
   assert(bot_el && top_el);
 
-  const padding_el = document.getElementById('middle_table');
+  const middle_table = document.getElementById('bt-middle-table');
   const padding = {
-    height: parseInt(get_el_style(padding_el, 'padding-left'), 10) + parseInt(get_el_style(padding_el, 'padding-right') ,10),
-    width : parseInt(get_el_style(padding_el, 'padding-top' ), 10) + parseInt(get_el_style(padding_el, 'padding-bottom'),10),
+    height: parseInt(get_el_style(middle_table, 'padding-left'), 10) + parseInt(get_el_style(middle_table, 'padding-right') ,10),
+    width : parseInt(get_el_style(middle_table, 'padding-top' ), 10) + parseInt(get_el_style(middle_table, 'padding-bottom'),10),
   };
 
   const window_width = window.innerWidth - padding.width;
