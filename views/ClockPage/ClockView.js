@@ -29,7 +29,7 @@ function ClockView() {
 
 function TopLine() {
   return (
-    <table>
+    <table style={{margin: 'auto'}}>
       <tr>
         <td id='time_text'></td>
         <td><table><tr><td id='char1' ></td></tr><tr><td id='digit1'></td></tr></table></td>
