@@ -40,12 +40,30 @@ function BigText({content_on_top, top_line_content, id}) {
 }
 
 function set_text_position(position) {
-  const layout_container = document.querySelector('#bt-layout-container');
-  layout_container.setAttribute('class',
-    position.split('-')
-    .map(pos => 'bt-position-'+pos)
-    .join(' ')
+  assert(
+    [
+      'top-left',
+      'top',
+      'top-right',
+      'center-left',
+      'center',
+      'center-right',
+      'bottom-left',
+      'bottom',
+      'bottom-right',
+    ].includes(position),
+    {position}
   );
+  const layout_container = document.querySelector('#bt-layout-container');
+  [
+    'top',
+    'center',
+    'bottom',
+    'right',
+    'left',
+  ].forEach(slot => {
+    layout_container.classList[position.includes(slot)?'add':'remove']('bt-position-'+slot);
+  });
 }
 
 function on_big_text_load() {
