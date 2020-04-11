@@ -2,11 +2,11 @@ import assert from '@brillout/assert';
 
 export default get_max_font_size;
 
-//*/
+/*/
 const DEBUG = true;
 /*/
 const DEBUG = false;
-/*/
+//*/
 
 function get_max_font_size({dom_el, max_width, max_height}) {
   const el = dom_el;
@@ -32,7 +32,7 @@ function get_max_font_size({dom_el, max_width, max_height}) {
 function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleChars,minTextLength){ 
   assert(outer_height>=0 && outer_width>=0, {outer_height, outer_width});
 
-  const DUMMY_SIZE=100;//intuitively: the bigger the font-size the more precise the approximation
+  const DUMMY_FONT_SIZE=100;//intuitively: the bigger the font-size the more precise the approximation
 
   var dummyContent=el.innerHTML;
     if( minTextLength ){
@@ -53,7 +53,7 @@ function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleCha
   var dummy= getDummy(el.tagName);
     dummy.innerHTML=dummyContent;
     dummy.style.fontFamily=get_el_style(el,'font-family');
-    dummy.style.fontSize=DUMMY_SIZE+'px';
+    dummy.style.fontSize=DUMMY_FONT_SIZE+'px';
     dummy.style.whiteSpace='nowrap';//should el be equal to get_el_style('white-space')?
     dummy.style.letterSpacing=get_el_style(el,'letter-spacing');
     dummy.style.lineHeight=get_el_style(el,'line-height');
@@ -114,7 +114,7 @@ function getEstimation(el,outer_width=Infinity,outer_height=Infinity,possibleCha
 
   return {
     fontSize:
-      ratio * DUMMY_SIZE,
+      ratio * DUMMY_FONT_SIZE,
     width:
       ratio * dummy_width,
     height:
@@ -177,7 +177,7 @@ function adjustFontSize(el,possibleChars,noHeight,minTextLength) {
 }; 
 
 let dummy_el;
-function getDummy(tagName='div') { 
+function getDummy(tagName) { 
   if( !dummy_el ){
     dummy_el = document.createElement(tagName);
     dummy_el.id = 'font-size-dummy';
@@ -188,13 +188,24 @@ function getDummy(tagName='div') {
     dummy_el.style.top='0';
     dummy_el.style.left='0';
 
+    // Create a wrapper to ensure that dummy is not cropped by a `overflow: hidden` ancestor
+    // See https://css-tricks.com/popping-hidden-overflow/
+    const dummy_wrapper = document.createElement('div');
+    dummy_wrapper.style.overflow = 'hidden';
+    dummy_wrapper.style.position = 'absolute';
+    dummy_wrapper.style.top = '0';
+    dummy_wrapper.style.left = '0';
+
     if( DEBUG ){
-      dummy_el.style.opacity='0.2';
+      dummy_el.style.opacity='0.5';
+      dummy_wrapper.style.width = '300px';
+      dummy_wrapper.style.height = '300px';
     } else {
       dummy_el.style.visibility='hidden';
     }
 
-    document.body.appendChild(dummy_el);
+    dummy_wrapper.appendChild(dummy_el);
+    document.body.appendChild(dummy_wrapper);
   }
   assert(dummy_el.tagName===tagName);
   return dummy_el;

@@ -74,11 +74,11 @@ function activate_zoom() {
 }
 
 
-//*/
+/*/
 const DEBUG = true;
 /*/
 const DEBUG = false;
-/*/
+//*/
 
 function refresh_big_text_size() {
   const bot_el = document.getElementById('bt-bot-line');
