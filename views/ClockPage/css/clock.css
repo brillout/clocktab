@@ -2,7 +2,7 @@
 @import './clock-functional.css';
 @import './clock-layout.css';
 
-#bottom_line {
+#bot-line {
   opacity: 0.7;
 }
 

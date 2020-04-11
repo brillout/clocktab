@@ -1,42 +1,42 @@
 /* Overall Layout */
-#layout_container {
+#layout--container {
   height: 100vh;
   overflow: hidden !important;
 }
 
-#layout_container {
+#layout--container {
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
-#layout_container > .layout_middle {
+#layout--container > .layout_middle {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#layout_container > #layout_top {
+#layout--container > #layout--top {
   flex-shrink: 0;
 }
-#layout_container > #layout_bottom {
+#layout--container > #layout--bottom {
   flex-shrink: 1;
 }
-#layout_container > #layout_top,
-#layout_container > #layout_bottom {
+#layout--container > #layout--top,
+#layout--container > #layout--bottom {
   flex-basis: 0;
 }
 
 
 
-.position-center #layout_top,
-.position-center #layout_bottom {
+.position--center #layout--top,
+.position--center #layout--bottom {
   flex-grow: 1;
 }
-.position-top #layout_top {
+.position--top #layout--top {
   flex-grow: 0;
 }
-.position-bottom #layout_top {
+.position--bottom #layout--top {
   flex-grow: 1;
 }
-.position-bottom #layout_bottom {
+.position--bottom #layout--bottom {
   flex-grow: 0;
 }
 
@@ -44,10 +44,10 @@
 #middle_table {
   margin: auto;
 }
-.position-left #middle_table {
+.position--left #middle_table {
   margin-left: 0;
 }
-.position-right #middle_table {
+.position--right #middle_table {
   margin-right: 0;
 }
 

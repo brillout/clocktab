@@ -12,10 +12,10 @@ export default ClockView;
 function ClockView() {
   return <>
     <FullView>
-      <BigText id={'clock-container'}
-        top_content={<Ad_ATF />}
-        big_text={<TopLine />}
-        //bottom_line={}
+      <BigText
+        id={'clock-container'}
+        content_on_top={<Ad_ATF />}
+        top_line_content={<TopLine />}
       />
     </FullView>
 

@@ -11,10 +11,10 @@ export default CountdownView;
 function CountdownView() {
   return <>
     <FullView>
-      <BigText id={'countdown-container'}
-        //top_content={}
-        big_text={<Counter />}
-        //bottom_line={}
+      <BigText
+        id={'countdown-container'}
+        content_on_top={null}
+        top_line_content={<Counter />}
       />
     </FullView>
 

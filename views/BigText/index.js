@@ -11,36 +11,36 @@ export {set_bottom_line};
 export {set_max_width_getter};
 export {set_text_position};
 
-function BigText({top_content, big_text, id}) {
+function BigText({content_on_top, top_line_content, id}) {
   return (
     <div id="zoom_container" style={{width: '100vw'}}>
-      <div id='layout_container' className='position-center'>
+      <div id='layout--container' className='position--center'>
 
-        <div id="layout_top">
-          {top_content}
+        <div id="layout--top">
+          {content_on_top}
         </div>
 
         <div id={id} className="layout_middle">
           <table id='middle_table'>
-            <tr><td id='big_line'>
-              {big_text}
+            <tr><td id='top-line'>
+              {top_line_content}
             </td></tr>
-            <tr><td id='bottom_line'>
+            <tr><td id='bot-line'>
             </td></tr>
           </table>
         </div>
 
-        <div id="layout_bottom"></div>
+        <div id="layout--bottom"></div>
       </div>
     </div>
   );
 }
 
 function set_text_position(position) {
-  const layout_container = document.querySelector('#layout_container');
-  layout_container.setAttribute('class',
+  const layout__container = document.querySelector('#layout--container');
+  layout__container.setAttribute('class',
     position.split('-')
-    .map(pos => 'position-'+pos)
+    .map(pos => 'position--'+pos)
     .join(' ')
   );
 }
@@ -51,9 +51,9 @@ function on_big_text_load() {
 }
 
 function set_bottom_line(bottom_text) {
-  const bottom_el = document.getElementById('bottom_line');
-  assert(bottom_el);
-  bottom_el.innerHTML = bottom_text;
+  const bot_el = document.getElementById('bot-line');
+  assert(bot_el);
+  bot_el.innerHTML = bottom_text;
 }
 
 let get_max_width;
@@ -67,17 +67,23 @@ function activate_auto_resize() {
 
 function activate_zoom() {
     const containerEl = document.querySelector('#zoom_container');
-    const scaleEl = document.querySelector('#layout_container');
+    const scaleEl = document.querySelector('#layout--container');
     const zoomEl = document.querySelector('#middle_table');
     assert(containerEl && scaleEl && zoomEl);
     make_element_zoomable({containerEl, scaleEl, zoomEl});
 }
 
 
+//*/
+const DEBUG = true;
+/*/
+const DEBUG = false;
+/*/
+
 function refresh_big_text_size() {
-  const bottom_el = document.getElementById('bottom_line');
-  const big_el = document.getElementById('big_line');
-  assert(bottom_el && big_el);
+  const bot_el = document.getElementById('bot-line');
+  const top_el = document.getElementById('top-line');
+  assert(bot_el && top_el);
 
   const padding_el = document.getElementById('middle_table');
   const padding = {
@@ -92,44 +98,48 @@ function refresh_big_text_size() {
 //const max_height = Math.min(window_height, max_width*0.4);
   const max_height = Math.min(window_height, max_width*0.6);
 
-  let time_new_size;
-  let date_new_size;
+  DEBUG && console.log('[size-computation] begin', {bot_el, top_el, max_width, max_height});
 
-  time_new_size = get_max_font_size({
-    dom_el: big_el,
+  let top_line_sizes;
+  let bot_line_sizes;
+
+  top_line_sizes = get_max_font_size({
+    dom_el: top_el,
     max_width,
     max_height,
   });
 
-  if(bottom_el.innerHTML!="") {
+  if(bot_el.innerHTML!="") {
     const bottom_line_width_reducer = 0.95;
 
-    date_new_size = get_max_font_size({
-      dom_el: bottom_el,
-      max_width: time_new_size.width*bottom_line_width_reducer,
+    bot_line_sizes = get_max_font_size({
+      dom_el: bot_el,
+      max_width: top_line_sizes.width*bottom_line_width_reducer,
       max_height,
     });
 
-    const too_big = time_new_size.height + date_new_size.height > max_height;
+    const too_big = top_line_sizes.height + bot_line_sizes.height > max_height;
     if( too_big ){
       const resolve_ratio = 1/3;
 
-      time_new_size = get_max_font_size({
-        dom_el: big_el,
+      top_line_sizes = get_max_font_size({
+        dom_el: top_el,
         max_width,
         max_height: max_height * (1 - resolve_ratio),
       });
-      date_new_size = get_max_font_size({
-        dom_el: bottom_el,
-        max_width: time_new_size.width*bottom_line_width_reducer,
+      bot_line_sizes = get_max_font_size({
+        dom_el: bot_el,
+        max_width: top_line_sizes.width*bottom_line_width_reducer,
         max_height: max_height * resolve_ratio,
       });
     }
 
-    bottom_el.style.fontSize = date_new_size.fontSize+'px';
+    bot_el.style.fontSize = bot_line_sizes.fontSize+'px';
   }
 
-  big_el.style.fontSize = time_new_size.fontSize  +'px';
+  top_el.style.fontSize = top_line_sizes.fontSize  +'px';
+
+  DEBUG && assert.log('[size-computation] end', {top_line_sizes, bot_line_sizes});
 }
 
 function get_el_style(el, styleProp) {
