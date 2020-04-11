@@ -3,6 +3,7 @@ import React from 'react';
 import get_max_font_size from './get_max_font_size';
 import assert from '@brillout/assert';
 import {make_element_zoomable} from '../../tab-utils/make_element_zoomable';
+import {ads_are_removed} from '../../tab-utils/load_ad';
 
 export default BigText;
 export {on_big_text_load};
@@ -114,7 +115,8 @@ function compute_max_size() {
     max_height = max_height - padding.height;
   }
 
-  { // Make space space for top content (advertisements)
+  // Make space space for top content (advertisements)
+  if( !ads_are_removed ){
     const layout_top_content = document.getElementById('bt-layout-top-content');
     const layout_top_content_height = get_size(layout_top_content, 'height');
     max_height -= layout_top_content_height;
