@@ -8,7 +8,7 @@ function UseCases() {
       <Title>Use Cases</Title>
       <Item>School & Universities - Communicate to students without speaking, e.g. during examination.</Item>
       <Item>At the library - You are forbidden to talk.</Item>
-      <Item>Audio not working - At a video coference or at presentation with a large audience.</Item>
+      <Item>Audio not working - Video call, or presentation with large audience.</Item>
       <Item>For Fun.</Item>
     </Center>
   );
