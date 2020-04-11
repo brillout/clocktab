@@ -85,18 +85,27 @@ function refresh_big_text_size() {
   const top_el = document.getElementById('bt-top-line');
   assert(bot_el && top_el);
 
-  const middle_table = document.getElementById('bt-middle-table');
-  const padding = {
-    height: parseInt(get_el_style(middle_table, 'padding-left'), 10) + parseInt(get_el_style(middle_table, 'padding-right') ,10),
-    width : parseInt(get_el_style(middle_table, 'padding-top' ), 10) + parseInt(get_el_style(middle_table, 'padding-bottom'),10),
-  };
+  let max_width = window.innerWidth;
+  let max_height = window.innerHeight;
 
-  const window_width = window.innerWidth - padding.width;
-  const window_height = window.innerHeight - padding.height;
+  { // Remove padding
+    const middle_table = document.getElementById('bt-middle-table');
+    const padding = {
+      height: get_size(middle_table, 'padding-left') + get_size(middle_table, 'padding-right') ,
+      width : get_size(middle_table, 'padding-top' ) + get_size(middle_table, 'padding-bottom'),
+    };
 
-  const max_width = Math.min(window_width, parseInt(get_max_width(),10)||Infinity);
-//const max_height = Math.min(window_height, max_width*0.4);
-  const max_height = Math.min(window_height, max_width*0.6);
+    max_width = max_width - padding.width;
+    max_height = max_height - padding.height;
+  }
+
+  { // User can control max width
+    max_width = Math.min(max_width, parseInt(get_max_width(),10)||Infinity);
+  }
+
+  { // Avoid ugly long horizontal big block
+    max_height = Math.min(max_height, max_width*0.6);
+  }
 
   DEBUG && console.log('[size-computation] begin', {bot_el, top_el, max_width, max_height});
 
@@ -142,6 +151,7 @@ function refresh_big_text_size() {
   DEBUG && assert.log('[size-computation] end', {top_line_sizes, bot_line_sizes});
 }
 
-function get_el_style(el, styleProp) {
-  return document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+function get_size(el, styleProp) {
+  const computed_val = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+  return parseInt(computed_val, 10);
 }
