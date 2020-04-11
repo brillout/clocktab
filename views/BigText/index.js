@@ -17,7 +17,9 @@ function BigText({content_on_top, top_line_content, id}) {
       <div id='bt-layout-container' className='bt-position-center'>
 
         <div id="bt-layout-top">
-          {content_on_top}
+          <div id="bt-layout-top-content">
+            {content_on_top}
+          </div>
         </div>
 
         <div id={id} className="bt-layout-middle">
@@ -97,6 +99,12 @@ function refresh_big_text_size() {
 
     max_width = max_width - padding.width;
     max_height = max_height - padding.height;
+  }
+
+  { // Make space space for top content (advertisements)
+    const layout_top_content = document.getElementById('bt-layout-top-content');
+    const layout_top_content_height = get_size(layout_top_content, 'height');
+    max_height -= layout_top_content_height;
   }
 
   { // User can control max width
