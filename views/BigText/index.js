@@ -128,6 +128,11 @@ function compute_max_size() {
     max_height = Math.min(max_height, max_width*0.6);
   }
 
+  { // Negative values break computation down the line
+    max_height = Math.max(max_height, 0);
+    max_width = Math.max(max_width, 0);
+  }
+
   return {max_width, max_height};
 }
 
