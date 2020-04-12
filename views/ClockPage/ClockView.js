@@ -22,7 +22,7 @@ function ClockView() {
     <MorePanel>
       <Ad_BTF />
       <SettingsView preset_concept_name={preset_concept_name} />
-      <News className="more_panel_block" preset_concept_name={preset_concept_name}/>
+      <News preset_concept_name={preset_concept_name}/>
     </MorePanel>
   </>;
 }

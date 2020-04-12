@@ -2,14 +2,15 @@ import React from 'react';
 
 export default News;
 
-function News({preset_concept_name, ...props}) {
-  return <div {...props}>
+function News({preset_concept_name}) {
+  return <div className="more_panel_block">
     <div className="more_panel_block_title">
       News
     </div>
     <Date>April, 11th</Date>
     <ul>
       <li>New clock layout algorithm for a more robust layout.</li>
+      <li>Lower CPU and RAM memory footprint.</li>
     </ul>
     <Date>March, 31th</Date>
     <ul>
