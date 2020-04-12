@@ -5,6 +5,7 @@ import News from '../News';
 import {SettingsView} from '../../tab-utils/TabSettings/SettingsView';
 import {preset_concept_name} from './js/preset_concept_name';
 import {ad_slots} from './ad_slots';
+import {Ad_BTF, Ad_ATF} from '../../tab-utils/load_ad';
 import assert from '@brillout/assert';
 
 export default ClockView;
@@ -14,13 +15,13 @@ function ClockView() {
     <FullView>
       <BigText
         id={'clock-container'}
-        content_on_top={<Ad_ATF />}
+        content_on_top={<Ad_ATF ad_slots={ad_slots} />}
         top_line_content={<TopLine />}
       />
     </FullView>
 
     <MorePanel>
-      <Ad_BTF />
+      <Ad_BTF ad_slots={ad_slots} />
       <SettingsView preset_concept_name={preset_concept_name} />
       <News preset_concept_name={preset_concept_name}/>
     </MorePanel>
@@ -36,32 +37,5 @@ function TopLine() {
         <td><table><tr><td id='char2' ></td></tr><tr><td id='digit2'></td></tr></table></td>
       </tr>
     </table>
-  );
-}
-
-function Ad_ATF() {
-  const slots = ad_slots.filter(slot => slot.slotName.includes('ATF'));
-  assert(ad_slots.length===2);
-  assert(slots.length===1);
-  return <AdView id="primary-ad" slot={slots[0]} />;
-}
-function Ad_BTF() {
-  const slots = ad_slots.filter(slot => slot.slotName.includes('BTF'));
-  assert(ad_slots.length===2);
-  assert(slots.length===1);
-  return <AdView id="secondary-ad" slot={slots[0]} />;
-}
-
-function AdView({id, slot: {slotName, slotID}}) {
-  assert(slotName && slotID);
-  return (
-    <div id={id}>
-      <div className='ad-content-wrapper'>{
-        <div id={slotName}>
-          <div id={slotID}/>
-        </div>
-      }</div>
-      <a className='ad_remover' href='donate' target="_blank">Remove ad</a>
-    </div>
   );
 }
