@@ -24,6 +24,15 @@ export default {
     'clock_font':'Syncopate',
     'clock_size': '580',
     'clock_color':'#e9e9e9'},
+  'steel_gold':{
+    'clock_position': 'center',
+    'clock_background_color':'',
+    //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
+    'clock_background_image':'https://i.imgur.com/9YKVj.jpg',
+    'clock_shadow':'0 1px 1px #000000',
+    'clock_font':'Knewave',
+    'clock_size': '580',
+    'clock_color':'#a3860a'},
   'gold':{
     'clock_position': 'center',
     'clock_background_color':'#7b3535',
@@ -32,15 +41,6 @@ export default {
     'clock_font':'Petit Formal Script',
     'clock_size': '580',
     'clock_color':'#a79c00'},
-  'steel_contrast':{
-    'clock_position': 'center',
-    'clock_background_color':'',
-    //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-    'clock_background_image':'https://i.imgur.com/9YKVj.jpg',
-    'clock_shadow':'0 1px 1px #000000',
-    'clock_font':'Akronim',
-    'clock_size': '580',
-    'clock_color':'#e9e9e9'},
   'simple':{
     'clock_position': 'center',
     'clock_background_color':'#ffffff',
