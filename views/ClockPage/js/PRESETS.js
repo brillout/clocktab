@@ -13,6 +13,10 @@
 //   - Austria village at lake - winter: https://imgur.com/a/jinZwUa
 //   - Carbon DNA - https://imgur.com/a/GobHgPC
 //   - Digital DNA - https://imgur.com/a/KJcVzQW
+//   - Eugene von Guerard
+//     - https://imgur.com/a/DvtkGC3
+//     - https://imgur.com/a/BS9TPOm
+//     - https://artsandculture.google.com/entity/eugene-von-guerard/m08j850?categoryId=artist
 
 export default {
   'steel':{
