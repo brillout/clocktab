@@ -17,6 +17,8 @@
 //     - https://imgur.com/a/DvtkGC3
 //     - https://imgur.com/a/BS9TPOm
 //     - https://artsandculture.google.com/entity/eugene-von-guerard/m08j850?categoryId=artist
+//   - Nice paintaing a la Eugene von Guerard
+//     - https://artsandculture.google.com/asset/5QGf_h6Dl58qhQ
 
 export default {
   steel: {
