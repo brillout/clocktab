@@ -193,4 +193,12 @@ export default {
     clock_size: "580",
     clock_color: "#ffdf00",
   },
+  eugene_von_guerard_1: {
+    clock_position: "top",
+    clock_background_image: "https://i.imgur.com/xU4VWgAh.jpg",
+    clock_shadow: "0 1px 1px #000000",
+    clock_font: "Abril Fatface",
+    clock_size: "380",
+    clock_color: "#3f7657",
+  },
 };
