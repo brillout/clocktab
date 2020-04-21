@@ -1,6 +1,6 @@
-@import './ad_layout.css';
-@import './clock-functional.css';
-@import './clock-layout.css';
+@import "./ad_layout.css";
+@import "./clock-functional.css";
+@import "./clock-layout.css";
 
 #bt-bot-line {
   opacity: 0.7;

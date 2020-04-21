@@ -1,27 +1,26 @@
-
 /* Clock Text Layout */
 #digit1,
 #digit2,
 #char1,
-#char2{
- font-size: 46%;
- /*
+#char2 {
+  font-size: 46%;
+  /*
  line-height: .7em;
  */
- line-height: .9em;
- vertical-align: top;
+  line-height: 0.9em;
+  vertical-align: top;
 }
 #digit1,
-#digit2{
-  padding-bottom: .2em;
+#digit2 {
+  padding-bottom: 0.2em;
 }
 #char1,
-#char2{
+#char2 {
   /*side padding to make sure that width of char's cell > width of digit's cell*/
-  padding-left: .05em;
-  padding-right: .05em;
+  padding-left: 0.05em;
+  padding-right: 0.05em;
 }
-body:not(.noPeriod)  #time_text,
-body:not(.noSeconds) #time_text{
-  padding-right: .2em;
+body:not(.noPeriod) #time_text,
+body:not(.noSeconds) #time_text {
+  padding-right: 0.2em;
 }

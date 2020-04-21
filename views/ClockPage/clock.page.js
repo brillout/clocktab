@@ -1,13 +1,13 @@
-import './css/clock.css';
-import ClockView from './ClockView';
-import onPageLoad from './onPageLoad';
-import {config} from '../../tab-utils/views/FullViewWrapper';
+import "./css/clock.css";
+import ClockView from "./ClockView";
+import onPageLoad from "./onPageLoad";
+import { config } from "../../tab-utils/views/FullViewWrapper";
 
 export default config({
-  route: '/',
+  route: "/",
   view: ClockView,
 
-  title: 'Clock Tab',
+  title: "Clock Tab",
 
   head: [
     '<meta name="keywords" content="time, clock, tab">',

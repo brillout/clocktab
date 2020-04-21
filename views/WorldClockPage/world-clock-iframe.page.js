@@ -1,28 +1,33 @@
-import React from 'react';
-import {getPageConfig} from '../../tab-utils/views/PageWrapper';
-import './world-clock-wrapper.css';
+import React from "react";
+import { getPageConfig } from "../../tab-utils/views/PageWrapper";
+import "./world-clock-wrapper.css";
 //import * as ifr from 'iframe-resizer';
-import {iframeResize} from 'iframe-resizer';
+import { iframeResize } from "iframe-resizer";
 
 export default getPageConfig(
-  () => <>
-    <iframe id="content-frame" src="/world-clock-content/"/>
-  </>,
-  'World Clock',
+  () => (
+    <>
+      <iframe id="content-frame" src="/world-clock-content/" />
+    </>
+  ),
+  "World Clock",
   {
     onPageLoad,
     noHeader: true,
-  },
+  }
 );
 
 function onPageLoad() {
-  iframeResize({
-    /*
+  iframeResize(
+    {
+      /*
     log: true,
     heightCalculationMethod: 'lowestElement',
     */
-    heightCalculationMethod: 'taggedElement',
-  }, '#content-frame');
+      heightCalculationMethod: "taggedElement",
+    },
+    "#content-frame"
+  );
 
   /*
   const iframe = document.querySelector('iframe#content-frame');
