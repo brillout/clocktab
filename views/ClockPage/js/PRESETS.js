@@ -28,7 +28,7 @@ export default {
     clock_background_image: "https://i.imgur.com/9YKVj.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Syncopate",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#e9e9e9",
   },
   steel_gold: {
@@ -38,7 +38,7 @@ export default {
     clock_background_image: "https://i.imgur.com/9YKVj.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Knewave",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#a3860a",
   },
   gold: {
@@ -47,7 +47,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "",
     clock_font: "Petit Formal Script",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#a79c00",
   },
   simple: {
@@ -56,7 +56,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "",
     clock_font: "Syncopate",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#333333",
   },
   grey: {
@@ -65,7 +65,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Lora",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#EBEBF1",
   },
   ocean: {
@@ -77,7 +77,7 @@ export default {
     //'clock_shadow':'0px 1px 1px #333333',
     clock_shadow: "none",
     clock_font: "Michroma",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#333333",
   },
   ocean2: {
@@ -86,7 +86,7 @@ export default {
     clock_background_image: "https://i.imgur.com/i6yiy.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Droid Sans Mono",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#ffffff",
   },
   river_valley: {
@@ -95,7 +95,7 @@ export default {
     clock_background_image: "https://i.imgur.com/8G6JM.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Lato",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#ffffff",
   },
   lobster: {
@@ -104,7 +104,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Lobster",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#333333",
   },
   digital: {
@@ -113,7 +113,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "none",
     clock_font: "Orbitron",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#00ff00",
   },
   paper: {
@@ -122,7 +122,7 @@ export default {
     clock_background_image: "https://i.imgur.com/x97za.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Redressed",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#111111",
   },
   classy: {
@@ -131,7 +131,7 @@ export default {
     clock_background_image: "https://i.imgur.com/0KS5T.jpg",
     clock_shadow: "none",
     clock_font: "Nothing You Could Do",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#0000aa",
   },
   sin_city: {
@@ -139,7 +139,7 @@ export default {
     clock_background_color: "",
     clock_background_image: "https://i.imgur.com/R60yCtG.jpg",
     clock_font: "Knewave",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#e71010",
   },
   van_gogh: {
@@ -147,7 +147,7 @@ export default {
     clock_background_color: "",
     clock_background_image: "https://i.imgur.com/WfHm7XM.jpg",
     clock_font: "Akronim",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#b63232",
   },
   mars_terraform: {
@@ -165,7 +165,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "",
     clock_font: "Allerta Stencil",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#6d0000",
   },
   red: {
@@ -174,7 +174,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Muli",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#1a1a1a",
   },
   purple: {
@@ -183,7 +183,7 @@ export default {
     clock_background_image: "",
     clock_shadow: "",
     clock_font: "Text Me One",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#6d30be",
   },
   naruto: {
@@ -192,7 +192,7 @@ export default {
     clock_background_image: "https://i.imgur.com/iyyms5e.jpg",
     clock_shadow: "",
     clock_font: "Knewave",
-    clock_size: "580",
+    clock_size: "480",
     clock_color: "#ffdf00",
   },
   eugene_von_guerard_1: {
@@ -200,7 +200,7 @@ export default {
     clock_background_image: "https://i.imgur.com/xU4VWgAh.jpg",
     clock_shadow: "0 1px 1px #000000",
     clock_font: "Abril Fatface",
-    clock_size: "380",
+    clock_size: "330",
     clock_color: "#3f7657",
   },
 };

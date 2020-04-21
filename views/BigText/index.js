@@ -102,6 +102,8 @@ function refresh_big_text_size() {
   const { max_height, max_width } = compute_max_size();
   DEBUG &&
     console.log("[size-computation]", bot_el, top_el, {
+      "window.innerHeight": window.innerHeight,
+      "window.innerWidth": window.innerWidth,
       max_width,
       max_height,
     });
@@ -128,10 +130,10 @@ function compute_max_size() {
     // Remove padding
     const middle_table = document.getElementById("bt-middle-table");
     const padding = {
-      height:
+      width:
         get_size(middle_table, "padding-left") +
         get_size(middle_table, "padding-right"),
-      width:
+      height:
         get_size(middle_table, "padding-top") +
         get_size(middle_table, "padding-bottom"),
     };
@@ -153,8 +155,8 @@ function compute_max_size() {
   }
 
   {
-    // Avoid ugly long horizontal big block
-    max_height = Math.min(max_height, max_width * 0.6);
+    // Avoid ugly long vertical big block
+    max_height = Math.min(max_height, max_width * 1.6);
   }
 
   {
@@ -194,10 +196,17 @@ function compute_font_sizes({ bot_el, top_el, max_height, max_width }) {
         max_width,
         max_height: max_height * (1 - resolve_ratio),
       });
+
       bot_line_sizes = get_max_font_size({
         dom_el: bot_el,
         max_width: top_line_sizes.width * bottom_line_width_reducer,
         max_height: max_height * resolve_ratio,
+      });
+
+      top_line_sizes = get_max_font_size({
+        dom_el: top_el,
+        max_width,
+        max_height: max_height - bot_line_sizes.height,
       });
     }
   }

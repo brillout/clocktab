@@ -31,7 +31,7 @@ function get_max_font_size({ dom_el, max_width, max_height }) {
 
   DEBUG && assert.log("[max-font-size-computation]", log_data);
 
-  return { fontSize, height, width };
+  return { fontSize, height, width, max_height, max_width };
 }
 
 // export {adjustFontSize};
