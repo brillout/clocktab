@@ -141,7 +141,7 @@ function compute_max_size() {
   }
 
   // Make space space for top content (advertisements)
-  if (!ads_are_removed) {
+  if (!ads_are_removed()) {
     const layout_top_content = document.getElementById("bt-layout-top-content");
     const layout_top_content_height = get_size(layout_top_content, "height");
     max_height -= layout_top_content_height;
