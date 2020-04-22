@@ -1,6 +1,3 @@
-import assert from "@brillout/assert";
-import { track_event } from "../tab-utils/views/common/tracker";
-
 const ml = {};
 
 export default ml;
@@ -658,10 +655,10 @@ var scriptSource =
   //source:
     // http://stackoverflow.com/questions/984510/what-is-my-script-src-url
     // http://stackoverflow.com/questions/1865914/can-javascript-file-get-its-ows-name
-(function() 
+(function()
 {
-    var scripts = document.getElementsByTagName('script'), 
-        script = scripts[scripts.length - 1]; 
+    var scripts = document.getElementsByTagName('script'),
+        script = scripts[scripts.length - 1];
 
     //No need to perform the same test we do for the Fully Qualified
     return script.getAttribute('src', 2); //this works in all browser even in FF/Chrome/Safari
@@ -912,7 +909,7 @@ ml.doneIcon = function(d,color1,color2)
     ctx.moveTo(p1[0],p1[1]);
     ctx.lineTo(p2[0],p2[1]);
     ctx.lineTo(p3[0],p3[1]);
-    ctx.lineTo(p3a[0],p3a[1]);  
+    ctx.lineTo(p3a[0],p3a[1]);
     //ctx.lineTo(p3b[0],p3b[1]);
     //ctx.lineTo(p4[0],p4[1]);
     ctx.quadraticCurveTo(p3b[0],p3b[1],p4[0],p4[1]);
@@ -921,7 +918,7 @@ ml.doneIcon = function(d,color1,color2)
     //ctx.lineTo(p6b[0],p6b[1]);
     //ctx.lineTo(p6a[0],p6a[1]);
     //ctx.quadraticCurveTo(p6a[0],p6a[1],p6b[0],p6b[1]);
-    ctx.quadraticCurveTo(p6a[0],p6a[1],p7[0],p7[1]); 
+    ctx.quadraticCurveTo(p6a[0],p6a[1],p7[0],p7[1]);
     ctx.lineTo(p7[0],p7[1]);
     ctx.lineTo(p8[0],p8[1]);
     ctx.lineTo(p1[0],p1[1]);
@@ -988,7 +985,7 @@ ml.timerIcon = function(diff,percent,scale,color)
 
   if(diff<=0 && percent) return ml.getColorImageURL(Math.abs(diff)%2===0?FILL_FINISH:'transparent',32/ICON_SIZE);
   if(diff<=0) diff=0;
-  
+
   var canvas=document.createElement('canvas');
   canvas.height = ICON_SIZE;
   canvas.width  = ICON_SIZE;
@@ -1004,7 +1001,7 @@ ml.timerIcon = function(diff,percent,scale,color)
   var bot=minutesOnBot?minutes:seconds;
 
   //background
-  if(percent!==undefined && percent!==null) { 
+  if(percent!==undefined && percent!==null) {
     ml.assert(percent<=1 && percent>=0,'percent==='+percent);
     var h=canvas.height;
     var w=canvas.width;
@@ -1018,7 +1015,7 @@ ml.timerIcon = function(diff,percent,scale,color)
       borderPos=[w/2+borderPos,0];
     else
     {
-      ctx.lineTo(w,0);   
+      ctx.lineTo(w,0);
       if(borderPos<=w/2+h)
         borderPos=[w,borderPos-w/2];
       else
@@ -1045,11 +1042,11 @@ ml.timerIcon = function(diff,percent,scale,color)
     ctx.fillStyle=FILL_DONE;
     //ctx.fillStyle='rgba(255,0,0,1)';
     ctx.fill();
-  } 
-  else { 
+  }
+  else {
     ctx.fillStyle = FILL_STOPW;
     ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
-  } 
+  }
 
   //text
   ctx.fillStyle=TEXT_COLOR;
@@ -1211,7 +1208,7 @@ ml.dooityRandColor = function(gray,n)
     [[174, 82, 255]],
     [[223,45,0]],
     [[237,85,85]] //trailing coma treated as fatal error for google closure
-  ]; 
+  ];
 
   if(gray)
     COLORS = [[[100,100,100]]];
@@ -1749,7 +1746,7 @@ ml.loadCss=function(url)
     };
   })();
   /*
-ml.safe_call=function(fct){ 
+ml.safe_call=function(fct){
   if(!fct) return;
   if(fct.constructor===Array)
   {
@@ -1767,7 +1764,7 @@ ml.safe_call=function(fct){
   else try{
     fct.apply(null,Array().slice.call(arguments,1));
   }catch(e){ml.assert(false,e)}
-}; 
+};
 */
 
   //features
@@ -2058,7 +2055,7 @@ ml.optionInput=function(optionId,default_,listener,opts){
 //      //}}}
 //
 //    var binaryInput = default_===false || default_===true;
-//    
+//
 //    var val = window.localStorage.getItem(id)!==null?window.localStorage[id]:default_;//opera's hasOwnProperty allways return true
 //    if(binaryInput) val=!!val;
 //    ml.assert(binaryInput === (inputEl.type==='checkbox'));
