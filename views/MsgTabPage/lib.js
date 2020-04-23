@@ -42,9 +42,11 @@ import assert from "@brillout/assert";
     width,
     height,
     noDOMChanges,
-    possibleChars //{{{ //assert width & height in px
-  ) //assert this.style.display=='inline-block'
-  {
+    possibleChars
+  ) {
+    //assert width & height in px
+    //assert this.style.display=='inline-block'
+
     //absolute font-size is equally precise as percentage font-size
     //chars can have different widths
     //assumption that width of a text is proportional to its fontSize is wrong but good approx
@@ -148,5 +150,4 @@ import assert from "@brillout/assert";
     assert.warning(max > 0, "max===0");
     this.show();
   };
-  //}}}
 })();
