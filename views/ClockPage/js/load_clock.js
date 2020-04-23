@@ -1,5 +1,6 @@
 import ml from "../../ml";
 import { refresh_big_text_size, set_bottom_line } from "../../BigText";
+import { track_dom_heart_beat_error } from "../../../tab-utils/views/common/tracker";
 
 export default load_clock;
 
@@ -54,7 +55,7 @@ function load_clock({ get_option_value }) {
         );
       }
 
-      ml.reqFrame(function () {
+      {
         var refreshSize;
 
         document.body["classList"][d.getHours() < 12 ? "remove" : "add"](
@@ -99,7 +100,7 @@ function load_clock({ get_option_value }) {
           refreshSize = true;
         }
         if (refreshSize) refresh_big_text_size();
-      });
+      }
 
       //metroTile&&metroTile(lastTime,lastDay);
     };
@@ -107,7 +108,9 @@ function load_clock({ get_option_value }) {
 
     spark = function () {
       (function repeater() {
-        domBeat();
+        track_dom_heart_beat_error(() => {
+          domBeat();
+        });
         window.setTimeout(repeater, 1000);
       })();
     };
