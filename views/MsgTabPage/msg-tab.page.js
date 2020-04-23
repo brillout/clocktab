@@ -4,7 +4,7 @@ import {
   MorePanel,
   config,
 } from "../../tab-utils/views/FullViewWrapper";
-import "./ml.js";
+import "./lib.js";
 import "./msg-tab.css";
 import UseCases from "./UseCases";
 import init_msg_tab from "./init_msg_tab";
