@@ -5,8 +5,6 @@ import assert from "@brillout/assert";
     return;
   }
 
-  const ml = {};
-
   Element.prototype.hide = function () //{{{
   {
     this.style.visibility = "hidden";
