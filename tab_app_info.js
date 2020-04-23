@@ -9,7 +9,6 @@ export const tab_app_source_code = "https://github.com/brillout/clocktab";
 export const tab_app_mail = compute_mail("clocktab");
 export const tab_app_logo = logoUrl;
 export const tab_app_google_analytics_id = "UA-5263303-5";
-export const tab_subapp_ids = ["clock", "countdown"];
 export const tab_app_header_links = [
   { link_url: "/countdown", link_name: "Countdown" },
   { link_url: "/world-clock", link_name: "World Clock" },
