@@ -203,4 +203,12 @@ export default {
     clock_size: "330",
     clock_color: "#3f7657",
   },
+  the_king: {
+    clock_position: "bottom-left",
+    clock_background_image: "https://i.imgur.com/PIJRG4k.jpg",
+    clock_shadow: "",
+    clock_font: "MedievalSharp",
+    clock_size: "480",
+    clock_color: "#9e9e9e",
+  }
 };
