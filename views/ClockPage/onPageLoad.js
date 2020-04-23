@@ -1,6 +1,5 @@
 import load_clock from "./js/load_clock";
 import init_clock_options from "./js/init_clock_options";
-// import autoReloadPage from './js/autoReloadPage';
 import auto_remove_hash from "../../tab-utils/auto_remove_hash";
 import { on_big_text_load, set_max_width_getter } from "../BigText";
 import { sleep } from "../../tab-utils/sleep";
