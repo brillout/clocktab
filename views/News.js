@@ -31,7 +31,7 @@ function News({ preset_concept_name }) {
         <li>Msg Tab &mdash; Communication-over-Screen, useful in education.</li>
       </ul>
       If you encounter any issue with these new features then{" "}
-      <a href="/bug-repair">let me know</a>.
+      <a href="/repair">let me know</a>.
     </div>
   );
 }

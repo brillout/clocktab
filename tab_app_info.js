@@ -24,7 +24,7 @@ export const TabAppRoadmap = () => (
   <>
     <li>
       Make Clock Tab more robust. (Less bugs, more resilient, and please{" "}
-      <a href="/bug-repair">report any bug</a> you may find!)
+      <a href="/repair">report any bug</a> you may find!)
     </li>
     <li>Make Clock Tab work offline.</li>
     <li>
