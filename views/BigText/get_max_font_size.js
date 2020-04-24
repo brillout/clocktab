@@ -1,6 +1,7 @@
 import assert from "@brillout/assert";
 
-export default get_max_font_size;
+export { get_max_font_size };
+export { isPositiveNumber };
 
 /*/
 const DEBUG = true;
@@ -9,11 +10,15 @@ const DEBUG = false;
 //*/
 
 function get_max_font_size({ dom_el, max_width, max_height }) {
-  const el = dom_el;
-  const w = max_width;
-  const h = max_height;
-
-  const { fontSize, height, width } = getEstimation(el, w, h);
+  assert(
+    dom_el && isPositiveNumber(max_width) && isPositiveNumber(max_height),
+    { max_width, max_height, dom_el }
+  );
+  const { fontSize, height, width } = getEstimation(
+    dom_el,
+    max_width,
+    max_height
+  );
 
   const log_data = {
     dom_el: dom_el.id,
@@ -25,9 +30,14 @@ function get_max_font_size({ dom_el, max_width, max_height }) {
   };
 
   const approximation = 1.02;
-  assert(0 <= fontSize, log_data);
-  assert(0 <= height && height <= max_height * approximation, log_data);
-  assert(0 <= width && width <= max_width * approximation, log_data);
+  assert(
+    isPositiveNumber(fontSize) &&
+      isPositiveNumber(height) &&
+      isPositiveNumber(width) &&
+      height <= max_height * approximation &&
+      width <= max_width * approximation,
+    log_data
+  );
 
   DEBUG && assert.log("[max-font-size-computation]", log_data);
 
@@ -271,7 +281,13 @@ function getWidestChar(chars) {
 }
 
 function get_el_style(el, styleProp) {
-  return document.defaultView
-    .getComputedStyle(el, null)
-    .getPropertyValue(styleProp);
+  return document.defaultView.getComputedStyle(el).getPropertyValue(styleProp);
+}
+
+function isPositiveNumber(val) {
+  assert(null >= 0, "unexpected");
+  return (
+    val !== null &&
+    (val === 0 || (val && val.constructor === Number && val > 0))
+  );
 }

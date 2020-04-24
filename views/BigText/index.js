@@ -1,6 +1,6 @@
 import "./big_text.css";
 import React from "react";
-import get_max_font_size from "./get_max_font_size";
+import { get_max_font_size, isPositiveNumber } from "./get_max_font_size";
 import assert from "@brillout/assert";
 import { make_element_zoomable } from "../../tab-utils/make_element_zoomable";
 import { ads_are_removed } from "../../tab-utils/load_ad";
@@ -116,6 +116,12 @@ function refresh_big_text_size() {
   });
   DEBUG && assert.log("[size-computation]", { top_line_sizes, bot_line_sizes });
 
+  assert(
+    isPositiveNumber(top_line_sizes.fontSize) &&
+      (!bot_line_sizes || isPositiveNumber(bot_line_sizes.fontSize)),
+    { top_line_sizes, bot_line_sizes }
+  );
+
   if (bot_line_sizes) {
     bot_el.style.fontSize = bot_line_sizes.fontSize + "px";
   }
@@ -125,6 +131,14 @@ function refresh_big_text_size() {
 function compute_max_size() {
   let max_width = window.innerWidth;
   let max_height = window.innerHeight;
+  assert(
+    isPositiveNumber(max_width) && isPositiveNumber(max_height),
+    "unexpected window sizes",
+    {
+      max_width,
+      max_height,
+    }
+  );
 
   {
     // Remove padding
@@ -151,7 +165,9 @@ function compute_max_size() {
 
   {
     // User can control max width
-    max_width = Math.min(max_width, parseInt(get_max_width(), 10) || Infinity);
+    const width_limit = parseInt(get_max_width(), 10) || Infinity;
+    assert(isPositiveNumber(width_limit), { width_limit });
+    max_width = Math.min(max_width, width_limit);
   }
 
   {
@@ -165,6 +181,10 @@ function compute_max_size() {
     max_width = Math.max(max_width, 0);
   }
 
+  assert(isPositiveNumber(max_width) && isPositiveNumber(max_height), {
+    max_height,
+    max_width,
+  });
   return { max_width, max_height };
 }
 
@@ -215,8 +235,12 @@ function compute_font_sizes({ bot_el, top_el, max_height, max_width }) {
 }
 
 function get_size(el, styleProp) {
-  const computed_val = document.defaultView
-    .getComputedStyle(el, null)
+  assert(el, "[get_size][error]", { styleProp, el });
+  let val = document.defaultView
+    .getComputedStyle(el)
     .getPropertyValue(styleProp);
-  return parseInt(computed_val, 10);
+  assert(val, "[get_size][error]", { el, styleProp, val });
+  val = parseInt(val, 10);
+  assert(isPositiveNumber(val), "[get_size][error]", { el, styleProp, val });
+  return val;
 }

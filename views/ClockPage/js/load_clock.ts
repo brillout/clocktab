@@ -30,11 +30,8 @@ function load_clock({ get_option_value }) {
   domBeat;
   var spark;
   (function () {
-    //{{{
-    var lastMinutes, lastTitle, lastDay, lastTime;
-    domBeat = function (
-      force //{{{
-    ) {
+    let lastMinutes, lastTitle, lastDay, lastTime;
+    domBeat = function (force: boolean = false) {
       var d = new Date();
 
       const is_twelve_hour_format = get_option_value(
@@ -66,7 +63,7 @@ function load_clock({ get_option_value }) {
       }
 
       {
-        var refreshSize;
+        let refreshSize: boolean = false;
 
         document.body["classList"][d.getHours() < 12 ? "remove" : "add"](
           "isPm"
@@ -109,10 +106,7 @@ function load_clock({ get_option_value }) {
         }
         if (refreshSize) refresh_big_text_size();
       }
-
-      //metroTile&&metroTile(lastTime,lastDay);
     };
-    //}}}
 
     spark = function () {
       (function repeater() {
@@ -122,7 +116,6 @@ function load_clock({ get_option_value }) {
         window.setTimeout(repeater, 1000);
       })();
     };
-    //}}}
   })();
 
   spark();
