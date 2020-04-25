@@ -76,11 +76,11 @@ function getEstimation(
 
   var dummy = getDummy(el.tagName);
   dummy.innerHTML = dummyContent;
-  dummy.style.fontFamily = get_el_style(el, "font-family");
+  dummy.style.fontFamily = get_computed_style(el, "font-family");
   dummy.style.fontSize = DUMMY_FONT_SIZE + "px";
-  dummy.style.whiteSpace = "nowrap"; //should el be equal to get_el_style('white-space')?
-  dummy.style.letterSpacing = get_el_style(el, "letter-spacing");
-  dummy.style.lineHeight = get_el_style(el, "line-height");
+  dummy.style.whiteSpace = "nowrap"; //should el be equal to get_computed_style('white-space')?
+  dummy.style.letterSpacing = get_computed_style(el, "letter-spacing");
+  dummy.style.lineHeight = get_computed_style(el, "line-height");
 
   //dummyinspect
   //onsole
@@ -90,39 +90,39 @@ function getEstimation(
   var c = window.bla;
   onsole.log('t0');
   onsole.log(c);
-  onsole.log(get_el_style(dummy,'font-family'));
-  onsole.log(get_el_style(dummy,'width'));
+  onsole.log(get_computed_style(dummy,'font-family'));
+  onsole.log(get_computed_style(dummy,'width'));
   setTimeout(function(){
   onsole.log('t1');
   onsole.log(c);
-  onsole.log(get_el_style(dummy,'font-family'));
-  onsole.log(get_el_style(dummy,'width'));
+  onsole.log(get_computed_style(dummy,'font-family'));
+  onsole.log(get_computed_style(dummy,'width'));
   },0);
   setTimeout(function(){
   onsole.log('t2');
   onsole.log(c);
-  onsole.log(get_el_style(dummy,'font-family'));
-  onsole.log(get_el_style(dummy,'width'));
+  onsole.log(get_computed_style(dummy,'font-family'));
+  onsole.log(get_computed_style(dummy,'width'));
   },100);
   setTimeout(function(){
   onsole.log('t3');
   onsole.log(c);
-  onsole.log(get_el_style(dummy,'font-family'));
-  onsole.log(get_el_style(dummy,'width'));
+  onsole.log(get_computed_style(dummy,'font-family'));
+  onsole.log(get_computed_style(dummy,'width'));
   },1000);
   setTimeout(function(){
   onsole.log('t4');
   onsole.log(c);
-  onsole.log(get_el_style(dummy,'font-family'));
-  onsole.log(get_el_style(dummy,'width'));
+  onsole.log(get_computed_style(dummy,'font-family'));
+  onsole.log(get_computed_style(dummy,'width'));
   },5000);
   */
-  const dummy_height = parseInt(get_el_style(dummy, "height"), 10);
-  const dummy_width = parseInt(get_el_style(dummy, "width"), 10);
+  const dummy_height = parseInt(get_computed_style(dummy, "height"), 10);
+  const dummy_width = parseInt(get_computed_style(dummy, "width"), 10);
 
   /*
-  const padding_height = parseInt(get_el_style(el, 'padding-left'), 10) + parseInt(get_el_style(el, 'padding-right') ,10);
-  const padding_width  = parseInt(get_el_style(el, 'padding-top' ), 10) + parseInt(get_el_style(el, 'padding-bottom'),10);
+  const padding_height = parseInt(get_computed_style(el, 'padding-left'), 10) + parseInt(get_computed_style(el, 'padding-right') ,10);
+  const padding_width  = parseInt(get_computed_style(el, 'padding-top' ), 10) + parseInt(get_computed_style(el, 'padding-bottom'),10);
   const inner_width  = outer_width  - padding_height;
   const inner_height = outer_height - padding_width;
   console.log({el, padding_width, padding_height});
@@ -163,7 +163,7 @@ function adjustFontSize(el, possibleChars, noHeight, minTextLength) {
   //-gecko polyfill: https://gist.github.com/3033012
 
   function getSize(el, prop) {
-    return parseInt(get_el_style(el, prop) || 0, 10);
+    return parseInt(get_computed_style(el, prop) || 0, 10);
   }
 
   var width = getSize(el, "width");
@@ -182,7 +182,7 @@ function adjustFontSize(el, possibleChars, noHeight, minTextLength) {
     })[0];
   if (
     boxSizingPropName &&
-    get_el_style(el, boxSizingPropName) === "border-box"
+    get_computed_style(el, boxSizingPropName) === "border-box"
   ) {
     width -=
       getSize(el, "border-left") +
@@ -203,15 +203,15 @@ function adjustFontSize(el, possibleChars, noHeight, minTextLength) {
     ) + "px";
 
   assert.warning(
-    get_el_style(el, "display") === "block" ||
-      get_el_style(el, "display") === "inline-block" ||
-      get_el_style(el, "display") === "table-cell",
-    "get_el_style(el,'display')==" + get_el_style(el, "display"),
+    get_computed_style(el, "display") === "block" ||
+      get_computed_style(el, "display") === "inline-block" ||
+      get_computed_style(el, "display") === "table-cell",
+    "get_computed_style(el,'display')==" + get_computed_style(el, "display"),
     1
   );
 
   //following assert fails with browser zoom
-  //assert.warning(get_el_style(el,'font-size')===el.style.fontSize);
+  //assert.warning(get_computed_style(el,'font-size')===el.style.fontSize);
 
   //good enough without refinment?
   //note: will break minTextLength option
@@ -220,10 +220,10 @@ function adjustFontSize(el, possibleChars, noHeight, minTextLength) {
   assert.warning(!minTextLength);
   var max=100;
   assert.warning(width!==0&&height!==0);
-  while( get_el_style(el, 'width')<( width||0       ) &&
-         get_el_style(el,'height')<(height||0       )  &&--max) el.style.fontSize=parseInt(el.style.fontSize,10)+2+'px';
-  while((get_el_style(el, 'width')>( width||Infinity) ||
-         get_el_style(el,'height')>(height||Infinity)) &&--max) el.style.fontSize=parseInt(el.style.fontSize,10)-1+'px';
+  while( get_computed_style(el, 'width')<( width||0       ) &&
+         get_computed_style(el,'height')<(height||0       )  &&--max) el.style.fontSize=parseInt(el.style.fontSize,10)+2+'px';
+  while((get_computed_style(el, 'width')>( width||Infinity) ||
+         get_computed_style(el,'height')>(height||Infinity)) &&--max) el.style.fontSize=parseInt(el.style.fontSize,10)-1+'px';
   assert.warning(max>0,'max===0');
   */
 }
@@ -269,7 +269,7 @@ function getWidestChar(chars) {
   var dummy = document.body.appendChild(getDummy());
   for (var i = 0; i < chars.length; i++) {
     dummy.innerHTML = chars[i];
-    var charWidth = parseInt(get_el_style(dummy, "width"), 10);
+    var charWidth = parseInt(get_computed_style(dummy, "width"), 10);
     if (charWidth > widestSize) {
       widestSize = charWidth;
       widestChar = chars[i];
@@ -281,7 +281,7 @@ function getWidestChar(chars) {
   return widestChar;
 }
 
-function get_el_style(el, styleProp) {
+function get_computed_style(el, styleProp) {
   return document.defaultView.getComputedStyle(el).getPropertyValue(styleProp);
 }
 
@@ -295,10 +295,7 @@ function isPositiveNumber(val) {
 
 function get_size(el, styleProp) {
   assert(el, "[get_size][error]", { styleProp, el });
-  const val = document.defaultView
-    .getComputedStyle(el)
-    .getPropertyValue(styleProp);
-  const el_id = el.id;
+  const val = get_computed_style(el, styleProp);
 
   // Less safe:
   if (!val) return 0;
