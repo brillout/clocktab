@@ -2,6 +2,7 @@ import assert from "@brillout/assert";
 
 export { get_max_font_size };
 export { isPositiveNumber };
+export { get_size };
 
 /*/
 const DEBUG = true;
@@ -290,4 +291,32 @@ function isPositiveNumber(val) {
     val !== null &&
     (val === 0 || (val && val.constructor === Number && val > 0))
   );
+}
+
+function get_size(el, styleProp) {
+  assert(el, "[get_size][error]", { styleProp, el });
+  const val = document.defaultView
+    .getComputedStyle(el)
+    .getPropertyValue(styleProp);
+  const el_id = el.id;
+
+  // Less safe:
+  if (!val) return 0;
+  const val__casted = parseInt(val, 10);
+  if (!val__casted) return 0;
+  assert(isPositiveNumber(val__casted), "[get_size][error]", {
+    el_id,
+    styleProp,
+    val,
+    val__casted,
+  });
+  return val__casted;
+
+  // Safer:
+  /*
+  assert(val, "[get_size][error]", { el_id, styleProp, val, val__casted });
+  const val__casted = parseInt(val, 10);
+  assert(isPositiveNumber(val__casted), "[get_size][error]", { el_id, styleProp, val, val__casted });
+  return val__casted;
+  */
 }

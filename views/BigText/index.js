@@ -1,6 +1,10 @@
 import "./big_text.css";
 import React from "react";
-import { get_max_font_size, isPositiveNumber } from "./get_max_font_size";
+import {
+  get_max_font_size,
+  isPositiveNumber,
+  get_size,
+} from "./get_max_font_size";
 import assert from "@brillout/assert";
 import { make_element_zoomable } from "../../tab-utils/make_element_zoomable";
 import { ads_are_removed } from "../../tab-utils/load_ad";
@@ -232,32 +236,4 @@ function compute_font_sizes({ bot_el, top_el, max_height, max_width }) {
   }
 
   return { bot_line_sizes, top_line_sizes };
-}
-
-function get_size(el, styleProp) {
-  assert(el, "[get_size][error]", { styleProp, el });
-  const val = document.defaultView
-    .getComputedStyle(el)
-    .getPropertyValue(styleProp);
-  const el_id = el.id;
-
-  // Less safe:
-  if (!val) return 0;
-  const val__casted = parseInt(val, 10);
-  if (!val__casted) return 0;
-  assert(isPositiveNumber(val__casted), "[get_size][error]", {
-    el_id,
-    styleProp,
-    val,
-    val__casted,
-  });
-  return val__casted;
-
-  // Safer:
-  /*
-  assert(val, "[get_size][error]", { el_id, styleProp, val, val__casted });
-  const val__casted = parseInt(val, 10);
-  assert(isPositiveNumber(val__casted), "[get_size][error]", { el_id, styleProp, val, val__casted });
-  return val__casted;
-  */
 }
