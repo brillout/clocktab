@@ -61,18 +61,38 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
   dummy.style.letterSpacing = get_computed_style(el, "letter-spacing");
   dummy.style.lineHeight = get_computed_style(el, "line-height");
 
-  const dummy_height = parseInt(get_computed_style(dummy, "height"), 10);
-  const dummy_width = parseInt(get_computed_style(dummy, "width"), 10);
+  const dummy_height = get_size(dummy, "height");
+  const dummy_width = get_size(dummy, "width");
 
   const ratio_width = outer_width / dummy_width;
   const ratio_height = outer_height / dummy_height;
 
   const ratio = Math.min(ratio_width, ratio_height);
 
+  const fontSize = ratio * DUMMY_FONT_SIZE;
+  const width = ratio * dummy_width;
+  const height = ratio * dummy_height;
+
+  assert(
+    isPositiveNumber(fontSize) &&
+      isPositiveNumber(height) &&
+      isPositiveNumber(width),
+    {
+      fontSize,
+      width,
+      height,
+      ratio,
+      dummy_width,
+      dummy_height,
+      outer_width,
+      outer_height,
+    }
+  );
+
   return {
-    fontSize: ratio * DUMMY_FONT_SIZE,
-    width: ratio * dummy_width,
-    height: ratio * dummy_height,
+    fontSize,
+    width,
+    height,
   };
 }
 
