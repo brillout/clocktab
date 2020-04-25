@@ -145,6 +145,8 @@ function isPositiveNumber(val) {
 
 function get_size(el, styleProp) {
   assert(el, "[get_size][error]", { styleProp, el });
+  const el_id = el.id;
+
   const val = get_computed_style(el, styleProp);
 
   // Less safe:
