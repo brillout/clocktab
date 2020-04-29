@@ -6,6 +6,10 @@ function News({ preset_concept_name }) {
   return (
     <div className="more_panel_block">
       <div className="more_panel_block_title">News</div>
+      <Date>April, 29th</Date>
+      <ul>
+        <li>Lower GPU footprint.</li>
+      </ul>
       <Date>April, 21th</Date>
       <ul>
         <li>Bigger clock size for smaller browser window sizes.</li>
