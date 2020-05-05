@@ -18,7 +18,7 @@ export { set_text_position };
 
 function BigText({ content_on_top, top_line_content, id }) {
   return (
-    <div id="bt-zoom-container" style={{ width: "100vw" }}>
+    <div id="bt-zoom-container" style={{ width: "100%" }}>
       <div id="bt-layout-container" className="bt-position-center">
         <div id="bt-layout-top">
           <div id="bt-layout-top-content">{content_on_top}</div>
@@ -143,6 +143,16 @@ function compute_max_size() {
       max_height,
     }
   );
+
+  // Substract width of side bar
+  {
+    const containerEl = document.querySelector("#bt-zoom-container");
+    const container_width = get_size(containerEl, "width");
+    assert(container_width > 0, "unexpected container width", {
+      container_width,
+    });
+    max_width = Math.min(max_width, container_width);
+  }
 
   {
     // Remove padding

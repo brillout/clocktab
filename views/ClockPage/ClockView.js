@@ -1,5 +1,11 @@
 import React from "react";
-import { FullView, MorePanel } from "../../tab-utils/views/FullViewWrapper";
+import {
+  FullViewLayout,
+  FullView,
+  MorePanel,
+  LeftSide,
+  RightSide,
+} from "../../tab-utils/views/FullViewWrapper";
 import BigText from "../BigText";
 import News from "../News";
 import { SettingsView } from "../../tab-utils/TabSettings/SettingsView";
@@ -12,21 +18,25 @@ export default ClockView;
 
 function ClockView() {
   return (
-    <>
-      <FullView>
-        <BigText
-          id={"clock-container"}
-          content_on_top={<Ad_ATF ad_slots={ad_slots} />}
-          top_line_content={<TopLine />}
-        />
-      </FullView>
+    <FullViewLayout>
+      <LeftSide style={{ backgroundColor: "#3e3e3e" }}></LeftSide>
 
-      <MorePanel>
-        <Ad_BTF ad_slots={ad_slots} />
-        <SettingsView preset_concept_name={preset_concept_name} />
-        <News preset_concept_name={preset_concept_name} />
-      </MorePanel>
-    </>
+      <RightSide>
+        <FullView>
+          <BigText
+            id={"clock-container"}
+            content_on_top={<Ad_ATF ad_slots={ad_slots} />}
+            top_line_content={<TopLine />}
+          />
+        </FullView>
+
+        <MorePanel>
+          <Ad_BTF ad_slots={ad_slots} />
+          <SettingsView preset_concept_name={preset_concept_name} />
+          <News preset_concept_name={preset_concept_name} />
+        </MorePanel>
+      </RightSide>
+    </FullViewLayout>
   );
 }
 
