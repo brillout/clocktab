@@ -3,7 +3,6 @@ import {
   FullViewLayout,
   FullView,
   MorePanel,
-  LeftSide,
   RightSide,
 } from "../../tab-utils/views/FullViewWrapper";
 import BigText from "../BigText";
@@ -11,7 +10,7 @@ import News from "../News";
 import { SettingsView } from "../../tab-utils/TabSettings/SettingsView";
 import { preset_concept_name } from "./js/preset_concept_name";
 import { ad_slots } from "./ad_slots";
-import { Ad_BTF, Ad_ATF } from "../../tab-utils/load_ad";
+import { Ad_BTF, Ad_ATF, Ad_left } from "../../tab-utils/load_ad";
 import assert from "@brillout/assert";
 
 export default ClockView;
@@ -19,7 +18,7 @@ export default ClockView;
 function ClockView() {
   return (
     <FullViewLayout>
-      <LeftSide style={{ backgroundColor: "#3e3e3e" }}></LeftSide>
+      <Ad_left ad_slots={ad_slots} />
 
       <RightSide>
         <FullView>

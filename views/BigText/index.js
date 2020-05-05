@@ -7,7 +7,6 @@ import {
 } from "./get_max_font_size";
 import assert from "@brillout/assert";
 import { make_element_zoomable } from "../../tab-utils/make_element_zoomable";
-import { ads_are_removed } from "../../tab-utils/load_ad";
 
 export default BigText;
 export { on_big_text_load };
@@ -171,7 +170,7 @@ function compute_max_size() {
   }
 
   // Make space space for top content (advertisements)
-  if (!ads_are_removed()) {
+  {
     const layout_top_content = document.getElementById("bt-layout-top-content");
     let layout_top_content_height = 0;
     // Some users have no `layout_top_content`, probably because of some Ad Blocker
