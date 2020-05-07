@@ -150,33 +150,22 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
 let dummy_el;
 function getDummy(tagName) {
   if (!dummy_el) {
-    dummy_el = document.createElement(tagName);
-    dummy_el.id = "font-size-dummy";
-    dummy_el.style.display = "inline-block";
-
-    dummy_el.style.pointerEvents = "none";
-    dummy_el.style.position = "absolute";
-    dummy_el.style.top = "0";
-    dummy_el.style.left = "0";
-
     // Create a wrapper to ensure that dummy is not cropped by a `overflow: hidden` ancestor
     // See https://css-tricks.com/popping-hidden-overflow/
     const dummy_wrapper = document.createElement("div");
+    dummy_wrapper.pointerEvents = "none";
     dummy_wrapper.style.overflow = "hidden";
+    dummy_wrapper.style.height = "1px";
+    dummy_wrapper.style.width = "1px";
     dummy_wrapper.style.position = "absolute";
-    dummy_wrapper.style.top = "0";
-    dummy_wrapper.style.left = "0";
+    dummy_wrapper.style.zIndex = "999999999";
+    dummy_wrapper.visibility = "hidden";
 
-    if (DEBUG) {
-      dummy_el.style.opacity = "0.5";
-      dummy_wrapper.style.width = "300px";
-      dummy_wrapper.style.height = "300px";
-    } else {
-      dummy_el.style.opacity = "0";
-    }
+    dummy_el = document.createElement(tagName);
+    dummy_el.style.position = "absolute";
 
-    dummy_wrapper.appendChild(dummy_el);
-    document.body.appendChild(dummy_wrapper);
+    dummy_wrapper.prepend(dummy_el);
+    document.body.prepend(dummy_wrapper);
   }
   assert(dummy_el.tagName === tagName);
   return dummy_el;
