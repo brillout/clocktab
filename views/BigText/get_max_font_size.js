@@ -1,4 +1,5 @@
 import assert from "@brillout/assert";
+import { track_error } from "../../tab-utils/views/common/tracker";
 
 export { get_max_font_size };
 export { isPositiveNumber };
@@ -55,7 +56,18 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
 
   var dummy = getDummy(el.tagName);
   dummy.innerHTML = dummyContent;
-  assert(dummy.textContent.length > 0, { dummyContent });
+
+  if (dummy.textContent === "") {
+    track_error({
+      name: "[error][known_unexpected][get_max_font_size]empty_dummy",
+      value: dummyContent,
+    });
+    return {
+      fontSize: 0,
+      width: 0,
+      height: 0,
+    };
+  }
   dummy.style.fontFamily = get_computed_style(el, "font-family");
   dummy.style.fontSize = DUMMY_FONT_SIZE + "px";
   dummy.style.whiteSpace = "nowrap"; //should el be equal to get_computed_style('white-space')?
@@ -65,30 +77,35 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
   const dummy_height = get_size(dummy, "height");
   const dummy_width = get_size(dummy, "width");
 
+  assert(dummy.textContent.length > 0);
   assert(isPositiveNumber(dummy_width) && isPositiveNumber(dummy_height), {
     dummy_width,
     dummy_height,
     dummyContent,
   });
 
-  let fontSize;
-  let width;
-  let height;
+  // This should never occur but it does on iOS.
   if (dummy_height === 0 || dummy_width === 0) {
-    // This should never occur but it does on iOS.
-    fontSize = 0;
-    width = 0;
-    height = 0;
-  } else {
-    const ratio_width = outer_width / dummy_width;
-    const ratio_height = outer_height / dummy_height;
-
-    const ratio = Math.min(ratio_width, ratio_height);
-
-    fontSize = ratio * DUMMY_FONT_SIZE;
-    width = ratio * dummy_width;
-    height = ratio * dummy_height;
+    track_error({
+      name: "[error][known_unexpected][get_max_font_size]zero_size_dummy",
+      value: dummyContent,
+    });
+    return {
+      fontSize: 0,
+      width: 0,
+      height: 0,
+    };
   }
+
+  assert(dummy_height > 0 && dummy_width > 0);
+
+  const ratio_width = outer_width / dummy_width;
+  const ratio_height = outer_height / dummy_height;
+  const ratio = Math.min(ratio_width, ratio_height);
+
+  const fontSize = ratio * DUMMY_FONT_SIZE;
+  const width = ratio * dummy_width;
+  const height = ratio * dummy_height;
 
   assert(
     isPositiveNumber(fontSize) &&
