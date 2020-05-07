@@ -1,5 +1,6 @@
 import assert from "@brillout/assert";
 import { track_error } from "../../tab-utils/views/common/tracker";
+import { get_browser_info } from "../../tab-utils/utils/get_browser_info";
 
 export { get_max_font_size };
 export { isPositiveNumber };
@@ -51,16 +52,17 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
 
   const DUMMY_FONT_SIZE = 100; //intuitively: the bigger the font-size the more precise the approximation
 
-  var dummyContent = el.innerHTML;
-  if (dummyContent.length < 1) dummyContent = "y";
+  let dummy_html = el.innerHTML;
+  if (dummy_html.length < 1) dummy_html = "y";
 
   var dummy = getDummy(el.tagName);
-  dummy.innerHTML = dummyContent;
+  dummy.innerHTML = dummy_html;
+  const dummy_text = dummy.textContent;
 
-  if (dummy.textContent === "") {
+  if (dummy_text === "") {
     track_error({
-      name: "[error][known_unexpected][get_max_font_size]empty_dummy",
-      value: dummyContent,
+      name: "[known_unexpected][get_max_font_size]empty_dummy",
+      value: dummy_html,
     });
     return {
       fontSize: 0,
@@ -68,6 +70,7 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
       height: 0,
     };
   }
+
   dummy.style.fontFamily = get_computed_style(el, "font-family");
   dummy.style.fontSize = DUMMY_FONT_SIZE + "px";
   dummy.style.whiteSpace = "nowrap"; //should el be equal to get_computed_style('white-space')?
@@ -77,18 +80,33 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
   const dummy_height = get_size(dummy, "height");
   const dummy_width = get_size(dummy, "width");
 
-  assert(dummy.textContent.length > 0);
+  assert(dummy_text.length > 0);
   assert(isPositiveNumber(dummy_width) && isPositiveNumber(dummy_height), {
     dummy_width,
     dummy_height,
-    dummyContent,
+    dummy_html,
   });
 
-  // This should never occur but it does on iOS.
   if (dummy_height === 0 || dummy_width === 0) {
+    const browser = get_browser_info();
+    let name = "[known_unexpected][get_max_font_size]zero_size_dummy";
+    const known_cases = [
+      browser.includes("iOS"),
+      browser.includes("Windows 8") && browser.includes("Safari"),
+      browser.includes("Windows 10") && window.innerHeight === 80,
+    ];
+    if (known_cases.filter(Boolean).length === 0) {
+      name = "[ERROR_TODO]";
+    }
     track_error({
-      name: "[error][known_unexpected][get_max_font_size]zero_size_dummy",
-      value: dummyContent,
+      name,
+      value: browser,
+      data: {
+        dummy_width,
+        dummy_height,
+        dummy_text,
+        dummy_html,
+      },
     });
     return {
       fontSize: 0,
