@@ -100,7 +100,7 @@ const DEBUG = false;
 function refresh_big_text_size() {
   const bot_el = document.getElementById("bt-bot-line");
   const top_el = document.getElementById("bt-top-line");
-  assert(bot_el && top_el);
+  assert(bot_el && top_el, "Missing bottom/top line", { bot_el, top_el });
 
   const { max_height, max_width } = compute_max_size();
   DEBUG &&
