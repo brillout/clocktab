@@ -147,7 +147,7 @@ function compute_max_size() {
   {
     const containerEl = document.querySelector("#bt-zoom-container");
     const container_width = get_size(containerEl, "width");
-    assert(container_width > 0, "unexpected container width", {
+    assert(isPositiveNumber(container_width), "unexpected container width", {
       container_width,
     });
     max_width = Math.min(max_width, container_width);
