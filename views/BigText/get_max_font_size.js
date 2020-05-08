@@ -88,26 +88,18 @@ function getEstimation(el, outer_width = Infinity, outer_height = Infinity) {
   });
 
   if (dummy_height === 0 || dummy_width === 0) {
-    const browser = get_browser_info();
-    let name = "[known_unexpected][get_max_font_size]zero_size_dummy";
-    const known_cases = [
-      browser.includes("iOS"),
-      browser.includes("Windows 8") && browser.includes("Safari"),
-      browser.includes("Windows 10") && window.innerHeight === 80,
-    ];
-    if (known_cases.filter(Boolean).length === 0) {
-      name = "[ERROR_TODO]";
+    if (dummy_height !== 0 || dummy_width !== 0) {
+      track_error({
+        name: "unexpected dummy size",
+        value: JSON.stringify({ dummy_height, dummy_width, dummy_text }),
+      });
+    } else if (is_rendered(dummy)) {
+      track_error({
+        name: "unexpected zero-sized rendered dummy",
+        value: "dummy_text == " + dummy_text,
+      });
     }
-    track_error({
-      name,
-      value: browser,
-      data: {
-        dummy_width,
-        dummy_height,
-        dummy_text,
-        dummy_html,
-      },
-    });
+
     return {
       fontSize: 0,
       width: 0,
@@ -176,7 +168,9 @@ function get_computed_style(el, styleProp) {
 }
 
 function isPositiveNumber(val) {
-  assert(null >= 0, "unexpected");
+  // `return val>=0;` doesn't catch `val===null`
+  assert(null >= 0);
+
   return (
     val !== null &&
     (val === 0 || (val && val.constructor === Number && val > 0))
@@ -185,27 +179,45 @@ function isPositiveNumber(val) {
 
 function get_size(el, styleProp) {
   assert(el, "[get_size][error]", { styleProp, el });
+
   const el_id = el.id;
 
+  const rendered = is_rendered(el);
   const val = get_computed_style(el, styleProp);
 
-  // Less safe:
-  if (!val) return 0;
+  if (!val) {
+    if (rendered) {
+      track_error({
+        name: "unexpected computed style",
+        value: "val == " + val,
+      });
+    }
+    return 0;
+  }
+
   const val__casted = parseInt(val, 10);
-  if (!val__casted) return 0;
+
+  if (!val__casted && val__casted !== 0) {
+    if (rendered) {
+      track_error({
+        name: "unexpected computed style value",
+        value: "val == " + val,
+      });
+    }
+    return 0;
+  }
+
   assert(isPositiveNumber(val__casted), "[get_size][error]", {
     el_id,
     styleProp,
     val,
     val__casted,
   });
-  return val__casted;
 
-  // Safer:
-  /*
-  assert(val, "[get_size][error]", { el_id, styleProp, val, val__casted });
-  const val__casted = parseInt(val, 10);
-  assert(isPositiveNumber(val__casted), "[get_size][error]", { el_id, styleProp, val, val__casted });
   return val__casted;
-  */
+}
+
+function is_rendered(el) {
+  // https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom/21696585#21696585
+  return el.offsetParent !== null;
 }
