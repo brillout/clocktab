@@ -1,4 +1,5 @@
 import assert from "@brillout/assert";
+import { track_error } from "../../tab-utils/views/common/tracker";
 
 (function () {
   if (typeof window === "undefined") {
@@ -129,7 +130,17 @@ import assert from "@brillout/assert";
     //x-height ~=/2 font-size in px ~= height of text -> x-width ~=/2 font-size in px
     //this.style.fontSize=1.3*( Math.min(parseInt(height,10),parseInt(width,10)/countCharacters(this)) )+'px';
     //var max=1000;
-    assert.warning(this.getStyle("font-size") === this.style.fontSize);
+
+    {
+      const { fontSize } = this.style;
+      const fontSize__computed = this.getStyle("font-size");
+      if (fontSize__computed !== fontSize) {
+        track_error({
+          name: "[known][msg-tab] computed font-size !== set font-size",
+          value: JSON.stringify({ fontSize__computed, fontSize }),
+        });
+      }
+    }
 
     //assert.warning(parseInt(this.getStyle('width' ),10)===this.clientWidth);
     //assert.warning(parseInt(this.getStyle('height'),10)===this.clientHeight,"this.getStyle('height')==="+this.getStyle('height')+" && this.clientHeight==="+this.clientHeight+" && this.scrollHeight==="+this.scrollHeight);
