@@ -1,0 +1,50 @@
+#product-list {
+  display: flex;
+  justify-content: space-between;
+}
+a.product-link {
+  display: block;
+  width: 250px;
+  height: 32px;
+  /*
+  background-image: linear-gradient(
+    to bottom,
+    #f8e6b8 0,
+    #f3d686 6%,
+    #ebb62c 100%
+  );
+  */
+  background-color: white;
+  position: relative;
+  top: -22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a.product-link::after {
+  content: "";
+  display: block;
+  height: 20px;
+  width: 67px;
+  /*
+  background-image: url(./product_header_white.svg);
+  */
+  background-image: url(./product_header.svg);
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-origin: content-box;
+  position: relative;
+  top: 3px;
+  box-sizing: border-box;
+}
+a.product-link {
+  text-decoration: none !important;
+}
+a.product-link::before {
+  content: "Shop on";
+  display: block;
+  color: black;
+  padding-right: 7px;
+  position: relative;
+  top: -1px;
+}
