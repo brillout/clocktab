@@ -28,7 +28,7 @@ function ProductsView() {
         />
         <ProductView
           name="product-tablet-monitor"
-          text="Tablet monitor, perfect to put Clock Tab on! By a no-name brand but it's well designed."
+          text="Tablet monitor, perfect to put Clock Tab on! No-name brand but the monitor is well designed."
           link="https://www.amazon.com/UPERFECT-Portable-1920%C3%971080-Raspberry-Cellphone/dp/B07K8JLR4C/ref=as_li_ss_tl?dchild=1&keywords=tablet+monitor+12&qid=1589308273&refinements=p_72:2661618011&rnid=2661617011&sr=8-1&linkCode=ll1&tag=brilloutamazo-20&linkId=375eebbf83f4c1c3758e3975f8c58d05"
         />
         <ProductView
