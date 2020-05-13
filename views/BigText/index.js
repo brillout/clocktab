@@ -24,7 +24,7 @@ function BigText({ content_on_top, top_line_content, id }) {
         </div>
 
         <div id={id} className="bt-layout-middle">
-          <table id="bt-middle-table">
+          <table id="bt-middle-table" click-name="big-zoomable-text">
             <tr>
               <td id="bt-top-line">{top_line_content}</td>
             </tr>
