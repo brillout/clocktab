@@ -1,6 +1,11 @@
+html:not(.show-ads) #products-section {
+  display: none !important;
+}
+
 #product-list {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 a.product-link {
   display: block;
