@@ -13,9 +13,11 @@ const ad_slots = [
     slot_name: "BTF",
   },
   */
+  /*
   {
     // ct_left_responsive
     slot_id: "5423721762",
     slot_name: "LEFT_AD",
   },
+  */
 ];

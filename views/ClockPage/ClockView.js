@@ -12,14 +12,26 @@ import { preset_concept_name } from "./js/preset_concept_name";
 import { ad_slots } from "./ad_slots";
 import { Ad_BTF, Ad_ATF, Ad_left } from "../../tab-utils/load_ad";
 import { ProductsView } from "./Products/ProductsView";
-import assert from "@brillout/assert";
+import monitor_banner from "./Products/monitor-banner.png";
 
 export default ClockView;
 
 function ClockView() {
   return (
     <FullViewLayout>
+      {/*
       <Ad_left ad_slots={ad_slots} />
+    */}
+      <Ad_left
+        custom_ad={
+          <img
+            click-name={"monitor-banner"}
+            src={monitor_banner}
+            id="custom-banner"
+            style={{ cursor: "pointer" }}
+          />
+        }
+      />
 
       <RightSide>
         <FullView>

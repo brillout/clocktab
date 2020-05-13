@@ -1,6 +1,6 @@
 import "./ProductsView.css";
-
 import React from "react";
+import { scrollToElement } from "../../../tab-utils/pretty_scroll_area";
 
 export { load_product_view };
 
@@ -37,14 +37,14 @@ function ProductsView() {
 
 function ProductView({ link, text, name }) {
   return (
-    <div data-click-name={"[" + name + "]"} style={{ width: 250 }}>
+    <div click-name={name} style={{ width: 250 }}>
       <div>
         <ul style={{ paddingLeft: 20 }}>
           <li>{text}</li>
         </ul>
       </div>
       <div id={name}></div>
-      <a className="product-link" href={link}></a>
+      <a className="product-link" href={link} target="_blank"></a>
     </div>
   );
 }
@@ -62,5 +62,9 @@ function load_product_view() {
   `;
   document.querySelector("#product-vockgeng-clock").innerHTML = `
     <a href="https://www.amazon.com/Vockgeng-Sunflower-Charging-Function-6-2x3-8x0-9/dp/B0875WBM2N/ref=as_li_ss_il?dchild=1&keywords=Vockgeng+clock&qid=1589231158&sr=8-23&th=1&linkCode=li3&tag=brilloutamazo-20&linkId=3923a336d01beeae2194af92741a399d" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B0875WBM2N&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=brilloutamazo-20" ></a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=brilloutamazo-20&l=li3&o=1&a=B0875WBM2N" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
-  `;
+      `;
+
+  (document.querySelector("#custom-banner") as HTMLElement).onclick = () => {
+    scrollToElement(products_section);
+  };
 }

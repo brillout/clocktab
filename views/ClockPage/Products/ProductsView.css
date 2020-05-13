@@ -53,3 +53,12 @@ a.product-link::before {
   position: relative;
   top: -1px;
 }
+
+/* ad layout override */
+.vertical-slot-wrapper,
+.vertical-slot {
+  height: 497px !important;
+}
+.donate-remover-2 {
+  margin-top: 30px !important;
+}
