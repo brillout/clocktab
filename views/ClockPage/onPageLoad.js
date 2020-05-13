@@ -5,7 +5,7 @@ import { on_big_text_load, set_max_width_getter } from "../BigText";
 import { sleep } from "../../tab-utils/sleep";
 import { ad_slots } from "./ad_slots";
 import { load_ads } from "../../tab-utils/load_ad";
-import { load_product_view } from "./ProductsView";
+import { load_product_view } from "./Products/ProductsView";
 
 export default onPageLoad;
 
