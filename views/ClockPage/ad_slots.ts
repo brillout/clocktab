@@ -1,4 +1,4 @@
-import monitor_banner_img from "./Products/monitor-banner.png";
+import monitor_banner_img from "../../tab-utils/ads/Products/monitor-banner.png";
 
 export { ad_slots };
 

@@ -12,7 +12,7 @@ import { SettingsView } from "../../tab-utils/TabSettings/SettingsView";
 import { preset_concept_name } from "./js/preset_concept_name";
 import { ad_slots } from "./ad_slots";
 import { Ad_BTF, Ad_ATF, Ad_left } from "../../tab-utils/load_ad";
-import { ProductsView } from "./Products/ProductsView";
+import { ProductsView } from "../../tab-utils/ads/Products/ProductsView";
 
 export default ClockView;
 
