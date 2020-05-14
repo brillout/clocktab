@@ -3,6 +3,7 @@ import {
   FullViewLayout,
   FullView,
   MorePanel,
+  LeftSide,
   RightSide,
 } from "../../tab-utils/views/FullViewWrapper";
 import BigText from "../BigText";
@@ -12,26 +13,15 @@ import { preset_concept_name } from "./js/preset_concept_name";
 import { ad_slots } from "./ad_slots";
 import { Ad_BTF, Ad_ATF, Ad_left } from "../../tab-utils/load_ad";
 import { ProductsView } from "./Products/ProductsView";
-import monitor_banner from "./Products/monitor-banner.png";
 
 export default ClockView;
 
 function ClockView() {
   return (
     <FullViewLayout>
-      {/*
-      <Ad_left ad_slots={ad_slots} />
-    */}
-      <Ad_left
-        custom_ad={
-          <img
-            click-name={"monitor-banner"}
-            src={monitor_banner}
-            id="custom-banner"
-            style={{ cursor: "pointer" }}
-          />
-        }
-      />
+      <LeftSide style={{ backgroundColor: "#3e3e3e" }}>
+        <Ad_left ad_slots={ad_slots} />
+      </LeftSide>
 
       <RightSide>
         <FullView>
