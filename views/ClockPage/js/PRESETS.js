@@ -210,5 +210,13 @@ export default {
     clock_font: "MedievalSharp",
     clock_size: "480",
     clock_color: "#9e9e9e",
-  }
+  },
+  gate_of_mages: {
+    clock_position: "bottom-left",
+    clock_background_image: "https://i.imgur.com/nuANVcZ.jpg",
+    clock_shadow: "0 2px 2px #000000",
+    clock_font: "ABeeZee",
+    clock_size: "330",
+    clock_color: "#cecece",
+  },
 };
