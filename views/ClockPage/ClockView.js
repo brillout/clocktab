@@ -35,7 +35,7 @@ function ClockView() {
         <MorePanel>
           <Ad_BTF ad_slots={ad_slots} />
           <SettingsView preset_concept_name={preset_concept_name} />
-          <ProductsView />
+          <ProductsView ad_slots={ad_slots} />
           <News preset_concept_name={preset_concept_name} />
         </MorePanel>
       </RightSide>
