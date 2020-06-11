@@ -6,6 +6,7 @@
 //   - Cardo
 //   - Kalam
 //   - Abril Fatface
+//   - Press Start 2P
 // - nice images
 //   - Space girl reading: https://imgur.com/a/cY3VTIT
 //   - Black Dunes: https://imgur.com/a/UlbAIgx
