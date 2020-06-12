@@ -4,6 +4,7 @@ import PRESETS from "./PRESETS";
 import { TabSettings } from "../../../tab-utils/TabSettings";
 import { set_text_position } from "../../BigText";
 import { preset_concept_name } from "./preset_concept_name";
+import { is_dark_mode } from "../../../tab-utils/utils/system-preferences";
 
 export default init_clock_options;
 
@@ -172,13 +173,13 @@ function get_option_list() {
       option_id: "clock_tab_icon_color",
       option_type: "color-input",
       option_description: "Tab icon color",
-      /*
-      option_default: '#cc0000',
-      option_default: '#007000',
-      */
-      option_default: "#545454",
+      option_default: get_default_tab_icon_color(),
     },
   ];
+}
+
+function get_default_tab_icon_color() {
+  return is_dark_mode() ? "#ffffff" : "#31343d";
 }
 
 function get_default_12_hour() {
