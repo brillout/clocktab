@@ -108,6 +108,15 @@ export default {
     clock_size: "480",
     clock_color: "#333333",
   },
+  modern: {
+    clock_position: "center",
+    clock_background_color: "#ffffff",
+    clock_background_image: "",
+    clock_shadow: "none",
+    clock_font: "AirbnbCereal",
+    clock_size: "480",
+    clock_color: "#000000",
+  },
   lcd: {
     clock_position: "center",
     clock_background_color: "black",
