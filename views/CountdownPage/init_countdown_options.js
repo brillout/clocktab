@@ -52,7 +52,7 @@ function get_option_list() {
     {
       option_id: "countdown_preset",
       option_type: "preset-input",
-      option_description: preset_concept_name,
+      // option_description: preset_concept_name,
       option_default: "christmas",
     },
     {

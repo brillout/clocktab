@@ -6,6 +6,10 @@ function News({ preset_concept_name }) {
   return (
     <div className="more_panel_block">
       <div className="more_panel_block_title">News</div>
+      <Date>July, 27th</Date>
+      <ul>
+        <li>Visual design improvements.</li>
+      </ul>
       <Date>July, 25th</Date>
       <ul>
         <li>New Themes: LCD, LCD Green, Modern.</li>

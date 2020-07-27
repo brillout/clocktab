@@ -18,24 +18,22 @@ const ad_slots = [
     is_adsense: true,
   },
   */
-  /*
   {
-    // ct_left_responsive
-    slot_id: "5423721762",
-    slot_name: "LEFT_AD",
+    // ct_left_atf
+    slot_id: "7889725703",
+    slot_name: "LEFT_AD_ATF",
     is_adsense: true,
   },
-  */
   {
-    // ct_left_responsive_2
-    slot_id: "7889725703",
-    slot_name: "LEFT_AD",
+    // ct_left_btf
+    slot_id: "1075920200",
+    slot_name: "LEFT_AD_BTF",
     is_adsense: true,
   },
   {
     img_src: monitor_banner_img,
     click_name: "monitor_banner",
-    slot_name: "LEFT_AD",
+    slot_name: "LEFT_AD_ATF",
     is_custom: true,
   },
   {

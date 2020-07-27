@@ -19,7 +19,7 @@ export default ClockView;
 function ClockView() {
   return (
     <FullViewLayout>
-      <LeftSide style={{ backgroundColor: "#3e3e3e" }}>
+      <LeftSide>
         <Ad_left ad_slots={ad_slots} />
       </LeftSide>
 

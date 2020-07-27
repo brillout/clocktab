@@ -64,7 +64,7 @@ function get_option_list() {
     {
       option_id: "clock_theme",
       option_type: "preset-input",
-      option_description: preset_concept_name,
+      // option_description: preset_concept_name,
       option_default: "steel",
     },
     {
@@ -179,7 +179,7 @@ function get_option_list() {
 }
 
 function get_default_tab_icon_color() {
-  return is_dark_mode() ? "#ffffff" : "#31343d";
+  return is_dark_mode() ? "#ffffff" : "#373a4a";
 }
 
 function get_default_12_hour() {
