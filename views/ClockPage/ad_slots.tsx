@@ -31,6 +31,12 @@ const ad_slots = [
     is_adsense: true,
   },
   {
+    // ct_btf_2
+    slot_id: "2785355600",
+    slot_name: "BTF_2",
+    is_adsense: true,
+  },
+  {
     img_src: monitor_banner_img,
     click_name: "monitor_banner",
     slot_name: "LEFT_AD_ATF",
