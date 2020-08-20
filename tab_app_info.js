@@ -17,7 +17,6 @@ export const tab_app_header_links = [
   {
     link_url: "https://www.timer-tab.com",
     link_name: "Timer Tab",
-    link_target: "_blank",
   },
   { link_url: "/msg-tab", link_name: "Msg Tab" },
 ];
