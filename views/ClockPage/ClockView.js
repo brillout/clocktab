@@ -7,7 +7,7 @@ import {
   RightSide,
 } from "../../tab-utils/views/FullViewWrapper";
 import BigText from "../BigText";
-import News from "../News";
+//import News from "../News";
 import { SettingsView } from "../../tab-utils/TabSettings/SettingsView";
 import { preset_concept_name } from "./js/preset_concept_name";
 import { ad_slots } from "./ad_slots";
@@ -36,7 +36,7 @@ function ClockView() {
           <Ad_btf_2 ad_slots={ad_slots} />
           <SettingsView preset_concept_name={preset_concept_name} />
           <ProductsView ad_slots={ad_slots} />
-          <News preset_concept_name={preset_concept_name} />
+          {/* <News preset_concept_name={preset_concept_name} /> */}
         </MorePanel>
       </RightSide>
     </FullViewLayout>
