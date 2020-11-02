@@ -4,7 +4,7 @@ import auto_remove_hash from "../../tab-utils/auto_remove_hash";
 import { on_big_text_load, set_max_width_getter } from "../BigText";
 import { sleep } from "../../tab-utils/sleep";
 import { ad_slots } from "./ad_slots";
-import { load_ads } from "../../tab-utils/load_ad";
+import { loadAds } from "../../tab-utils/ads/loadAds";
 
 export default onPageLoad;
 
@@ -23,7 +23,7 @@ async function onPageLoad(load_common) {
 
   load_common();
 
-  load_ads(ad_slots);
+  loadAds(ad_slots);
 
   // To avoid memory leak
   //autoReloadPage();

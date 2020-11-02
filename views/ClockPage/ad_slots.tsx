@@ -1,9 +1,10 @@
-import monitor_banner_img from "./monitor-banner-ct.png";
-import React from "react";
+// import monitor_banner_img from "./monitor-banner-ct.png";
+
+import { AdSlots } from "../../tab-utils/ads/index";
 
 export { ad_slots };
 
-const ad_slots = [
+const ad_slots: AdSlots = [
   /*
   {
     // ct_atf_responsive
@@ -18,6 +19,7 @@ const ad_slots = [
     is_adsense: true,
   },
   */
+  /*
   {
     // ct_left_atf
     slot_id: "7889725703",
@@ -36,6 +38,29 @@ const ad_slots = [
     slot_name: "BTF_2",
     is_adsense: true,
   },
+  */
+  {
+    adName: "/21951210418/CCT//clocktab//leftvertical",
+    slot_id: "div-gpt-ad-1598363422743-0",
+    slot_name: "LEFT_AD_ATF",
+    slotSize: [160, 600],
+    is_gpt: true,
+  },
+  {
+    adName: "/21951210418/CCT//clocktab//leftverticalbtf",
+    slot_id: "div-gpt-ad-1598363455018-0",
+    slot_name: "LEFT_AD_BTF",
+    slotSize: [160, 600],
+    is_gpt: true,
+  },
+  {
+    adName: "/21951210418/CCT//clocktab//horizontalbtf",
+    slot_id: "div-gpt-ad-1598363482235-0",
+    slot_name: "BTF_2",
+    slotSize: [728, 90],
+    is_gpt: true,
+  },
+  /*
   {
     img_src: monitor_banner_img,
     click_name: "monitor_banner",
@@ -80,4 +105,5 @@ const ad_slots = [
       "https://www.amazon.com/Vockgeng-Sunflower-Charging-Function-6-2x3-8x0-9/dp/B0875WBM2N/ref=as_li_ss_tl?dchild=1&keywords=Vockgeng+clock&qid=1589231158&sr=8-23&th=1&linkCode=ll1&tag=brilloutamazo-20&linkId=871192f4426176e2048523b3f9c06038",
     is_product: true,
   },
+   */
 ];
