@@ -17,7 +17,7 @@ const ad_slots: AdSlots = [
     is_adsense: true,
   },
   */
-  /*
+  //*
   {
     // ct_left_atf
     slot_id: "7889725703",
@@ -36,7 +36,7 @@ const ad_slots: AdSlots = [
     slot_name: "BTF_2",
     is_adsense: true,
   },
-  */
+  /*/
   {
     adName: "/21951210418/CCT//clocktab//leftvertical",
     slot_id: "div-gpt-ad-1598363422743-0",
@@ -58,4 +58,5 @@ const ad_slots: AdSlots = [
     slotSize: [728, 90],
     is_gpt: true,
   },
+  //*/
 ];
