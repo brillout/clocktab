@@ -3,7 +3,7 @@ import init_clock_options from "./js/init_clock_options";
 import auto_remove_hash from "../../tab-utils/auto_remove_hash";
 import { on_big_text_load, set_max_width_getter } from "../BigText";
 import { sleep } from "../../tab-utils/sleep";
-import { ad_slots } from "./ad_slots";
+import { adSlots } from "./adSlots";
 import { loadAds } from "../../tab-utils/ads/loadAds";
 
 export default onPageLoad;
@@ -23,7 +23,7 @@ async function onPageLoad(load_common) {
 
   load_common();
 
-  loadAds(ad_slots);
+  loadAds(adSlots);
 
   // To avoid memory leak
   //autoReloadPage();

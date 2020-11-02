@@ -1,8 +1,8 @@
-import { AdSlots } from "../../tab-utils/ads/adSlots";
+import { AdSlots } from "../../tab-utils/ads/slots";
 
-export { ad_slots };
+export { adSlots };
 
-const ad_slots: AdSlots = [
+const adSlots: AdSlots = [
   /*
   {
     // ct_atf_responsive

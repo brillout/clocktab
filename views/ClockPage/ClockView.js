@@ -9,7 +9,7 @@ import {
 import BigText from "../BigText";
 import { SettingsView } from "../../tab-utils/TabSettings/SettingsView";
 import { preset_concept_name } from "./js/preset_concept_name";
-import { ad_slots } from "./ad_slots";
+import { adSlots } from "./adSlots";
 import { Ad_btf_2, Ad_left } from "../../tab-utils/ads/views";
 
 export default ClockView;
@@ -18,20 +18,20 @@ function ClockView() {
   return (
     <FullViewLayout>
       <LeftSide>
-        <Ad_left ad_slots={ad_slots} />
+        <Ad_left ad_slots={adSlots} />
       </LeftSide>
 
       <RightSide className="grow-more-panel">
         <FullView>
           <BigText
             id={"clock-container"}
-            //content_on_top={<Ad_ATF ad_slots={ad_slots} />}
+            //content_on_top={<Ad_ATF ad_slots={adSlots} />}
             top_line_content={<TopLine />}
           />
         </FullView>
 
         <MorePanel>
-          <Ad_btf_2 ad_slots={ad_slots} />
+          <Ad_btf_2 ad_slots={adSlots} />
           <SettingsView preset_concept_name={preset_concept_name} />
         </MorePanel>
       </RightSide>
