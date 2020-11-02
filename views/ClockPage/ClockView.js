@@ -21,7 +21,7 @@ function ClockView() {
         <Ad_left ad_slots={ad_slots} />
       </LeftSide>
 
-      <RightSide>
+      <RightSide className="grow-more-panel">
         <FullView>
           <BigText
             id={"clock-container"}
