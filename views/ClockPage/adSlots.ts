@@ -17,7 +17,7 @@ const adSlots: AdSlots = [
     is_adsense: true,
   },
   */
-  //*
+  /*
   {
     // ct_left_atf
     slot_id: "7889725703",
