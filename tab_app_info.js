@@ -13,7 +13,6 @@ export const tab_app_google_analytics_id_2 = "a5263303w24659375p23108560";
 export const tab_app_google_adsense = "ca-pub-6953474219479917";
 export const tab_app_header_links = [
   { link_url: "/countdown", link_name: "Countdown" },
-  { link_url: "/world-clock", link_name: "World Clock" },
   {
     link_url: "https://www.timer-tab.com",
     link_name: "Timer Tab",
