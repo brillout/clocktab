@@ -1,6 +1,11 @@
 import { AdSlots } from "../../tab-utils/ads/slots";
+import { AdSettings } from "../../tab-utils/ads/loadAds";
 
 export { adSlots };
+
+export const adSettings: AdSettings = {
+  loadQuantcastConsent: true,
+};
 
 const adSlots: AdSlots = [
   /*
