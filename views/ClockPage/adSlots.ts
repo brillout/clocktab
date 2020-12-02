@@ -5,6 +5,7 @@ export { adSlots };
 
 export const adSettings: AdSettings = {
   loadQuantcastConsent: true,
+  loadOneTag: true,
 };
 
 const adSlots: AdSlots = [
