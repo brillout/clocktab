@@ -1,0 +1,114 @@
+#msg-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+#msg-container > #hint,
+#msg-container > #text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}
+#text-container {
+  overflow: hidden;
+}
+
+#hint {
+  top: 10px !important;
+  color: #888;
+  font-size: 1.3em;
+  transition: opacity 1s ease-in-out;
+}
+
+#text {
+  display: inline-block;
+  outline: none;
+  cursor: default;
+  color: #222;
+  font-family: sans;
+  white-space: nowrap;
+}
+
+/*!
+ * Toastify js 1.7.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+.toastify {
+    padding: 12px 20px;
+    color: #ffffff;
+    display: inline-block;
+    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(77, 96, 232, 0.3);
+    background: -webkit-linear-gradient(315deg, #73a5ff, #5477f5);
+    background: linear-gradient(135deg, #73a5ff, #5477f5);
+    position: fixed;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    max-width: calc(50% - 20px);
+    z-index: 2147483647;
+}
+
+.toastify.on {
+    opacity: 1;
+}
+
+.toast-close {
+    opacity: 0.4;
+    padding: 0 5px;
+}
+
+.toastify-right {
+    right: 15px;
+}
+
+.toastify-left {
+    left: 15px;
+}
+
+.toastify-top {
+    top: -150px;
+}
+
+.toastify-bottom {
+    bottom: -150px;
+}
+
+.toastify-rounded {
+    border-radius: 25px;
+}
+
+.toastify-avatar {
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0 5px;
+    border-radius: 2px;
+}
+
+.toastify-center {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+}
+
+@media only screen and (max-width: 360px) {
+    .toastify-right, .toastify-left {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        max-width: fit-content;
+    }
+}
+
+
+/*# sourceMappingURL=msg-tab.page.js.style.hash_8a25e360e977f171827b.css.map*/
